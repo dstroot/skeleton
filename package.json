@@ -1,12 +1,11 @@
 {
   "private": true,
-  "version": "0.0.1",
-  "name": "Skeleton",
+  "version": "0.0.1-2",
+  "name": "hacker-skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "hacker-skeleton",
   "description": "A hackathon-friendly node framework",
   "author": "Dan Stroot",
-  "company": "Skeleton, Inc.",
   "keywords": [
     "hackathon",
     "node",
