@@ -5,7 +5,7 @@
  */
 
 var config        = require('../config/config');
-var User          = require('../models/User');
+// var User          = require('../models/User');
 var _             = require('underscore');
 var querystring   = require('querystring');
 var async         = require('async');
@@ -80,7 +80,9 @@ module.exports.controller = function(app) {
         }
       },
       function(err, results) {
-        if (err) return next(err.message);
+        if (err) {
+          return next(err.message);
+        }
         var artist = {
           name: results.artistInfo.artist.name,
           image: results.artistInfo.artist.image.slice(-1)[0]['#text'],
@@ -106,7 +108,9 @@ module.exports.controller = function(app) {
     var query = querystring.stringify({ 'api-key': config.nyt.key, 'list-name': 'young-adult' });
     var url = 'http://api.nytimes.com/svc/books/v2/lists?' + query;
     request.get(url, function(error, request, body) {
-      if (request.statusCode === 403) return next(Error('Missing or Invalid New York Times API Key'));
+      if (request.statusCode === 403) {
+        return next(Error('Missing or Invalid New York Times API Key'));
+      }
       var bestsellers = JSON.parse(body);
       res.render('api/nyt', {
         title: app.locals.title,
@@ -154,6 +158,7 @@ module.exports.controller = function(app) {
     };
     paypal.payment.create(payment_details, function(error, payment) {
       if (error) {
+        // TODO FIXME
         console.log(error);
       } else {
         req.session.payment_id = payment.id;
@@ -261,7 +266,9 @@ module.exports.controller = function(app) {
 
   app.get('/api/scraping', function(req, res, next) {
     request.get('https://news.ycombinator.com/', function(err, request, body) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
       var $ = cheerio.load(body);
       var links = [];
       $('.title a').each(function() {
@@ -298,8 +305,10 @@ module.exports.controller = function(app) {
       body: 'Hello from ' + app.locals.title + '. We are happy you are testing our code!'
     };
     twilio.sendMessage(message, function(err, responseData) {
-      if (err) return next(err.message);
-      req.flash('success', { msg: 'Text sent to ' + responseData.to + '.'})
+      if (err) {
+        return next(err.message);
+      }
+      req.flash('success', { msg: 'Text sent to ' + responseData.to + '.'});
       res.redirect('/api/twilio');
     });
   });
@@ -329,7 +338,9 @@ module.exports.controller = function(app) {
         }
       },
       function(err, results) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
         res.render('api/foursquare', {
           title: app.locals.title,
           trendingVenues: results.trendingVenues,
@@ -382,7 +393,9 @@ module.exports.controller = function(app) {
         }
       },
       function(err, results) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
         res.render('api/facebook', {
           title: app.locals.title,
           me: results.getMe,
@@ -422,7 +435,9 @@ module.exports.controller = function(app) {
       access_token_secret: token.tokenSecret
     });
     T.get('search/tweets', { q: 'hackathon since:2013-01-01', geocode: '40.71448,-74.00598,5mi', count: 50 }, function(err, reply) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
       res.render('api/twitter', {
         title: app.locals.title,
         tweets: reply.statuses
@@ -444,4 +459,4 @@ module.exports.controller = function(app) {
     res.redirect('/api/tumblr');
   });
 
-}
+};

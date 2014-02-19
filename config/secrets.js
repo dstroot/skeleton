@@ -32,7 +32,7 @@ module.exports = {
    */
 
   mongodb: {
-    mongodb.url: process.env.MONGODB_URL || ''
+    mongodbUrl: process.env.MONGODB_URL || ''
   },
 
   /**
@@ -40,11 +40,11 @@ module.exports = {
    */
 
   session: {
-    session.key: process.env.SESSION_KEY || '',
-    session.secret: process.env.SESSION_SECRET || ''
+    sessionKey: process.env.SESSION_KEY || '',
+    sessionSecret: process.env.SESSION_SECRET || ''
   },
 
-=====================================================================
+// =====================================================================
   /**
    * TODO: Throttle Login Attempts
    */

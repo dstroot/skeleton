@@ -19,13 +19,6 @@ block content
         hr
         p Need to try again?
           a(href='/forgot') <strong> Forgot my password</strong>
-  script.
-    $(document).ready(function() {
-      if ( #{validToken} === false ) {
-        $("input").prop('disabled', true);
-        $("button").prop('disabled', true);
-      }
-    });
 
 //- Form Notes
 //- ===========================================

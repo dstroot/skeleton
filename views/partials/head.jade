@@ -1,5 +1,5 @@
 head
-  //
+  //-
    *
     ____                         ____    __                         __
    /\  _`\                      /\  _`\ /\ \__                     /\ \__
@@ -43,13 +43,12 @@ head
   link(rel='author', href='humans.txt')
 
   // Styles
-  != css('styles')
+  link(rel='stylesheet', href='/css/#{title}.min.css')
 
   // Fonts
-  //- link(rel='stylesheet', type='text/css', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
-  link(rel='stylesheet', type='text/css', href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700italic,900,400italic,300')
+  link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700italic,900,400italic,300')
 
-  // Place favicon.ico and apple-touch-icon(s) in the root directory
+  // Place favicon.ico and apple-touch-icon(s) in the root directory!
   //- link(rel='shortcut icon', href='favicon.ico', type='image/x-icon')
   //- link(rel='shortcut icon', href='ico/favicon.png', type='image/png')
 
@@ -68,11 +67,9 @@ head
   <![endif]-->
 
   // Javascript
-  != js('application')
-
+  script(src='/js/#{title}.min.js')
   script(src='/socket.io/socket.io.js')
   script.
-    // Real-time monitoring using socket.io
     var socket = io.connect();
     // Send inital connection
     socket.on('connect', function () {
@@ -82,7 +79,6 @@ head
     window.onhashchange = function () {
       socket.send(window.location.href);
     }
-
   // Google Analytics
   script.
     // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

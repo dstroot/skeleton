@@ -48,11 +48,11 @@ module.exports.controller = function(app) {
 
     // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
     var smtpTransport = nodemailer.createTransport("SMTP",{
-        service: "Gmail",
-        auth: {
-            user: config.gmail.user,
-            pass: config.gmail.password
-        }
+      service: "Gmail",
+      auth: {
+        user: config.gmail.user,
+        pass: config.gmail.password
+      }
     });
 
     // Create email
@@ -78,4 +78,4 @@ module.exports.controller = function(app) {
 
   });
 
-}
+};

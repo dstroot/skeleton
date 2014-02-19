@@ -129,7 +129,7 @@ block content
       $('#userInfoEmail').attr('href', 'mailto:' + thisUserObject.email).text(thisUserObject.email);
       $('#userInfoLocation').text(thisUserObject.profile.location);
       $('#userInfoGender').text(thisUserObject.profile.gender);
-      $('#userInfoWebsite').attr('href', thisUserObject.profile.website).text(thisUserObject.profile.website);
+      $('#userInfoWebsite').attr('href', 'http://' + thisUserObject.profile.website).text(thisUserObject.profile.website);
       $('#userInfoEstablished').text(moment(thisUserObject.activity.date_established).format('MMMM Do YYYY'));
       $('#userInfoLogon').text(moment(thisUserObject.activity.last_logon).fromNow());
       $('#userInfoUpdate').text(moment(thisUserObject.activity.last_update).fromNow());

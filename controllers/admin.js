@@ -16,14 +16,18 @@ module.exports.controller = function(app) {
   app.get('/dashboard', function(req, res) {
 
     //user must be logged in
-    if (!req.user) return res.redirect('/');
+    if (!req.user) {
+      return res.redirect('/');
+    }
 
     //user must be be an administrator
-    if (req.user.type !== 'admin') return res.redirect('/api');
+    if (req.user.type !== 'admin') {
+      return res.redirect('/api');
+    }
 
     User.count({}, function(err, count) {
       if (err) {
-        return done(err, null);
+        return (err, null);
       }
       res.render('admin/dashboard', {
         url: '/administration',  // to set navbar active state
@@ -42,10 +46,14 @@ module.exports.controller = function(app) {
   app.get('/accounts', function(req, res) {
 
     //user must be logged in
-    if (!req.user) return res.redirect('/');
+    if (!req.user) {
+      return res.redirect('/');
+    }
 
     //user must be be an administrator
-    if (req.user.type !== 'admin') return res.redirect('/api');
+    if (req.user.type !== 'admin') {
+      return res.redirect('/api');
+    }
 
     res.render('admin/accounts', {
       url: '/administration', // to set navbar active state
@@ -62,15 +70,18 @@ module.exports.controller = function(app) {
   app.get('/accountlist', function(req, res) {
 
     //user must be logged in
-    if (!req.user) return res.redirect('/');
+    if (!req.user) {
+      return res.redirect('/');
+    }
 
     //user must be be an administrator
-    if (req.user.type !== 'admin') return res.redirect('/api');
-
+    if (req.user.type !== 'admin') {
+      return res.redirect('/api');
+    }
 
     User.find({}, function (err, items) {
       if (err) {
-        return done(err, null);
+        return (err, null);
       }
       res.json(items);
     });
@@ -84,10 +95,14 @@ module.exports.controller = function(app) {
   app.del('/accountlist/:id', function(req, res) {
 
     //user must be logged in
-    if (!req.user) return res.redirect('/');
+    if (!req.user) {
+      return res.redirect('/');
+    }
 
     //user must be be an administrator
-    if (req.user.type !== 'admin') return res.redirect('/api');
+    if (req.user.type !== 'admin') {
+      return res.redirect('/api');
+    }
 
     User.remove({ _id : req.params.id }, function(err, result) {
       res.send((result === 1) ? { msg: '' } : { msg:'error: ' + err });
@@ -95,4 +110,4 @@ module.exports.controller = function(app) {
 
   });
 
-}
+};

@@ -33,4 +33,4 @@ module.exports.controller = function(app) {
     next(new Error('Testing 1, 2, 3!'));
   });
 
-}
+};

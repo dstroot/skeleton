@@ -5,8 +5,8 @@
  */
 
 var bcrypt        = require('bcrypt-nodejs');
-var mongoose      = require('mongoose');
-var nodemailer    = require("nodemailer");
+// var mongoose      = require('mongoose');
+var nodemailer    = require('nodemailer');
 var User          = require('../models/User');
 var config        = require('../config/config');
 
@@ -22,54 +22,37 @@ module.exports.controller = function(app) {
    */
 
   app.get('/reset/:id/:token', function(req, res) {
-    if (req.user) return res.redirect('/');  //user already logged in!
+    if (req.user) {
+      return res.redirect('/');  //user already logged in!
+    }
 
-    var conditions = {
-      _id: req.params.id,
-      resetPasswordExpires: { $gt: Date.now() }
-    };
-
-    // Get the user
-    User.findOne(conditions, function(err, user) {
+    // Get the user using their ID
+    User.findOne({ _id: req.params.id })
+        .where('resetPasswordExpires').gt(Date.now())
+        .exec(function(err, user) {
       if (err) {
         req.flash('errors', err);
-        return res.render('account/reset', {
-          url: req.url,
-          title: app.locals.title,
-          validToken: false
-        });
+        req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
+        return res.redirect('/forgot');
       }
       if (!user) {
-        req.flash('warning', { msg: 'Your reset request is invalid.  It may have expired.' });
-        return res.render('account/reset', {
-          url: req.url,
-          title: app.locals.title,
-          validToken: false
-        });
+        req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
+        return res.redirect('/forgot');
       }
-      // Validate the token
+      // Validate their token
       bcrypt.compare(req.params.token, user.resetPasswordToken, function(err, isValid) {
         if (err) {
           req.flash('errors', err);
-          return res.render('account/reset', {
-            url: req.url,
-            title: app.locals.title,
-            validToken: false
-          });
+          req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
+          return res.redirect('/forgot');
         }
         if (!isValid) {
-          req.flash('errors', { msg: 'Your reset request token is invalid.' });
-          return res.render('account/reset', {
-            url: req.url,
-            title: app.locals.title,
-            validToken: false
-          });
+          req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
+          return res.redirect('/forgot');
         } else {
-          req.flash('success', { msg: 'Token accepted. Reset your password!' });
-          return res.render('account/reset', {
+          res.render('account/reset', {
             url: req.url,
             title: app.locals.title,
-            validToken: true
           });
         }
       });
@@ -83,7 +66,7 @@ module.exports.controller = function(app) {
 
   app.post('/reset/:id/:token', function(req, res) {
 
-    // Create a workflow
+    // Create a workflow (here you could also use the async waterfall pattern)
     var workflow = new (require('events').EventEmitter)();
 
     /**
@@ -94,14 +77,12 @@ module.exports.controller = function(app) {
 
       req.assert('password', 'Password must be at least 4 characters long.').len(4);
       req.assert('confirm', 'Passwords must match.').equals(req.body.password);
+
       var errors = req.validationErrors();
 
       if (errors) {
         req.flash('errors', errors);
-        return res.render('account/reset', {
-            url: req.url,
-            title: app.locals.title
-        });
+        return res.redirect('back');
       }
 
       // next step
@@ -115,44 +96,29 @@ module.exports.controller = function(app) {
 
     workflow.on('findUser', function() {
 
-      var conditions = {
-        _id: req.params.id,
-        resetPasswordExpires: { $gt: Date.now() }
-      };
-
-      // Get the user
-      User.findOne(conditions, function(err, user) {
+      // Get the user using their ID
+      User.findOne({ _id: req.params.id })
+          .where('resetPasswordExpires').gt(Date.now())
+          .exec(function(err, user) {
         if (err) {
           req.flash('errors', err);
-          return res.render('account/reset', {
-              url: req.url,
-              title: app.locals.title
-          });
+          req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
+          return res.redirect('/forgot');
         }
-
         if (!user) {
-          req.flash('warning', { msg: 'Your reset request is invalid.  It may have expired.' });
-          return res.render('account/reset', {
-              url: req.url,
-              title: app.locals.title
-          });
+          req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
+          return res.redirect('/forgot');
         }
-
-        // Validate the token
+        // Validate their token
         bcrypt.compare(req.params.token, user.resetPasswordToken, function(err, isValid) {
           if (err) {
             req.flash('errors', err);
-            return res.render('account/reset', {
-                url: req.url,
-                title: app.locals.title
-            });
+            req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
+            return res.redirect('/forgot');
           }
           if (!isValid) {
-            req.flash('errors', { msg: 'Your reset request token is invalid.' });
-            return res.render('account/reset', {
-                url: req.url,
-                title: app.locals.title
-            });
+            req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
+            return res.redirect('/forgot');
           }
         });
 
@@ -169,27 +135,22 @@ module.exports.controller = function(app) {
     workflow.on('updatePassword', function(user) {
 
       user.password = req.body.password;
-      user.resetPasswordToken = '';
-      user.resetPasswordExpires = Date.now();
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
 
       // update the user record
       user.save(function(err) {
         if (err) {
           req.flash('errors', err);
-          return res.render('account/reset', {
-              url: req.url,
-              title: app.locals.title
-          });
+          return res.redirect('back');
         }
         // Log the user in
         req.logIn(user, function(err) {
           if (err) {
             req.flash('errors', err);
-            return res.render('account/reset', {
-                url: req.url,
-                title: app.locals.title
-            });
+            return res.redirect('back');
           }
+
           // next step
           workflow.emit('sendEmail', user);
         });
@@ -206,38 +167,36 @@ module.exports.controller = function(app) {
 
       // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
       var smtpTransport = nodemailer.createTransport("SMTP",{
-          service: "Gmail",
-          auth: {
-              user: config.gmail.user,
-              pass: config.gmail.password
-          }
-          // See nodemailer docs for other transports
-          // https://github.com/andris9/Nodemailer
+        service: "Gmail",
+        auth: {
+          user: config.gmail.user,
+          pass: config.gmail.password
+        }
+        // See nodemailer docs for other transports
+        // https://github.com/andris9/Nodemailer
       });
 
-      // create email
+      // Create email
       var mailOptions = {
         to:       user.profile.name + ' <' + user.email + '>',
         from:     config.smtp.name + ' <' + config.smtp.address + '>',
-        subject:  'Password Reset Notice',
-        text:     'This is a courtesy message from ' + app.locals.title + '.  Your password was just reset.  Cheers!'
+        subject:  'Password Reset Notice From ' + app.locals.title,
+        text:     'Hello, this is a courtesy message from ' + app.locals.title + '.\n\nYour password was just reset.  Cheers!'
       };
 
-      // send email
+      // Send email
       smtpTransport.sendMail(mailOptions, function(err) {
         if (err) {
           req.flash('errors', { msg: err.message });
-          req.flash('info', { msg: 'You are logged in with your new password!' });
-          res.redirect('/');
-        } else {
-          // Message to user
-          req.flash('info', { msg: 'You are logged in with your new password!' });
-          res.redirect('/');
         }
       });
 
       // shut down the connection pool, no more messages
       smtpTransport.close();
+
+      // Send user on their merry way
+      req.flash('success', { msg: 'Your password has been changed!' });
+      res.redirect('/api');
 
     });
 
@@ -248,4 +207,4 @@ module.exports.controller = function(app) {
     workflow.emit('validate');
 
   });
-}
+};

@@ -2,10 +2,12 @@
 
 /**
  * Why like this?
+ *
  *  - all environmental vars documented in one place
  *  - If I use "." notation it's easy to cut/paste into code
  *  - Unlike JSON, js allows comments (what is this setting for?)
  */
+
 
 /**
  * Configuration File
@@ -24,7 +26,7 @@ config.cryptoKey      = process.env.CRYPTOKEY || '';
  * Logging Configuration
  */
 
-config.logging        = true;
+config.logging        = false;
 config.logfilename    = 'skeleton.log';
 
 /**

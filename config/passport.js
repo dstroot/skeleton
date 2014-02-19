@@ -36,13 +36,15 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
   User.findOne({ email: email }, function(err, user) {
-    if (!user) return done(null, false, { message: 'Email ' + email + ' not found'});
+    if (!user) {
+      return done(null, false, { message: 'Email ' + email + ' not found'});
+    }
     user.comparePassword(password, function(err, isMatch) {
       if (isMatch) {
         // update the user's record with login timestamp
         user.activity.last_logon = Date.now();
         user.save(function(err) {
-            done(err, user);
+          done(err, user);
         });
         return done(null, user);
       } else {
@@ -79,12 +81,13 @@ passport.use(new FacebookStrategy(config.facebook, function(req, accessToken, re
     });
   } else {
     User.findOne({ facebook: profile.id }, function(err, existingUser) {
-      console.log(profile)
+      // TODO REMOVE
+      // console.log(profile);
       if (existingUser) {
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
         existingUser.save(function(err) {
-            done(err, existingUser);
+          done(err, existingUser);
         });
         return done(null, existingUser);
       }
@@ -134,7 +137,7 @@ passport.use(new GitHubStrategy(config.github, function(req, accessToken, refres
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
         existingUser.save(function(err) {
-            done(err, existingUser);
+          done(err, existingUser);
         });
         return done(null, existingUser);
       }
@@ -183,7 +186,7 @@ passport.use(new TwitterStrategy(config.twitter, function(req, accessToken, toke
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
         existingUser.save(function(err) {
-            done(err, existingUser);
+          done(err, existingUser);
         });
         return done(null, existingUser);
       }
@@ -234,7 +237,7 @@ passport.use(new GoogleStrategy(config.google, function(req, accessToken, refres
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
         existingUser.save(function(err) {
-            done(err, existingUser);
+          done(err, existingUser);
         });
         return done(null, existingUser);
       }
@@ -304,7 +307,9 @@ passport.use('foursquare', new OAuth2Strategy({
  */
 
 exports.isAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated()) return next();
+  if (req.isAuthenticated()) {
+    return next();
+  }
   res.redirect('/login');
 };
 
@@ -314,6 +319,9 @@ exports.isAuthenticated = function(req, res, next) {
 
 exports.isAuthorized = function(req, res, next) {
   var provider = req.path.split('/').slice(-1)[0];
-  if (_.findWhere(req.user.tokens, { kind: provider })) next();
-  else res.redirect('/auth/' + provider);
+  if (_.findWhere(req.user.tokens, { kind: provider })) {
+    next();
+  } else {
+    res.redirect('/auth/' + provider);
+  }
 };

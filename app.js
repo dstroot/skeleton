@@ -21,7 +21,7 @@ var semver            = require('semver');                 // https://npmjs.org/
 var helmet            = require('helmet');                 // https://github.com/evilpacket/helmet
 var pkg               = require('./package.json');         // Get package.json
 var config            = require('./config/config');        // Get configuration
-var passportConf      = require('./config/passport');      // Get passport.js setup
+// var passportConf      = require('./config/passport');      // Get passport.js setup
 
 /**
  * Static Variables
@@ -30,15 +30,14 @@ var passportConf      = require('./config/passport');      // Get passport.js se
 var hour  = 3600000;
 var day   = (hour * 24);
 var week  = (day * 7);
-var month = (day * 30);
 
 /**
  * Create Express Server and socket.io listener
  */
 
-var app     = express()
-  , server  = require('http').createServer(app)
-  , io      = io.listen(server);
+var app     = express(),
+    server  = require('http').createServer(app),
+    io      = io.listen(server);
 
 /**
  * Configure Logging
@@ -102,12 +101,6 @@ app.set('view engine', 'jade');
 
 // Enable If behind nginx!
 // app.enable('trust proxy');
-
-// Used to build css and js automagically
-app.use(require('connect-assets')({
-  src: 'public',
-  helperContext: app.locals
-}));
 
 // Compress response data with gzip / deflate.
 // This middleware should be placed "high" within
@@ -210,7 +203,7 @@ app.use(function(req, res, next){
 
 // Handle 403 Errors
 app.use(function(err, req, res, next) {
-  if (err.status == 403) {
+  if (err.status === 403) {
     winston.error('403 Not Allowed. ' + err + '\n');
     // Respond with HTML
     if (req.accepts('html')) {
@@ -258,9 +251,9 @@ if ( app.get('env') === 'development') {
  */
 
 fs.readdirSync('./controllers').forEach(function (file) {
-  if(file.substr(-3) == '.js') {
-      var route = require('./controllers/' + file);
-      route.controller(app);
+  if(file.substr(-3) === '.js') {
+    var route = require('./controllers/' + file);
+    route.controller(app);
   }
 });
 
@@ -336,16 +329,16 @@ io.configure('production', function(){
   io.set('log level', 1);                    // reduce logging
   io.set("polling duration", 10);            // increase polling frequency
   io.set('transports', [                     // Manage transports
-      'websocket'
-    , 'htmlfile'
-    , 'xhr-polling'
-    , 'jsonp-polling'
+    'websocket',
+    'htmlfile',
+    'xhr-polling',
+    'jsonp-polling'
   ]);
   io.set('authorization', function (handshakeData, callback) {
     if (handshakeData.xdomain) {
-        callback('Cross-domain connections are not allowed');
+      callback('Cross-domain connections are not allowed');
     } else {
-        callback(null, true);
+      callback(null, true);
     }
   });
 });

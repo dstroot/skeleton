@@ -16,7 +16,9 @@ var User          = require('../models/User');
 module.exports.controller = function(app) {
 
   app.get('/login', function(req, res) {
-    if (req.user) return res.redirect('/');
+    if (req.user) {
+      return res.redirect('/');
+    }
     res.render('account/login', {
       url: req.url,
       title: app.locals.title
@@ -34,8 +36,9 @@ module.exports.controller = function(app) {
     }
 
     passport.authenticate('local', function(err, user, info) {
-      if (err) return next(err);
-
+      if (err) {
+        return next(err);
+      }
       if (!user) {
         req.flash('errors', { msg: info.message });
         return res.redirect('/login');
@@ -44,12 +47,16 @@ module.exports.controller = function(app) {
       // update the user's record with login timestamp
       user.activity.last_logon = Date.now();
       user.save(function(err) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
       });
 
       // Log user in
       req.logIn(user, function(err) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
         return res.redirect('/');
       });
 
@@ -63,7 +70,9 @@ module.exports.controller = function(app) {
   });
 
   app.get('/signup', function(req, res) {
-    if (req.user) return res.redirect('/');
+    if (req.user) {
+      return res.redirect('/');
+    }
     res.render('account/signup', {
       url: req.url,
       title: app.locals.title
@@ -94,7 +103,9 @@ module.exports.controller = function(app) {
         return res.redirect('/signup');
       }
       req.logIn(user, function(err) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
         req.flash('info', { msg: 'Success! You are logged in.' });
         res.redirect('/');
       });
@@ -111,7 +122,9 @@ module.exports.controller = function(app) {
 
   app.post('/account/profile', passportConf.isAuthenticated, function(req, res, next) {
     User.findById(req.user.id, function(err, user) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
       user.email = req.body.email || '';
       user.profile.name = req.body.name || '';
       user.profile.gender = req.body.gender || '';
@@ -120,7 +133,9 @@ module.exports.controller = function(app) {
       user.activity.last_updated = Date.now();
 
       user.save(function(err) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
         req.flash('success', { msg: 'Profile information updated.' });
         res.redirect('/account');
       });
@@ -138,13 +153,17 @@ module.exports.controller = function(app) {
     }
 
     User.findById(req.user.id, function(err, user) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
 
       user.password = req.body.password;
       user.activity.last_updated = Date.now();
 
       user.save(function(err) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
         req.flash('success', { msg: 'Password has been changed.' });
         res.redirect('/account');
       });
@@ -154,7 +173,9 @@ module.exports.controller = function(app) {
 
   app.post('/account/delete', passportConf.isAuthenticated, function(req, res, next) {
     User.remove({ _id: req.user.id }, function(err) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
       req.logout();
       res.redirect('/');
     });
@@ -164,14 +185,18 @@ module.exports.controller = function(app) {
   app.get('/account/unlink/:provider', passportConf.isAuthenticated, function(req, res, next) {
     var provider = req.params.provider;
     User.findById(req.user.id, function(err, user) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
 
       user[provider] = undefined;
       user.tokens = _.reject(user.tokens, function(token) { return token.kind === provider; });
       user.activity.last_updated = Date.now();
 
       user.save(function(err) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
         req.flash('info', { msg: provider + ' account has been unlinked.' });
         res.redirect('/account');
       });
@@ -198,4 +223,4 @@ module.exports.controller = function(app) {
   app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/api',
                                                                        failureRedirect: '/login' }));
 
-}
+};

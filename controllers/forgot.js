@@ -6,8 +6,8 @@
 
 var bcrypt        = require('bcrypt-nodejs');
 var crypto        = require('crypto');
-var mongoose      = require('mongoose');
-var nodemailer    = require("nodemailer");
+// var mongoose      = require('mongoose');
+var nodemailer    = require('nodemailer');
 var User          = require('../models/User');
 var config        = require('../config/config');
 
@@ -60,7 +60,9 @@ module.exports.controller = function(app) {
    */
 
   app.get('/forgot', function(req, res) {
-    if (req.user) return res.redirect('/');  //user already logged in!
+    if (req.user) {
+      return res.redirect('/');  //user already logged in!
+    }
     res.render('account/forgot', {
       url: req.url,
       title: app.locals.title
@@ -87,6 +89,7 @@ module.exports.controller = function(app) {
       // Check for form errors
       req.assert('email', 'Email cannot be blank.').notEmpty();
       req.assert('email', 'Please enter a valid email address.').isEmail();
+
       var errors = req.validationErrors();
 
       if (errors) {
@@ -108,10 +111,10 @@ module.exports.controller = function(app) {
         var token = buf.toString('hex');
         // hash token
         bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(token, salt, null, function(err, hash) {
-                // next step
-                workflow.emit('saveToken', token, hash);
-            });
+          bcrypt.hash(token, salt, null, function(err, hash) {
+            // next step
+            workflow.emit('saveToken', token, hash);
+          });
         });
       });
     });
@@ -130,12 +133,17 @@ module.exports.controller = function(app) {
         if (!user) {
           // If we didn't find a user associated with that
           // email address then just finish the workflow
+          // If we tell them "no account exists" we are leaking
+          // information
           req.flash('info', { msg: 'If you have an account with that email address then we sent you an email with instructions. Check your email!' });
           return res.redirect('/forgot');
         }
 
+        var hour = 3600000;
+        var expiration = (hour * 4);
+
         user.resetPasswordToken = hash;
-        user.resetPasswordExpires = Date.now() + 10000000;
+        user.resetPasswordExpires = Date.now() + expiration;
 
         // update the user's record with the token
         user.save(function(err) {
@@ -158,13 +166,13 @@ module.exports.controller = function(app) {
 
       // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
       var smtpTransport = nodemailer.createTransport("SMTP",{
-          service: "Gmail",
-          auth: {
-              user: config.gmail.user,
-              pass: config.gmail.password
-          }
-          // See nodemailer docs for other transports
-          // https://github.com/andris9/Nodemailer
+        service: "Gmail",
+        auth: {
+          user: config.gmail.user,
+          pass: config.gmail.password
+        }
+        // See nodemailer docs for other transports
+        // https://github.com/andris9/Nodemailer
       });
 
       // create email
@@ -172,7 +180,7 @@ module.exports.controller = function(app) {
         to:       user.profile.name + ' <' + user.email + '>',
         from:     config.smtp.name + ' <' + config.smtp.address + '>',
         subject:  'Your Password Reset Link From ' + app.locals.title,
-        text:     'Hello from ' + app.locals.title + '. Your password reset link is:' + '\n\n' + req.protocol +'://'+ req.headers.host +'/reset/'+ user.id +'/'+ token
+        text:     'Hello from ' + app.locals.title + '! Your password reset link is:' + '\n\n' + req.protocol +'://'+ req.headers.host +'/reset/'+ user.id +'/'+ token + '\n\nThis link will expire in 4 hours.  Cheers!'
       };
 
       // send email
@@ -200,4 +208,4 @@ module.exports.controller = function(app) {
 
   });
 
-}
+};
