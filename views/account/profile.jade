@@ -42,7 +42,7 @@ block content
           .form-group
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-magnet
-              |  Update Profile
+              | &nbsp;Update Profile
       .col-sm-3
         .page-header
           h2 Social Accounts
@@ -50,38 +50,38 @@ block content
         if user.google
           a.btn.btn-block.btn-google(href='/account/unlink/google')
             i.fa.fa-google-plus.fa-lg.fa-fw
-            |  Disconnect Google
+            | &nbsp;Disconnect Google
         else
           a.btn.btn-block.btn-success(href='/auth/google')
             i.fa.fa-google-plus.fa-lg.fa-fw
-            |  Connect Google
+            | &nbsp;Connect Google
 
         if user.facebook
           a.btn.btn-block.btn-facebook(href='/account/unlink/facebook')
             i.fa.fa-facebook.fa-lg.fa-fw
-            |  Disconnect Facebook
+            | &nbsp;Disconnect Facebook
         else
           a.btn.btn-block.btn-success(href='/auth/facebook')
             i.fa.fa-facebook.fa-lg.fa-fw
-            |  Connect Facebook
+            | &nbsp;Connect Facebook
 
         if user.twitter
           a.btn.btn-block.btn-twitter(href='/account/unlink/twitter')
             i.fa.fa-twitter.fa-lg.fa-fw
-            |  Disconnect Twitter
+            | &nbsp;Disconnect Twitter
         else
           a.btn.btn-block.btn-success(href='/auth/twitter')
             i.fa.fa-twitter.fa-lg.fa-fw
-            |  Connect Twitter
+            | &nbsp;Connect Twitter
 
         if user.github
           a.btn.btn-block.btn-github(href='/account/unlink/github')
             i.fa.fa-github.fa-lg.fa-fw
-            |  Disconnect GitHub
+            | &nbsp;Disconnect GitHub
         else
           a.btn.btn-block.btn-success(href='/auth/github')
             i.fa.fa-github.fa-lg.fa-fw
-            |  Connect GitHub
+            | &nbsp;Connect GitHub
 
     .row
       .col-sm-5.col-sm-offset-2
@@ -98,7 +98,7 @@ block content
           .form-group
             button.btn.btn.btn-primary(type='submit')
                 i.fa.fa-keyboard-o
-                |  Change Password
+                | &nbsp;Change Password
 
     .row
       .col-sm-5.col-sm-offset-2
@@ -109,6 +109,6 @@ block content
           input.form-control(type='hidden', name='_csrf', value=token)
           button.btn.btn-danger(type='submit')
             i.fa.fa-trash-o
-            |  Delete my account
+            | &nbsp;Delete my account
         br
         br

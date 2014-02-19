@@ -19,6 +19,7 @@ var rename        = require('gulp-rename');
 var autoprefixer  = require('gulp-autoprefixer');
 var imagemin      = require('gulp-imagemin');
 var size          = require('gulp-size');
+var jscs          = require('gulp-jscs');       // https://www.npmjs.org/package/jscs
 var minifycss     = require('gulp-minify-css');
 var notify        = require('gulp-notify');  // DOES NOT WORK ON WINDOWS
 var livereload    = require('gulp-livereload');
@@ -106,7 +107,8 @@ gulp.task('styles', function() {
 gulp.task('lint', function() {
   gulp.src(paths.lint)                    // Read .js files
     .pipe(jshint('.jshintrc'))            // Lint .js files
-    .pipe(jshint.reporter('default'));    // Specify a reporter for JSHint
+    .pipe(jshint.reporter('default'))     // Specify a reporter for JSHint
+    .pipe(jscs());
 });
 
 /**

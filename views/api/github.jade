@@ -5,18 +5,18 @@ block content
     .page-header
       h2
         i.fa.fa-github
-        | GitHub API
+        | &nbsp;GitHub API
 
     .btn-group.btn-group-justified
       a.btn.btn-primary(href='http://developer.github.com/guides/getting-started/', target='_blank')
         i.fa.fa-check-square-o
-        | Getting Started
+        | &nbsp;Getting Started
       a.btn.btn-primary(href='https://apigee.com/console/github', target='_blank')
         i.fa.fa-laptop
-        | API Console
+        | &nbsp;API Console
       a.btn.btn-primary(href='http://developer.github.com/v3/', target='_blank')
         i.fa.fa-file-text-o
-        | Documentation
+        | &nbsp;Documentation
     br
     .panel.panel-primary
       .panel-heading
@@ -31,15 +31,15 @@ block content
             ul.list-inline
               li
                 i.fa.fa-eye-slash
-                | Subscribers: #{repo.subscribers_count}
+                | &nbsp;Subscribers: #{repo.subscribers_count}
               li
                 i.fa.fa-star
-                | Starred: #{repo.stargazers_count}
+                | &nbsp;Starred: #{repo.stargazers_count}
               li
                 i.fa.fa-code-fork
-                | Forks: #{repo.forks_count}
+                | &nbsp;Forks: #{repo.forks_count}
               li
                 i.fa.fa-code
-                | #{repo.language}
+                | &nbsp;#{repo.language}
             strong DESCRIPTION
             p= repo.description

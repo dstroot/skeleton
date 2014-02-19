@@ -6,7 +6,6 @@
 
 var bcrypt        = require('bcrypt-nodejs');
 var crypto        = require('crypto');
-// var mongoose      = require('mongoose');
 var nodemailer    = require('nodemailer');
 var User          = require('../models/User');
 var config        = require('../config/config');
@@ -180,7 +179,7 @@ module.exports.controller = function(app) {
         to:       user.profile.name + ' <' + user.email + '>',
         from:     config.smtp.name + ' <' + config.smtp.address + '>',
         subject:  'Your Password Reset Link From ' + app.locals.title,
-        text:     'Hello from ' + app.locals.title + '! Your password reset link is:' + '\n\n' + req.protocol +'://'+ req.headers.host +'/reset/'+ user.id +'/'+ token + '\n\nThis link will expire in 4 hours.  Cheers!'
+        text:     'Hello from ' + app.locals.title + '! Your password reset link is:' + '\n\n' + req.protocol + '://' + req.headers.host + '/reset/' + user.id + '/' + token + '\n\nThis link will expire in 4 hours.  Cheers!'
       };
 
       // send email

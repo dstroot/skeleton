@@ -178,7 +178,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
 // $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 
 // Handle 404 Errors
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
   winston.warn('404 Warning. URL: ' + req.url + '\n');
   res.status(404);
   // respond with html page
@@ -229,7 +229,7 @@ app.use(function(err, req, res, next) {
 });
 
 // Handle 500 Errors (really anything not handled above)
-app.use(function(err, req, res, next){
+app.use(function(err, req, res, next) {
   // we may use properties of the error object here and next(err) appropriately,
   // or if we possibly recovered from the error, simply next().
   winston.error(err.status || 500 + ' ' + err + '\n');
@@ -251,7 +251,7 @@ if ( app.get('env') === 'development') {
  */
 
 fs.readdirSync('./controllers').forEach(function (file) {
-  if(file.substr(-3) === '.js') {
+  if (file.substr( -3 ) === '.js') {
     var route = require('./controllers/' + file);
     route.controller(app);
   }
@@ -279,7 +279,7 @@ db.on('open', function () {
   winston.info('Mongodb connected!');
   console.log("✔ Mongodb " + "connected!".green.bold);
   // server for socket.io
-  server.listen(app.get('port'), function(){
+  server.listen(app.get('port'), function() {
   //app.listen(app.get('port'), function() {
 
     // Test for correct node version as spec'ed in package.info
@@ -322,7 +322,7 @@ db.on('open', function () {
  * Emit Pageviews on Socket.io
  */
 
-io.configure('production', function(){
+io.configure('production', function() {
   io.enable('browser client minification');  // send minified client
   io.enable('browser client etag');          // apply etag caching logic based on version number
   io.enable('browser client gzip');          // gzip the file
@@ -343,7 +343,7 @@ io.configure('production', function(){
   });
 });
 
-io.configure('development', function(){
+io.configure('development', function() {
   io.set('log level', 1);                    // reduce logging
   io.set('transports', [
     'websocket'                              // Let's just use websockets for development

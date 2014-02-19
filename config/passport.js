@@ -44,7 +44,9 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
         // update the user's record with login timestamp
         user.activity.last_logon = Date.now();
         user.save(function(err) {
-          done(err, user);
+          if (err) {
+            return (err);
+          }
         });
         return done(null, user);
       } else {
@@ -81,13 +83,13 @@ passport.use(new FacebookStrategy(config.facebook, function(req, accessToken, re
     });
   } else {
     User.findOne({ facebook: profile.id }, function(err, existingUser) {
-      // TODO REMOVE
-      // console.log(profile);
       if (existingUser) {
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
         existingUser.save(function(err) {
-          done(err, existingUser);
+          if (err) {
+            return (err);
+          }
         });
         return done(null, existingUser);
       }
@@ -137,7 +139,9 @@ passport.use(new GitHubStrategy(config.github, function(req, accessToken, refres
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
         existingUser.save(function(err) {
-          done(err, existingUser);
+          if (err) {
+            return (err);
+          }
         });
         return done(null, existingUser);
       }
@@ -186,7 +190,9 @@ passport.use(new TwitterStrategy(config.twitter, function(req, accessToken, toke
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
         existingUser.save(function(err) {
-          done(err, existingUser);
+          if (err) {
+            return (err);
+          }
         });
         return done(null, existingUser);
       }
@@ -237,7 +243,9 @@ passport.use(new GoogleStrategy(config.google, function(req, accessToken, refres
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
         existingUser.save(function(err) {
-          done(err, existingUser);
+          if (err) {
+            return (err);
+          }
         });
         return done(null, existingUser);
       }
@@ -318,7 +326,7 @@ exports.isAuthenticated = function(req, res, next) {
  */
 
 exports.isAuthorized = function(req, res, next) {
-  var provider = req.path.split('/').slice(-1)[0];
+  var provider = req.path.split('/').slice( -1 )[0];
   if (_.findWhere(req.user.tokens, { kind: provider })) {
     next();
   } else {

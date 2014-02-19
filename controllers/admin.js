@@ -92,7 +92,7 @@ module.exports.controller = function(app) {
    * JSON accounts delete api
    */
 
-  app.del('/accountlist/:id', function(req, res) {
+  app.delete('/accountlist/:id', function(req, res) {
 
     //user must be logged in
     if (!req.user) {
@@ -105,7 +105,7 @@ module.exports.controller = function(app) {
     }
 
     User.remove({ _id : req.params.id }, function(err, result) {
-      res.send((result === 1) ? { msg: '' } : { msg:'error: ' + err });
+      res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + err });
     });
 
   });

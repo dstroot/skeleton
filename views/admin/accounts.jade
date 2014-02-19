@@ -150,7 +150,7 @@ block content
 
         // If they did, do our delete
         $.ajax({
-          type: 'DEL',
+          type: 'DELETE',
           headers: { 'X-CSRF-Token': '#{token}' },
           url: '/accountlist/' + $(this).attr('rel')
         }).done(function( response ) {

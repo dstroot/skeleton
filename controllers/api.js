@@ -5,7 +5,6 @@
  */
 
 var config        = require('../config/config');
-// var User          = require('../models/User');
 var _             = require('underscore');
 var querystring   = require('querystring');
 var async         = require('async');
@@ -68,7 +67,7 @@ module.exports.controller = function(app) {
               success: function(data) {
                 var albums = [];
                 _.each(data.topalbums.album, function(album) {
-                  albums.push(album.image.slice(-1)[0]['#text']);
+                  albums.push(album.image.slice( -1 )[0]['#text']);
                 });
                 done(null, albums.slice(0, 4));
               },
@@ -85,7 +84,7 @@ module.exports.controller = function(app) {
         }
         var artist = {
           name: results.artistInfo.artist.name,
-          image: results.artistInfo.artist.image.slice(-1)[0]['#text'],
+          image: results.artistInfo.artist.image.slice( -1 )[0]['#text'],
           tags: results.artistInfo.artist.tags.tag,
           bio: results.artistInfo.artist.bio.summary,
           stats: results.artistInfo.artist.stats,

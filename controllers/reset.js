@@ -5,7 +5,6 @@
  */
 
 var bcrypt        = require('bcrypt-nodejs');
-// var mongoose      = require('mongoose');
 var nodemailer    = require('nodemailer');
 var User          = require('../models/User');
 var config        = require('../config/config');
