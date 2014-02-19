@@ -1,0 +1,50 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      .col-sm-6.col-sm-offset-3
+        br
+        br
+        form(method='POST')
+          input(type='hidden', name='_csrf', value=token)
+          legend Sign In
+          .form-group
+            .btn-group.btn-group-vertical(style='width:100%')
+              a.btn.btn-facebook.btn-lg(href='/auth/facebook')
+                i.fa.fa-facebook
+                |  Sign in with Facebook
+              a.btn.btn-twitter.btn-lg(href='/auth/twitter')
+                i.fa.fa-twitter
+                |  Sign in with Twitter
+              a.btn.btn-github.btn-lg(href='/auth/github')
+                i.fa.fa-github
+                |  Sign in with GitHub
+              a.btn.btn-google.btn-lg(href='/auth/google')
+                i.fa.fa-google-plus
+                |  Sign in with Google
+          hr
+          p Or, login with a local account:
+          .form-group
+            label.sr-only(for='email') Email:
+            input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus=true, required)
+          .form-group
+            label.sr-only(for='password') Password:
+            input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+          .form-group
+            button.btn.btn-primary(type='submit')
+              i.fa.fa-unlock-alt
+              |  Login
+        p Forgot your
+          a(href='/forgot') <strong> password?</strong>
+        p Or, do you need to
+          a(href='signup') <strong> sign up</strong>
+          |  for a #{title} local account?
+
+//- Form Notes
+//- ===========================================
+//- 1) Always add labels!
+//-    Screen readers will have trouble with your forms if you don't include a label for every input.
+//-    NOTE: you can hide the labels using the .sr-only class.
+//- 2) Use proper HTML5 input types (email, password, date, etc.)  This adds some HTML5 validation as
+//-    well as the correct keyboard on mobile devices.

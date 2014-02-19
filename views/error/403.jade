@@ -1,0 +1,16 @@
+extends ../layouts/error
+
+block content
+
+  header.jumbotron
+    h1 403 Forbidden!  :(
+    h3 Your tried to reach #{url}.
+      br
+      br
+      | Error: #{error.message}
+  .container
+    .row
+      .col-md-8.col-md-offset-3
+        br
+        br
+        img.img-responsive(src='img/403.gif')

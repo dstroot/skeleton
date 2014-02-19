@@ -1,0 +1,352 @@
+// Bootstrap http://getbootstrap.com/
+// --------------------------------------------------
+@import "bootstrap";
+
+// Font Awesome http://fontawesome.io/
+// --------------------------------------------------
+@import "../lib/font-awesome/less/font-awesome.less";
+@fa-font-path: "../lib/font-awesome/fonts";
+
+// Animate.css http://daneden.github.io/animate.css
+// --------------------------------------------------
+@import (less) "../lib/animate.css/animate.css";
+
+
+// Change the base font to Open Sans
+// --------------------------------------------------
+@font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
+
+// Colors
+// --------------------------------------------------
+
+// Brand   https://kuler.adobe.com/create/color-wheel/
+@brand-primary: #4BAAD3;  // changed
+
+// Kuler Scheme
+@brand1:  #4BAAD3;  // Blue
+@brand2:  #2D677F;  // Teal
+@brand3:  #173340;  // Yellow
+@brand4:  #748E99;  // Orange
+@brand5:  #CC344C;  // Pink
+
+// Brand
+.brand1 {       color: @brand1; }
+.brand2 {       color: @brand2; }
+.brand3 {       color: @brand3; }
+.brand4 {       color: @brand4; }
+.brand5 {       color: @brand5; }
+
+// Brand Backgrounds
+.bg-brand1 {    background-color: @brand1; }
+.bg-brand2 {    background-color: @brand2; }
+.bg-brand3 {    background-color: @brand3; }
+.bg-brand4 {    background-color: @brand4; }
+.bg-brand5 {    background-color: @brand5; }
+
+// Cool
+@aqua:    #7FDBFF;
+@blue:    #0074D9;
+@navy:    #001F3F;
+@teal:    #39CCCC;
+@green:   #2ECC40;
+@olive:   #3D9970;
+@lime:    #01FF70;
+
+// Warm
+@yellow:  #FFDC00;
+@orange:  #FF851B;
+@red:     #FF4136;
+@pink:    #FF748A;
+@fuchsia: #F012BE;
+@purple:  #B10DC9;
+@maroon:  #85144B;
+
+// Gray Scale
+@white:   #FFFFFF;
+@silver:  #DDDDDD;
+@gray:    #AAAAAA;
+@black:   #111111;
+
+// Colors
+.pink {       color: @pink; }
+.navy {       color: @navy; }
+.blue {       color: @blue; }
+.aqua {       color: @aqua; }
+.teal {       color: @teal; }
+.olive {      color: @olive; }
+.green {      color: @green; }
+.lime {       color: @lime; }
+.yellow {     color: @yellow; }
+.orange {     color: @orange; }
+.red {        color: @red; }
+.fuchsia {    color: @fuchsia; }
+.purple {     color: @purple; }
+.maroon {     color: @maroon; }
+.white {      color: @white; }
+.silver {     color: @silver; }
+.gray {       color: @gray; }
+.black {      color: @black; }
+
+// Backgrounds
+.bg-navy {    background-color: @navy; }
+.bg-blue {    background-color: @blue; }
+.bg-aqua {    background-color: @aqua; }
+.bg-teal {    background-color: @teal; }
+.bg-olive {   background-color: @olive; }
+.bg-green {   background-color: @green; }
+.bg-lime {    background-color: @lime; }
+.bg-yellow {  background-color: @yellow; }
+.bg-orange {  background-color: @orange; }
+.bg-red {     background-color: @red; }
+.bg-pink {    background-color: @pink; }
+.bg-fuchsia { background-color: @fuchsia; }
+.bg-purple {  background-color: @purple; }
+.bg-maroon {  background-color: @maroon; }
+.bg-white {   background-color: @white; }
+.bg-gray {    background-color: @gray; }
+.bg-silver {  background-color: @silver; }
+.bg-black {   background-color: @black; }
+
+// Scaffolding
+// -------------------------------------------------
+
+html {
+  /* Sticky Footer */
+  position: relative;
+  min-height: 100%;
+}
+body {
+  padding-top: 50px;
+  font-weight: 400;  // lightweight thin font
+  /* Sticky Footer: Margin bottom by footer height */
+  margin-bottom: 80px;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 300;
+}
+
+.alert {
+  margin-bottom: 0px;
+}
+
+// flash errors
+.flashmsg {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  li.api {
+    font-size: 20px;
+  }
+}
+
+
+// footer style
+// --------------------------------------------------------
+.footer {
+  text-align: center;
+  // padding: 5px;
+  // margin-top: 40px;
+  background-color: @gray-darker;
+  /* Sticky footer styles below */
+  position: absolute;
+  bottom: 0;
+  height: 80px;
+  width: 100%;
+  p {
+    font-size: 14px;
+    color: darken(@gray-light, 15%);
+    margin-top: 15px;
+    margin-bottom: 15px;
+    a {
+      text-decoration: none;
+      color: @gray-light;
+      &:hover {
+        color: @gray-lighter;
+      }
+    }
+  }
+}
+
+// Jumbotron
+// --------------------------------------------------------
+@jumbotron-bg:                   @brand-primary;
+@jumbotron-heading-color:        @white;
+.jumbotron {
+  margin-bottom: 0px;
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 70px;
+    font-weight: 300;
+  }
+  h2 {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: @white;
+    font-size: 50px;
+    font-weight: 300;
+  }
+  h3 {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: @white;
+    font-size: 25px;
+    font-weight: 300;
+  }
+  p {
+    color: @white;
+  }
+  .btn-lg {
+    margin-top: 10px;
+    width: 200px;
+    height: 50px;
+    font-size: 22px;
+  }
+  ul {
+    font-size: 25px;
+    font-weight: 300;
+    color: @white;
+    //list-style-type: none;
+  }
+  li {
+    line-height: 35px;
+    height: 50px;
+    margin: 10px;
+  }
+}
+
+// Inverted outline button (white on dark)
+.btn-outline-inverse {
+  color: @white;
+  background-color: transparent;
+  border-color: #cdbfe3;
+}
+.btn-outline-inverse:hover,
+.btn-outline-inverse:focus,
+.btn-outline-inverse:active {
+  color: #563d7c;
+  text-shadow: none;
+  background-color: @white;
+  border-color: @white;
+}
+
+ul.privacy {
+  // margin-bottom: 10px;
+  li {
+    font-size: 20px;
+    line-height: 1em;
+  }
+}
+
+// Navbar
+// -------------------------
+@navbar-height: 50px;
+.navbar-nav .profile-image {
+  width: 30px;
+  height: 30px;
+  margin: -15px 15px -15px 0;
+}
+.navbar-brand {
+  background-image: url(/favicon.png);
+  background-repeat: no-repeat;
+  background-size: 40px;
+  background-position: left center;
+  padding-left: 45px;
+  margin-top: -1px;
+  margin-left: 15px;
+}
+
+// Marketing
+// --------------------------------------------------------
+.marketing {
+  margin-bottom: 70px;
+  h1 {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: 300;
+  }
+  h3 {
+    font-size: 34px;
+  }
+  p {
+    font-size: 18px;
+  }
+}
+
+// Featurettes
+// --------------------------------------------------------
+.featurette {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  h1 {
+    margin-top: 30px;
+    font-size: 50px;
+    letter-spacing: -2px;
+    font-weight: 300;
+  }
+}
+
+// Social Buttons
+// ------------------------------------------------------
+.btn-facebook {
+  margin-bottom: 5px;
+  color: #fff;
+  background: #3b5998;
+  // border: 1px solid rgba(0, 0, 0, 0.07);
+  width: 100%;
+  &:hover {
+    background: darken(#3b5998, 15%);
+    color: #fff;
+  }
+}
+.btn-twitter {
+  color: #fff;
+  margin-bottom: 5px;
+  background: #00aced;
+  // border: 1px solid rgba(0, 0, 0, 0.07);
+  width: 100%;
+  &:hover {
+    background: darken(#00aced, 15%);
+    color: #fff;
+  }
+}
+.btn-google {
+  color: #fff;
+  margin-bottom: 5px;
+  background: #dd4b39;
+  // border: 1px solid rgba(0, 0, 0, 0.07);
+  width: 100%;
+  &:hover {
+    background: darken(#dd4b39, 15%);
+    color: #fff;
+  }
+}
+.btn-github {
+  color: #fff;
+  margin-bottom: 5px;
+  background: #333333;
+  // border: 1px solid rgba(0, 0, 0, 0.07);
+  width: 100%;
+  &:hover {
+    background: darken(#333333, 15%);
+    color: #fff;
+  }
+}
+
+// Dashboard
+// ------------------------------------------------------
+.dashboard {
+  text-align: center;
+  p {
+    font-size: 96px;
+    line-height: 96px;
+    color: #ff6600;
+    text-shadow: 1px 1px 1px #222;
+  }
+}

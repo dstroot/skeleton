@@ -1,0 +1,93 @@
+extends ../layouts/layout
+
+block content
+  .jumbotron
+    .container
+      h1
+        | Tell the Awesome Story!
+      .row
+        .col-md-8.col-md-push-4
+          img.img-responsive.animated.slideInRight(alt='Looks great on every device', src='img/Octocat.png', width='600px')
+          br
+        .col-md-offset-1.col-md-3.col-md-pull-8
+          ul.fa-ul.visible-md.visible-lg
+            li
+              i.fa.fa-li.fa-cog
+              | Flat design
+            li
+              i.fa.fa-li.fa-heart
+              | Responsive
+            li
+              i.fa.fa-li.fa-cloud
+              | Bootstrap 3
+            li
+              i.fa.fa-li.fa-magic
+              | LESS
+          br
+          a.btn.btn-default.btn-lg(href='/login', role='button') Sign in Now!
+            //- | &nbsp;
+            //- i.fa.fa-chevron-right
+
+  //.container.marketing.hidden-xs
+      .row
+        .col-md-12
+          h1 Why choose Awesomesauce?
+      .row
+        .col-md-4
+          h3
+            i.fa.fa-thumbs-o-up.fa-lg.teal
+            | Make it your own
+          p
+            | Easily change every color, by changing just few variables. Add or remove pages, and choose from 600+ fonts.
+        .col-md-4
+          h3
+            i.fa.fa-magic.fa-lg.teal
+            | Page speed
+          p
+            | The theme is optimized to ensure fast loading time by lazy-loading of images and beeing minimal by design.
+        .col-md-4
+          h3
+            i.fa.fa-tablet.fa-lg.teal
+            | For every device
+          p
+            | The Story is built to look great on every device. Custom menu for mobile devices, to ensure the best expierence.
+
+
+  //.jumbotron.gradient-background
+    h2
+      i.fa.fa-quote-left
+      | Write drunk. Edit sober
+      i.fa.fa-quote-right
+    h2
+      small - Ernest Hemmingway
+
+  //.container.featurette
+    .row
+      .col-sm-7
+        h1
+          | First featurette heading.
+          span.text-muted   It'll blow your mind.
+        p.lead.hidden-xs
+          | Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+      .col-sm-5
+        img.img-rounded.img-responsive.pull-right(src='img/coffee.gif', alt='Generic placeholder image')
+    hr
+    .row
+      .col-sm-7.col-sm-push-5
+        h1
+          | Oh yeah, it's that good.
+          span.text-muted   See for yourself.
+        p.lead.hidden-xs
+          | Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+      .col-sm-5.col-sm-pull-7
+        img.img-rounded.img-responsive(src='img/coffee.gif', alt='Generic placeholder image')
+    hr
+    .row
+      .col-sm-7
+        h1
+          | And lastly, this one.
+          span.text-muted   Checkmate.
+        p.lead.hidden-xs
+          | Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+      .col-sm-5
+        img.img-rounded.img-responsive.pull-right(src='img/coffee.gif', alt='Generic placeholder image')

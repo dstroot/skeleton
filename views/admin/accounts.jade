@@ -1,0 +1,179 @@
+extends ../layouts/layout
+
+//- http://cwbuecheler.com/web/tutorials/2014/restful-web-app-node-express-mongodb/
+
+block content
+  .container
+    .row
+      .col-md-8
+        .page-header
+          h2 #{title} Accounts
+        // Wrapper
+        #wrapper
+
+          // USER LIST
+          #userList
+            table.table.table-striped
+              thead
+                th Name
+                th Email
+                th Date Established
+                th Last Active
+                th Delete?
+              tbody
+          // /USER LIST
+
+        // /WRAPPER
+      .col-md-4
+        .page-header
+          h2 Account Details
+
+        // USER INFO
+        #userInfo
+          p: img(id='userPicture', src='', width='100px')
+          p
+            strong Name:
+            |  <span id='userInfoName'></span>
+          p
+            strong Email:
+            | &nbsp;
+            a(href='', id='userInfoEmail')
+          p
+            strong Location:
+            |  <span id='userInfoLocation'></span>
+          p
+            strong Gender:
+            |  <span id='userInfoGender'></span>
+          p
+            strong Website:
+            | &nbsp;
+            a(href='', id='userInfoWebsite')
+          p
+            strong Date Established:
+            |  <span id='userInfoEstablished'></span>
+          p
+            strong Last Logon:
+            |  <span id='userInfoLogon'></span>
+          p
+            strong Last Update:
+            |  <span id='userInfoUpdate'></span>
+        // /USER INFO
+
+  script(src='lib/moment/min/moment.min.js')
+  script.
+    // Userlist data array for filling in info box
+    var userListData = [];
+
+    // DOM Ready =============================================================
+    $(document).ready(function() {
+
+      // Populate the user table on initial page load
+      populateTable();
+
+      // Username link click
+      $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
+
+      // Delete User link click
+      $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+
+    });
+
+    // Functions =============================================================
+
+    // Fill table with data
+    function populateTable() {
+
+      // Empty content string
+      var tableContent = '';
+
+      // jQuery AJAX call for JSON
+      $.getJSON( '/accountlist', function( data ) {
+
+        // Stick our user data array into a userlist variable in the global object
+        userListData = data;
+
+        // For each item in our JSON, add a table row and cells to the content string
+        $.each(data, function(){
+          tableContent += '<tr>';
+          tableContent += '<td><a href="#" class="linkshowuser btn btn-info btn-xs"" rel="' + this._id + '" title="Show Details">' + this.profile.name + '</td>';
+          tableContent += '<td><a href="mailto:' + this.email + '">' + this.email + '</a></td>';
+          tableContent += '<td>' + moment(this.activity.date_established).format('MMMM Do YYYY') + '</td>';
+          tableContent += '<td>' + moment(this.activity.last_logon).fromNow() + '</td>';
+          tableContent += '<td><a href="#" class="linkdeleteuser btn btn-danger btn-xs" rel="' + this._id + '">Danger!</a></td>';
+        });
+
+        // Inject the whole content string into our existing HTML table
+        $('#userList table tbody').html(tableContent);
+      });
+
+    };
+
+    // Show User Info
+    function showUserInfo(event) {
+
+      // Prevent Link from Firing
+      event.preventDefault();
+
+      // Retrieve username from link rel attribute
+      var thisUserName = $(this).attr('rel');
+
+      // Get Index of object based on id value
+      var arrayPosition = userListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisUserName);
+
+      // Get our User Object
+      var thisUserObject = userListData[arrayPosition];
+
+      //Populate Info Box  .attr("src", src)
+      $('#userPicture').attr("src", (thisUserObject.profile.picture));
+      $('#userInfoName').text(thisUserObject.profile.name);
+      $('#userInfoEmail').attr('href', 'mailto:' + thisUserObject.email).text(thisUserObject.email);
+      $('#userInfoLocation').text(thisUserObject.profile.location);
+      $('#userInfoGender').text(thisUserObject.profile.gender);
+      $('#userInfoWebsite').attr('href', thisUserObject.profile.website).text(thisUserObject.profile.website);
+      $('#userInfoEstablished').text(moment(thisUserObject.activity.date_established).format('MMMM Do YYYY'));
+      $('#userInfoLogon').text(moment(thisUserObject.activity.last_logon).fromNow());
+      $('#userInfoUpdate').text(moment(thisUserObject.activity.last_update).fromNow());
+    };
+
+    // Delete User
+    function deleteUser(event) {
+
+      // Prevent Link from Firing
+      event.preventDefault();
+
+      // Pop up a confirmation dialog
+      var confirmation = confirm('Are you sure you want to delete this user?');
+
+      // Check and make sure the user confirmed
+      if (confirmation === true) {
+
+
+        // If they did, do our delete
+        $.ajax({
+          type: 'DEL',
+          headers: { 'X-CSRF-Token': '#{token}' },
+          url: '/accountlist/' + $(this).attr('rel')
+        }).done(function( response ) {
+
+          // Check for a successful (blank) response
+          if (response.msg === '') {
+          }
+          else {
+            alert('Error: ' + response.msg);
+          }
+
+          // Update the table
+          populateTable();
+
+        });
+
+      }
+      else {
+
+        // If they said no to the confirm, do nothing
+        return false;
+
+      }
+
+    };
+

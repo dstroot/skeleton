@@ -1,0 +1,33 @@
+#flash
+  if messages.errors
+    .alert.alert-danger.alert-dismissable
+      button.close(type='button', data-dismiss='alert', aria-hidden='true')
+        i.fa.fa-times
+      for error in messages.errors
+        p.flashmsg
+          strong Oh Snap!
+          |  #{error.msg}
+  if messages.info
+    .alert.alert-info.alert-dismissable
+      button.close(type='button', data-dismiss='alert', aria-hidden='true')
+        i.fa.fa-times
+      for info in messages.info
+        p.flashmsg
+          strong Heads Up!
+          |  #{info.msg}
+  if messages.warning
+    .alert.alert-warning.alert-dismissable
+      button.close(type='button', data-dismiss='alert', aria-hidden='true')
+        i.fa.fa-times
+      for warning in messages.warning
+        p.flashmsg
+          strong Heads Up!
+          |  #{warning.msg}
+  if messages.success
+    .alert.alert-success.alert-dismissable
+      button.close(type='button', data-dismiss='alert', aria-hidden='true')
+        i.fa.fa-times
+      for success in messages.success
+        p.flashmsg
+          strong Success!
+          |  #{success.msg}

@@ -1,0 +1,72 @@
+{
+  "private": true,
+  "version": "0.0.1",
+  "name": "Skeleton",
+  "company": "Skeleton, Inc.",
+  "subdomain": "hacker-skeleton",
+  "description": "A hackathon-friendly node framework",
+  "author": "Dan Stroot",
+  "company": "Skeleton, Inc.",
+  "keywords": [
+    "hackathon",
+    "node",
+    "express",
+    "framework"
+  ],
+  "homepage": "https://github.com/dstroot/hackathon-starter",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dstroot/hackathon-starter.git"
+  },
+  "bugs": "https://github.com/dstroot/hackathon-starter/issues",
+  "contributors": "https://github.com/dstroot/hackathon-starter/graphs/contributors",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/dstroot/hackathon-starter/blob/master/LICENSE"
+    }
+  ],
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "~0.10.0"
+  },
+  "dependencies": {
+    "async": "~0.2.10",
+    "bcrypt-nodejs": "~0.0.3",
+    "cheerio": "~0.13.1",
+    "connect-assets": "~2.5.4",
+    "express": "~3.4.8",
+    "express-flash": "~0.0.2",
+    "express-validator": "~1.0.1",
+    "fbgraph": "~0.2.8",
+    "github-api": "~0.7.0",
+    "jade": "~1.1.5",
+    "lastfm": "~0.9.0",
+    "less": "~1.6.2",
+    "mongoose": "~3.8.5",
+    "node-foursquare": "~0.2.0",
+    "passport": "~0.2.0",
+    "passport-facebook": "~1.0.2",
+    "passport-github": "~0.1.5",
+    "passport-google-oauth": "~0.1.5",
+    "passport-local": "~0.1.6",
+    "passport-oauth": "~1.0.0",
+    "passport-twitter": "~1.0.2",
+    "request": "~2.33.0",
+    "tumblr.js": "~0.0.4",
+    "twit": "~1.1.12",
+    "underscore": "~1.5.2",
+    "paypal-rest-sdk": "~0.6.4",
+    "connect-mongo": "~0.4.0",
+    "twilio": "~1.5.0",
+    "helmet": "~0.1.2",
+    "nconf": "~0.6.9",
+    "winston": "~0.7.2",
+    "semver": "~2.2.1",
+    "moment": "~2.5.1",
+    "nodemailer": "~0.6.0",
+    "socket.io": "~0.9.16"
+  }
+}

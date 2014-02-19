@@ -1,0 +1,39 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      .col-sm-6.col-sm-offset-3
+        .page-header
+          h2 API Browser
+        ol
+          li.api
+            a(href='/api/aviary') Aviary
+          li.api
+            a(href='/api/facebook') Facebook
+            small  ⇢ Login Required
+          li.api
+            a(href='/api/foursquare') Foursquare
+            small  ⇢ Login Required
+          li.api
+            a(href='/api/github') GitHub
+            small  ⇢ Login Required
+          li.api
+            a(href='/api/lastfm') Last.fm
+          li.api
+            a(href='/api/nyt') New York Times
+          li.api
+            a(href='/api/paypal') PayPal
+            small  ⇢ Login Required
+          //- li.api
+          //-   a(href='/api/steam') Steam
+          li.api
+            a(href='/api/twilio') Twilio
+          li.api
+            a(href='/api/tumblr') Tumblr
+            small  ⇢ Login Required
+          li.api
+            a(href='/api/twitter') Twitter
+            small  ⇢ Login Required
+          li.api
+            a(href='/api/scraping') Web Scraping

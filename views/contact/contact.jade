@@ -1,0 +1,31 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      .col-sm-6.col-sm-offset-3
+        .page-header
+          h2 Contact Form
+        form(role='form', method='POST')
+          input(type='hidden', name='_csrf', value=token)
+          .form-group
+            label.sr-only(for='name') Your Name:
+            input.form-control(type='name', name='name', id='name', placeholder='Your Name', autofocus=true, required)
+          .form-group
+            label.sr-only(for='email') Your Email:
+            input.form-control(type='email', name='email', id='email', placeholder='You@youremail.com', required)
+          .form-group
+            label.sr-only(for='message') Your Message:
+            textarea.form-control(type='text', name='message', id='message', placeholder='Your Message', rows='7', required)
+          .form-group
+            button.btn.btn-primary(type='submit')
+              i.fa.fa-mail-forward
+              |  Send Your Message
+
+//- Form Notes
+//- ===========================================
+//- 1) Always add labels!
+//-    Screen readers will have trouble with your forms if you don't include a label for every input.
+//-    NOTE: you can hide the labels using the .sr-only class.
+//- 2) Use proper HTML5 input types (email, password, date, etc.)  This adds some HTML5 validation as
+//-    well as the correct keyboard on mobile devices.

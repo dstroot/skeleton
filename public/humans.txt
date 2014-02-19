@@ -1,0 +1,44 @@
+/* the humans responsible for building ViziLinkz.com */
+
+/* TEAM */
+  Designer + Coder:      Dan Stroot (heavily based on Dan Grossman's Bookmarkly)
+  Site:                  danstroot.com
+  Contact:               dan.stroot[at]gmail.com  **Feel free to say hi.
+  Location:              California, USA
+
+/* THANKS */
+  Bootstrap              (http://html5boilerplate.com/) *This really helps... you should try it too
+  jQuery                 (http://jquery.com/)
+  Lettering.js           (http://letteringjs.com/) *Made by the awesome guys at http://paravelinc.com
+  Modernizr              (http://www.modernizr.com/)
+
+/* SITE */
+  Standards:             HTML5, CSS3
+  Components:            Modernizr, jQuery, HTML5 Boilerplate, Lettering.js
+  Software:              Notepad++, Photoshop
+
+
+
+                               -o/-
+                               +oo//-
+                              :ooo+//:
+                             -ooooo///-
+                             /oooooo//:
+                            :ooooooo+//-
+                           -+oooooooo///-
+           -://////////////+oooooooooo++////////////::
+            :+ooooooooooooooooooooooooooooooooooooo+:::-
+              -/+ooooooooooooooooooooooooooooooo+/::////:-
+                -:+oooooooooooooooooooooooooooo/::///////:-
+                  --/+ooooooooooooooooooooo+::://////:-
+                     -:+ooooooooooooooooo+:://////:--
+                       /ooooooooooooooooo+//////:-
+                      -ooooooooooooooooooo////-
+                      /ooooooooo+oooooooooo//:
+                     :ooooooo+/::/+oooooooo+//-
+                    -oooooo/::///////+oooooo///-
+                    /ooo+::://////:---:/+oooo//:
+                   -o+/::///////:-      -:/+o+//-
+                   :-:///////:-            -:/://
+                     -////:-                 --//:
+                       --                       -:

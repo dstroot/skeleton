@@ -1,0 +1,56 @@
+# Always-ignore extensions
+#######################
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.zip
+*.vi
+*~
+*.sass-cache
+*.ruby-version
+
+# OS/Editor
+###################
+.DS_Store
+._*
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+*.esproj
+nbproject
+*.sublime-project
+*.sublime-workspace
+
+# Node files
+#################
+npm-debug.log
+node_modules
+.idea
+*.iml
+.DS_Store
+Thumbs.db
+
+# Bower
+###################
+.bower-cache/
+.bower-registry/
+bower_components/*
+public/lib/
+
+# Compiled assets
+###################
+public/css/styles.css
+builtAssets/
+
+# Configuration
+##################
+
+# Logging
+##################
+skeleton.log

@@ -1,0 +1,16 @@
+extends ../layouts/error
+
+block content
+
+  header.jumbotron
+    h1 500 Error!  :(
+    h3 Error: #{error.message}
+
+  .container
+    .row
+      .col-md-12
+        br
+        if error.stack
+          pre= error.stack
+        else
+          p An error ocurred!

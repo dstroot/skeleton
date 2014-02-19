@@ -1,0 +1,114 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      .col-sm-5.col-sm-offset-2
+        .page-header
+          h2 Profile Information
+        .row
+          .col-sm-4
+            p.hidden-xs
+              strong Picture:
+            p.hidden-xs
+              img(src="#{user.profile.picture}", class='profile', width='100', height='100')
+          .col-sm-4
+            p.hidden-xs
+              strong Gravatar:
+            p.hidden-xs
+              img(src="#{user.gravatar()}", class='profile', width='100', height='100')
+        form(action='/account/profile', method='POST')
+          input.form-control(type='hidden', name='_csrf', value=token)
+          .form-group
+            label.sr-only(for='name') Name
+            input.form-control(type='text', name='name', id='name', placeholder='Your Name', value='#{user.profile.name}')
+          .form-group
+            label.sr-only(for='email') Email
+            input.form-control(type='email', name='email', id='email', value='#{user.email}')
+          .form-group
+            label.sr-only(for='location') Location
+            input.form-control(type='text', name='location', id='location', placeholder='Anywhere, USA', value='#{user.profile.location}')
+          .form-group
+            label.sr-only(for='website') Website
+            input.form-control(type='text', name='website', id='website', placeholder='http://yoursite.here', value='#{user.profile.website}')
+          .form-group
+            label.sr-only(for='gender') Gender
+            label.radio
+                input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
+                span Male
+              label.radio
+                input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
+                span Female
+          .form-group
+            button.btn.btn.btn-primary(type='submit')
+              i.fa.fa-magnet
+              |  Update Profile
+      .col-sm-3
+        .page-header
+          h2 Social Accounts
+
+        if user.google
+          a.btn.btn-block.btn-google(href='/account/unlink/google')
+            i.fa.fa-google-plus.fa-lg.fa-fw
+            |  Disconnect Google
+        else
+          a.btn.btn-block.btn-success(href='/auth/google')
+            i.fa.fa-google-plus.fa-lg.fa-fw
+            |  Connect Google
+
+        if user.facebook
+          a.btn.btn-block.btn-facebook(href='/account/unlink/facebook')
+            i.fa.fa-facebook.fa-lg.fa-fw
+            |  Disconnect Facebook
+        else
+          a.btn.btn-block.btn-success(href='/auth/facebook')
+            i.fa.fa-facebook.fa-lg.fa-fw
+            |  Connect Facebook
+
+        if user.twitter
+          a.btn.btn-block.btn-twitter(href='/account/unlink/twitter')
+            i.fa.fa-twitter.fa-lg.fa-fw
+            |  Disconnect Twitter
+        else
+          a.btn.btn-block.btn-success(href='/auth/twitter')
+            i.fa.fa-twitter.fa-lg.fa-fw
+            |  Connect Twitter
+
+        if user.github
+          a.btn.btn-block.btn-github(href='/account/unlink/github')
+            i.fa.fa-github.fa-lg.fa-fw
+            |  Disconnect GitHub
+        else
+          a.btn.btn-block.btn-success(href='/auth/github')
+            i.fa.fa-github.fa-lg.fa-fw
+            |  Connect GitHub
+
+    .row
+      .col-sm-5.col-sm-offset-2
+        .page-header
+          h3 Change Password
+        form(action='/account/password', method='POST')
+          input.form-control(type='hidden', name='_csrf', value=token)
+          .form-group
+            label.sr-only(for='password') New Password
+            input.form-control(type='password', name='password', id='password', placeholder='New Password', required)
+          .form-group
+            label.sr-only(for='confirmPassword') Confirm Password
+            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm New Password', required)
+          .form-group
+            button.btn.btn.btn-primary(type='submit')
+                i.fa.fa-keyboard-o
+                |  Change Password
+
+    .row
+      .col-sm-5.col-sm-offset-2
+        .page-header
+          h3 Delete Account
+        p You can delete your account anytime.  You can always sign up again if you want to come back!
+        form(action='/account/delete', method='POST')
+          input.form-control(type='hidden', name='_csrf', value=token)
+          button.btn.btn-danger(type='submit')
+            i.fa.fa-trash-o
+            |  Delete my account
+        br
+        br

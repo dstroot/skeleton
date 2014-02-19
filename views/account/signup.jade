@@ -1,0 +1,41 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      .col-sm-6.col-sm-offset-3
+        br
+        br
+        form(id='signup-form', method='POST')
+          input(type='hidden', name='_csrf', value=token)
+          legend Sign Up
+          .form-group
+            label.sr-only(for='name') Name:
+            input.form-control(type='text', name='name', id='name', placeholder='Your Name', autofocus=true, required)
+          .form-group
+            label.sr-only(for='email') Email:
+            input.form-control(type='email', name='email', id='email', placeholder='Your Email', required)
+          .form-group
+            label.sr-only(for='password') Password:
+            input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+          .form-group
+            label.sr-only(for='confirmPassword') Confirm Password:
+            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
+          .form-group
+            button.btn.btn-success(type='submit')
+              i.fa.fa-check
+              |  Signup
+        p Already have an
+          a(href='/login') <strong> account?</strong>
+        p By creating an account I accept #{title}'s
+          a(href='/terms')  Terms of Service
+          |  and
+          a(href='/privacy')  Privacy Policy.
+
+//- Form Notes
+//- ===========================================
+//- 1) Always add labels!
+//-    Screen readers will have trouble with your forms if you don't include a label for every input.
+//-    NOTE: you can hide the labels using the .sr-only class.
+//- 2) Use proper HTML5 input types (email, password, date, etc.)  This adds some HTML5 validation as
+//-    well as the correct keyboard on mobile devices.

@@ -1,0 +1,25 @@
+{
+  "name": "express-skeleton",
+  "version": "0.0.1",
+  "homepage": "https://github.com/dstroot/express-skeleton",
+  "authors": [
+    "Dan Stroot <dan.stroot@gmail.com>"
+  ],
+  "description": "Hacker Friendly Framework",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.0.3",
+    "bootstrap": "~3.1.1",
+    "animate.css": "~3.0.0",
+    "moment": "~2.5.1"
+  }
+}

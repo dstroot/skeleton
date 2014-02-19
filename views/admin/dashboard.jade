@@ -1,0 +1,54 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      br
+      br
+      .col-md-3
+        .well.dashboard#connections
+          h2 Right Now
+          p 0
+          h4 active visitors
+        .well.dashboard
+          h2 Right Now
+          p #{accounts}
+          h4 User Accounts
+      .col-md-9
+        legend.hidden-xs Real Time Activity
+        table#visits.table.table-striped.table-condensed.hidden-xs
+          thead
+            th URL
+            th IP
+            th Timestamp
+          tbody
+        legend.hidden-xs Page Views
+        table#pageViews.table.table-striped.table-condensed.hidden-xs
+          thead
+            th URL
+            th Page Views
+          tbody
+
+  script.
+    var pages = {};
+    var lastPageId = 0;
+    socket.on('connect', function () {
+        console.log('Socket connected');
+        socket.on('pageview', function (msg) {
+            console.log('Connections: ' + msg.connections);
+            $('#connections > p').html(msg.connections - 1);  // -1 since we don't count our own dashboard connection
+            if (msg.url) {
+                if ($('#visits tr').length > 10) {
+                    $('#visits tr:last').remove();
+                }
+                $('#visits tbody').prepend('<tr><td>' + msg.url + '</td><td>' + msg.ip + '</td><td>' + msg.timestamp + '</td></tr>');
+                if (pages[msg.url]) {
+                    pages[msg.url].views = pages[msg.url].views + 1;
+                    $('#page' + pages[msg.url].pageId).html(pages[msg.url].views);
+                } else {
+                    pages[msg.url] = {views: 1, pageId: ++lastPageId};
+                    $('#pageViews tbody').append('<tr><td>' + msg.url + '</td><td id="page' + lastPageId + '">1</td></tr>');
+                }
+            }
+        });
+    });
