@@ -1,4 +1,4 @@
-Skeleton [![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton)
+Skeleton [![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) [![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 =================
 
 A few notes on my coding style: I like braces and use them always, even for single-line if statements and the like. I like variable names that mean something, rather than trying to be short. I favor single quotes above double quotes. I prefer comments above lines, as opposed to on the right-hand side. I use a LOT of comments, because JS can always be minified so there's really no reason to worry about comments contributing to filesize. I use a decent amount of whitespace for the same reason. Oh, and I like my opening braces on the same line, not a new line.
