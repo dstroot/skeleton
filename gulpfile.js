@@ -1,6 +1,6 @@
 'use strict';
 
-// Install: you must install gulp both globally *and* locally
+// Install: you must install gulp both globally *and* locally.
 // $ npm install -g gulp
 // $ npm install gulp gulp-clean gulp-less gulp-nodemon gulp-jshint gulp-concat gulp-uglify gulp-rename gulp-autoprefixer gulp-imagemin gulp-cache gulp-size gulp-minify-css gulp-notify gulp-livereload --save-dev
 
@@ -54,7 +54,7 @@ var paths = {
   js: [
     'public/lib/jquery/dist/jquery.js',
     // Bootstrap ==============================
-    // Enable/disable as needed ===============
+    // ====== Enable/disable as needed ========
     'public/lib/bootstrap/js/transition.js',
     'public/lib/bootstrap/js/alert.js',
     'public/lib/bootstrap/js/button.js',
