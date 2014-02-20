@@ -16,8 +16,10 @@ var userSchema = new mongoose.Schema({
 
   email: { type: String, unique: true },
   password: String,
-  type: { type: String, default: 'user' },
-  //type: 'admin' for administrators! ;)
+  type: { type: String, default: 'admin' },
+  // EVERYONE'S AN ADMINISTRATOR IN EXAMPLE
+  // DEFAULT TYPE SHOULB BE:
+  // type: { type: String, default: 'user' },
 
   facebook: { type: String, unique: true, sparse: true },
   twitter: { type: String, unique: true, sparse: true },
