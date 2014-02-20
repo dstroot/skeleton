@@ -14,14 +14,10 @@ var mongoose          = require('mongoose');               // https://npmjs.org/
 var passport          = require('passport');               // https://npmjs.org/package/passport
 var expressValidator  = require('express-validator');      // https://npmjs.org/package/express-validator
 var winston           = require('winston');                // https://npmjs.org/package/winston
-//The semver parser that node uses. See http://semver.org/
 var semver            = require('semver');                 // https://npmjs.org/package/semver
-// Helmet is middleware for Express/Connect apps that implements
-// various security headers to make your app more secure.
 var helmet            = require('helmet');                 // https://github.com/evilpacket/helmet
 var pkg               = require('./package.json');         // Get package.json
 var config            = require('./config/config');        // Get configuration
-// var passportConf      = require('./config/passport');      // Get passport.js setup
 
 /**
  * Static Variables
@@ -64,26 +60,30 @@ var db = mongoose.connection;
  */
 
 // Application local variables are provided to *all* templates
-// rendered within the application. This is useful for providing
-// helper functions to templates, as well as app-level data
+// rendered within the application. personally I would have called
+// them "app.globals". They are useful for providing helper
+// functions to templates, as well as global app-level data.
 
 // NOTE: you must not reuse existing (native) named properties
 // for your own variable names, such as name, apply, bind, call,
-// arguments, length, constructor.
+// arguments, length, and constructor.
 
 app.locals({
   title: pkg.name,
   version: pkg.version,
+  description: pkg.description,
+  author: pkg.author,
+  keywords: pkg.keywords,
   // Now you can use moment anywhere
   // within a jade template like this:
   // p #{moment(Date.now()).format('MM/DD/YYYY')}
-  moment: require('moment'),
+  moment: require('moment'), // evergreen copyright
   pretty: false
 });
 
 // Settings for development
 if ( app.get('env') === 'development') {
-  // Don't minify in dev
+  // Don't minify html in dev
   app.locals({ pretty: true });
   // Turn on console logging in development
   app.use(express.logger('dev'));
@@ -95,7 +95,7 @@ app.set('port', config.port);
 // set favicon location
 app.use(express.favicon(__dirname + '/public/favicon.ico'));
 
-// Setup view engine (jade)
+// Setup the view engine (jade)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -116,19 +116,19 @@ app.use(express.logger({
   }
 }));
 
-// Request body parsing middleware supporting
+// Body parsing middleware supporting
 // JSON, urlencoded, and multipart requests.
 app.use(express.json());
 app.use(express.urlencoded());
 
 // Must be immediately after app.use(express.urlencoded());
-// Easy form validation
+// Easy form validation!
 app.use(expressValidator());
 
 // If you want to simulate DELETE and PUT: methodOverride
 app.use(express.methodOverride());
 
-// Session
+// Session (use a cookie and persist session in Mongo)
 app.use(express.cookieParser(config.session.secret));
 app.use(express.session({
   secret: config.session.secret,
@@ -146,7 +146,7 @@ app.use(express.session({
 // Security
 app.use(express.csrf());      // prevent Cross-Site Request Forgery
 helmet.defaults(app);         // default helmet security (must be above `app.router`)
-app.disable('x-powered-by');  // Don't advertise our server
+app.disable('x-powered-by');  // Don't advertise our server type
 
 // Passport OAUTH Middleware
 app.use(passport.initialize());
@@ -162,12 +162,11 @@ app.use(function(req, res, next) {
 // for flash messages
 app.use(flash());
 
-// "app.router" positioned above the middleware defined below,
-// this means that Express will attempt to match & call
-// routes before continuing on.
+// "app.router" positioned above the middleware defined below, this means
+// that Express will attempt to match & call routes before continuing on.
 app.use(app.router);
 
-// Then we do our static serving from /public
+// Now setup our static serving from /public
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
 
 // Assume 404, as no routes responded or static assets found
@@ -230,8 +229,6 @@ app.use(function(err, req, res, next) {
 
 // Handle 500 Errors (really anything not handled above)
 app.use(function(err, req, res, next) {
-  // we may use properties of the error object here and next(err) appropriately,
-  // or if we possibly recovered from the error, simply next().
   winston.error(err.status || 500 + ' ' + err + '\n');
   res.status(err.status || 500);
   res.render('error/500', {
@@ -241,7 +238,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// final catch-all just in case
+// final error catch-all just in case
 if ( app.get('env') === 'development') {
   app.use(express.errorHandler());
 }
@@ -296,7 +293,7 @@ db.on('open', function () {
       process.exit(0);
     }
 
-    // Note how we are running
+    // Log how we are running
     winston.info(pkg.name + ' listening on port ' + app.get('port'),
       "in " + app.settings.env + " mode."
     );

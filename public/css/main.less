@@ -1,15 +1,14 @@
 /**
+ * Google Open Sans Font http://www.google.com/fonts/specimen/Open+Sans
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+
+/**
  * Bootstrap http://getbootstrap.com/
  */
 
 @import "bootstrap.less";
-
-/**
- * Font Awesome http://fontawesome.io/
- */
-
-@import "../lib/font-awesome/less/font-awesome.less";
-@fa-font-path: "../lib/font-awesome/fonts";
 
 /**
  * Animate.css http://daneden.github.io/animate.css
@@ -18,18 +17,27 @@
 @import (less) "../lib/animate.css/animate.css";
 
 /**
- * After importing base frameworks
+ * Font Awesome http://fontawesome.io/
+ */
+
+@import "../lib/font-awesome/less/font-awesome.less";
+
+/**
+ * After importing base frameworks:
  *  - Bootstrap
+ *  - Project Font(s)
  *  - Font Awesome
  *  - Animate.css
  *
- *  You add your own overrides and new styles below
+ *  You add your own boostrap overrides and new styles below:
  */
 
 /**
- * Change the base font to Open Sans
+ * Fonts - Change the base font to Open Sans
+ *       - Set path for Font Awesome
  */
 
+@fa-font-path: "../lib/font-awesome/fonts";
 @font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
 
 /**
@@ -51,29 +59,26 @@
  *
  */
 
-// Brand   https://kuler.adobe.com/create/color-wheel/
-@brand-primary: #4BAAD3;  // changed
-
-// Kuler Scheme
-@brand1:  #4BAAD3;  // Blue
-@brand2:  #2D677F;  // Teal
-@brand3:  #173340;  // Yellow
-@brand4:  #748E99;  // Orange
-@brand5:  #CC344C;  // Pink
+// Kuler Scheme  https://kuler.adobe.com/create/color-wheel/
+@brand1:     #4BAAD3;  // Blue
+@brand2:     #2D677F;  // Teal
+@brand3:     #173340;  // Yellow
+@brand4:     #748E99;  // Orange
+@brand5:     #CC344C;  // Pink
 
 // Brand
-.brand1 {       color: @brand1; }
-.brand2 {       color: @brand2; }
-.brand3 {       color: @brand3; }
-.brand4 {       color: @brand4; }
-.brand5 {       color: @brand5; }
+.brand1 {    color: @brand1; }
+.brand2 {    color: @brand2; }
+.brand3 {    color: @brand3; }
+.brand4 {    color: @brand4; }
+.brand5 {    color: @brand5; }
 
 // Brand Backgrounds
-.bg-brand1 {    background-color: @brand1; }
-.bg-brand2 {    background-color: @brand2; }
-.bg-brand3 {    background-color: @brand3; }
-.bg-brand4 {    background-color: @brand4; }
-.bg-brand5 {    background-color: @brand5; }
+.bg-brand1 { background-color: @brand1; }
+.bg-brand2 { background-color: @brand2; }
+.bg-brand3 { background-color: @brand3; }
+.bg-brand4 { background-color: @brand4; }
+.bg-brand5 { background-color: @brand5; }
 
 // Cool
 @aqua:    #7FDBFF;
@@ -147,15 +152,23 @@ html {
   /* Sticky Footer Styles Below */
   position: relative;
   min-height: 100%;
+  font-weight: 400;
 }
 body {
+  /* Account for fixed navbar */
   padding-top: 50px;
-  font-weight: 400;
-  /* Sticky Footer: Margin bottom by footer height */
+  /* 4 Sticky Footer: margin bottom = footer height */
   margin-bottom: 80px;
 }
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+h1, h2, h3,
+.h1, .h2, .h3 {
+  font-weight: 300;
+}
+h4, h5, h6,
+.h4, .h5, .h6 {
+  font-weight: 400;
+}
+.table {
   font-weight: 300;
 }
 .alert {
@@ -219,6 +232,64 @@ h1, h2, h3, h4, h5, h6,
     margin: 10px;
     font-size: 26px;
     font-weight: 300;
+  }
+}
+@media (max-width: 480px) {
+  .jumbotron {
+    h1 {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 26px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+    }
+  }
+}
+/*
+ * Minitron
+ *
+ * Jumbotron-esque page headers
+ */
+
+.mini-tron {
+  margin-top: 0px;
+  margin-bottom: 40px;
+  font-size: 18px;
+  position: relative;
+  padding: 30px 15px;
+  text-align: center;
+  h1 {
+    font-size: 26px;
+    margin-top: 0;
+    color: #fff;
+  }
+  p {
+    margin-bottom: 0;
+    font-weight: 300;
+    line-height: 1.4;
+    text-align: left;
+  }
+  .container {
+    position: relative;
+  }
+}
+
+@media (min-width: 768px) {
+  .mini-tron {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    font-size: 22px;
+  }
+  .mini-tron h1 {
+    font-size: 45px;
+    line-height: 1;
   }
 }
 
@@ -313,12 +384,14 @@ h1, h2, h3, h4, h5, h6,
  * Cover Page Button
  */
 
+.jumbotron .btn {
+  width: 100%;
+  padding: 15px 30px;
+  font-size: 28px;
+}
 .btn-white {
   color: #333;
   background-color: #fff;
-  width: 200px;
-  height: 60px;
-  font-size: 28px;
 }
 .btn-white:hover,
 .btn-white:focus,
@@ -354,26 +427,23 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /**
- * Media/Responsiveness
+ * Privacy
+ */
+
+.table.privacy {
+  text-align: left;
+  margin-top: 30px;
+  tbody>tr>td {
+    border-top: 0px;
+  }
+
+}
+
+/**
+ * Other Media/Responsiveness
  */
 
 @media (max-width: 480px) {
-  .jumbotron {
-    h1 {
-      text-align: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      font-size: 26px;
-    }
-    h2 {
-      font-size: 20px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 14px;
-    }
-  }
 }
 @media (max-width: 992px) {
 }

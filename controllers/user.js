@@ -57,7 +57,7 @@ module.exports.controller = function(app) {
         if (err) {
           return next(err);
         }
-        return res.redirect('/');
+        return res.redirect('/api');
       });
 
     })(req, res, next);
@@ -91,6 +91,7 @@ module.exports.controller = function(app) {
     }
 
     var user = new User({
+      'profile.name': req.body.name,
       email: req.body.email,
       password: req.body.password
     });
@@ -106,8 +107,8 @@ module.exports.controller = function(app) {
         if (err) {
           return next(err);
         }
-        req.flash('info', { msg: 'Success! You are logged in.' });
-        res.redirect('/');
+        req.flash('info', { msg: 'Thanks for signing up! You rock!' });
+        res.redirect('/api');
       });
     });
 

@@ -21,10 +21,23 @@ var autoprefixer  = require('gulp-autoprefixer');
 var imagemin      = require('gulp-imagemin');
 var size          = require('gulp-size');
 var jscs          = require('gulp-jscs');          // https://www.npmjs.org/package/jscs
-var minifycss     = require('gulp-minify-css');
+var minifycss     = require('gulp-minify-css');    // https://www.npmjs.org/package/gulp-minify-css
 var notify        = require('gulp-notify');        // DOES NOT WORK ON WINDOWS
 var livereload    = require('gulp-livereload');
-var pkg           = require('./package.json');
+var header        = require('gulp-header');
+
+/**
+ * Banner
+ */
+
+var pkg = require('./package.json');
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
 
 /**
  * Paths
@@ -48,7 +61,7 @@ var paths = {
     // 'public/lib/bootstrap/js/carousel.js',
     'public/lib/bootstrap/js/collapse.js',
     'public/lib/bootstrap/js/dropdown.js',
-    // 'public/lib/bootstrap/js/modal.js',
+    'public/lib/bootstrap/js/modal.js',
     // 'public/lib/bootstrap/js/tooltip.js',
     // 'public/lib/bootstrap/js/popover.js',
     // 'public/lib/bootstrap/js/scrollspy.js',
@@ -94,8 +107,9 @@ gulp.task('styles', function() {
     .pipe(rename(pkg.name + '.css'))      // Rename to "packagename.css"
     .pipe(gulp.dest('./public/css'))      // Save CSS here
     .pipe(rename({suffix: '.min'}))       // Add .min suffix
-    .pipe(minifycss())                    // Minify the CSS
-    .pipe(size())                         // How did we do?
+    .pipe(minifycss({ keepSpecialComments: 0, removeEmpty: true }))
+    .pipe(header(banner, { pkg : pkg } )) // Add banner
+    .pipe(size())                         // What size are we at?
     .pipe(gulp.dest('./public/css'))      // Save minified CSS here
     .pipe(livereload())                   // Initiate a reload
     .pipe(notify({ message: 'Styles task complete' }));
@@ -117,23 +131,24 @@ gulp.task('lint', function() {
  * Process Scripts
  */
 
-gulp.task('scripts', function() {         // Scripts processing
+gulp.task('scripts', function() {
   return gulp.src(paths.js)               // Read .js files
     .pipe(concat(pkg.name + '.js'))       // Concatenate .js files into "packagename.js"
     .pipe(gulp.dest('./public/js'))       // Save main.js here
     .pipe(rename({suffix: '.min'}))       // Add .min suffix
-    .pipe(uglify())                       // Minify the .js
-    .pipe(size())                         // How did we do?
+    .pipe(uglify({ outSourceMap: true }))   // Minify the .js
+    .pipe(header(banner, { pkg : pkg } )) // Add banner
+    .pipe(size())                         // What size are we at?
     .pipe(gulp.dest('./public/js'))       // Save minified .js
     .pipe(livereload())                   // Initiate a reload
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(notify({ onLast: true, message: 'Scripts task complete' }));
 });
 
 /**
  * Process Images
  */
 
-gulp.task('images', function() {          // Image processing
+gulp.task('images', function() {
   gulp.src(paths.images)                  // Read images
     .pipe(changed('./public/img'))        // Only process new/changed
     .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))

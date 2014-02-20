@@ -24,20 +24,20 @@ head
   meta(name='keywords', content='#{keywords}')
 
   //- Facebook Open Graph Meta Data
-  meta(property='og:description', content='#{description}')
-  meta(property='og:image', content='')
-  meta(property='og:site_name', content='')
-  meta(property='og:title', content='#{title}')
-  meta(property='og:type', content='website')
-  meta(property='og:url', content='')
+  //- meta(property='og:description', content='#{description}')
+  //- meta(property='og:image', content='')
+  //- meta(property='og:site_name', content='')
+  //- meta(property='og:title', content='#{title}')
+  //- meta(property='og:type', content='website')
+  //- meta(property='og:url', content='')
 
   //- Twitter Meta Data
-  meta(name='twitter:description', content='#{description}')
-  meta(name='twitter:image', content='')
-  meta(name='twitter:site', content='')
-  meta(name='twitter:title', content='#{title}')
-  meta(name='twitter:creator', content='@mwagerfield')
-  meta(name='twitter:card', content='summary_large_image')
+  //- meta(name='twitter:description', content='#{description}')
+  //- meta(name='twitter:image', content='')
+  //- meta(name='twitter:site', content='')
+  //- meta(name='twitter:title', content='#{title}')
+  //- meta(name='twitter:creator', content='')
+  //- meta(name='twitter:card', content='summary_large_image')
 
   //- Humans
   link(rel='author', href='humans.txt')
@@ -46,17 +46,16 @@ head
   link(rel='stylesheet', href='/css/#{title}.min.css')
 
   //- Fonts
-  link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700italic,900,400italic,300')
+  //- link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700italic,900,400italic,300')
 
-  //- Place favicon.ico and apple-touch-icon(s) in the root directory!
-
-  //- TODO This needs to go away the files should just be placed in the root.
-  //- But these are the names and sizes needed:
-
-  //- link(rel='apple-touch-icon-precomposed', sizes='152x152', href='apple-touch-icon-152x152-precomposed.png')
-  //- link(rel='apple-touch-icon-precomposed', sizes='120x120', href='apple-touch-icon-120x120-precomposed.png')
-  //- link(rel='apple-touch-icon-precomposed', sizes='76x76', href='apple-touch-icon-76x76-precomposed.png')
-  //- link(rel='apple-touch-icon-precomposed', sizes='60x60', href='apple-touch-icon-60x60-precomposed.png')
+  //- favicon.ico and apple-touch-icon(s)
+  //- Place favicon.ico and apple-touch-icon(s) in the root directory (public/)
+  //- In app.js make sure app.use(express.favicon(__dirname + '/public/favicon.ico')); is correct.
+  //- Here are the names and sizes needed:  (http://mathiasbynens.be/notes/touch-icons)
+  //-   - apple-touch-icon-152x152-precomposed.png
+  //-   - apple-touch-icon-120x120-precomposed.png
+  //-   - apple-touch-icon-76x76-precomposed.png
+  //-   - apple-touch-icon-60x60-precomposed.png
 
   //- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
   <wbr>
@@ -84,5 +83,5 @@ head
     // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    // ga('create', 'UA-39594063-4', 'wagerfield.github.io');
+    // ga('create', '#{google}', '#{url}');
     // ga('send', 'pageview');
