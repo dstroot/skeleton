@@ -1,5 +1,7 @@
 # TODO
 
 - [ ] Decide what to call the project!!!!!
-- [ ] Take out nconf (maybe...)
 - [ ] Signup welcome email
+- [ ] Setup project on nodejitsu
+- [ ] Configure APIs/Social Accounts for nodejitsu
+- [ ] Update Readme

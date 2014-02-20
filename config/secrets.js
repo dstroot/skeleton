@@ -44,29 +44,21 @@ module.exports = {
     sessionSecret: process.env.SESSION_SECRET || ''
   },
 
-// =====================================================================
-  /**
-   * TODO: Throttle Login Attempts
-   */
-
-  loginAttempts              = {};
-  loginAttempts.forIp        = 50;
-  loginAttempts.forUser      = 7;
-  loginAttempts.expires      = '20m';
-
   /**
    * Mailing Configuration
    */
 
   // Who are we sending email as?
-  smtp                       = {};
-  smtp.name                  = process.env.SMTP_FROM_NAME || '';
-  smtp.address               = process.env.SMTP_FROM_ADDRESS || '';
+  smtp: {
+    name: process.env.SMTP_FROM_NAME || '',
+    address: process.env.SMTP_FROM_ADDRESS || ''
+  },
 
   // How are we sending it?
-  gmail                      = {};
-  gmail.user                 = process.env.SMTP_USERNAME || '';
-  gmail.password             = process.env.SMTP_PASSWORD || '';
+  gmail: {
+    gmail.user: process.env.SMTP_USERNAME || '',
+    gmail.password: process.env.SMTP_PASSWORD || ''
+  },
 
   /**
    * API Keys

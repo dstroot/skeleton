@@ -9678,6 +9678,9 @@ return jQuery;
 $(document).ready(function() {
 
   // Set active (selected) navigation elements
+  // This is kind of a hack.  Instead we set in the jade
+  // template via passing in the URL.
+
   // $('.nav [href="'+ window.location.pathname +'"]').closest('li').toggleClass('active');
 
   // To handle facebook URL junk
@@ -9697,4 +9700,5 @@ $(document).ready(function() {
       documentElement.scrollLeft = scroll.left;
     }
   }
+
 });

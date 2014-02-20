@@ -1,20 +1,20 @@
 'use strict';
 
 /**
- * Module dependencies.
+ * Module Dependencies
  */
 
-var config        = require('../config/config');
 var _             = require('underscore');
-var querystring   = require('querystring');
+var Twit          = require('twit');
+var config        = require('../config/config');
 var async         = require('async');
 var cheerio       = require('cheerio');
 var request       = require('request');
 var graph         = require('fbgraph');
-var LastFmNode    = require('lastfm').LastFmNode;
 var tumblr        = require('tumblr.js');
 var Github        = require('github-api');
-var Twit          = require('twit');
+var querystring   = require('querystring');
+var LastFmNode    = require('lastfm').LastFmNode;
 var paypal        = require('paypal-rest-sdk');
 var passport      = require('passport');
 var passportConf  = require('../config/passport');

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Module dependencies.
+ * Module Dependencies
  */
 
 var bcrypt    = require('bcrypt-nodejs');
@@ -17,7 +17,7 @@ var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   type: { type: String, default: 'user' },
-  // 'admin' for administrators! ;)
+  //type: 'admin' for administrators! ;)
 
   facebook: { type: String, unique: true, sparse: true },
   twitter: { type: String, unique: true, sparse: true },

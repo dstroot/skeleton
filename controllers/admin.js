@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Module Dependencies
+ */
+
 var User          = require('../models/User');
 
 /**

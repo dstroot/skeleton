@@ -91,7 +91,7 @@ Many people use Express.js middleware to build assets, however I generally like 
 
 Our build system compiles and minifies all assets and starts the app app using nodemon.  Nodemon will restart node every time a server .js file changes.  We also start a livereload server that will trigger a reload of your page in the browser when any client .js, .css, .jade or images change.
 
-To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the "LiveReload" extension. Click on the center dot to turn on the livereload capability after you start up via `gulp`.
+To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the [livereload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei). Click on the center dot to turn on the livereload capability after you start up via `gulp`.
 
 Now every time you make a change to a client component things will be recompiled and your browser will reload. Cool!
 

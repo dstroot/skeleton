@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-var config            = require('./config');
-var User              = require('../models/User');
 var _                 = require('underscore');
+var User              = require('../models/User');
+var config            = require('./config');
 var passport          = require('passport');
 var LocalStrategy     = require('passport-local').Strategy;
 var OAuthStrategy     = require('passport-oauth').OAuthStrategy;

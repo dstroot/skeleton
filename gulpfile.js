@@ -11,17 +11,18 @@
 var gulp          = require('gulp');
 var clean         = require('gulp-clean');
 var less          = require('gulp-less');
-var nodemon       = require('gulp-nodemon');
+var nodemon       = require('gulp-nodemon');       // https://www.npmjs.org/package/gulp-nodemon
 var jshint        = require('gulp-jshint');
 var concat        = require('gulp-concat');
 var uglify        = require('gulp-uglify');
 var rename        = require('gulp-rename');
+var changed       = require('gulp-changed');       // https://github.com/sindresorhus/gulp-changed
 var autoprefixer  = require('gulp-autoprefixer');
 var imagemin      = require('gulp-imagemin');
 var size          = require('gulp-size');
-var jscs          = require('gulp-jscs');       // https://www.npmjs.org/package/jscs
+var jscs          = require('gulp-jscs');          // https://www.npmjs.org/package/jscs
 var minifycss     = require('gulp-minify-css');
-var notify        = require('gulp-notify');  // DOES NOT WORK ON WINDOWS
+var notify        = require('gulp-notify');        // DOES NOT WORK ON WINDOWS
 var livereload    = require('gulp-livereload');
 var pkg           = require('./package.json');
 
@@ -31,15 +32,16 @@ var pkg           = require('./package.json');
 
 var paths = {
   clean: [
-    'public/js/**/' + pkg.name + '.js',
-    'public/js/**/' + pkg.name + '.min.js',
-    'public/css/**/' + pkg.name + '.css',
-    'public/css/**/' + pkg.name + '.min.css'
+    'public/js/**/*.js',
+    'public/js/**/*.min.js',
+    '!public/js/main.js',
+    'public/css/**/*.css',
+    'public/css/**/*.min.css'
   ],
   js: [
     'public/lib/jquery/dist/jquery.js',
-
-    // Bootstrap
+    // Bootstrap ==============================
+    // Enable/disable as needed ===============
     'public/lib/bootstrap/js/transition.js',
     'public/lib/bootstrap/js/alert.js',
     'public/lib/bootstrap/js/button.js',
@@ -52,8 +54,7 @@ var paths = {
     // 'public/lib/bootstrap/js/scrollspy.js',
     // 'public/lib/bootstrap/js/tab.js',
     // 'public/lib/bootstrap/js/affix.js'
-
-    // main project .js file
+    // =========================================
     'public/js/main.js'
   ],
   lint: [
@@ -67,7 +68,7 @@ var paths = {
   ],
   less: [
     'public/css/main.less',
-    'public/css/bootstrap.less',
+    'public/css/bootstrap.less'
   ],
   images: 'public/img/**/*'
 };
@@ -77,10 +78,9 @@ var paths = {
  */
 
 gulp.task('clean', function() {
-  // Setting read to false will return file.contents as null and not read the file
-  return gulp.src(paths.clean, {read: false})
+  gulp.src(paths.clean, {read: false})
     .pipe(clean())
-    .pipe(notify({ message: 'Clean task complete!' }));
+    .pipe(notify({ onLast: true, message: 'Clean task complete' }));
 });
 
 /**
@@ -97,6 +97,7 @@ gulp.task('styles', function() {
     .pipe(minifycss())                    // Minify the CSS
     .pipe(size())                         // How did we do?
     .pipe(gulp.dest('./public/css'))      // Save minified CSS here
+    .pipe(livereload())                   // Initiate a reload
     .pipe(notify({ message: 'Styles task complete' }));
 });
 
@@ -108,7 +109,8 @@ gulp.task('lint', function() {
   gulp.src(paths.lint)                    // Read .js files
     .pipe(jshint('.jshintrc'))            // Lint .js files
     .pipe(jshint.reporter('default'))     // Specify a reporter for JSHint
-    .pipe(jscs());
+    .pipe(jscs())                         // Check code style
+    .pipe(notify({ onLast: true, message: 'Lint task complete' }));
 });
 
 /**
@@ -123,6 +125,7 @@ gulp.task('scripts', function() {         // Scripts processing
     .pipe(uglify())                       // Minify the .js
     .pipe(size())                         // How did we do?
     .pipe(gulp.dest('./public/js'))       // Save minified .js
+    .pipe(livereload())                   // Initiate a reload
     .pipe(notify({ message: 'Scripts task complete' }));
 });
 
@@ -132,34 +135,35 @@ gulp.task('scripts', function() {         // Scripts processing
 
 gulp.task('images', function() {          // Image processing
   gulp.src(paths.images)                  // Read images
+    .pipe(changed('./public/img'))        // Only process new/changed
     .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))
-    .pipe(gulp.dest('./public/img'));     // Write processed images
+    .pipe(gulp.dest('./public/img'))      // Write processed images
+    .pipe(notify({ onLast: true, message: 'Images task complete' }));
 });
 
 /**
  * Build Task
  */
 
-gulp.task('build', ['styles', 'scripts', 'images']);
+gulp.task('build', ['clean', 'styles', 'scripts', 'images']);
 
 /**
  * Watch Files (Rerun/reload when a file changes)
  */
 
 gulp.task('watch', function () {
-  var server = livereload();
+
   // Watch .less files, process/reload as needed
-  gulp.watch(paths.less, ['styles'], function(evt) {
-    server.changed(evt.path);
-  });
-  // Watch .js files, process/reload as needed
-  gulp.watch(paths.js, ['scripts'], function(evt) {
-    server.changed(evt.path);
-  });
+  gulp.watch(paths.less, ['styles']);
+
+  // Watch client .js files, process/reload as needed
+  gulp.watch(paths.js, ['scripts']);
+
   // Watch .jade files, reload as needed
   gulp.watch('views/**/*.jade', function(evt) {
-    server.changed(evt.path);
+    livereload().changed(evt.path);
   });
+
 });
 
 /**
@@ -168,7 +172,7 @@ gulp.task('watch', function () {
  */
 
 gulp.task('develop', ['watch'], function () {
-  nodemon({ script: 'app.js', options: '-e js -i ./public/js/**/*.js, ./gulpfile.js' });
+  nodemon({ script: 'app.js', options: '--debug --ignore gulpfile.js --ignore "public/js/*.js" --ignore "public/lib/**/*.js"' });
 });
 
 /**
@@ -176,4 +180,4 @@ gulp.task('develop', ['watch'], function () {
  * (depends on Build and Develop Tasks)
  */
 
-gulp.task('default', ['develop']);
+gulp.task('default', [ 'build', 'develop']);

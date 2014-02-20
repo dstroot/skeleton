@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Module dependencies.
+ * Module Dependencies
  */
 
 var _             = require('underscore');

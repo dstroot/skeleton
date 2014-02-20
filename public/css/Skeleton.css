@@ -1,3 +1,6 @@
+/**
+ * Bootstrap http://getbootstrap.com/
+ */
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -231,9 +234,7 @@ figure {
 img {
   vertical-align: middle;
 }
-.img-responsive,
-.thumbnail > img,
-.thumbnail a > img {
+.img-responsive {
   display: block;
   max-width: 100%;
   height: auto;
@@ -3049,243 +3050,6 @@ input[type="button"].btn-block {
 .navbar-inverse .navbar-link:hover {
   color: #ffffff;
 }
-.pagination {
-  display: inline-block;
-  padding-left: 0;
-  margin: 20px 0;
-  border-radius: 4px;
-}
-.pagination > li {
-  display: inline;
-}
-.pagination > li > a,
-.pagination > li > span {
-  position: relative;
-  float: left;
-  padding: 6px 12px;
-  line-height: 1.42857143;
-  text-decoration: none;
-  color: #4baad3;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  margin-left: -1px;
-}
-.pagination > li:first-child > a,
-.pagination > li:first-child > span {
-  margin-left: 0;
-  border-bottom-left-radius: 4px;
-  border-top-left-radius: 4px;
-}
-.pagination > li:last-child > a,
-.pagination > li:last-child > span {
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
-}
-.pagination > li > a:hover,
-.pagination > li > span:hover,
-.pagination > li > a:focus,
-.pagination > li > span:focus {
-  color: #2982a8;
-  background-color: #eeeeee;
-  border-color: #dddddd;
-}
-.pagination > .active > a,
-.pagination > .active > span,
-.pagination > .active > a:hover,
-.pagination > .active > span:hover,
-.pagination > .active > a:focus,
-.pagination > .active > span:focus {
-  z-index: 2;
-  color: #ffffff;
-  background-color: #4baad3;
-  border-color: #4baad3;
-  cursor: default;
-}
-.pagination > .disabled > span,
-.pagination > .disabled > span:hover,
-.pagination > .disabled > span:focus,
-.pagination > .disabled > a,
-.pagination > .disabled > a:hover,
-.pagination > .disabled > a:focus {
-  color: #999999;
-  background-color: #ffffff;
-  border-color: #dddddd;
-  cursor: not-allowed;
-}
-.pagination-lg > li > a,
-.pagination-lg > li > span {
-  padding: 10px 16px;
-  font-size: 18px;
-}
-.pagination-lg > li:first-child > a,
-.pagination-lg > li:first-child > span {
-  border-bottom-left-radius: 6px;
-  border-top-left-radius: 6px;
-}
-.pagination-lg > li:last-child > a,
-.pagination-lg > li:last-child > span {
-  border-bottom-right-radius: 6px;
-  border-top-right-radius: 6px;
-}
-.pagination-sm > li > a,
-.pagination-sm > li > span {
-  padding: 5px 10px;
-  font-size: 12px;
-}
-.pagination-sm > li:first-child > a,
-.pagination-sm > li:first-child > span {
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
-}
-.pagination-sm > li:last-child > a,
-.pagination-sm > li:last-child > span {
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
-}
-.pager {
-  padding-left: 0;
-  margin: 20px 0;
-  list-style: none;
-  text-align: center;
-}
-.pager li {
-  display: inline;
-}
-.pager li > a,
-.pager li > span {
-  display: inline-block;
-  padding: 5px 14px;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 15px;
-}
-.pager li > a:hover,
-.pager li > a:focus {
-  text-decoration: none;
-  background-color: #eeeeee;
-}
-.pager .next > a,
-.pager .next > span {
-  float: right;
-}
-.pager .previous > a,
-.pager .previous > span {
-  float: left;
-}
-.pager .disabled > a,
-.pager .disabled > a:hover,
-.pager .disabled > a:focus,
-.pager .disabled > span {
-  color: #999999;
-  background-color: #ffffff;
-  cursor: not-allowed;
-}
-.label {
-  display: inline;
-  padding: .2em .6em .3em;
-  font-size: 75%;
-  font-weight: bold;
-  line-height: 1;
-  color: #ffffff;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  border-radius: .25em;
-}
-.label[href]:hover,
-.label[href]:focus {
-  color: #ffffff;
-  text-decoration: none;
-  cursor: pointer;
-}
-.label:empty {
-  display: none;
-}
-.btn .label {
-  position: relative;
-  top: -1px;
-}
-.label-default {
-  background-color: #999999;
-}
-.label-default[href]:hover,
-.label-default[href]:focus {
-  background-color: #808080;
-}
-.label-primary {
-  background-color: #4baad3;
-}
-.label-primary[href]:hover,
-.label-primary[href]:focus {
-  background-color: #2e92bd;
-}
-.label-success {
-  background-color: #5cb85c;
-}
-.label-success[href]:hover,
-.label-success[href]:focus {
-  background-color: #449d44;
-}
-.label-info {
-  background-color: #5bc0de;
-}
-.label-info[href]:hover,
-.label-info[href]:focus {
-  background-color: #31b0d5;
-}
-.label-warning {
-  background-color: #f0ad4e;
-}
-.label-warning[href]:hover,
-.label-warning[href]:focus {
-  background-color: #ec971f;
-}
-.label-danger {
-  background-color: #d9534f;
-}
-.label-danger[href]:hover,
-.label-danger[href]:focus {
-  background-color: #c9302c;
-}
-.badge {
-  display: inline-block;
-  min-width: 10px;
-  padding: 3px 7px;
-  font-size: 12px;
-  font-weight: bold;
-  color: #ffffff;
-  line-height: 1;
-  vertical-align: baseline;
-  white-space: nowrap;
-  text-align: center;
-  background-color: #999999;
-  border-radius: 10px;
-}
-.badge:empty {
-  display: none;
-}
-.btn .badge {
-  position: relative;
-  top: -1px;
-}
-.btn-xs .badge {
-  top: 0;
-  padding: 1px 5px;
-}
-a.badge:hover,
-a.badge:focus {
-  color: #ffffff;
-  text-decoration: none;
-  cursor: pointer;
-}
-a.list-group-item.active > .badge,
-.nav-pills > .active > a > .badge {
-  color: #4baad3;
-  background-color: #ffffff;
-}
-.nav-pills > li > a > .badge {
-  margin-left: 3px;
-}
 .jumbotron {
   padding: 30px;
   margin-bottom: 30px;
@@ -3320,31 +3084,6 @@ a.list-group-item.active > .badge,
   .jumbotron .h1 {
     font-size: 63px;
   }
-}
-.thumbnail {
-  display: block;
-  padding: 4px;
-  margin-bottom: 20px;
-  line-height: 1.42857143;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-.thumbnail > img,
-.thumbnail a > img {
-  margin-left: auto;
-  margin-right: auto;
-}
-a.thumbnail:hover,
-a.thumbnail:focus,
-a.thumbnail.active {
-  border-color: #4baad3;
-}
-.thumbnail .caption {
-  padding: 9px;
-  color: #333333;
 }
 .alert {
   padding: 15px;
@@ -3418,34 +3157,6 @@ a.thumbnail.active {
 }
 .alert-danger .alert-link {
   color: #843534;
-}
-.media,
-.media-body {
-  overflow: hidden;
-  zoom: 1;
-}
-.media,
-.media .media {
-  margin-top: 15px;
-}
-.media:first-child {
-  margin-top: 0;
-}
-.media-object {
-  display: block;
-}
-.media-heading {
-  margin: 0 0 5px;
-}
-.media > .pull-left {
-  margin-right: 10px;
-}
-.media > .pull-right {
-  margin-left: 10px;
-}
-.media-list {
-  padding-left: 0;
-  list-style: none;
 }
 .well {
   min-height: 20px;
@@ -3623,8 +3334,6 @@ button.close {
 .navbar-header:after,
 .navbar-collapse:before,
 .navbar-collapse:after,
-.pager:before,
-.pager:after,
 .modal-footer:before,
 .modal-footer:after {
   content: " ";
@@ -3639,7 +3348,6 @@ button.close {
 .navbar:after,
 .navbar-header:after,
 .navbar-collapse:after,
-.pager:after,
 .modal-footer:after {
   clear: both;
 }
@@ -3789,6 +3497,9 @@ button.close {
     display: none !important;
   }
 }
+/**
+ * Font Awesome http://fontawesome.io/
+ */
 /*!
  *  Font Awesome 4.0.3 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -5103,6 +4814,9 @@ button.close {
 .fa-plus-square-o:before {
   content: "\f196";
 }
+/**
+ * Animate.css http://daneden.github.io/animate.css
+ */
 @charset "UTF-8";
 /*!
 Animate.css - http://daneden.me/animate
@@ -7488,6 +7202,35 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   -webkit-animation-name: rollOut;
   animation-name: rollOut;
 }
+/**
+ * After importing base frameworks
+ *  - Bootstrap
+ *  - Font Awesome
+ *  - Animate.css
+ *
+ *  You add your own overrides and new styles below
+ */
+/**
+ * Change the base font to Open Sans
+ */
+/**
+ * Colors
+ *
+ * This needs some explaining.  I'd rather keep colors seperate
+ * from widgets. That way I can just use HTML markup to colorize
+ * widgets in a sematic way:
+ *
+ *   <div class="jumbotron bg-blue white"></div>
+ *
+ * This means give me a blue jumbotron with white text
+ *
+ *   <div class="jumbotron bg-green orange"></div>
+ *
+ * Green background, orange text, get it? This separation is
+ * very practical in use.  I usually designate brand colors
+ * only but this is an example so...
+ *
+ */
 .brand1 {
   color: #4baad3;
 }
@@ -7626,8 +7369,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .bg-black {
   background-color: #111111;
 }
+/**
+ * Scaffolding
+ */
 html {
-  /* Sticky Footer */
+  /* Sticky Footer Styles Below */
   position: relative;
   min-height: 100%;
 }
@@ -7653,15 +7399,11 @@ h6,
 }
 .alert {
   margin-bottom: 0px;
-}
-.flashmsg {
   text-align: center;
 }
-@media (min-width: 768px) {
-  li.api {
-    font-size: 20px;
-  }
-}
+/**
+ * Footer
+ */
 .footer {
   text-align: center;
   background-color: #222222;
@@ -7684,67 +7426,35 @@ h6,
 .footer p a:hover {
   color: #eeeeee;
 }
-.jumbotron {
-  margin-bottom: 0px;
-}
+/**
+ * Jumbotron
+ */
 .jumbotron h1 {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 70px;
-  font-weight: 300;
 }
 .jumbotron h2 {
   text-align: center;
   margin-top: 30px;
   margin-bottom: 30px;
-  color: #ffffff;
   font-size: 50px;
-  font-weight: 300;
 }
 .jumbotron h3 {
-  text-align: center;
   margin-top: 30px;
   margin-bottom: 30px;
-  color: #ffffff;
-  font-size: 25px;
-  font-weight: 300;
-}
-.jumbotron p {
-  color: #ffffff;
-}
-.jumbotron .btn-lg {
-  margin-top: 10px;
-  width: 200px;
-  height: 50px;
-  font-size: 22px;
-}
-.jumbotron ul {
-  font-size: 25px;
-  font-weight: 300;
-  color: #ffffff;
+  font-size: 28px;
 }
 .jumbotron li {
   line-height: 35px;
   height: 50px;
   margin: 10px;
+  font-size: 26px;
+  font-weight: 300;
 }
-.btn-outline-inverse {
-  color: #ffffff;
-  background-color: transparent;
-  border-color: #cdbfe3;
-}
-.btn-outline-inverse:hover,
-.btn-outline-inverse:focus,
-.btn-outline-inverse:active {
-  color: #563d7c;
-  text-shadow: none;
-  background-color: #ffffff;
-  border-color: #ffffff;
-}
-ul.privacy li {
-  font-size: 20px;
-  line-height: 1em;
-}
+/**
+ * Navbar
+ */
 .navbar-nav .profile-image {
   width: 30px;
   height: 30px;
@@ -7759,6 +7469,9 @@ ul.privacy li {
   margin-top: -1px;
   margin-left: 15px;
 }
+/**
+ * Marketing
+ */
 .marketing {
   margin-bottom: 70px;
 }
@@ -7774,17 +7487,11 @@ ul.privacy li {
 }
 .marketing p {
   font-size: 18px;
-}
-.featurette {
-  margin-top: 50px;
-  margin-bottom: 50px;
-}
-.featurette h1 {
-  margin-top: 30px;
-  font-size: 50px;
-  letter-spacing: -2px;
   font-weight: 300;
 }
+/**
+ * Social Buttons
+ */
 .btn-facebook {
   margin-bottom: 5px;
   color: #fff;
@@ -7818,13 +7525,42 @@ ul.privacy li {
 .btn-github {
   color: #fff;
   margin-bottom: 5px;
-  background: #333333;
+  background: #444;
   width: 100%;
 }
 .btn-github:hover {
-  background: #0d0d0d;
+  background: #1e1e1e;
   color: #fff;
 }
+/*
+ * Cover Page Button
+ */
+.btn-white {
+  color: #333;
+  background-color: #fff;
+  width: 200px;
+  height: 60px;
+  font-size: 28px;
+}
+.btn-white:hover,
+.btn-white:focus,
+.btn-white:active {
+  color: #fff;
+  background-color: transparent;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+  border-color: #fff;
+}
+/**
+ * API Buttons
+ */
+.btn-api {
+  width: 140px;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+/**
+ * Dashboard
+ */
 .dashboard {
   text-align: center;
 }
@@ -7833,4 +7569,28 @@ ul.privacy li {
   line-height: 96px;
   color: #ff6600;
   text-shadow: 1px 1px 1px #222;
+}
+/**
+ * Media/Responsiveness
+ */
+@media (max-width: 480px) {
+  .jumbotron h1 {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 26px;
+  }
+  .jumbotron h2 {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .jumbotron p {
+    font-size: 14px;
+  }
+}
+@media (min-width: 768px) {
+  li.api {
+    font-size: 20px;
+  }
 }
