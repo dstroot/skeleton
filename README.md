@@ -1,11 +1,13 @@
-Skeleton [![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) [![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
-=================
+# Skeleton 
+
+[![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) 
+[![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 
 Skeleton: A **complete framework** for building **Node.js** web applications.
 
 **Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
 
-![Alt](https://lh6.googleusercontent.com/-uKeCLpArf-8/UwashLnJ4gI/AAAAAAAABuU/WKEz8F5VXvY/w951-h891-no/Skeleton.jpg)
+![Alt](https://lh6.googleusercontent.com/-uKeCLpArf-8/UwashLnJ4gI/AAAAAAAABvg/frUvl_qroCM/w951-h891-no/Skeleton.jpg)
 
 There are many excellent Node/Express/Backbone frameworks out there. I have played with some and contributed to a few of them. Since there is really no one "right" way to do things you kind of have to explore.  Once I did that I found that none of them were "just right" as Goldilocks would say. So I built this one! 
 
@@ -16,6 +18,19 @@ Of the two, Drywall is more sophisticated. It has an extensive User/Account/Role
 This brings us to Hackathon-starter. This is GREAT site to get started with and has many outstanding API integrations as well as the authentication all built out. It really lives up to it's billing.
 
 So why make a "another framework"?  Basically because I want a playground of my own **and** you might find something interesting in here!
+
+![Alt](https://lh6.googleusercontent.com/-yP_BBZU10Ss/Uwa6Zxy--rI/AAAAAAAABvY/sblhYlbrnNQ/w891-h720-no/pagespeed.jpg)
+
+
+Frameworks
+----------
+
+- [Dozer](http://dozerjs.com/)
+- [Locomotive](http://locomotivejs.org/)
+- [Flatiron](http://flatironjs.org/)
+
+API Only: [Restify](http://mcavage.me/node-restify/)
+
 
 Key descisions to make:
 
