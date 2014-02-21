@@ -1,7 +1,7 @@
 Skeleton [![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) [![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 =================
 
-Skeleton: A **Complete Framework** for **Node.js** web applications.
+Skeleton: A **complete framework** for building **Node.js** web applications.
 
 **Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
 
@@ -9,11 +9,13 @@ Skeleton: A **Complete Framework** for **Node.js** web applications.
 
 There are many excellent Node/Express/Backbone frameworks out there. I have played with some and contributed to a few of them. Since there is really no one "right" way to do things you kind of have to explore.  Once I did that I found that none of them were "just right" as Goldilocks would say. So I built this one! 
 
-I borrowed heavily from Drywall and Hackathon-starter. The reason being that third party OAUTH authentication is painful. Passport helps tremendously but there are not many good examples of how to use it. Both of these frameworks really show how it's done. Both are actively maintained and are really great starting points. I recommend either of them highly. 
+I borrowed heavily from [Drywall](https://github.com/jedireza/drywall) and [Hackathon-starter](https://github.com/sahat/hackathon-starter). The reason is third party OAUTH authentication is painful. Passport helps tremendously but there are not many good examples of how to use it. Both of these frameworks really show how it's done. Both are actively maintained and are really great starting points. I recommend either of them **highly**. 
 
-Of the two Drywall is more sophisticated. It has an extensive User/Account/Roles system to handle different types of accounts and account permissions.  It also has a very cool Administration area with lots of very cool functionality. In addition the client side uses Backbone.  Overall this framework has some GREAT stuff in it.  It's just a little too big/rich if you just want to start building a simple site.
+Of the two, Drywall is more sophisticated. It has an extensive User/Account/Roles system to handle different types of accounts and account permissions.  It also has a very cool Administration area. In addition, the client side uses Backbone.  Overall this framework has some GREAT stuff in it.  It's just maybe a little too big/rich if you just want to start building a simple site.
 
 This brings us to Hackathon-starter. This is GREAT site to get started with and has many outstanding API integrations as well as the authentication all built out. It really lives up to it's billing.
+
+So why make a "another framework"?  Basically because I want a playground of my own **and** you might find something interesting in here!
 
 Key descisions to make:
 
@@ -23,19 +25,9 @@ Database: Mongo vs. Couch vs. ...
 How to build out authentication (much harder that you think)
 How to organize your code
 
-
-
-
-
-
-
-
-
-
-
-
-
 ## Comparision
+
+:white_check_mark:
 
 | Feature          | Skeleton       | Drywall       | Hackathon-starter |
 | -------------    | -------------- | ------------- | -----------       |
@@ -58,7 +50,8 @@ How to organize your code
 | Google           | Yes             | No             | Yes               |
 
 
-
+Coding Style
+------------
 
 A few notes on my coding style: 
 
@@ -71,19 +64,6 @@ A few notes on my coding style:
 - Oh, and I like my opening braces on the same line, not a new line.
 
 
-A boilerplate for **Node.js** web applications.
-
-**Live Demo**: http://hackathonstarter.herokuapp.com 
-
-If you have attended any hackathons in the past then you know how much time it takes to get a project started. Decide on an idea, pick a programming language, pick a web framework, pick a CSS framework. A while later, you will have an initial project up on GitHub, and only then can other team members
-start contributing. Or what about doing something as simple as OAuth 2.0 Authentication? You can spend hours on it if you are not familiar with how OAuth 2.0 works. *(As a side-note, over a year ago I had no idea WTF REST or OAuth were, or how to do a simple "Sign in with Facebook". It was a frustrating experience to say the least.)*
-
-When I started this project, my primary focus was on **simplicity** and **ease of use**.
-
-I also tried to make it as **generic** and **reusable** as possible to cover most use cases of hackathon web apps, without being too specific. In the worst case you can use this as a guide for your projects, if for example you are only
-interested in **Sign in with Google** authentication and nothing else.
-
-Chances are, you might not need all 4 types of OAuth 1.0a/OAuth2 authentication methods, or all 9 API examples. Sadly, there is no step-by-step wizard to configure the boilerplate code just for your use case. So, use what you need, simply delete what you don't need.
 
 
 
