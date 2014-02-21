@@ -24,21 +24,21 @@ This brings us to Hackathon-starter. This is GREAT site to get started with and 
 - [Flatiron](http://flatironjs.org/)
 - API Only: [Restify](http://mcavage.me/node-restify/)
 
-So why offer "yet another framework"?  Basically because I want a playground of my own **and** you might find something interesting in here!
+So why offer "yet another framework"?  First, I like a fully working built-out site as a starting point to "see" a framework in action. Also because I want a playground of my own **and** you might find something interesting in here!
 
 Features
 --------
 - **Local Authentication** using Email and Password
 - **OAuth 1.0a Authentication** via Twitter
 - **OAuth 2.0 Authentication** via Facebook, Google or GitHub
-- MVC project structure (in my own style - "Views" are the Jade Templates, "Models" are the Mongo/Mongoose models, and "Controllers" are the glue for routing, page logic and data access via the models.)
+- MVC project structure (in my own style - "Views" are the Jade Templates, "Models" are the Mongo/Mongoose models, and "Controllers" are the glue for routing, page logic and data access via the models. These should be the only things you need to touch to build out new pages/functionality.)
 - Node.js clusters support
 - Gulp.js build system
 - LESS stylesheets 
 - Bootstrap 3 UI
 - FontAwesome
 - Jade templates (all nicely laid out: head, navigation, footer, etc.)
-- Boilerplate Terms and Privacy pages. **I am not a lawyer**. These have never been reviewed or even **seen** by a lawyer. Use only as a starting point with **your lawyer.**
+- Boilerplate Terms and Privacy pages. Note: **I am not a lawyer**. These have never been reviewed or even **seen** by a lawyer as far as you know. Use them only as a starting point with **your lawyer.**
 - **Administrative Pages**  
   + **Real-time Dashboard**
   + Accounts Listing
@@ -168,8 +168,6 @@ Now every time you make a change to a client component things will be recompiled
 Getting Started
 ---------------
 
-The easiest way to get started is to clone the repository:
-
 ```bash
 # Fetch only the latest commits.
 git clone --depth=1 git@github.com:dstroot/skeleton.git
@@ -183,11 +181,8 @@ bower install
 # Install global dependencies
 npm install -g nodemon gulp
 
-# Start everything up with Gulp
+# Start everything up with Gulp (builds the assets and starts the app with nodemon)
 gulp
-
-# Or, old school
-node app.js
 ```
 
 >:exclamation: But it probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. See below:
@@ -797,7 +792,7 @@ License
 -------
 The MIT License (MIT)
 
-Copyright (c) 2014 Sahat Yalkabov
+Copyright (c) 2014 Dan Stroot
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
