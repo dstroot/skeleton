@@ -22,14 +22,13 @@ So why make a "another framework"?  Basically because I want a playground of my 
 ![Alt](https://lh6.googleusercontent.com/-yP_BBZU10Ss/Uwa6Zxy--rI/AAAAAAAABvY/sblhYlbrnNQ/w891-h720-no/pagespeed.jpg)
 
 
-Frameworks
-----------
+Other Frameworks
+----------------
 
 - [Dozer](http://dozerjs.com/)
 - [Locomotive](http://locomotivejs.org/)
 - [Flatiron](http://flatironjs.org/)
-
-API Only: [Restify](http://mcavage.me/node-restify/)
+- API Only: [Restify](http://mcavage.me/node-restify/)
 
 
 Key descisions to make:
@@ -81,10 +80,6 @@ A few notes on my coding style:
 
 
 
-
-<h4 align="center">Default Theme</h3>
-
-![Alt](https://lh5.googleusercontent.com/-KmlaMLKGCqg/UuWt4MrXzeI/AAAAAAAAD6o/KUucObo33zU/w1170-h860-no/Screenshot+2014-01-26+19.52.03.png)
 
 Table of Contents
 -----------------
@@ -313,8 +308,12 @@ Useful Tools
 - [HTML to Jade converter](http://html2jade.aaron-powell.com) - Extremely valuable when you need to quickly copy and paste HTML snippets from the web.
 - [JavascriptOO](http://www.javascriptoo.com/) - A directory of JavaScript libraries with examples, CDN links, statistics, and videos.
 
-Recommended Design
+Interesting Design
 ------------------
+- [Bootstrap](http://getbootstrap.com/) - Start here.  ;)
+- [Bootstrap Expo](http://expo.getbootstrap.com/) - Examples of Bootstrap based sites.
+- [Wrap Bootstrap](https://wrapbootstrap.com/) - Bootstrap themes and templates
+- [Bootswatch](http://bootswatch.com/) - Bootstrame themes (simple stuff)
 - [Google Bootstrap](http://todc.github.io/todc-bootstrap/) - Google-styled theme for Bootstrap.
 - [Font Awesome Icons](http://fortawesome.github.io/Font-Awesome/icons/) - It's already part of the Hackathon Starter, so use this page as a reference.
 - [Colors](http://clrs.cc) - a nicer color palette for the web.
@@ -326,7 +325,7 @@ Recommended Design
 - [Medium Scroll Effect](http://codepen.io/andreasstorm/pen/pyjEh) - Fade in/out header background image as you scroll.
 - [HTML5UP](http://html5up.net/) - Beautifully designed HTML templates.
 
-Recommended Node.js Libraries
+Interesting Node.js Libraries
 -----------------------------
 - [nodemon](https://github.com/remy/nodemon) - automatically restart node.js server on code change.
 - [geoip-lite](https://github.com/bluesmoon/node-geoip) - get geolocation coordinates from IP address.
@@ -334,7 +333,7 @@ Recommended Node.js Libraries
 - [filesize.js](http://filesizejs.com/) - make file size pretty, e.g. `filesize(265318); // "265.32 kB"`.
 - [Numeral.js](http://numeraljs.com) - a javascript library for formatting and manipulating numbers.
 
-Recommended Client-Side libraries
+Interesting Client-Side libraries
 ---------------------------------
 - [Hover](https://github.com/IanLunn/Hover) - Awesome css3 animations on mouse hover.
 - [platform.js](https://github.com/bestiejs/platform.js) - Get client's operating system name, version, and other useful information.
@@ -346,7 +345,6 @@ Recommended Client-Side libraries
 - [X-editable](http://vitalets.github.io/x-editable/) - Edit form elements inline.
 - [Offline.js](http://github.hubspot.com/offline/docs/welcome/) - Detect when user's internet connection goes offline.
 - [Color Thief](https://github.com/lokesh/color-thief) - Grabs the dominant color or a representative color palette from an image.
-- [Alertify.js](http://fabien-d.github.io/alertify.js/) - Sweet looking alerts and browser dialogs.
 - [select.js](http://github.hubspot.com/select/docs/welcome/) - Styleable select elements.
 - [drop.js](http://github.hubspot.com/drop/docs/welcome/) -  Powerful Javascript and CSS library for creating dropdowns and other floating displays.
 - [scrollReveal.js](https://github.com/julianlloyd/scrollReveal.js) - Declarative on-scroll reveal animations.
@@ -366,14 +364,16 @@ add `app.locals.pretty = true;` to **app.js** with the rest of the Express confi
 
 FAQ
 ---
+
 ### Why do I keep getting `403 Error: Forbidden` on submitting a **POST** request?
-You need to add this hidden input element to your form. This has been added in the
-pull request [#40](https://github.com/sahat/hackathon-starter/pull/40).
+
+You may need to add this hidden input element to your form.
 ```
 input(type='hidden', name='_csrf', value=token)
 ```
 
 ### What is cluster_app.js?
+
 From the [Node.js Documentation](http://nodejs.org/api/cluster.html#cluster_how_it_works):
 > A single instance of Node runs in a single thread. To take advantage of multi-core systems
 > the user will sometimes want to launch a cluster of Node processes to handle the load.
@@ -383,42 +383,8 @@ From the [Node.js Documentation](http://nodejs.org/api/cluster.html#cluster_how_
 for each CPU detected. For the majority of applications serving HTTP requests,
 this is a resounding boon. However, the cluster module is still in experimental stage, therefore it should only be used after understanding its purpose and behavior. To use it, simply run `node cluster_app.js`. **Its use is entirely optional and `app.js` is not tied in any way to it**. As a reminder, if you plan to use `cluster_app.js` instead of `app.js`, be sure to indicate that in `Procfile` if you are deploying your app to Heroku.
 
-### What is this Rails 3.1-style asset pipeline that you mentioned in Features?
-This is how you typically define static files inside HTML, Jade or any template for that matter:
-```jade
-link(href='/css/styles.css', rel='stylesheet')
-script(src='/js/lib/jquery-2.1.0.min.js')
-script(src='/js/lib/bootstrap.min.js')
-script(src='/js/main.js')
-```
-Simple enough right? But wouldn't it be nice to have it just like that in development mode, but when you deploy
-to production, have it minified and concatenated into a single file automatically without any extra effort on you part?
-```jade
-link(href='/css/styles.css', rel='stylesheet')
-script(src='/js/application.js')
-```
-As soon as you start bringing in more JavaScript libraries, the benefits of concatenating and minifying
-JavaScript files will be even greater.
-Using connect-assets library it's as as simple as:
-```jade
-!= css('styles')      // expects public/css/styles.less
-!= js('application')  // expects public/js/application.js
-```
-
-The only thing you need to remember is to define your JavaScript files inside `public/js/application.js` using this
-strange syntax notation (Sprockets-style) borrowed from Rails. I know it's an extra thing to learn
-for someone who has never seen Rails asset pipeline before, but in this case, I think benefits outweigh the costs.
-```js
-//= require lib/jquery-2.1.0.min
-//= require lib/bootstrap.min
-//= require main
-```
-Using this approach, when working in `development` mode, **connect-assets** will load each file individually,
-without minifying or concatenating anything. When you deploy your app, it will run in `production` mode, and so
-**connect-assets** will automatically serve a single concatenated + minified `application.js`. For more
-information see [Sprockets-style concatenation](https://github.com/adunkman/connect-assets/#sprockets-style-concatenation)
-
 ### I am getting MongoDB Connection Error, how do I fix it?
+
 That's a custom error message defined in `app.js` to indicate that there was a connection problem to MongoDB:
 ```js
 mongoose.connection.on('error', function() {
@@ -430,15 +396,18 @@ As the message says, you need to have a MongoDB server running before launching 
 ([Homebrew](http://brew.sh/) on Mac, **apt-get** on Ubuntu, **yum** on Fedora, etc.)
 
 ### I get an error when I deploy my app, why?
+
 Chances are you haven't changed the *Dabatase URI* in `secrets.js`. If `db` is set to `localhost`, it will only work
 on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB
 running on `localhost`. You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** (coming soon) section for more information on how to 
 setup an account and a new database step-by-step with MongoLab.
 
 ### Why Jade instead of Handlebars template engine?
+
 When I first started this project I didn't have any experience with Handlebars. Since then I have worked on Ember.js apps and got myself familiar with the Handlebars syntax. While it is true Handlebars is easier, because it looks like good old HTML, I have no regrets picking Jade over Handlebars. First off, it's the default template engine in Express, so someone who has built Express apps in the past already knows it. Secondly, I find `extends` and `block` to be indispensable, which as far as I know, Handlebars does not have out of the box. And lastly, subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or any non-HAML style for that matter.
 
 ### Why do you have all routes defined in app.js?
+
 For the sake of simplicity. While there might be a better approach,
 such as passing `app` context to each controller as outlined in this
 [blog](http://timstermatic.github.io/blog/2013/08/17/a-simple-mvc-framework-with-node-and-express/),
@@ -451,31 +420,11 @@ models, routes, controllers, etc.
 When working solo on small projects I actually prefer to have everything inside `app.js` as is the case with [this]((https://github.com/sahat/ember-sass-express-starter/blob/master/app.js))
 REST API server.
 
-### I don't need a sticky footer, can I delete it?
-Absolutely. But unlike a regular footer there is a bit more work involved. First, delete `#wrap` and `#footer` ID selectors and `html, body { height: 100%; }` from **styles.less**. Next, delete `#wrap` and `#footer` lines from **layout.jade** (By the way, If no element is specified before the class or id, Jade assumes it's a `div` element). Don't forget to indent everything under `#wrap` to the left once, since this project uses two spaces per block indentation.
+### Can I use Ember, Angular or Backbone with Skeleton?
 
-### Can I use Ember, Angular or Backbone with Hackathon Starter?
-It might be possible, but why would you want to?
-I specifically avoided client-side MV* frameworks in this project to keep things simple.
-There is a big shift in the way you develop apps with Ember, Backbone, Angular
-as opposed to server-side frameworks like Express, Flask, Rails, Django. Not only
-would you need to know how to use Express in this case, but also the client-side framework of your choice,
-which in itself is not a trivial task. And then there is a whole different process
-for authentication with single page applications. If you insist on using
-a client-side framework, it's best if you use a boilerplate of choice for your particular
-client-side framework and just grab the pieces you need from the Hackathon Starter.
+Absolutely!  But things get messy quickly.  In Drywall, several of the pages are Backbone apps.  You can check that out. 
 
-### Why is there no "Forgot Password" during login?
-I started working on it, but quickly realized it should be library's responsibility. It would
-add a lot of extra code to an already hefty boilerplate that people would have to go through.
-That's part of the reason. The main reason is I have never built this feature before,
-and there is no "one true way" to do it if you search the web. I don't
-want to invest a lot of time into it by putting together a quick hack, trying to mimick the way
-others have build this feature. Ideally, I wish there was node.js library that integrates
-well with *passport-local*, but AFAIK it does not exist yet. Even, [Keystone.JS](http://keystonejs.com/) - a node.js CMS does not have
-this feature. I have started working on it, but if it's really that important and you would like to continue
-it, check out the [forgot-password](https://github.com/sahat/hackathon-starter/tree/forgot-password) branch. So far it has a template, GET controller to render that template,
-POST controller to send an email via Nodemailer.
+In here we have a redimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
 
 How It Works (mini guides)
 --------------------------
@@ -919,6 +868,7 @@ TODO: Will be added soon.
 TODO
 ----
 - Pages that require login, should automatically redirect to last attempted URL on successful sign-in.
+- Send a welcome email for new signups.
 
 Contributing
 ------------
