@@ -3,7 +3,7 @@ extends ../layouts/layout
 block content
   .container
     .row
-      .col-sm-5.col-sm-offset-2
+      .col-sm-6.col-sm-offset-1
         .page-header
           h2 Profile Information
         .row
@@ -43,7 +43,7 @@ block content
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-magnet
               | &nbsp;Update Profile
-      .col-sm-3
+      .col-sm-4
         .page-header
           h2 Social Accounts
 
@@ -83,10 +83,27 @@ block content
             i.fa.fa-github.fa-lg.fa-fw
             | &nbsp;Connect GitHub
 
+        br
+        #accordion.panel-group
+          .panel.panel-default
+            .panel-heading
+              h4.panel-title
+                a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
+                  | Delete my account
+            #collapseOne.panel-collapse.collapse
+              .panel-body
+                p You can delete your account anytime.
+                P You can always sign up again if you want to come back!
+                form(action='/account/delete', method='POST')
+                  input.form-control(type='hidden', name='_csrf', value=token)
+                  button.btn.btn-danger(type='submit')
+                    i.fa.fa-trash-o
+                    | &nbsp;Delete my account
+
     .row
-      .col-sm-5.col-sm-offset-2
+      .col-sm-6.col-sm-offset-1
         .page-header
-          h3 Change Password
+          h3 Change Your Password
         form(action='/account/password', method='POST')
           input.form-control(type='hidden', name='_csrf', value=token)
           .form-group
@@ -99,16 +116,3 @@ block content
             button.btn.btn.btn-primary(type='submit')
                 i.fa.fa-keyboard-o
                 | &nbsp;Change Password
-
-    .row
-      .col-sm-5.col-sm-offset-2
-        .page-header
-          h3 Delete Account
-        p You can delete your account anytime.  You can always sign up again if you want to come back!
-        form(action='/account/delete', method='POST')
-          input.form-control(type='hidden', name='_csrf', value=token)
-          button.btn.btn-danger(type='submit')
-            i.fa.fa-trash-o
-            | &nbsp;Delete my account
-        br
-        br

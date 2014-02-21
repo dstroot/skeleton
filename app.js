@@ -159,7 +159,7 @@ app.use(flash());
 app.use(app.router);
 
 // Now setup our static serving from /public
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.maxAge }));
 
 // Assume 404, as no routes responded or static assets found
 
