@@ -18,7 +18,8 @@ var userSchema = new mongoose.Schema({
   password: String,
   type: { type: String, default: 'admin' },
   // EVERYONE'S AN ADMINISTRATOR IN EXAMPLE
-  // DEFAULT TYPE SHOULB BE:
+
+  // DEFAULT TYPE SHOULB BE 'user'!
   // type: { type: String, default: 'user' },
 
   facebook: { type: String, unique: true, sparse: true },

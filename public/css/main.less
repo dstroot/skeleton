@@ -1,46 +1,19 @@
-/**
- * Google Open Sans Font http://www.google.com/fonts/specimen/Open+Sans
- */
-
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
-
-/**
- * Bootstrap http://getbootstrap.com/
- */
-
 @import "bootstrap.less";
-
-/**
- * Animate.css http://daneden.github.io/animate.css
- * You should actually create a custom build
- * to only use what you need - otherwise bloat.
- */
-
-// @import (less) "../lib/animate.css/animate.css";
-
-/**
- * Font Awesome http://fontawesome.io/
- */
-
 @import "../lib/font-awesome/less/font-awesome.less";
-
-/**
- * After importing base frameworks:
- *  - Bootstrap
- *  - Project Font(s)
- *  - Font Awesome
- *  - Animate.css
- *
- *  You add your own boostrap overrides and new styles below:
- */
-
-/**
- * Fonts - Change the base font to Open Sans
- *       - Set path for Font Awesome
- */
-
+// @import (less) "../lib/animate.css/animate.css";
 @fa-font-path: "../lib/font-awesome/fonts";
 @font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
+
+/**
+ * First, import base frameworks:
+ *  - Project Font(s)  http://www.google.com/fonts/specimen/Open+Sans
+ *  - Bootstrap        http://getbootstrap.com/
+ *  - Font Awesome     http://fontawesome.io/
+ *  - Animate.css      http://daneden.github.io/animate.css
+ *
+ *  Now add your own Bootstrap overrides and new styles below:
+ */
 
 /**
  * Colors
@@ -256,7 +229,6 @@ h4, h5, h6,
 }
 /*
  * Minitron
- *
  * Jumbotron-esque page headers
  */
 
@@ -288,10 +260,13 @@ h4, h5, h6,
     padding-top: 60px;
     padding-bottom: 60px;
     font-size: 22px;
-  }
-  .mini-tron h1 {
-    font-size: 45px;
-    line-height: 1;
+    h1 {
+      font-size: 45px;
+      line-height: 1;
+    }
+    p {
+      text-align: center;
+    }
   }
 }
 

@@ -1,10 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
-/**
- * Google Open Sans Font http://www.google.com/fonts/specimen/Open+Sans
- */
-/**
- * Bootstrap http://getbootstrap.com/
- */
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -3785,14 +3779,6 @@ button.close {
     display: none !important;
   }
 }
-/**
- * Animate.css http://daneden.github.io/animate.css
- * You should actually create a custom build
- * to only use what you need - otherwise bloat.
- */
-/**
- * Font Awesome http://fontawesome.io/
- */
 /*!
  *  Font Awesome 4.0.3 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -5108,17 +5094,13 @@ button.close {
   content: "\f196";
 }
 /**
- * After importing base frameworks:
- *  - Bootstrap
- *  - Project Font(s)
- *  - Font Awesome
- *  - Animate.css
+ * First, import base frameworks:
+ *  - Project Font(s)  http://www.google.com/fonts/specimen/Open+Sans
+ *  - Bootstrap        http://getbootstrap.com/
+ *  - Font Awesome     http://fontawesome.io/
+ *  - Animate.css      http://daneden.github.io/animate.css
  *
- *  You add your own boostrap overrides and new styles below:
- */
-/**
- * Fonts - Change the base font to Open Sans
- *       - Set path for Font Awesome
+ *  Now add your own Bootstrap overrides and new styles below:
  */
 /**
  * Colors
@@ -5383,7 +5365,6 @@ h6,
 }
 /*
  * Minitron
- *
  * Jumbotron-esque page headers
  */
 .mini-tron {
@@ -5417,6 +5398,9 @@ h6,
   .mini-tron h1 {
     font-size: 45px;
     line-height: 1;
+  }
+  .mini-tron p {
+    text-align: center;
   }
 }
 /**
