@@ -246,7 +246,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="100">
+<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="200">
 - Visit [PayPal Developer](https://developer.paypal.com/)
 - Log in using your existing PayPal account
 - Click **Applications > Create App** in the navigation bar
@@ -385,39 +385,34 @@ You may need to add this hidden input element to your form.
 input(type='hidden', name='_csrf', value=token)
 ```
 
-### What is cluster_app.js?
+### What is app_cluster.js?
 
 From the [Node.js Documentation](http://nodejs.org/api/cluster.html#cluster_how_it_works):
 > A single instance of Node runs in a single thread. To take advantage of multi-core systems
 > the user will sometimes want to launch a cluster of Node processes to handle the load.
 > The cluster module allows you to easily create child processes that all share server ports.
 
-`cluster_app.js` allows you to take advantage of this feature by forking a process of `app.js`
+`app_cluster.js` allows you to take advantage of this feature by forking a process of `app.js`
 for each CPU detected. For the majority of applications serving HTTP requests,
-this is a resounding boon. However, the cluster module is still in experimental stage, therefore it should only be used after understanding its purpose and behavior. To use it, simply run `node cluster_app.js`. **Its use is entirely optional and `app.js` is not tied in any way to it**. As a reminder, if you plan to use `cluster_app.js` instead of `app.js`, be sure to indicate that in `Procfile` if you are deploying your app to Heroku.
+this is a resounding boon. However, the cluster module is still in experimental stage, therefore it should only be used after understanding its purpose and behavior. To use it, simply run `node app_cluster.js`. **Its use is entirely optional and `app.js` is not tied in any way to it**. As a reminder, if you plan to use `app_cluster.js` instead of `app.js`, be sure to indicate that in `Procfile` if you are deploying your app to Heroku.
 
 ### I am getting MongoDB Connection Error, how do I fix it?
 
-That's a custom error message defined in `app.js` to indicate that there was a connection problem to MongoDB:
-```js
-mongoose.connection.on('error', function() {
-  console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
-});
-```
-As the message says, you need to have a MongoDB server running before launching `app.js`. You can get MongoDB from
-[mongodb.org/downloads](mongodb.org/downloads), or install it via a package manager
-([Homebrew](http://brew.sh/) on Mac, **apt-get** on Ubuntu, **yum** on Fedora, etc.)
+As the message says, you need to have a MongoDB server running before launching `app.js` and a valid URL connection string in `config/config.js`.
+
+You can get MongoDB from [mongodb.org/downloads](mongodb.org/downloads), or install it via a package manager ([Homebrew](http://brew.sh/) on Mac, **apt-get** on Ubuntu, **yum** on Fedora, etc.).
+
+**Even Better:** Setup a free account with [Mongolab](https://mongolab.com/welcome/) and get a free database to develop with.  More below.  
 
 ### I get an error when I deploy my app, why?
 
-Chances are you haven't changed the *Dabatase URI* in `secrets.js`. If `db` is set to `localhost`, it will only work
-on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB
-running on `localhost`. You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** (coming soon) section for more information on how to 
-setup an account and a new database step-by-step with MongoLab.
+Chances are you haven't changed the *Dabatase URI* in `secrets.js`. If `db` is set to `localhost`, it will only work on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB running on `localhost`. 
+
+You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** section for more information on how to setup an account and a new database step-by-step with MongoLab.
 
 ### Why Jade instead of Handlebars template engine?
 
-When I first started this project I didn't have any experience with Handlebars. Since then I have worked on Ember.js apps and got myself familiar with the Handlebars syntax. While it is true Handlebars is easier, because it looks like good old HTML, I have no regrets picking Jade over Handlebars. First off, it's the default template engine in Express, so someone who has built Express apps in the past already knows it. Secondly, I find `extends` and `block` to be indispensable, which as far as I know, Handlebars does not have out of the box. And lastly, subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or any non-HAML style for that matter.
+Subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or any non-HAML style for that matter.  I like it.
 
 ### Why do you have all routes defined in app.js?
 
@@ -439,91 +434,25 @@ Absolutely!  But things get messy quickly.  In Drywall, several of the pages are
 
 In here we have a redimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
 
-How It Works (mini guides)
---------------------------
-This section is intended for giving you a detailed explanation about
-how a particular functionality works. Maybe you are just curious about
-how it works, or maybe you are lost and confused while reading the code,
-I hope it provides some guidance to you.
-
-###:rose: Custom HTML and CSS Design 101
-[HTML5 UP](http://html5up.net/) has many beautiful templates that you can download for free, like the ones you see below:
-![Alt](http://html5up.net/uploads/previews/6742121165068310.jpg)
-![Alt](http://html5up.net/uploads/previews/9257227011867312.jpg)
-
-When you download the ZIP file, it will come with *index.html*, *images*, *css* and *js* folders. So, how do you
-integrate it with Hackathon Starter? Hackathon Starter uses Bootstrap CSS framework, but these templates do not.
-Trying to use both CSS files at the same time will likely result in undesired effects.
-
-:exclamation: **Note:** Using the custom templates approach, you should understand that you cannot reuse any of the views I have created: layout, home page, api browser, login, signup, account management, contact. Those views were built using Bootstrap grid and styles. You will have to manually update the grid using a different syntax provided in the template. **Having said that, you can mix and match if you want to do so: Use Bootstrap for main app interface, and a custom template for a landing page.**
-
-Let's start from the beginning. For this example I will use [Escape Velocity](http://html5up.net/escape-velocity/) template:
-![Alt](http://html5up.net/uploads/previews/6330653905846315.jpg)
-
-**Note**: For the sake of simplicity I will only consider `index.html`, and skip `left-sidebar.html`,
-`no-sidebar.html`, `right-sidebar.html`.
-
-Move all javascript files from `html5up-escape-velocity/js` to `public/js`. Then move all css files from `html5up-escape-velocity/css` to `public/css`. And finally, move all images from `html5up-escape-velocity/images` to `public/images` (You could move it to the existing **img** folder, but then you would have to manually change every `img` reference). Grab the contents of `index.html` and paste it into [HTML To Jade](http://html2jade.aaron-powell.com/).
-
-Create a new file `escape-velocity.jade` and paste the Jade markup there. Change `!!! 5` to `doctype html`. It's a fairly recent
-change in **Jade** language, but http://html2jade.aaron-powell.com hasn't caught up to this change yet.
-
-Let's see how it looks. Create a new controller **escapeVelocity** inside `controllers/home.js`:
-
-```js
-exports.escapeVelocity = function(req, res) {
-  res.render('escape-velocity', {
-    title: 'Landing Page'
-  });
-};
-```
-
-And then create a route in `app.js`. I placed it right after the index controller:
-```js
-app.get('/escape-velocity', homeController.escapeVelocity);
-```
-
-Restart the server (if you are not using **nodemon**), then you should see the new template at [http://localhost:3000/escape-velocity](http://localhost:3000/escape-velocity).
-
-I will stop here, but if you would like to use this template as more than just a single page, take a look at how these Jade templates work: `layout.jade` - base template, `index.jade` - home page, `partials/navigation.jade` - Bootstrap navbar, `partials/footer.jade` - sticky footer. You will have to manually break it apart into smaller pieces. Figure out which part of the template you want to keep the same on all pages - that's your new `layout.jade`.
-Then, each page that changes, be it `index.jade`, `about.jade`, `contact.jade`
-will be embedded in the new `layout.jade` via `block content`.
-
-This is a lengthy process, I know, and templates you get from outside **HTML5**UP,
-will have yet another grid system. That's why I chose Bootstrap CSS for the Hackathon Starter.
- Most people are familiar with Bootstrap, it's easy to get started, very extendable.
- You can also buy a Bootstrap theme drop it in into your project, and everything looks great without a single change to your markup or CSS class names. However, if you would like to go with a completely custom design, there you have it!
-
-<hr>
-
 ###:bulb: How do flash messages work in this project?
-Flash messages allow you to display a message at the end of the request and access
-it on next request and only next request. For instance, on a failed login attempt, you would
-display an alert with some error message, but as soon as you refresh that page or visit a different
-page and come back to the login page, that error message will be gone. It is only displayed once.
-This project uses *express-flash* module for flash messages. And that
-module is built on top of *connect-flash*, which is what I used in
-this project initially. With *express-flash* you don't have to
-explicity send a flash message to every view inside `res.render()`.
-All flash messages are available in your views via `messages` object by default,
-thanks to *express-flash*.
+
+Flash messages allow you to display a message at the end of the request and access it on next request and only next request. For instance, on a failed login attempt, you would display an alert with some error message, but as soon as you refresh that page or visit a different page and come back to the login page, that error message will be gone. It is only displayed once.
+
+This project uses *express-flash* module for flash messages. And that module is built on top of *connect-flash*, which is what I used in this project initially. With *express-flash* you don't have to explicity send a flash message to every view inside `res.render()`. All flash messages are available in your views via `messages` object by default, thanks to *express-flash*.
 
 Flash messages have a two-step process. You use `req.flash('errors', { msg: 'Error messages goes here' }`
 to create a flash message in your controllers, and then display them in your views:
+
 ```jade
 if messages.errors
   .alert.alert-danger.animated.fadeIn
     for error in messages.errors
       div= error.msg
 ```
-In the first step, `'errors'` is the name of a flash message, which should match the
-name of the property on `messages` object in your views. You place alert messages
-inside `if message.errors` because you don't want to show them flash messages are actually present.
-The reason why you pass an error like `{ msg: 'Error messages goes here' }` instead
-of just a string - `'Error messages goes here'`, is for the sake of consistency.
-To clarify that, *express-validator* module which is used for validating and sanitizing user's input,
-returns all errors as an array of objects, where each object has a `msg` property with a message
-why an error has occured. Here is a more general example of what express-validator returns when there are errors present:
+
+In the first step, `'errors'` is the name of a flash message, which should match the name of the property on `messages` object in your views. You place alert messages inside `if message.errors` because you don't want to show them flash messages are actually present.
+
+The reason why you pass an error like `{ msg: 'Error messages goes here' }` instead of just a string - `'Error messages goes here'`, is for the sake of consistency. To clarify that, *express-validator* module which is used for validating and sanitizing user's input, returns all errors as an array of objects, where each object has a `msg` property with a message why an error has occured. Here is a more general example of what express-validator returns when there are errors present:
 
 ```js
 [
@@ -533,18 +462,17 @@ why an error has occured. Here is a more general example of what express-validat
 ```
 
 To keep consistent with that style, you should pass all flash messages
-as `{ msg: 'My flash message' }` instead of a string. Otherwise you will just see an alert box
-without an error message. That is because, in **partials/flash.jade** template it will try to output
-`error.msg` (i.e. `"My flash message".msg`), in other words it will try to call a `msg` method on a *String* object,
-which will return *undefined*. Everything I just mentioned about errors, also applies
-to "info" and "success" flash messages, and you could even create a new one yourself, such as:
+as `{ msg: 'My flash message' }` instead of a string. Otherwise you will just see an alert box without an error message. That is because, in **partials/flash.jade** template it will try to output `error.msg` (i.e. `"My flash message".msg`), in other words it will try to call a `msg` method on a *String* object,
+which will return *undefined*. Everything I just mentioned about errors, also applies to "info" and "success" flash messages, and you could even create a new one yourself, such as:
 
 **Data Usage Controller (Example)**
+
 ```
 req.flash('warning', 'You have exceeded 90% of your data usage');
 ```
 
 **User Account Page (Example)**
+
 ```jade
 if messages.warning
   .alert.alert-warning.animated.fadeIn
@@ -554,14 +482,10 @@ if messages.warning
 
 `partials/flash.jade` is a partial template that contains how flash messages
 are formatted. If you don't like the *fadeIn* animation, try something like
-*flipInX* (refer to [animate.css](http://daneden.github.io/animate.css/)), or just
-delete `.animated.fadeIn` from alerts if you don't want any animations. Or if you
-want to customize your flash messages by displaying ✔ on success flash and ✗ on error
-flash, this is the place where you would do all those customizations. Previously, flash
-messages were scattered throughout each view that used flash messages
-(contact, login, signup, profile), but now, thankfully it is uses a *DRY* approach.
+*flipInX* (refer to [animate.css](http://daneden.github.io/animate.css/)), or just delete `.animated.fadeIn` from alerts if you don't want any animations. Or if you want to customize your flash messages by displaying ✔ on success flash and ✗ on error flash, this is the place where you would do all those customizations. Previously, flash messages were scattered throughout each view that used flash messages (contact, login, signup, profile), but now, thankfully it is uses a *DRY* approach.
 
 The flash messages partial template is *included* in the `layout.jade`, along with footer and navigation.
+
 ```jade
 body
   #wrap
@@ -573,24 +497,20 @@ body
 ```
 
 If you have any further questions about flash messages,
-please feel free to open an issue and I will update this mini-guide accordingly,
-or send a pull request if you  would like to include something that I missed.
+please feel free to open an issue and I will update this mini-guide accordingly, or send a pull request if you  would like to include something that I missed.
 
 <hr>
 
 ###:snowman: How do I create a new page?
-A more correct way to be to say "How do I create a route". The main file `app.js` contains all the routes.
-Each route has a callback function (aka controller) associated with it. Sometimes you will see 3 or more arguments
-to routes. In cases like that, the first argument is still a URL string, the middle arguments
-are what's called middleware. Think of middleware as a door. If this door prevents you from
-continuing forward, well, you won't get to your callback function (aka controller). One such example is authentication.
+
+A more correct way to be to say "How do I create a route". The main file `app.js` contains all the routes. Each route has a callback function (aka controller) associated with it. Sometimes you will see 3 or more arguments
+to routes. In cases like that, the first argument is still a URL string, the middle arguments are what's called middleware. Think of middleware as a door. If this door prevents you from continuing forward, well, you won't get to your callback function (aka controller). One such example is authentication.
 
 ```js
 app.get('/account', passportConf.isAuthenticated, userController.getAccount);
 ```
 
-It always goes from left to right. A user visits `/account` page. Then `isAuthenticated` middleware
-checks if you are authenticated:
+It always goes from left to right. A user visits `/account` page. Then `isAuthenticated` middleware checks if you are authenticated:
 
 ```js
 exports.isAuthenticated = function(req, res, next) {
@@ -599,9 +519,7 @@ exports.isAuthenticated = function(req, res, next) {
 };
 ```
 
-If you are authenticated, you let this visitor pass through your "door" by calling `return next();`. It then proceeds to the
-next middleware until it reaches the last argument which is a callback function that usually renders a template,
-or responds with a JSON data, if you are building a REST API. But in this example it simply renders a page and nothing more:
+If you are authenticated, you let this visitor pass through your "door" by calling `return next();`. It then proceeds to the next middleware until it reaches the last argument which is a callback function that usually renders a template, or responds with a JSON data, if you are building a REST API. But in this example it simply renders a page and nothing more:
 
 ```js
 exports.getAccount = function(req, res) {
@@ -611,19 +529,19 @@ exports.getAccount = function(req, res) {
 };
 ```
 
-Express.js has `app.get`, `app.post`, `app.put`, `app.del`, but for the most part you will only use the first two.
-If you just want to display a page, then use `GET`, if you are submitting a form, sending a file then use `POST`.
+Express.js has `app.get`, `app.post`, `app.put`, `app.del`, but for the most part you will only use the first two. If you just want to display a page, then use `GET`, if you are submitting a form, sending a file then use `POST`.
 
-Here is a typical workflow of adding new routes to your application. Let's say we are building
-a page that lists all books from database.
+Here is a typical workflow of adding new routes to your application. Let's say we are building a page that lists all books from database.
 
 **Step 1.** Start by defining a route.
+
 ```js
 app.get('/books', bookController.getBooks);
 
 ```
 
 **Step 2.** Create a new controller file called `book.js`.
+
 ```js
 /**
  * GET /books
@@ -638,11 +556,13 @@ exports.getBooks = function(req, res) {
 ```
 
 **Step 3.** Import that controller in `app.js`.
+
 ```js
 var bookController = require('./controllers/book');
 ```
 
 **Step 4.** Create `books.jade` template.
+
 ```jade
 extends layout
 
@@ -665,39 +585,25 @@ app.get('/books', function(req, res) {
 });
 ```
 
-Sure, it's simpler, but as soon as you pass 1000 lines of code in `app.js` it becomes a little difficult to navigate the file.
-I mean, the whole point of this boilerplate project was to separate concerns, so you could
-work with your teammates without running into *MERGE CONFLICTS*. Imagine you have 4 developers
-working on a single `app.js`, I promise you it won't be fun resolving merge conflicts all the time.
-If you are the only developer then it's fine. But as I said, once it gets up to a certain LoC size, it becomes
-difficult to maintain everything in a single file.
+Sure, it's simpler, but as soon as you pass 1000 lines of code in `app.js` it becomes a little difficult to navigate the file. I mean, the whole point of this boilerplate project was to separate concerns, so you could work with your teammates without running into *MERGE CONFLICTS*. Imagine you have 4 developers
+working on a single `app.js`, I promise you it won't be fun resolving merge conflicts all the time.If you are the only developer then it's fine. But as I said, once it gets up to a certain LoC size, it becomes difficult to maintain everything in a single file.
 
 That's all there is to it. Express.js is super simple to use.
 Most of the time you will be dealing with other APIs to do the real work:
-[Mongoose](http://mongoosejs.com/docs/guide.html) for querying database, socket.io for sending and receiving messages over websockets,
-sending emails via [Nodemailer](http://www.nodemailer.com/), form validation using [express-validator](https://github.com/ctavan/express-validator) library,
+[Mongoose](http://mongoosejs.com/docs/guide.html) for querying database, socket.io for sending and receiving messages over websockets, sending emails via [Nodemailer](http://www.nodemailer.com/), form validation using [express-validator](https://github.com/ctavan/express-validator) library,
 parsing websites using [Cheerio](https://github.com/MatthewMueller/cheerio), and etc.
 
 <hr>
 
 ###:dizzy: How do I use Socket.io with Hackathon Starter?
-[Dan Stroot](https://github.com/dstroot) submitted an excellent [pull request](https://github.com/dstroot/hackathon-starter/commit/0a632def1ce8da446709d92812423d337c977d75) that adds a real-time dashboard with socket.io.
-And as  much as I'd like to add it to the project, I think it violates one of the main
-principles of the Hackathon Starter:
-> When I started this project, my primary focus was on simplicity and ease of use.
-> I also tried to make it as generic and reusable as possible to cover most use cases of
-> hackathon web apps, **without being too specific**.
 
-When I need to use socket.io, I **really** need it, but most of the time - I don't. But more
-importantly, websockets support is still experimental on most hosting providers. As of October 2013,
 Heroku supports websockets, but not until you opt-in by running this command:
 
 ```js
 heroku labs:enable websockets -a myapp
 ```
 
-And what if you are deploying to OpenShift? They do support websockets, but it is currently in a
-preview state. So, for OpenShift you would need to change the socket.io connect URI to the following:
+And what if you are deploying to OpenShift? They do support websockets, but it is currently in a preview state. So, for OpenShift you would need to change the socket.io connect URI to the following:
 
 ```js
 var socket = io.connect('http://yoursite-namespace.rhcloud.com:8000');
