@@ -20,7 +20,7 @@ var config            = {};
  */
 
 config.port           = process.env.PORT || 3000;
-config.cryptoKey      = process.env.CRYPTOKEY || '';
+config.cryptoKey      = process.env.CRYPTOKEY || 'iAmaLarGeANdloNgkEy';
 
 /**
  * Logging Configuration
@@ -34,15 +34,15 @@ config.logfilename    = 'skeleton.log';
  */
 
 config.mongodb        = {};
-config.mongodb.url    = process.env.MONGODB_URL || '';
+config.mongodb.url    = process.env.MONGODB_URL || 'localhost';
 
 /**
  * Session Configuration
  */
 
 config.session        = {};
-config.session.key    = process.env.SESSION_KEY || '';
-config.session.secret = process.env.SESSION_SECRET || '';
+config.session.key    = process.env.SESSION_KEY || 'sid';
+config.session.secret = process.env.SESSION_SECRET || 'myskeletonsecret';
 
 /**
  * TODO: Throttle Login Attempts
@@ -59,13 +59,13 @@ config.loginAttempts.expires      = '20m';
 
 // Who are we sending email as?
 config.smtp                       = {};
-config.smtp.name                  = process.env.SMTP_FROM_NAME || '';
-config.smtp.address               = process.env.SMTP_FROM_ADDRESS || '';
+config.smtp.name                  = process.env.SMTP_FROM_NAME || 'Skeleton';
+config.smtp.address               = process.env.SMTP_FROM_ADDRESS || 'skeleton@skeleton.com';
 
 // How are we sending it?
 config.gmail                      = {};
-config.gmail.user                 = process.env.SMTP_USERNAME || '';
-config.gmail.password             = process.env.SMTP_PASSWORD || '';
+config.gmail.user                 = process.env.SMTP_USERNAME || 'you@gmail.com';
+config.gmail.password             = process.env.SMTP_PASSWORD || 'appspecificpassword';
 
 /**
  * API Keys

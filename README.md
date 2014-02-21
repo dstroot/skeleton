@@ -9,35 +9,35 @@ Skeleton: A **complete framework** for building **Node.js** web applications.
 
 ![Alt](https://lh6.googleusercontent.com/-uKeCLpArf-8/UwashLnJ4gI/AAAAAAAABvg/frUvl_qroCM/w951-h891-no/Skeleton.jpg)
 
-There are many excellent Node/Express/Backbone frameworks out there. I have played with some and contributed to a few of them. Since there is really no one "right" way to do things you kind of have to explore.  Once I did that I found that none of them were "just right" as Goldilocks would say. So I built this one! 
+There are many excellent Node/Express/Mongo frameworks out there. I have played with many, and contributed to a few of them. Since there is really no one "right" way to do things you kind of have to explore.  Once I did that I found that none of them were "just right" as Goldilocks would say. So I built this one! 
 
-I borrowed heavily from [Drywall](https://github.com/jedireza/drywall) and [Hackathon-starter](https://github.com/sahat/hackathon-starter). The reason is third party OAUTH authentication is painful. Passport helps tremendously but there are not many good examples of how to use it. Both of these frameworks really show how it's done. Both are actively maintained and are really great starting points. I recommend either of them **highly**. 
+I borrowed heavily from [Hackathon-starter](https://github.com/sahat/hackathon-starter) and [Drywall](https://github.com/jedireza/drywall). The reason is third party OAUTH authentication is painful. [Passportjs](http://passportjs.org/) helps tremendously but there are not many good examples of how to use it. Both of these frameworks really show how it's done. Both are actively maintained and are really great starting points. I recommend either of them **highly**. 
 
-Of the two, Drywall is more sophisticated. It has an extensive User/Account/Roles system to handle different types of accounts and account permissions.  It also has a very cool Administration area. In addition, the client side uses Backbone.  Overall this framework has some GREAT stuff in it.  It's just maybe a little too big/rich if you just want to start building a simple site.
+Of the two, Drywall is more sophisticated. It has an extensive User/Account/Roles system to handle different types of accounts and account permissions.  It also has a very cool Administration area. In addition, the client side uses Backbone.  This framework allows for unique scripts and css on a per page basis - nice! Overall this framework has some GREAT stuff in it.  It's just maybe a little too big/rich if you just want to start building a simple site.
 
-This brings us to Hackathon-starter. This is GREAT site to get started with and has many outstanding API integrations as well as the authentication all built out. It really lives up to it's billing.
+This brings us to Hackathon-starter. This is GREAT site to get started with and has many outstanding API integrations as well as the authentication all built out. It really lives up to it's billing.  It was easier to build up from here rather than take stuff out of Drywall.
 
-### Other Frameworks to check out
+#### Other Frameworks to check out
 
 - [Dozer](http://dozerjs.com/)
 - [Locomotive](http://locomotivejs.org/)
 - [Flatiron](http://flatironjs.org/)
 - API Only: [Restify](http://mcavage.me/node-restify/)
 
-So why make a "another framework"?  Basically because I want a playground of my own **and** you might find something interesting in here!
+So why offer "yet another framework"?  Basically because I want a playground of my own **and** you might find something interesting in here!
 
 Features
 --------
 - **Local Authentication** using Email and Password
 - **OAuth 1.0a Authentication** via Twitter
 - **OAuth 2.0 Authentication** via Facebook, Google or GitHub
-- MVC Project Structure
+- MVC project structure (in my own style - "Views" are the Jade Templates, "Models" are the Mongo/Mongoose models, and "Controllers" are the glue for routing, page logic and data access via the models.)
 - Node.js clusters support
 - Gulp.js build system
 - LESS stylesheets 
 - Bootstrap 3 UI
 - FontAwesome
-- Jade templates (all laid out: head, navigation, footer, etc.)
+- Jade templates (all nicely laid out: head, navigation, footer, etc.)
 - Boilerplate Terms and Privacy pages. **I am not a lawyer**. These have never been reviewed or even **seen** by a lawyer. Use only as a starting point with **your lawyer.**
 - **Administrative Pages**  
   + **Real-time Dashboard**
@@ -49,24 +49,31 @@ Features
   + Link multiple OAuth strategies to one account
   + Delete Account
   + Password Reset
-- **API Examples**: Facebook, Foursquare, Last.fm, Tumblr, Twitter, PayPal, etc.
+- **API Examples**: Facebook, Foursquare, Tumblr, Twitter, PayPal, etc.
 - Contact Form
 
 Oh, and it's pretty optimized due to the Gulp build pipeline.  This is running on one drone at Nodejitsu ($9/mo!):
 
 ![Alt](https://lh3.googleusercontent.com/-8hydR9h7vs8/UwbLLLSBtPI/AAAAAAAABwA/dgpiz1Ml3Is/w850-h627-no/pagespeed.jpg)
 
-
-
-
-
-Key descisions to make:
-
-CSS Processing: Less vs. Sass vs. ...
-HTML Templating: EJS vs. Moustache vs. Handlebars vs. Jade vs ...
-Database: Mongo vs. Couch vs. ...
-How to build out authentication (much harder that you think)
-How to organize your code
+Table of Contents
+-----------------
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Obtaining API Keys](#obtaining-api-keys)
+- [Project Structure](#project-structure)
+- [Useful Tools](#useful-tools)
+- [Recommended Design](#recommended-design)
+- [Recommended Node.js Libraries](#recommended-nodejs-libraries)
+- [Recommended Client-Side Libraries](#recommended-client-side-libraries)
+- [Pro Tips](#pro-tips)
+- [FAQ](#faq)
+- [How It Works](#how-it-works-mini-guides)
+- [Deployment](#deployment)
+- [TODO](#todo)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Comparision
 
@@ -106,29 +113,6 @@ A few notes on my coding style:
 - I use a decent amount of whitespace for the same reason. 
 - Oh, and I like my opening braces on the same line, not a new line.
 
-
-
-
-
-Table of Contents
------------------
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
-- [Obtaining API Keys](#obtaining-api-keys)
-- [Project Structure](#project-structure)
-- [Useful Tools](#useful-tools)
-- [Recommended Design](#recommended-design)
-- [Recommended Node.js Libraries](#recommended-nodejs-libraries)
-- [Recommended Client-Side Libraries](#recommended-client-side-libraries)
-- [Pro Tips](#pro-tips)
-- [FAQ](#faq)
-- [How It Works](#how-it-works-mini-guides)
-- [Deployment](#deployment)
-- [TODO](#todo)
-- [Contributing](#contributing)
-- [License](#license)
-
 Features
 --------
 - **Local Authentication** using Email and Password
@@ -165,11 +149,10 @@ I highly recommend watching [Node.js and Express 101](http://www.youtube.com/wat
 
 Gulp build system
 -------------------
-<p align="center">
-  <a href="http://gulpjs.com">
-    <img height="194" width="98" src="https://raw.github.com/gulpjs/artwork/master/gulp.png"/>
-  </a>
-</p>
+
+<a href="http://gulpjs.com">
+  <img width="50" src="https://raw.github.com/gulpjs/artwork/master/gulp.png"/>
+</a>
 
 Many people use Express.js middleware to build assets, however I generally like a seperate build system like Grunt or Gulp.
 
@@ -189,29 +172,29 @@ The easiest way to get started is to clone the repository:
 
 ```bash
 # Fetch only the latest commits.
-git clone --depth=1 git@github.com:sahat/hackathon-starter.git my-project
+git clone --depth=1 git@github.com:dstroot/skeleton.git
 
-cd my-project
+cd skeleton
 
-# Install NPM dependencies
+# Install dependencies
 npm install
 bower install
 
+# Install global dependencies
+npm install -g nodemon gulp
+
+# Start everything up with Gulp
+gulp
+
+# Or, old school
 node app.js
 ```
 
->:exclamation: **Note**: I strongly recommend installing nodemon `sudo npm install -g nodemon`.
->It will monitor for any changes in your node.js
->application and automatically restart the server. Once installed, instead of `node app.js` use `nodemon app.js`.
->It is a big time saver in the long run.
-
-Next up, if you want to use any of the APIs or OAuth authentication methods, you will need to obtain
-appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will
-need to go through each provider to generate new credentials.
+>:exclamation: But it probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. See below:
 
 Obtaining API Keys
 ------------------
-<img src="http://images.google.com/intl/en_ALL/images/srpr/logo6w.png" width="200">
+<img src="http://images.google.com/intl/en_ALL/images/srpr/logo6w.png" width="100">
 - Visit [Google Cloud Console](https://cloud.google.com/console/project)
 - Click **CREATE PROJECT** button
 - Enter *Project Name*, then click **CREATE**
@@ -226,7 +209,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="http://www.doit.ba/img/facebook.jpg" width="200">
+<img src="http://www.doit.ba/img/facebook.jpg" width="100">
 - Visit [Facebook Developers](https://developers.facebook.com/)
 - Click **Apps > Create a New App** in the navigation bar
 - Enter *Display Name*, then choose a category, then click **Create app**
@@ -238,7 +221,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://github.global.ssl.fastly.net/images/modules/logos_page/GitHub-Logo.png" width="200">
+<img src="https://github.global.ssl.fastly.net/images/modules/logos_page/GitHub-Logo.png" width="100">
 - Go to [Account Settings](https://github.com/settings/profile)
 - Select **Applications** from the sidebar
 - Then inside **Developer applications** click on **Register new application**
@@ -249,7 +232,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://g.twimg.com/Twitter_logo_blue.png" width="100">
+<img src="https://g.twimg.com/Twitter_logo_blue.png" width="50">
 - Sign in at [https://dev.twitter.com](https://dev.twitter.com/)
 - From the profile picture dropdown menu select **My Applications**
 - Click **Create a new application**
@@ -263,7 +246,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="200">
+<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="100">
 - Visit [PayPal Developer](https://developer.paypal.com/)
 - Log in using your existing PayPal account
 - Click **Applications > Create App** in the navigation bar
@@ -274,7 +257,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://www.dropboxatwork.com/wp-content/uploads/2013/02/foursquare-logo.png" width="200">
+<img src="https://www.dropboxatwork.com/wp-content/uploads/2013/02/foursquare-logo.png" width="100">
 - Go to [foursquare for Developers](https://developer.foursquare.com/)
 - Click on **My Apps** in the top menu
 - Click the **Create A New App** button
@@ -285,7 +268,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="http://www.athgo.org/ablog/wp-content/uploads/2013/02/tumblr_logo.png" width="200">
+<img src="http://www.athgo.org/ablog/wp-content/uploads/2013/02/tumblr_logo.png" width="100">
 - Go to http://www.tumblr.com/oauth/apps
 - Once signed in, click **+Register application**
 - Fill in all the details
@@ -295,7 +278,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="http://www.outofoursystem.com/wp-content/uploads/2012/06/steam-logo-white.jpg" width="200">
+<img src="http://www.outofoursystem.com/wp-content/uploads/2012/06/steam-logo-white.jpg" width="100">
 - Go to http://steamcommunity.com/dev/apikey
 - Sign in with your existing Steam account
 - Enter your *Domain Name*, then and click **Register**
