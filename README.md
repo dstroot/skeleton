@@ -17,18 +17,47 @@ Of the two, Drywall is more sophisticated. It has an extensive User/Account/Role
 
 This brings us to Hackathon-starter. This is GREAT site to get started with and has many outstanding API integrations as well as the authentication all built out. It really lives up to it's billing.
 
-So why make a "another framework"?  Basically because I want a playground of my own **and** you might find something interesting in here!
-
-![Alt](https://lh6.googleusercontent.com/-yP_BBZU10Ss/Uwa6Zxy--rI/AAAAAAAABvY/sblhYlbrnNQ/w891-h720-no/pagespeed.jpg)
-
-
-Other Frameworks
-----------------
+### Other Frameworks to check out
 
 - [Dozer](http://dozerjs.com/)
 - [Locomotive](http://locomotivejs.org/)
 - [Flatiron](http://flatironjs.org/)
 - API Only: [Restify](http://mcavage.me/node-restify/)
+
+So why make a "another framework"?  Basically because I want a playground of my own **and** you might find something interesting in here!
+
+Features
+--------
+- **Local Authentication** using Email and Password
+- **OAuth 1.0a Authentication** via Twitter
+- **OAuth 2.0 Authentication** via Facebook, Google or GitHub
+- MVC Project Structure
+- Node.js clusters support
+- Gulp.js build system
+- LESS stylesheets 
+- Bootstrap 3 UI
+- FontAwesome
+- Jade templates (all laid out: head, navigation, footer, etc.)
+- Boilerplate Terms and Privacy pages. **I am not a lawyer**. These have never been reviewed or even **seen** by a lawyer. Use only as a starting point with **your lawyer.**
+- **Administrative Pages**  
+  + **Real-time Dashboard**
+  + Accounts Listing
+- **Account Management**
+  + Gravatar
+  + Profile Details
+  + Change Password
+  + Link multiple OAuth strategies to one account
+  + Delete Account
+  + Password Reset
+- **API Examples**: Facebook, Foursquare, Last.fm, Tumblr, Twitter, PayPal, etc.
+- Contact Form
+
+Oh, and it's pretty optimized due to the Gulp build pipeline.  This is running on one drone at Nodejitsu ($9/mo!):
+
+![Alt](https://lh3.googleusercontent.com/-8hydR9h7vs8/UwbLLLSBtPI/AAAAAAAABwA/dgpiz1Ml3Is/w850-h627-no/pagespeed.jpg)
+
+
+
 
 
 Key descisions to make:
@@ -324,6 +353,7 @@ Interesting Design
 - [Creative Link Effects](http://tympanus.net/Development/CreativeLinkEffects/) - Beautiful link effects in CSS.
 - [Medium Scroll Effect](http://codepen.io/andreasstorm/pen/pyjEh) - Fade in/out header background image as you scroll.
 - [HTML5UP](http://html5up.net/) - Beautifully designed HTML templates.
+- [Codrops](http://tympanus.net/codrops/) - excellent design tutorials
 
 Interesting Node.js Libraries
 -----------------------------
