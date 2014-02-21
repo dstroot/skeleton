@@ -40,7 +40,7 @@ Thumbs.db
 ###################
 .bower-cache/
 .bower-registry/
-public/lib/
+#public/lib/
 
 # Compiled assets
 ###################
