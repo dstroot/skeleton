@@ -1,6 +1,65 @@
 Skeleton [![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) [![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 =================
 
+Skeleton: A **Complete Framework** for **Node.js** web applications.
+
+**Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
+
+![Alt](https://lh6.googleusercontent.com/-uKeCLpArf-8/UwashLnJ4gI/AAAAAAAABuU/WKEz8F5VXvY/w951-h891-no/Skeleton.jpg)
+
+There are many excellent Node/Express/Backbone frameworks out there. I have played with some and contributed to a few of them. Since there is really no one "right" way to do things you kind of have to explore.  Once I did that I found that none of them were "just right" as Goldilocks would say. So I built this one! 
+
+I borrowed heavily from Drywall and Hackathon-starter. The reason being that third party OAUTH authentication is painful. Passport helps tremendously but there are not many good examples of how to use it. Both of these frameworks really show how it's done. Both are actively maintained and are really great starting points. I recommend either of them highly. 
+
+Of the two Drywall is more sophisticated. It has an extensive User/Account/Roles system to handle different types of accounts and account permissions.  It also has a very cool Administration area with lots of very cool functionality. In addition the client side uses Backbone.  Overall this framework has some GREAT stuff in it.  It's just a little too big/rich if you just want to start building a simple site.
+
+This brings us to Hackathon-starter. This is GREAT site to get started with and has many outstanding API integrations as well as the authentication all built out. It really lives up to it's billing.
+
+Key descisions to make:
+
+CSS Processing: Less vs. Sass vs. ...
+HTML Templating: EJS vs. Moustache vs. Handlebars vs. Jade vs ...
+Database: Mongo vs. Couch vs. ...
+How to build out authentication (much harder that you think)
+How to organize your code
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Comparision
+
+| Feature          | Skeleton       | Drywall       | Hackathon-starter |
+| -------------    | -------------- | ------------- | -----------       |
+| Mail-enabled     | Nodemailer     | Emailjs       | Nodemailer        |
+| UI Framework     | Bootstrap      | Bootstrap     | Bootstrap         |
+| Build System     | Gulp           | Grunt         | Connect-Assets    |
+| Dashboard        | Yes/Real-time  | Extensive     | Instructions      |
+| API Examples     | Yes            | No            | Grandaddy!        |
+| Package Mgmt     | NPM/Bower      | NPM/Bower     | NPM               |
+| Code Linting     | JSHint         | JSHINT        | No                |
+| Code Style Check | JSCS           | No            | No                |
+| Testing          | No             | No            | No                |
+
+| Authentication   | Skeleton        | Drywall        | Hackathon-starter |
+| ---------------- | --------------- | -------------- | ----------------- |
+| Local            | Yes             | Yes            | Yes               |
+| Facebook         | Yes             | Yes            | Yes               |
+| Twitter          | Yes             | Yes            | Yes               |
+| Github           | Yes             | Yes            | Yes               |
+| Google           | Yes             | No             | Yes               |
+
+
+
+
 A few notes on my coding style: 
 
 - I like braces and use them always, even for single-line if statements and the like. 
@@ -26,9 +85,7 @@ interested in **Sign in with Google** authentication and nothing else.
 
 Chances are, you might not need all 4 types of OAuth 1.0a/OAuth2 authentication methods, or all 9 API examples. Sadly, there is no step-by-step wizard to configure the boilerplate code just for your use case. So, use what you need, simply delete what you don't need.
 
-<h4 align="center">Flatly Bootstrap Theme</h3>
 
-![Alt](https://lh6.googleusercontent.com/-NikjFtdyOq8/UsCv7URplAI/AAAAAAAADrE/a417u0cZU7Y/w1278-h958-no/Screenshot+2013-12-29+18.27.10.png)
 
 <h4 align="center">Default Theme</h3>
 

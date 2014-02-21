@@ -41,12 +41,12 @@ var app     = express(),
 
 if ( config.logging ) {
   winston.add(winston.transports.File, { filename: config.logfilename });
+  // TODO: Logging in production should be directed to a logging service
+  // such as loggly.com or to a log server or database.
 }
-// Turn off Winston Console Logging, we will use Express instead
-winston.remove(winston.transports.Console);
 
-// TODO: Logging in production should be directed to a logging service
-// such as loggly.com or to a log server or database.
+// Turn off Winston console logging, we will use Express instead
+winston.remove(winston.transports.Console);
 
 /**
  * Configure Database
