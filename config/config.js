@@ -14,13 +14,7 @@
  */
 
 var config            = {};
-
-/**
- * The Basics
- */
-
 config.port           = process.env.PORT || 3000;
-config.cryptoKey      = process.env.CRYPTOKEY || 'iAmaLarGeANdloNgkEy';
 
 /**
  * Logging Configuration
@@ -40,14 +34,19 @@ config.mongodb.url    = process.env.MONGODB_URL || 'localhost';
  * Session Configuration
  */
 
+var hour  = 3600000;
+var day   = (hour * 24);
+var week  = (day * 7);
+var month = (day * 30);
+
 config.session        = {};
-config.session.key    = process.env.SESSION_KEY || 'sid';
-config.session.secret = process.env.SESSION_SECRET || 'myskeletonsecret';
+config.session.secret = process.env.SESSION_SECRET || 'nLz8gSz7DHv3fDU3LIp60G';
+config.session.maxAge = process.env.SESSION_MAX_AGE || week;
 
 /**
- * TODO: Throttle Login Attempts
+ * Throttle Login Attempts
  */
-
+// TODO: implement this
 config.loginAttempts              = {};
 config.loginAttempts.forIp        = 50;
 config.loginAttempts.forUser      = 7;

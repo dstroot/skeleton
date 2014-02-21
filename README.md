@@ -248,6 +248,7 @@ Obtaining API Keys
 - Enter *Application Name*, then click **Create app**
 - Copy and paste *Client ID* and *Secret* keys into `config/secrets.js`
 - *App ID* is **client_id**, *App Secret* is **client_secret**
+- Make a note of your Sandbox accounts (test user accounts) for testing purposes.  
 - Change **host** to api.paypal.com if you want to test against production and use the live credentials
 
 <hr>

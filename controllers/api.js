@@ -147,7 +147,7 @@ module.exports.controller = function(app) {
       },
       'transactions': [
         {
-          'description': 'Node.js Boilerplate',
+          'description': 'ITEM: Something Awesome!',
           'amount': {
             'currency': 'USD',
             'total': '2.99'

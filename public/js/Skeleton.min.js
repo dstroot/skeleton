@@ -1,6 +1,6 @@
 /**
  * Skeleton - Skeleton: A hackathon-friendly framework
- * @version v0.0.1-14
+ * @version v0.0.1-16
  * @link http://skeleton-app.jit.su
  * @license 
  */

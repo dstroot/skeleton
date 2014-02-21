@@ -20,14 +20,6 @@ var pkg               = require('./package.json');         // Get package.json
 var config            = require('./config/config');        // Get configuration
 
 /**
- * Static Variables
- */
-
-var hour  = 3600000;
-var day   = (hour * 24);
-var week  = (day * 7);
-
-/**
  * Create Express Server and socket.io listener
  */
 
@@ -77,7 +69,7 @@ app.locals({
   // Now you can use moment anywhere
   // within a jade template like this:
   // p #{moment(Date.now()).format('MM/DD/YYYY')}
-  moment: require('moment'), // evergreen copyright
+  moment: require('moment'), // evergreen copyright ;)
   pretty: false
 });
 
@@ -121,26 +113,26 @@ app.use(express.logger({
 app.use(express.json());
 app.use(express.urlencoded());
 
-// Must be immediately after app.use(express.urlencoded());
 // Easy form validation!
+// Must be immediately after app.use(express.urlencoded());
 app.use(expressValidator());
 
-// If you want to simulate DELETE and PUT: methodOverride
+// If you want to simulate DELETE and PUT
+// in your app you need methodOverride
 app.use(express.methodOverride());
 
 // Session (use a cookie and persist session in Mongo)
 app.use(express.cookieParser(config.session.secret));
 app.use(express.session({
   secret: config.session.secret,
-  key: config.session.key,
+  cookie: {
+    httpOnly: true,           // Reduce XSS attack vector
+    maxAge: config.session.maxAge
+  },
   store: new MongoStore({
     mongoose_connection: db,
     auto_reconnect: true
-  }),
-  cookie: {
-    httpOnly: true,
-    maxAge: week
-  }
+  })
 }));
 
 // Security
@@ -316,7 +308,7 @@ db.on('open', function () {
 });
 
 /**
- * Emit Pageviews on Socket.io
+ * Emit Pageviews on Socket.io for Dashboard
  */
 
 io.configure('production', function() {
@@ -343,7 +335,7 @@ io.configure('production', function() {
 io.configure('development', function() {
   io.set('log level', 1);                    // reduce logging
   io.set('transports', [
-    'websocket'                              // Let's just use websockets for development
+    'websocket'                              // Let's use only websockets for development
   ]);
   io.set('authorization', function (handshakeData, callback) {
     if (handshakeData.xdomain) {
