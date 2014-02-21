@@ -3,13 +3,11 @@ extends ../layouts/layout
 block content
   .jumbotron.white
     .container
-      h1
-        | Tell your Awesome Story!
+      h1 Tell your Awesome Story!
       .row
-        .col-md-8.col-md-push-4
-          img.img-responsive.animated.slideInRight(alt='Looks great on every device', src='img/Octocat.png', width='500px')
-          br
-        .col-md-offset-1.col-md-3.col-md-pull-8
+        .col-md-7.col-md-push-5
+          img.center-block.img-responsive(alt='Skeleton App', src='img/Octocat.png', width='450px')
+        .col-md-4.col-md-offset-1.col-md-pull-7
           ul.fa-ul.visible-md.visible-lg
             li
               i.fa.fa-li.fa-cog
@@ -25,27 +23,25 @@ block content
               | FontAwesome
           br
           a.btn.btn-white(href='/login', role='button') Sign in Now!
-
-    .container.marketing.hidden-xs
       .row.hidden-xs
         .col-md-12
           h2 Why choose #{title}?
-      .row
+      .row.hidden-xs
         .col-md-4
           h3
-            i.fa.fa-group.fa-lg.yellow.animated.bounceIn
+            i.fa.fa-group.fa-lg.yellow
             | &nbsp;&nbsp;Just for you
           p
             | #{title} Is built with standard components such as Boostrap and FontAwesome and is easy to customize.
         .col-md-4
           h3
-            i.fa.fa-bolt.fa-lg.orange.animated.bounceIn
+            i.fa.fa-bolt.fa-lg.orange
             | &nbsp;&nbsp;Lightning fast
           p
             | #{title} is optimized to ensure fast loading time. Google page speed index of 93/100 on a nodejitsu micro drone ($9/month).
         .col-md-4
           h3
-            i.fa.fa-tablet.fa-lg.purple.animated.bounceIn
+            i.fa.fa-tablet.fa-lg.purple
             | &nbsp;&nbsp;On every device
           p
             | #{title} is built to look great on every device. Fully responsive for mobile devices to ensure the best user experience.

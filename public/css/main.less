@@ -12,9 +12,11 @@
 
 /**
  * Animate.css http://daneden.github.io/animate.css
+ * You should actually create a custom build
+ * to only use what you need - otherwise bloat.
  */
 
-@import (less) "../lib/animate.css/animate.css";
+// @import (less) "../lib/animate.css/animate.css";
 
 /**
  * Font Awesome http://fontawesome.io/
@@ -152,12 +154,12 @@ html {
   /* Sticky Footer Styles Below */
   position: relative;
   min-height: 100%;
-  font-weight: 400;
 }
 body {
+  font-weight: 400;
   /* Account for fixed navbar */
   padding-top: 50px;
-  /* 4 Sticky Footer: margin bottom = footer height */
+  /* Sticky Footer: margin bottom = footer height */
   margin-bottom: 80px;
 }
 h1, h2, h3,

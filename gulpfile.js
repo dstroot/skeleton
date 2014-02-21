@@ -187,7 +187,9 @@ gulp.task('watch', function () {
  */
 
 gulp.task('develop', ['watch'], function () {
-  nodemon({ script: 'app.js', options: '--debug --ignore gulpfile.js --ignore "public/js/*.js" --ignore "public/lib/**/*.js"' });
+  // nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/'], verbose: 'true' })
+  nodemon({ script: 'app.js' })
+    .on('restart', ['lint']);
 });
 
 /**

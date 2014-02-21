@@ -1,0 +1,5 @@
+{
+  "ignore": ["public/**/*", "gulpfile.js"],
+  "ext": "js",
+  "verbose": true
+}

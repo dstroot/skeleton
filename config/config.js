@@ -37,7 +37,6 @@ config.mongodb.url    = process.env.MONGODB_URL || 'localhost';
 var hour  = 3600000;
 var day   = (hour * 24);
 var week  = (day * 7);
-var month = (day * 30);
 
 config.session        = {};
 config.session.secret = process.env.SESSION_SECRET || 'nLz8gSz7DHv3fDU3LIp60G';
