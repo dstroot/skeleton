@@ -7,3 +7,26 @@ footer.footer
       a(href='/terms') Terms of Use&nbsp;
       | |&nbsp;
       a(href='/privacy') Privacy Policy
+
+//- Javascript
+//- ! Place scripts in footer for faster page rendering !
+script(src='/socket.io/socket.io.v1.0.0.js')
+//- We load jQuery via the Google CDN - that way
+//- *hopefully* the client already has it cached.
+script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js')
+//- Then we use jQuery to async load everything else!
+script.
+  $(document).ready(function() {
+    // Load main project js
+    $.getScript('/js/#{title}.min.js');
+  });
+  // socket.io processing
+  var socket = io.connect();
+  // Send inital connection
+  socket.on('connect', function () {
+    socket.send(window.location.href);
+  });
+  // send page views
+  window.onhashchange = function () {
+    socket.send(window.location.href);
+  }

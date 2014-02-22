@@ -310,6 +310,7 @@ db.on('open', function () {
 /**
  * Emit Pageviews on Socket.io for Dashboard
  * https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
+ *
  */
 
 io.configure('production', function() {

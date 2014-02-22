@@ -1,5 +1,4 @@
 extends ../layouts/layout
-
 //- http://cwbuecheler.com/web/tutorials/2014/restful-web-app-node-express-mongodb/
 
 block content
@@ -71,9 +70,9 @@ block content
             button.btn.btn-default(type='button', data-dismiss='modal') No
             button#yes.btn.btn-primary(type='button') Yes!
 
-
-  script(src='lib/moment/min/moment.min.js')
-  script(src='lib/bootstrap/js/modal.js')
+  //- script(src='lib/moment/min/moment.min.js')
+  //- script(src='lib/bootstrap/js/modal.js')
+block scripts
   script.
     // Userlist data array for filling in info box
     var userListData = [];
@@ -81,8 +80,15 @@ block content
     // DOM Ready =============================================================
     $(document).ready(function() {
 
-      // Populate the user table on initial page load
-      populateTable();
+      // Load Bootstrap Modal
+      $.getScript('lib/bootstrap/js/modal.js');
+
+      // Load moment.js
+      $.getScript('lib/moment/min/moment.min.js')
+      .done(function(script, textStatus) {
+        // Now populate the user table
+        populateTable();
+      });
 
       // Username link click
       $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
@@ -156,10 +162,12 @@ block content
       event.preventDefault();
 
       // Pop up a confirmation dialog
-      // Convoluted because we have to pass the
-      // user's id through
+      // Convoluted because we have to
+      // pass the user's id through
       function showmodal(userid) {
+        // show modal
         $('#myModal').modal({keyboard:true,backdrop:'static'});
+        // if "yes" clicked
         $('#yes').on('click', function () {
           // do our delete
           $.ajax({

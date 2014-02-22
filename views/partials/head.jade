@@ -64,19 +64,6 @@ head
   |   script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
   <![endif]-->
 
-  //- Javascript
-  script(src='/js/#{title}.min.js')
-  script(src='/socket.io/socket.io.v1.0.0.js')
-  script.
-    var socket = io.connect();
-    // Send inital connection
-    socket.on('connect', function () {
-      socket.send(window.location.href);
-    });
-    // send page views
-    window.onhashchange = function () {
-      socket.send(window.location.href);
-    }
   //- Google Analytics
   script.
     // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

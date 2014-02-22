@@ -46,5 +46,8 @@ block content
           p
             | #{title} is built to look great on every device. Fully responsive for mobile devices to ensure the best user experience.
 
+block scripts
   script.
-    $('body').addClass('bg-brand1');
+    $(document).ready(function() {
+      $('body').addClass('bg-brand1');
+    });

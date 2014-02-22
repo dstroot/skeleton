@@ -52,7 +52,6 @@ var paths = {
     'public/css/**/*.min.css'
   ],
   js: [
-    'public/lib/jquery/dist/jquery.js',
     // Bootstrap: ==============================
     // Enable/disable as needed but
     // only turn on .js that is needed
