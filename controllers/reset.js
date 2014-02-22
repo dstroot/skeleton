@@ -165,8 +165,8 @@ module.exports.controller = function(app) {
     workflow.on('sendEmail', function(user) {
 
       // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport("SMTP",{
-        service: "Gmail",
+      var smtpTransport = nodemailer.createTransport('SMTP',{
+        service: 'Gmail',
         auth: {
           user: config.gmail.user,
           pass: config.gmail.password

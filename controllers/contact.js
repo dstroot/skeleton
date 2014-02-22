@@ -4,7 +4,7 @@
  * Module Dependencies
  */
 
-var nodemailer    = require("nodemailer");
+var nodemailer    = require('nodemailer');
 var config        = require('../config/config');
 
 /**
@@ -47,8 +47,8 @@ module.exports.controller = function(app) {
     }
 
     // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-    var smtpTransport = nodemailer.createTransport("SMTP",{
-      service: "Gmail",
+    var smtpTransport = nodemailer.createTransport('SMTP',{
+      service: 'Gmail',
       auth: {
         user: config.gmail.user,
         pass: config.gmail.password

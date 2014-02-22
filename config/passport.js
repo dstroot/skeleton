@@ -200,7 +200,7 @@ passport.use(new TwitterStrategy(config.twitter, function(req, accessToken, toke
       // Twitter will not provide an email address.  Period.
       // But a person’s twitter username is guaranteed to be unique
       // so we can "fake" a twitter email address as follows:
-      user.email = profile.username + "@twitter.com";
+      user.email = profile.username + '@twitter.com';
       user.twitter = profile.id;
       user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
       user.profile.name = profile.displayName;

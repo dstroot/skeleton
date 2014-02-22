@@ -266,7 +266,7 @@ db.on('error', function () {
 
 db.on('open', function () {
   winston.info('Mongodb connected!');
-  console.log("✔ Mongodb " + "connected!".green.bold);
+  console.log('✔ Mongodb ' + 'connected!'.green.bold);
   // server for socket.io
   server.listen(app.get('port'), function() {
   //app.listen(app.get('port'), function() {
@@ -275,32 +275,32 @@ db.on('open', function () {
     if (!semver.satisfies(process.versions.node, pkg.engines.node)) {
       winston.error(pkg.name + ' needs Node version ' + pkg.engines.node);
       console.error(
-        "\nERROR: Unsupported version of Node!".red.bold,
-        "\n✗ ".red.bold + pkg.name.red.bold + " needs Node version".red.bold,
+        '\nERROR: Unsupported version of Node!'.red.bold,
+        '\n✗ '.red.bold + pkg.name.red.bold + ' needs Node version'.red.bold,
         pkg.engines.node.yellow.bold,
-        "you are using version".red.bold,
+        'you are using version'.red.bold,
         process.versions.node.yellow.bold,
-        "\n✔ Please go to http://nodejs.org to get a supported version.".red.bold
+        '\n✔ Please go to http://nodejs.org to get a supported version.'.red.bold
       );
       process.exit(0);
     }
 
     // Log how we are running
     winston.info(pkg.name + ' listening on port ' + app.get('port'),
-      "in " + app.settings.env + " mode."
+      'in ' + app.settings.env + ' mode.'
     );
     console.log(
-      "✔ " + pkg.name + " listening on port " + app.get('port').toString().green.bold,
-      "in " + app.settings.env.green.bold + " mode.",
-      "\n✔ Hint: " + "Ctrl+C".green.bold + " to shut down."
+      '✔ ' + pkg.name + ' listening on port ' + app.get('port').toString().green.bold,
+      'in ' + app.settings.env.green.bold + ' mode.',
+      '\n✔ Hint: ' + 'Ctrl+C'.green.bold + ' to shut down.'
     );
 
     // Exit cleanly on Ctrl+C
     process.on('SIGINT', function () {
       winston.info(pkg.name + ' has shudown.');
       console.log(
-        "\n✔ " + pkg.name + " has " + "shutdown".green.bold,
-        "\n✔ " + pkg.name + " was running for " + Math.round(process.uptime()).toString().green.bold + " seconds."
+        '\n✔ ' + pkg.name + ' has ' + 'shutdown'.green.bold,
+        '\n✔ ' + pkg.name + ' was running for ' + Math.round(process.uptime()).toString().green.bold + ' seconds.'
       );
       process.exit(0);
     });
@@ -318,7 +318,7 @@ io.configure('production', function() {
   io.enable('browser client etag');          // apply etag caching logic based on version number
   io.enable('browser client gzip');          // gzip the file
   io.set('log level', 0);                    // reduce logging
-  io.set("polling duration", 10);            // increase polling frequency
+  io.set('polling duration', 10);            // increase polling frequency
   io.set('transports', [                     // Manage transports
     'websocket',
     'htmlfile',

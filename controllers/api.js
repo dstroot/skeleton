@@ -48,7 +48,7 @@ module.exports.controller = function(app) {
     var lastfm = new LastFmNode(config.lastfm);
     async.parallel({
         artistInfo: function(done) {
-          lastfm.request("artist.getInfo", {
+          lastfm.request('artist.getInfo', {
             artist: 'Epica',
             handlers: {
               success: function(data) {
@@ -61,7 +61,7 @@ module.exports.controller = function(app) {
           });
         },
         artistTopAlbums: function(done) {
-          lastfm.request("artist.getTopAlbums", {
+          lastfm.request('artist.getTopAlbums', {
             artist: 'Epica',
             handlers: {
               success: function(data) {
@@ -108,7 +108,7 @@ module.exports.controller = function(app) {
     var url = 'http://api.nytimes.com/svc/books/v2/lists?' + query;
     request.get(url, function(error, request, body) {
       if (request.statusCode === 403) {
-        return next(Error('Missing or Invalid New York Times API Key'));
+        return next(error('Missing or Invalid New York Times API Key'));
       }
       var bestsellers = JSON.parse(body);
       res.render('api/nyt', {
