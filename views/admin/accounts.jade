@@ -4,46 +4,29 @@ extends ../layouts/layout
 block content
   .container
     .row
-      .col-md-8
+      .col-md-4.col-md-push-8
         .page-header
-          h2 #{title} Accounts
-        // Wrapper
-        #wrapper
-
-          // USER LIST
-          #userList
-            table.table.table-striped
-              thead
-                th Name
-                th Email
-                th Date Established
-                th Last Active
-                th Delete?
-              tbody
-          // /USER LIST
-
-        // /WRAPPER
-      .col-md-4
-        .page-header
-          h2 Account Details
-
+          h2
+            i.fa.fa-user
+            | &nbsp;Account Details
         // USER INFO
         #userInfo
-          p: img(id='userPicture', src='', width='100px')
+          p
+            img(id='userPicture', src='', width='100px')
           p
             strong Name:
             |  <span id='userInfoName'></span>
-          p
+          p.hidden-xs
             strong Email:
             | &nbsp;
             a(href='', id='userInfoEmail')
-          p
+          p.hidden-xs
             strong Location:
             |  <span id='userInfoLocation'></span>
-          p
+          p.hidden-xs
             strong Gender:
             |  <span id='userInfoGender'></span>
-          p
+          p.hidden-xs
             strong Website:
             | &nbsp;
             a(href='', id='userInfoWebsite')
@@ -53,10 +36,32 @@ block content
           p
             strong Last Logon:
             |  <span id='userInfoLogon'></span>
-          p
+          p.hidden-xs
             strong Last Update:
             |  <span id='userInfoUpdate'></span>
         // /USER INFO
+      .col-md-8.col-md-pull-4
+        .page-header
+          h2
+            i.fa.fa-users
+            | &nbsp;#{title} Accounts
+        // Wrapper
+        #wrapper
+
+          // USER LIST
+          #userList
+            table.table.table-striped
+              thead
+                th Name
+                th.hidden-xs Email
+                th.hidden-xs Date Established
+                th Last Active
+                th Delete?
+              tbody
+          // /USER LIST
+
+        // /WRAPPER
+
 
   #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
       .modal-dialog.modal-sm
@@ -116,8 +121,8 @@ block scripts
         $.each(data, function(){
           tableContent += '<tr>';
           tableContent += '<td><a href="#" class="linkshowuser btn btn-info btn-xs"" rel="' + this._id + '" title="Show Details">' + this.profile.name + '</td>';
-          tableContent += '<td><a href="mailto:' + this.email + '">' + this.email + '</a></td>';
-          tableContent += '<td>' + moment(this.activity.date_established).format('MMMM Do YYYY') + '</td>';
+          tableContent += '<td class="hidden-xs"><a href="mailto:' + this.email + '">' + this.email + '</a></td>';
+          tableContent += '<td class="hidden-xs">' + moment(this.activity.date_established).format('MMMM Do YYYY') + '</td>';
           tableContent += '<td>' + moment(this.activity.last_logon).fromNow() + '</td>';
           tableContent += '<td><a href="#" class="linkdeleteuser btn btn-danger btn-xs" rel="' + this._id + '">Danger!</a></td>';
         });

@@ -10,26 +10,26 @@ nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
     .collapse.navbar-collapse
       if user
         ul.nav.navbar-nav
-          //- li(class=url=='/'?'active':undefined)
-          //-   a(href='/') Home
           li(class=url=='/api'?'active':undefined)
             a(href='/api')
-              i.fa.fa-magic
-              |  API Browser
-          //- li(class=url=='/contact'?'active':undefined)
-          //-   a(href='/contact')
-          //-     i.fa.fa-envelope
-          //-     |  Contact Us
+              i.fa.fa-fw.fa-magic
+              | &nbsp;API Browser
         ul.nav.navbar-nav.navbar-right
           if user.type == 'admin'
             li.dropdown(class=url=='/administration'?'active':undefined)
               a.dropdown-toggle(href='#', data-toggle='dropdown')
-                i.fa.fa-cogs
-                |  Administration&nbsp;
+                i.fa.fa-fw.fa-cogs
+                | &nbsp;Administration&nbsp;
                 b.caret
               ul.dropdown-menu
-                li: a(href='/dashboard') Dashboard
-                li: a(href='/accounts') Accounts
+                li
+                  a(href='/dashboard')
+                    i.fa.fa-fw.fa-laptop
+                    | &nbsp;Dashboard
+                li
+                  a(href='/accounts')
+                    i.fa.fa-fw.fa-users
+                    | &nbsp;Accounts
           li.dropdown(class=url=='/account'?'active':undefined)
             a.dropdown-toggle(href='#', data-toggle='dropdown')
               if user.profile.picture
@@ -39,12 +39,21 @@ nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
               | #{user.profile.name || user.email || user.id}&nbsp;
               b.caret
             ul.dropdown-menu
-              li: a(href='/account') My Account
-              li: a(href='/contact') Contact Us
-              li: a(href='/logout') Logout
+              li
+                a(href='/account')
+                  i.fa.fa-fw.fa-user
+                  | &nbsp;My Account
+              li
+                a(href='/contact')
+                  i.fa.fa-fw.fa-envelope-o
+                  | &nbsp;Contact Us
+              li
+                a(href='/logout')
+                  i.fa.fa-fw.fa-times
+                  | &nbsp;Logout
       else
         ul.nav.navbar-nav.navbar-right
           li(class=url=='/login'?'active':undefined)
             a(href='/login')
-              i.fa.fa-user &nbsp;
-              |  Sign In
+              i.fa.fa-user.fa-fw
+              | &nbsp;Sign In

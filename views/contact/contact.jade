@@ -5,7 +5,9 @@ block content
     .row
       .col-sm-6.col-sm-offset-3
         .page-header
-          h2 Contact Form
+          h2
+            i.fa.fa-envelope-o
+            | &nbsp;Contact Form
         form(role='form', method='POST')
           input(type='hidden', name='_csrf', value=token)
           .form-group
