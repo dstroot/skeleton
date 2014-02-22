@@ -134,7 +134,7 @@ module.exports.controller = function(app) {
           // email address then just finish the workflow
           // If we tell them "no account exists" we are leaking
           // information
-          req.flash('info', { msg: 'If you have an account with that email address then we sent you an email with instructions. Check your email!' });
+          req.flash('warning', { msg: 'Hmmm... is that your correct email address?' });
           return res.redirect('/forgot');
         }
 
@@ -174,31 +174,54 @@ module.exports.controller = function(app) {
         // https://github.com/andris9/Nodemailer
       });
 
-      // create email
-      var mailOptions = {
-        to:       user.profile.name + ' <' + user.email + '>',
-        from:     config.smtp.name + ' <' + config.smtp.address + '>',
-        subject:  'Your Password Reset Link From ' + app.locals.title,
-        text:     'Hello from ' + app.locals.title + '! Your password reset link is:' + '\n\n' + req.protocol + '://' + req.headers.host + '/reset/' + user.id + '/' + token + '\n\nThis link will expire in 4 hours.  Cheers!'
-      };
-
-      // send email
-      smtpTransport.sendMail(mailOptions, function(err) {
+      // Render HTML to send using .jade mail template (just like rendering a page)
+      res.render('mail/passwordReset', {
+        name:          user.profile.name,
+        resetLink:     req.protocol + '://' + req.headers.host + '/reset/' + user.id + '/' + token,
+        mailtoName:    config.smtp.name,
+        mailtoAddress: config.smtp.address
+      }, function(err, html) {
         if (err) {
-          req.flash('errors', { msg: err.message });
-          return res.redirect('/forgot');
-        } else {
-          // Message to user
-          req.flash('info', { msg: 'If you have an account with that email address then we sent you an email with instructions. Check your email!' });
-          return res.redirect('/forgot');
+          return (err, null);
+        }
+        else {
+
+          // Now create email text (multiline string as array FTW)
+          var text = [
+            'Hello ' + user.profile.name + '!',
+            'Here is a special link that will allow you to reset your password. Please note it will expire in four hours for your protection:',
+            req.protocol + '://' + req.headers.host + '/reset/' + user.id + '/' + token,
+            'Thanks so much for using our services! If you have any questions, or suggestions, feel free to email us here at ' + config.smtp.address + '.',
+            '  - The ' + config.smtp.name + ' team'
+          ].join('\n\n');
+
+          // Create email
+          var mailOptions = {
+            to:       user.profile.name + ' <' + user.email + '>',
+            from:     config.smtp.name + ' <' + config.smtp.address + '>',
+            subject:  'Reset your ' + app.locals.title + ' password',
+            text:     text,
+            html:     html
+          };
+
+          // send email via nodemailer
+          smtpTransport.sendMail(mailOptions, function(err) {
+            if (err) {
+              req.flash('errors', { msg: err.message });
+              return res.redirect('/forgot');
+            } else {
+              // Message to user
+              req.flash('success', { msg: 'We sent you an email with further instructions. Check your email!' });
+              return res.redirect('/forgot');
+            }
+          });
+
+          // shut down the connection pool, no more messages
+          smtpTransport.close();
         }
       });
 
-      // shut down the connection pool, no more messages
-      smtpTransport.close();
-
     });
-
     /**
      * Initiate the workflow
      */

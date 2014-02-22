@@ -175,27 +175,50 @@ module.exports.controller = function(app) {
         // https://github.com/andris9/Nodemailer
       });
 
-      // Create email
-      var mailOptions = {
-        to:       user.profile.name + ' <' + user.email + '>',
-        from:     config.smtp.name + ' <' + config.smtp.address + '>',
-        subject:  'Password Reset Notice From ' + app.locals.title,
-        text:     'Hello, this is a courtesy message from ' + app.locals.title + '.\n\nYour password was just reset.  Cheers!'
-      };
-
-      // Send email
-      smtpTransport.sendMail(mailOptions, function(err) {
+      // Render HTML to send using .jade mail template (just like rendering a page)
+      res.render('mail/resetConfirmation', {
+        name:          user.profile.name,
+        mailtoName:    config.smtp.name,
+        mailtoAddress: config.smtp.address
+      }, function(err, html) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          return (err, null);
+        }
+        else {
+
+          // Now create email text (multiline string as array FTW)
+          var text = [
+            'Hello ' + user.profile.name + '!',
+            'This is a courtesy message to confirm that your password was just reset.',
+            'Thanks so much for using our services! If you have any questions, or suggestions, feel free to email us here at ' + config.smtp.address + '.',
+            '  - The ' + config.smtp.name + ' team'
+          ].join('\n\n');
+
+          // Create email
+          var mailOptions = {
+            to:       user.profile.name + ' <' + user.email + '>',
+            from:     config.smtp.name + ' <' + config.smtp.address + '>',
+            subject:  'Your ' + app.locals.title + ' password was reset',
+            text:     text,
+            html:     html
+          };
+
+          // Send email
+          smtpTransport.sendMail(mailOptions, function(err) {
+            if (err) {
+              req.flash('errors', { msg: err.message });
+            }
+          });
+
+          // shut down the connection pool, no more messages
+          smtpTransport.close();
+
+          // Send user on their merry way
+          req.flash('success', { msg: 'Your password has been changed!' });
+          res.redirect('/api');
+
         }
       });
-
-      // shut down the connection pool, no more messages
-      smtpTransport.close();
-
-      // Send user on their merry way
-      req.flash('success', { msg: 'Your password has been changed!' });
-      res.redirect('/api');
 
     });
 

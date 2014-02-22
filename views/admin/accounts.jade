@@ -60,19 +60,20 @@ block content
         // /USER INFO
 
   #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-      .modal-dialog
+      .modal-dialog.modal-sm
         .modal-content
           .modal-header
             button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
             h4#myModalLabel.modal-title Delete confirmation
           .modal-body
-            h3 Are you sure?
+            h4 Are you sure?
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') No
             button#yes.btn.btn-primary(type='button') Yes!
 
 
   script(src='lib/moment/min/moment.min.js')
+  script(src='lib/bootstrap/js/modal.js')
   script.
     // Userlist data array for filling in info box
     var userListData = [];
@@ -88,11 +89,6 @@ block content
 
       // Delete User link click
       $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
-
-      // For modal
-      //- $('#yes').on('click', function (e) {
-      //-     $('#myModal').modal('hide');
-      //- });
 
     });
 
@@ -118,7 +114,6 @@ block content
           tableContent += '<td>' + moment(this.activity.date_established).format('MMMM Do YYYY') + '</td>';
           tableContent += '<td>' + moment(this.activity.last_logon).fromNow() + '</td>';
           tableContent += '<td><a href="#" class="linkdeleteuser btn btn-danger btn-xs" rel="' + this._id + '">Danger!</a></td>';
-          //- tableContent += '<td><a data-toggle="modal" href="#myModal" class="btn btn-danger btn-xs" rel="' + this._id + '">Danger!</a></td>';
         });
 
         // Inject the whole content string into our existing HTML table
@@ -161,39 +156,33 @@ block content
       event.preventDefault();
 
       // Pop up a confirmation dialog
-      var confirmation = confirm('Are you sure you want to delete this user?');
-
-      // TODO - Make this a bootstrap modal confirmation
-      // trying the get bootstrap modal to work
-      //- function showmodal(arg) {
-      //-   $('#myModal').modal({keyboard:true,backdrop:'static'});
-      //-   $('#myModal').one('hidden.bs.modal', function () {
-      //-       alert(arg);
-      //-   });
-      //- }
-      //- showmodal($(this).attr('rel'));
-
-      // Check and make sure the user confirmed
-      if (confirmation === true) {
-        // If they did, do our delete
-        $.ajax({
-          type: 'DELETE',
-          headers: { 'X-CSRF-Token': '#{token}' },
-          url: '/accountlist/' + $(this).attr('rel')
-        }).done(function( response ) {
-          // Check for a successful (blank) response
-          if (response.msg === '') {
-          }
-          else {
-            alert('Error: ' + response.msg);
-          }
-          // Update the table
-          populateTable();
+      // Convoluted because we have to pass the
+      // user's id through
+      function showmodal(userid) {
+        $('#myModal').modal({keyboard:true,backdrop:'static'});
+        $('#yes').on('click', function () {
+          // do our delete
+          $.ajax({
+            type: 'DELETE',
+            headers: { 'X-CSRF-Token': '#{token}' },
+            url: '/accountlist/' + userid
+          }).done(function( response ) {
+            // Check for a successful (blank) response
+            if (response.msg === '') {
+            }
+            else {
+              alert('Error: ' + response.msg);
+            }
+            // Update the table
+            populateTable();
+          });
+          // close the modal
+          $('#myModal').modal('hide');
         });
-      } else {
-        // If they said no to the confirm, do nothing
-        return;
       }
+
+      // call modal function with the user's account id
+      showmodal($(this).attr('rel'));
 
     };
 
