@@ -1,0 +1,25 @@
+@import compass/css3
+@import mixins
+@import url("//fonts.googleapis.com/css?family=Economica")
+
+$themeName: "odometer-theme-train-station"
+$digitPadding: .15em
+
++spinning-odometer($themeName)
+
+.odometer.odometer-auto-theme, .odometer#{"." + $themeName}
+    font-family: "Economica", sans-serif
+
+    .odometer-digit
+        +inline-block
+        +border-radius(.1em)
+        +background-image(linear-gradient(top, #111 0%, #111 35%, #333 55%, #111 55%, #111 100%))
+        background-color: #222
+        padding: 0 $digitPadding
+        color: #fff
+
+        + .odometer-digit
+            margin-left: .1em
+
+        .odometer-digit-inner
+            left: $digitPadding

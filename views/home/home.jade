@@ -30,7 +30,7 @@ block content
         .col-md-4
           h3
             i.fa.fa-group.fa-lg.yellow
-            | &nbsp;&nbsp;Just for you
+            | &nbsp;&nbsp;Built for you
           p
             | #{title} Is built with standard components such as Boostrap and FontAwesome and is easy to customize.
         .col-md-4
@@ -46,8 +46,68 @@ block content
           p
             | #{title} is built to look great on every device. Fully responsive for mobile devices to ensure the best user experience.
 
+      //- http://github.hubspot.com/odometer/
+      p
+        h3.odometer-github-stars
+          span.odometer-label GitHub ★ :
+          .odometer.bg-purple 0
+      .odometer-subtitle
+        a.purple(href='http://github.com/dstroot/skeleton', target='_blank') <strong>★ Skeleton</strong>
+        | &nbsp;&nbsp;on GitHub!
+
+//- Page-specific stuff
 block scripts
+  link(rel='stylesheet', href='lib/odometer/themes/odometer-theme-minimal.css')
+  style.
+    .odometer-github-stars {
+      margin-bottom: 6px;
+    }
+    .odometer-github-stars .odometer-label {
+      display: inline-block;
+      padding: 15px 13px 13px;
+      line-height: 1;
+      vertical-align: middle;
+    }
+    .odometer-github-stars .odometer {
+      padding: 13px 21px 11px;
+      margin: auto;
+      line-height: 1 !important;
+      border-radius: 6px;
+    }
+    .odometer-subtitle {
+      font-size: 20px;
+      padding-left: 13px;
+    }
+  script(src='lib/odometer/odometer.min.js')
   script.
     $(document).ready(function() {
       $('body').addClass('bg-brand1');
+    });
+    $(function(){
+      var starsOdometer = new Odometer({ el: $('.odometer-github-stars .odometer')[0], theme: 'minimal', value: '0' });
+      starsOdometer.render()
+
+      var i = 0;
+      var update = function() {
+        $.ajax("https://api.github.com/repos/dstroot/skeleton?access_token=d6c66a39f2b4227e7bae7a6427074ff401687718", {
+        //- $.ajax("https://api.github.com/repos/dstroot/skeleton", {
+          cache: false,
+          success: function(data){
+            if (data.stargazers_count)
+              starsOdometer.update(data.stargazers_count);
+          },
+          complete: function(xhr){
+            remaining = xhr.getResponseHeader('X-RateLimit-Remaining');
+
+            setTimeout(update, 1000 * (4 + Math.pow(1.1, (60 - remaining))));
+          }
+        });
+      };
+
+      setInterval(function(){
+        // Github's limits reset every hour
+        i = 0;
+      }, 3600*1000);
+
+      setTimeout(update, 1000);
     });

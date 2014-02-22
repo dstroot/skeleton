@@ -1,0 +1,26 @@
+@import compass/css3
+@import mixins
+@import url("//fonts.googleapis.com/css?family=Arimo")
+
+$themeName: "odometer-theme-plaza"
+$digitPadding: .03em
+
++spinning-odometer($themeName)
+
+.odometer.odometer-auto-theme, .odometer#{"." + $themeName}
+    +border-radius(.15em)
+    background-color: #f0f8ff
+    font-family: "Helvetica Neue", sans-serif
+    font-weight: 100
+    padding: 0 .12em
+    line-height: 1.2em
+    font-size: 1.2em
+    background-size: 16px 16px
+
+    .odometer-digit
+        +border-radius(.1em)
+        padding: 0 $digitPadding
+        color: #648baf
+
+        .odometer-digit-inner
+            left: $digitPadding

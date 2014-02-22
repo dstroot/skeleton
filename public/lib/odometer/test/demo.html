@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="../themes/odometer-theme-car.css" />
+<style>
+.odometer {
+  font-size: 40px;
+}
+</style>
+<script>
+window.odometerOptions = {
+  format: '(ddd).dd'
+};
+</script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="../odometer.js"></script>
+<div class="odometer">3252</div>
+
+<script>
+  setTimeout(function(){
+    $('.odometer').html(423234234);
+  }, 1000);
+</script>
