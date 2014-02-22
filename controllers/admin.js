@@ -35,7 +35,6 @@ module.exports.controller = function(app) {
       }
       res.render('admin/dashboard', {
         url: '/administration',  // to set navbar active state
-        title: app.locals.title,
         accounts: count
       });
     });
@@ -61,7 +60,6 @@ module.exports.controller = function(app) {
 
     res.render('admin/accounts', {
       url: '/administration', // to set navbar active state
-      title: app.locals.title,
       token: res.locals.token
     });
   });

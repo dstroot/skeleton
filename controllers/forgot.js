@@ -63,8 +63,7 @@ module.exports.controller = function(app) {
       return res.redirect('/');  //user already logged in!
     }
     res.render('account/forgot', {
-      url: req.url,
-      title: app.locals.title
+      url: req.url
     });
   });
 

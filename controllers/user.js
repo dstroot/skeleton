@@ -20,8 +20,7 @@ module.exports.controller = function(app) {
       return res.redirect('/');
     }
     res.render('account/login', {
-      url: req.url,
-      title: app.locals.title
+      url: req.url
     });
   });
 
@@ -74,8 +73,7 @@ module.exports.controller = function(app) {
       return res.redirect('/');
     }
     res.render('account/signup', {
-      url: req.url,
-      title: app.locals.title
+      url: req.url
     });
   });
 
@@ -116,8 +114,7 @@ module.exports.controller = function(app) {
 
   app.get('/account', passportConf.isAuthenticated, function(req, res) {
     res.render('account/profile', {
-      url: req.url,
-      title: app.locals.title
+      url: req.url
     });
   });
 

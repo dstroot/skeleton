@@ -66,6 +66,7 @@ app.locals({
   description: pkg.description,
   author: pkg.author,
   keywords: pkg.keywords,
+  ga: config.ga,
   // Now you can use moment anywhere
   // within a jade template like this:
   // p #{moment(Date.now()).format('MM/DD/YYYY')}

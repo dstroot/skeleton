@@ -14,7 +14,9 @@
  */
 
 var config            = {};
+
 config.port           = process.env.PORT || 3000;
+config.ga             = 'UA-44765020-2';
 
 /**
  * Logging Configuration

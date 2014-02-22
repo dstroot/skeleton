@@ -50,8 +50,7 @@ module.exports.controller = function(app) {
           return res.redirect('/forgot');
         } else {
           res.render('account/reset', {
-            url: req.url,
-            title: app.locals.title,
+            url: req.url
           });
         }
       });

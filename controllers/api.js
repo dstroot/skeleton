@@ -34,8 +34,7 @@ module.exports.controller = function(app) {
 
   app.get('/api', function(req, res) {
     res.render('api/index', {
-      url: req.url,
-      title: app.locals.title
+      url: req.url
     });
   });
 
@@ -92,8 +91,8 @@ module.exports.controller = function(app) {
           topAlbums: results.artistTopAlbums
         };
         res.render('api/lastfm', {
-          title: app.locals.title,
-          artist: artist
+          artist: artist,
+          url: req.url
         });
       });
   });
@@ -112,20 +111,9 @@ module.exports.controller = function(app) {
       }
       var bestsellers = JSON.parse(body);
       res.render('api/nyt', {
-        title: app.locals.title,
+        url: req.url,
         books: bestsellers.results
       });
-    });
-  });
-
-  /**
-   * GET /api/aviary
-   * Aviary image processing example.
-   */
-
-  app.get('/api/aviary', function(req, res) {
-    res.render('api/aviary', {
-      title: app.locals.title
     });
   });
 
@@ -165,6 +153,7 @@ module.exports.controller = function(app) {
         for (var i = 0; i < links.length; i++) {
           if (links[i].rel === 'approval_url') {
             res.render('api/paypal', {
+              url: req.url,
               approval_url: links[i].href
             });
           }
@@ -184,11 +173,13 @@ module.exports.controller = function(app) {
     paypal.payment.execute(payment_id, payment_details, function(error, payment) {
       if (error) {
         res.render('api/paypal', {
+          url: req.url,
           result: true,
           success: false
         });
       } else {
         res.render('api/paypal', {
+          url: req.url,
           result: true,
           success: true
         });
@@ -204,59 +195,11 @@ module.exports.controller = function(app) {
   app.get('/api/paypal/cancel', function(req, res, next) {
     req.session.payment_id = null;
     res.render('api/paypal', {
+      url: req.url,
       result: true,
       canceled: true
     });
   });
-
-  /**
-   * GET /api/steam
-   * Steam API example.
-   */
-
-  // app.get('/api/steam', function(req, res, next) {
-
-  //   var apiKey =  '';
-  //   var steamId = '';  // 76561197992403307
-  //   var query = { l: 'english', steamid: steamId, key: apiKey };
-
-  //   async.parallel({
-  //     playerAchievements: function(done) {
-  //       query.appid = '49520';
-  //       var qs = querystring.stringify(query);
-  //       request.get({ url: 'http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?' + qs, json: true }, function(error, request, body) {
-  //         if (request.statusCode === 401) return done(new Error('1 Missing or Invalid Steam API Key'));
-  //         done(error, body);
-  //       });
-  //     },
-  //     playerSummaries: function(done) {
-  //       query.steamids = steamId;
-  //       var qs = querystring.stringify(query);
-  //       request.get({ url: 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' + qs, json: true }, function(error, request, body) {
-  //         if (request.statusCode === 401) return done(new Error('2 Missing or Invalid Steam API Key'));
-  //         done(error, body);
-  //       });
-  //     },
-  //     ownedGames: function(done) {
-  //       query.include_appinfo = 1;
-  //       query.include_played_free_games = 1;
-  //       var qs = querystring.stringify(query);
-  //       request.get({ url: 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?' + qs, json: true }, function(error, request, body) {
-  //         if (request.statusCode === 401) return done(new Error('3 Missing or Invalid Steam API Key'));
-  //         done(error, body);
-  //       });
-  //     }
-  //   },
-  //   function(err, results) {
-  //     if (err) return next(err);
-  //     res.render('api/steam', {
-  //       title: 'Steam Web API',
-  //       ownedGames: results.ownedGames.response.games,
-  //       playerAchievemments: results.playerAchievements.playerstats,
-  //       playerSummary: results.playerSummaries.response.players[0]
-  //     });
-  //   });
-  // });
 
   /**
    * GET /api/scraping
@@ -274,7 +217,7 @@ module.exports.controller = function(app) {
         links.push($(this));
       });
       res.render('api/scraping', {
-        title: app.locals.title,
+        url: req.url,
         links: links
       });
     });
@@ -287,7 +230,7 @@ module.exports.controller = function(app) {
 
   app.get('/api/twilio', function(req, res, next) {
     res.render('api/twilio', {
-      title: app.locals.title
+      url: req.url
     });
   });
 
@@ -341,7 +284,7 @@ module.exports.controller = function(app) {
           return next(err);
         }
         res.render('api/foursquare', {
-          title: app.locals.title,
+          url: req.url,
           trendingVenues: results.trendingVenues,
           venueDetail: results.venueDetail,
           userCheckins: results.userCheckins
@@ -364,7 +307,7 @@ module.exports.controller = function(app) {
     });
     client.posts('goddess-of-imaginary-light.tumblr.com', { type: 'photo' }, function(err, data) {
       res.render('api/tumblr', {
-        title: app.locals.title,
+        url: req.url,
         blog: data.blog,
         photoset: data.posts[0].photos
       });
@@ -396,7 +339,7 @@ module.exports.controller = function(app) {
           return next(err);
         }
         res.render('api/facebook', {
-          title: app.locals.title,
+          url: req.url,
           me: results.getMe,
           friends: results.getMyFriends
         });
@@ -414,7 +357,7 @@ module.exports.controller = function(app) {
     var repo = github.getRepo('sahat', 'requirejs-library');
     repo.show(function(err, repo) {
       res.render('api/github', {
-        title: app.locals.title,
+        url: req.url,
         repo: repo
       });
     });
@@ -438,7 +381,7 @@ module.exports.controller = function(app) {
         return next(err);
       }
       res.render('api/twitter', {
-        title: app.locals.title,
+        url: req.url,
         tweets: reply.statuses
       });
     });

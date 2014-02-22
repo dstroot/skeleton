@@ -20,8 +20,7 @@ module.exports.controller = function(app) {
 
   app.get('/contact', function(req, res) {
     res.render('contact/contact', {
-      url: req.url,
-      title: app.locals.title
+      url: req.url
     });
   });
 
