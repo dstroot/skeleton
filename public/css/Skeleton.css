@@ -2897,7 +2897,7 @@ input[type="button"].btn-block {
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
   color: #333333;
-  background-color: transparent;
+  background-color: #e7e7e7;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -2938,7 +2938,7 @@ input[type="button"].btn-block {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
     color: #333333;
-    background-color: transparent;
+    background-color: #e7e7e7;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
@@ -5346,30 +5346,28 @@ h6,
   margin-bottom: 0px;
   text-align: center;
 }
-/**
- * Jumbotron
+/*
+ * Home Page
  */
 .jumbotron h1 {
   text-align: center;
   margin-top: 20px;
-  margin-bottom: 70px;
+  margin-bottom: 50px;
 }
 .jumbotron h2 {
   text-align: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  font-size: 50px;
+  margin-top: 50px;
+  font-size: 40px;
 }
 .jumbotron h3 {
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   font-size: 28px;
 }
 .jumbotron li {
-  line-height: 35px;
-  height: 50px;
-  margin: 10px;
-  font-size: 26px;
+  line-height: 1;
+  margin: 20px;
+  font-size: 22px;
   font-weight: 300;
 }
 @media (max-width: 480px) {
@@ -5387,6 +5385,23 @@ h6,
   .jumbotron p {
     font-size: 14px;
   }
+}
+.jumbotron .btn {
+  width: 100%;
+  padding: 15px 30px;
+  font-size: 28px;
+}
+.btn-white {
+  color: #333;
+  background-color: #fff;
+}
+.btn-white:hover,
+.btn-white:focus,
+.btn-white:active {
+  color: #fff;
+  background-color: transparent;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+  border-color: #fff;
 }
 /*
  * Minitron
@@ -5427,43 +5442,6 @@ h6,
   .mini-tron p {
     text-align: center;
   }
-}
-/*
- * Home Page
- */
-.jumbotron .btn {
-  width: 100%;
-  padding: 15px 30px;
-  font-size: 28px;
-}
-.btn-white {
-  color: #333;
-  background-color: #fff;
-}
-.btn-white:hover,
-.btn-white:focus,
-.btn-white:active {
-  color: #fff;
-  background-color: transparent;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
-  border-color: #fff;
-}
-.marketing {
-  margin-bottom: 70px;
-}
-.marketing h1 {
-  margin-top: 60px;
-  margin-bottom: 40px;
-  text-align: center;
-  font-size: 50px;
-  font-weight: 300;
-}
-.marketing h3 {
-  font-size: 34px;
-}
-.marketing p {
-  font-size: 18px;
-  font-weight: 300;
 }
 /**
  * Social Buttons
