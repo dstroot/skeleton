@@ -1,4 +1,4 @@
-footer.footer
+footer.footer.bg-black
   .container
     p
       | Copyright © #{moment().format('YYYY')}&nbsp;
@@ -11,9 +11,7 @@ footer.footer
 //- Javascript
 //- ! Place scripts in footer for faster page rendering !
 script(src='/socket.io/socket.io.v1.0.0.js')
-//- We load jQuery via the Google CDN - that way
-//- *hopefully* the client already has it cached.
-script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js')
+script(src='lib/jquery/dist/jquery.min.js')
 //- Then we use jQuery to async load everything else!
 script.
   $(document).ready(function() {

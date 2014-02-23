@@ -81,8 +81,8 @@ var paths = {
     'gulpfile.js'
   ],
   less: [
-    'public/css/main.less',
-    'public/css/bootstrap.less'
+    'less/main.less',
+    'less/bootstrap.less'
   ],
   images: 'public/img/**/*'
 };
@@ -102,7 +102,7 @@ gulp.task('clean', function() {
  */
 
 gulp.task('styles', function() {
-  return gulp.src('./public/css/main.less')
+  return gulp.src('./less/main.less')
     .pipe(less({}))                       // Compile Less files
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(rename(pkg.name + '.css'))      // Rename to "packagename.css"

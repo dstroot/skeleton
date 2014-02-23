@@ -233,8 +233,27 @@ app.use(function(err, req, res, next) {
 
 // final error catch-all just in case
 if ( app.get('env') === 'development') {
-  app.use(express.errorHandler());
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 }
+
+// Robots...
+app.configure('development', function() {
+  // In dev, keep search engines out
+  app.all('/robots.txt', function(req,res) {
+    res.charset = 'text/plain';
+    res.send('User-agent: *\nDisallow: /');
+  });
+});
+
+app.configure('production', function() {
+  // Allow all search engines
+  // www.robotstxt.org/
+  // www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+  app.all('/robots.txt', function(req,res) {
+    res.charset = 'text/plain';
+    res.send('User-agent: *');
+  });
+});
 
 /**
  * Dynamically include routes (via controllers)

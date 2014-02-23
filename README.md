@@ -113,26 +113,6 @@ A few notes on my coding style:
 - I use a decent amount of whitespace for the same reason. 
 - Oh, and I like my opening braces on the same line, not a new line.
 
-Features
---------
-- **Local Authentication** using Email and Password
-- **OAuth 1.0a Authentication** via Twitter
-- **OAuth 2.0 Authentication** via Facebook, Google or GitHub
-- Awesome flash notifications with animations by [animate.css](http://daneden.github.io/animate.css/)
-- MVC Project Structure
-- Node.js clusters support
-- Rails 3.1-style asset pipeline (See FAQ)
-- LESS stylesheets (auto-compiled via Express middleware)
-- Bootstrap 3 + Flat UI + iOS7 Theme
-- Contact Form (powered by Sendgrid)
-- **Account Management**
- - Gravatar
- - Profile Details
- - Change Password
- - Link multiple OAuth strategies to one account
- - Delete Account
-- **API Examples**: Facebook, Foursquare, Last.fm, Tumblr, Twitter, PayPal, and more.
-
 Prerequisites
 -------------
 - [MongoDB](http://www.mongodb.org/downloads)
@@ -146,24 +126,6 @@ Prerequisites
 
 :exclamation: **Note**: If you are new to Node.js or Express framework,
 I highly recommend watching [Node.js and Express 101](http://www.youtube.com/watch?v=BN0JlMZCtNU) screencast by Alex Ford that teaches Node and Express from scratch. Alternatively, here is another great tutorial for complete beginners - [Getting Started With Node.js, Express, MongoDB](http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/).
-
-Gulp build system
--------------------
-
-<a href="http://gulpjs.com">
-  <img width="50" src="https://raw.github.com/gulpjs/artwork/master/gulp.png"/>
-</a>
-
-Many people use Express.js middleware to build assets, however I generally like a seperate build system like Grunt or Gulp.
-
-Our build system compiles and minifies all assets and starts the app app using nodemon.  Nodemon will restart node every time a server .js file changes.  We also start a livereload server that will trigger a reload of your page in the browser when any client .js, .css, .jade or images change.
-
-To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the [livereload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei). Click on the center dot to turn on the livereload capability after you start up via `gulp`.
-
-Now every time you make a change to a client component things will be recompiled and your browser will reload. Cool!
-
-// TODO Complete section
-
 
 Getting Started
 ---------------
@@ -186,6 +148,21 @@ gulp
 ```
 
 >:exclamation: But it probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. See below:
+
+Gulp build system
+-------------------
+
+<a href="http://gulpjs.com">
+  <img width="50" src="https://raw.github.com/gulpjs/artwork/master/gulp.png"/>
+</a>
+
+Many people use Express.js middleware to build assets, however I generally like a seperate build system like Grunt or Gulp.
+
+Our build system compiles and minifies all assets and starts the app app using nodemon.  Nodemon will restart node every time a server .js file changes.  We also start a livereload server that will trigger a reload of your page in the browser when any client .js, .css, .jade or images change.
+
+To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the [livereload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei). :exclamation: Click on the tiny center dot to turn on the livereload capability after you start up via `gulp`.
+
+Now every time you make a change to a client component things will be recompiled and your browser will reload. Cool!
 
 Obtaining API Keys
 ------------------

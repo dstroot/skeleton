@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
 @import "bootstrap.less";
-@import "../lib/font-awesome/less/font-awesome.less";
+@import "../public/lib/font-awesome/less/font-awesome.less";
 // @import (less) "../lib/animate.css/animate.css";
 @fa-font-path: "../lib/font-awesome/fonts";
 @font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
@@ -28,13 +28,19 @@
  *
  *   <div class="jumbotron bg-green orange"></div>
  *
- * Green background, orange text, get it? This separation is
- * very practical in use.  I usually designate brand colors
- * only but this is an example so...
+ * Green background, orange text, get it?
+ *
+ * This separation is very practical in use. However, if I
+ * make a widget that is designed with a particular color
+ * I use the color in the name. Ex: .btn-white or .navbar-yellow
+ *
+ * I usually designate brand colors only but this
+ * is an example so I included a fuller set.
  *
  */
 
 // Kuler Scheme  https://kuler.adobe.com/create/color-wheel/
+
 @brand1:     #4BAAD3;  // Blue
 @brand2:     #2D677F;  // Teal
 @brand3:     #173340;  // Yellow
@@ -54,6 +60,8 @@
 .bg-brand3 { background-color: @brand3; }
 .bg-brand4 { background-color: @brand4; }
 .bg-brand5 { background-color: @brand5; }
+
+// http://clrs.cc/
 
 // Cool
 @aqua:    #7FDBFF;
@@ -146,44 +154,6 @@ h4, h5, h6,
 .table {
   font-weight: 300;
 }
-.alert {
-  margin-bottom: 0px;
-  text-align: center;
-}
-
-/**
- * Hubspot stuff
- */
-
-// .share-buttons {
-//   zoom: 1;
-//   max-width: 100%;
-//   margin: 3em auto;
-//   font-size: 2em;
-// }
-// .share-buttons:before,
-// .share-buttons:after {
-//   content: "";
-//   display: table;
-// }
-// .share-buttons:after {
-//   clear: both;
-// }
-// .share-buttons .share-button {
-//   width: 100%;
-// }
-// .share-buttons .share-button iframe {
-//   width: 100%;
-//   height: 2.45em;
-// }
-// iframe {
-//     overflow: hidden;
-//     margin-bottom: 5px;
-//     border: 0px;
-// }
-// iframe[seamless]{
-//    overflow: hidden;
-// }
 
 /**
  * Footer
@@ -191,12 +161,12 @@ h4, h5, h6,
 
 .footer {
   text-align: center;
-  background-color: @gray-darker;
   /* Sticky footer styles below */
   position: absolute;
   bottom: 0;
   height: 80px;
   width: 100%;
+  /* Sticky footer styles end */
   p {
     font-size: 14px;
     color: darken(@gray-light, 15%);
@@ -213,11 +183,42 @@ h4, h5, h6,
 }
 
 /**
+ * Navbar
+ */
+
+@navbar-height: 50px;
+
+.navbar-nav .profile-image {
+  width: 30px;
+  height: 30px;
+  margin: -15px 15px -15px 0;
+}
+.navbar-brand {
+  background-image: url(/favicon.png);
+  background-repeat: no-repeat;
+  background-size: 40px;
+  background-position: left center;
+  padding-left: 45px;
+  margin-top: -1px;
+  margin-left: 15px;
+}
+
+/**
+ * Flash Alerts
+ */
+
+.alert {
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+/**
  * Jumbotron
  */
 
 @jumbotron-bg: @brand1;
 @jumbotron-heading-color: @white;
+
 .jumbotron {
   h1 {
     text-align: center;
@@ -261,6 +262,7 @@ h4, h5, h6,
     }
   }
 }
+
 /*
  * Minitron
  * Jumbotron-esque page headers
@@ -288,7 +290,6 @@ h4, h5, h6,
     position: relative;
   }
 }
-
 @media (min-width: 768px) {
   .mini-tron {
     padding-top: 60px;
@@ -304,30 +305,27 @@ h4, h5, h6,
   }
 }
 
-/**
- * Navbar
+/*
+ * Home Page
  */
 
-@navbar-height: 50px;
-.navbar-nav .profile-image {
-  width: 30px;
-  height: 30px;
-  margin: -15px 15px -15px 0;
+.jumbotron .btn {
+  width: 100%;
+  padding: 15px 30px;
+  font-size: 28px;
 }
-.navbar-brand {
-  background-image: url(/favicon.png);
-  background-repeat: no-repeat;
-  background-size: 40px;
-  background-position: left center;
-  padding-left: 45px;
-  margin-top: -1px;
-  margin-left: 15px;
+.btn-white {
+  color: #333;
+  background-color: #fff;
 }
-
-/**
- * Marketing
- */
-
+.btn-white:hover,
+.btn-white:focus,
+.btn-white:active {
+  color: #fff;
+  background-color: transparent;
+  text-shadow: 0 1px 1px rgba(0,0,0,.9);
+  border-color: #fff;
+}
 .marketing {
   margin-bottom: 70px;
   h1 {
@@ -391,30 +389,8 @@ h4, h5, h6,
   }
 }
 
-/*
- * Cover Page Button
- */
-
-.jumbotron .btn {
-  width: 100%;
-  padding: 15px 30px;
-  font-size: 28px;
-}
-.btn-white {
-  color: #333;
-  background-color: #fff;
-}
-.btn-white:hover,
-.btn-white:focus,
-.btn-white:active {
-  color: #fff;
-  background-color: transparent;
-  text-shadow: 0 1px 1px rgba(0,0,0,.9);
-  border-color: #fff;
-}
-
 /**
- * API Buttons
+ * API Page
  */
 
 .btn-api {
@@ -423,22 +399,35 @@ h4, h5, h6,
   font-size: 16px;
 }
 
+@media (min-width: 768px) {
+  li.api {
+    font-size: 20px;
+  }
+}
+
 /**
- * Dashboard
+ * Dashboard Page
  */
 
 .dashboard {
   text-align: center;
   p {
-    font-size: 96px;
-    line-height: 96px;
+    font-size: 70px;
+    line-height: 1;
     color: #ff6600;
     text-shadow: 1px 1px 1px #222;
   }
 }
+@media (min-width: 768px) {
+  .dashboard {
+    p {
+      font-size: 96px;
+    }
+  }
+}
 
 /**
- * Privacy
+ * Privacy Page
  */
 
 .table.privacy {
@@ -459,9 +448,6 @@ h4, h5, h6,
 @media (max-width: 992px) {
 }
 @media (min-width: 768px) {
-  li.api {
-    font-size: 20px;
-  }
 }
 @media (min-width: 992px) {
 }
