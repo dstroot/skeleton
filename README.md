@@ -484,6 +484,7 @@ Recommendations:
   - Download and install [Heroku Toolbelt](https://toolbelt.heroku.com/osx)
   - In terminal, run `heroku login` and enter your Heroku credentials
   - From *your app* directory run `heroku create`, followed by `git push heroku master`
+  - To use socket.io you have to opt-in to websockets support by running this command: `heroku labs:enable websockets -a myapp`
   - Done!
 
 TODO

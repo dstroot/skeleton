@@ -101,15 +101,15 @@ config.tumblr.callbackURL         = '/auth/tumblr/callback';
 config.foursquare                 = {};
 config.foursquare.clientId        = process.env.FOURSQUARE_KEY || '';
 config.foursquare.clientSecret    = process.env.FOURSQUARE_SECRET || '';
-config.foursquare.redirectUrl     = 'http://localhost:3000/auth/foursquare/callback';
+config.foursquare.redirectUrl     = process.env.FOURSQUARE_URL || 'http://localhost:3000/auth/foursquare/callback';
 
 // Paypal
 config.paypal                     = {};
 config.paypal.host                = 'api.sandbox.paypal.com';
 config.paypal.client_id           = process.env.PAYPAL_KEY || '';
 config.paypal.client_secret       = process.env.PAYPAL_SECRET || '';
-config.paypal.returnUrl           = 'http://localhost:3000/api/paypal/success';
-config.paypal.cancelUrl           = 'http://localhost:3000/api/paypal/cancel';
+config.paypal.returnUrl           = process.env.PAYPAL_RETURN_URL || 'http://localhost:3000/api/paypal/success';
+config.paypal.cancelUrl           = process.env.PAYPAL_CANCEL_URL || 'http://localhost:3000/api/paypal/cancel';
 
 /**
  * Authorization Configuration
