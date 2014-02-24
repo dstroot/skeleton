@@ -23,7 +23,7 @@ config.ga             = 'UA-44765020-2';
  */
 
 config.logging        = false;
-config.logfilename    = 'skeleton.log';
+config.logfilename    = process.env.LOGFILE ||'skeleton.log';
 
 /**
  * Database Configuration
@@ -95,7 +95,7 @@ config.twilio.phone               = process.env.TWILIO_PHONE || '';
 config.tumblr                     = {};
 config.tumblr.key                 = process.env.TUMBLR_KEY || '';
 config.tumblr.secret              = process.env.TUMBLR_SECRET || '';
-config.tumblr.callbackURL         = '/auth/tumblr/callback';
+config.tumblr.callbackURL         = process.env.TUMBLR_URL || '/auth/tumblr/callback';
 
 // Foursquare
 config.foursquare                 = {};
@@ -105,7 +105,7 @@ config.foursquare.redirectUrl     = process.env.FOURSQUARE_URL || 'http://localh
 
 // Paypal
 config.paypal                     = {};
-config.paypal.host                = 'api.sandbox.paypal.com';
+config.paypal.host                = process.env.PAYPAL_HOST || 'api.sandbox.paypal.com';
 config.paypal.client_id           = process.env.PAYPAL_KEY || '';
 config.paypal.client_secret       = process.env.PAYPAL_SECRET || '';
 config.paypal.returnUrl           = process.env.PAYPAL_RETURN_URL || 'http://localhost:3000/api/paypal/success';
