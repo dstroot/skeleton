@@ -26,14 +26,16 @@ This brings us to Hackathon-starter. This is GREAT site to get started with and 
 
 So why offer "yet another framework"?  First, I like a fully working built-out site as a starting point to "see" a framework in action. Also because I want a playground of my own **and** you might find something interesting in here!
 
-Like what we do?
-----------------
+Find this really helpful?
+-------------------------
+
 This could literally save 100's of hours of work.  If it you find it valuable I would really appreciate your support!
 
 [Support via GITTIP](https://www.gittip.com/danstroot/)
 
 Table of Contents
 -----------------
+
 - [Features](#features)
 - [Technology](#technology)
 - [Getting Started](#getting-started)
@@ -53,6 +55,7 @@ Table of Contents
 
 Features
 --------
+
 - **Modern Technology Stack**
   + Node.js
   + Node.js clusters support
@@ -139,7 +142,7 @@ bower install
 gulp
 ```
 
->:exclamation: But it probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. More below.
+>:exclamation: **Note**: It probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. More below.
 
 >:exclamation: **Note**: If you are new to Node.js or Express framework,
 I highly recommend watching [Node.js and Express 101](http://www.youtube.com/watch?v=BN0JlMZCtNU) screencast by Alex Ford that teaches Node and Express from scratch. Alternatively, here is another great tutorial for complete beginners - [Getting Started With Node.js, Express, MongoDB](http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/).
@@ -331,15 +334,15 @@ Chances are you haven't changed the *Dabatase URI* in `config.js`. If `db` is se
 
 You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** section for more information on how to setup an account and a new database step-by-step with MongoLab.
 
-###Why Jade instead of Handlebars template engine?
+###Why Jade instead of some other (Handlebats, EJS, etc.) template engine?
 
-Subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or any non-HAML style for that matter.  I like it.
+Subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or any non-HAML style for that matter.  I like it.  You can use anything you like.
 
 ### Can I use Ember, Angular or Backbone with Skeleton?
 
 Absolutely!  But things get messy quickly.  In Drywall, several of the pages are Backbone apps.  You can check that out. 
 
-In here we have a redimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
+In this project we have a rudimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
 
 ###How do flash messages work in this project?
 
@@ -443,6 +446,7 @@ Deployment
 Recommendations: 
 
 1. Create an account with **MongoLab** 
+
   <img src="http://i.imgur.com/7KnCa5a.png" width="200">
   - Open [mongolab.com](https://mongolab.com) website
   - Click the yellow **Sign up** button
@@ -464,7 +468,7 @@ Recommendations:
 
 2. Create an account with **Nodejitsu** or **Heroku**
 
-  <img src="https://www.nodejitsu.com/img/media/nodejitsu-transparent.png" width="200">
+  <img src="https://www.nodejitsu.com/img/media/nodejitsu-transparent.png" width="150">
 
   I think Nodejitsu is dead simple and it works great!
 
