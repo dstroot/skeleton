@@ -28,7 +28,7 @@ So why offer "yet another framework"?  First, I like a fully working built-out s
 
 Like what we do?
 ----------------
-This could literally save 100's of hours of work.  If it you find it valuable we would really appreciate your support!
+This could literally save 100's of hours of work.  If it you find it valuable I would really appreciate your support!
 
 [Support via GITTIP](https://www.gittip.com/danstroot/)
 
@@ -40,16 +40,13 @@ Table of Contents
 - [Getting Started](#getting-started)
 - [Gulp Build System](#gulp-build-system)
 - [Coding Style](#coding-style)
-- []()
 - [Obtaining API Keys](#obtaining-api-keys)
-- [Project Structure](#project-structure)
-- [Useful Tools](#useful-tools)
-- [Recommended Design](#recommended-design)
-- [Recommended Node.js Libraries](#recommended-nodejs-libraries)
-- [Recommended Client-Side Libraries](#recommended-client-side-libraries)
-- [Pro Tips](#pro-tips)
 - [FAQ](#faq)
-- [How It Works](#how-it-works-mini-guides)
+- [Pro Tips](#pro-tips)
+- [Useful Tools](#useful-tools)
+- [Interesting Design](#interesting-design)
+- [Interesting Node.js Libraries](#interesting-nodejs-libraries)
+- [Interesting Client-Side Libraries](#interesting-client-side-libraries)
 - [Deployment](#deployment)
 - [TODO](#todo)
 - [Contributing](#contributing)
@@ -66,7 +63,7 @@ Features
   + LESS stylesheets 
   + Bootstrap 3 UI
   + FontAwesome
-- **MVC project structure** (in my own style - "Views" are the Jade Templates, "Models" are the Mongo/Mongoose models, and "Controllers" are the glue for routing, page logic and data access via the models. These should be the only things you need to touch to build out new pages/functionality.)
+- **MVC project structure** (in my own style) - "Views" are the Jade Templates, "Models" are the Mongo/Mongoose models, and "Controllers" are the glue for routing, page logic and data access via the models. These should be the only things you need to touch to build out new pages and functionality.
 - **Robust Authentication**
   + **Local Authentication** using Email and Password
   + **OAuth 1.0a Authentication** via Twitter
@@ -189,7 +186,7 @@ Obtaining API Keys
  - **Application Type**: Web Application
  - **Authorized Javascript origins**: http://localhost:3000
  - **Authorized redirect URI**: http://localhost:3000/auth/google/callback
-- Copy and paste *Client ID* and *Client secret* keys into `config/secrets.js`
+- Copy and paste *Client ID* and *Client secret* keys into `config/config.js`
 
 :exclamation: **Note**: When you ready to deploy to production don't forget to add your new url to **Authorized Javascript origins** and **Authorized redirect URI**, e.g. `http://my-awesome-app.herokuapp.com` and `http://my-awesome-app.herokuapp.com/auth/google/callback` respectively. The same goes for other providers.
 
@@ -197,7 +194,7 @@ Obtaining API Keys
 - Visit [Facebook Developers](https://developers.facebook.com/)
 - Click **Apps > Create a New App** in the navigation bar
 - Enter *Display Name*, then choose a category, then click **Create app**
-- Copy and paste *App ID* and *App Secret* keys into `config/secrets.js`
+- Copy and paste *App ID* and *App Secret* keys into `config/config.js`
  - *App ID* is **clientID**, *App Secret* is **clientSecret**
 - Click on *Settings* on the sidebar, then click **+ Add Platform**
 - Select **Website**
@@ -210,7 +207,7 @@ Obtaining API Keys
 - Enter *Application Name* and *Homepage URL*.
 - For *Authorization Callback URL*: http://localhost:3000/auth/github/callback
 - Click **Register application**
-- Now copy and paste *Client ID* and *Client Secret* keys into `config/secrets.js`
+- Now copy and paste *Client ID* and *Client Secret* keys into `config/config.js`
 
 #<img src="https://g.twimg.com/Twitter_logo_blue.png" width="50">
 - Sign in at [https://dev.twitter.com](https://dev.twitter.com/)
@@ -222,14 +219,14 @@ Obtaining API Keys
 - Under *Application Type* select **Read and Write** access
 - Check the box **Allow this application to be used to Sign in with Twitter**
 - Click **Update this Twitter's applications settings**
-- Copy and paste *Consumer Key* and *Consumer Secret* keys into `config/secrets.js`
+- Copy and paste *Consumer Key* and *Consumer Secret* keys into `config/config.js`
 
 #<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="200">
 - Visit [PayPal Developer](https://developer.paypal.com/)
 - Log in using your existing PayPal account
 - Click **Applications > Create App** in the navigation bar
 - Enter *Application Name*, then click **Create app**
-- Copy and paste *Client ID* and *Secret* keys into `config/secrets.js`
+- Copy and paste *Client ID* and *Secret* keys into `config/config.js`
 - *App ID* is **client_id**, *App Secret* is **client_secret**
 - Make a note of your Sandbox accounts (test user accounts) for testing purposes.  
 - Change **host** to api.paypal.com if you want to test against production and use the live credentials
@@ -241,7 +238,7 @@ Obtaining API Keys
 - Enter *App Name*, *Welcome page url*,
 - For **Redirect URI**: http://localhost:3000/auth/foursquare/callback
 - Click **Save Changes**
-- Copy and paste *Client ID* and *Client Secret* keys into `config/secrets.js`
+- Copy and paste *Client ID* and *Client Secret* keys into `config/config.js`
 
 #<img src="http://www.athgo.org/ablog/wp-content/uploads/2013/02/tumblr_logo.png" width="100">
 - Go to http://www.tumblr.com/oauth/apps
@@ -249,69 +246,7 @@ Obtaining API Keys
 - Fill in all the details
 - For **Default Callback URL**: http://localhost:3000/auth/tumblr/callback
 - Click **✔Register**
-- Copy and paste *OAuth consumer key* and *OAuth consumer secret* keys into `config/secrets.js`
-
-Useful Tools
-------------
-- [Jade Syntax Documentation by Example](http://naltatis.github.io/jade-syntax-docs/#attributes) - Even better than official Jade docs.
-- [HTML to Jade converter](http://html2jade.aaron-powell.com) - Extremely valuable when you need to quickly copy and paste HTML snippets from the web.
-- [JavascriptOO](http://www.javascriptoo.com/) - A directory of JavaScript libraries with examples, CDN links, statistics, and videos.
-- [DailyJS](http://dailyjs.com/) - Blog about JS coding, libraries and tools.
-
-Interesting Design
-------------------
-- [Bootstrap](http://getbootstrap.com/) - Start here.  ;)
-- [Bootstrap Expo](http://expo.getbootstrap.com/) - Examples of Bootstrap based sites.
-- [Wrap Bootstrap](https://wrapbootstrap.com/) - Bootstrap themes and templates
-- [Bootswatch](http://bootswatch.com/) - Bootstrame themes (simple stuff)
-- [Google Bootstrap](http://todc.github.io/todc-bootstrap/) - Google-styled theme for Bootstrap.
-- [Font Awesome Icons](http://fortawesome.github.io/Font-Awesome/icons/) - It's already part of the Hackathon Starter, so use this page as a reference.
-- [Colors](http://clrs.cc) - a nicer color palette for the web.
-- [CSS Spinning Loaders](http://codepen.io/andymcfee/pen/ioskA) - spinning loader in CSS.
-- [SpinKit](http://tobiasahlin.com/spinkit/) - 8 awesome looking spinning loaders in CSS.
-- [Creative Button Styles](http://tympanus.net/Development/CreativeButtons/) - awesome button styles.
-- [3D Dropdown Menu](http://soulwire.github.io/Makisu/) - CSS3 3D Dropdown Menu that folds and unfolds.
-- [Creative Link Effects](http://tympanus.net/Development/CreativeLinkEffects/) - Beautiful link effects in CSS.
-- [Medium Scroll Effect](http://codepen.io/andreasstorm/pen/pyjEh) - Fade in/out header background image as you scroll.
-- [HTML5UP](http://html5up.net/) - Beautifully designed HTML templates.
-- [Codrops](http://tympanus.net/codrops/) - Excellent design tutorials!
-
-Interesting Node.js Libraries
------------------------------
-- [nodemon](https://github.com/remy/nodemon) - automatically restart node.js server on code change.
-- [geoip-lite](https://github.com/bluesmoon/node-geoip) - get geolocation coordinates from IP address.
-- [Nodemailer](https://github.com/andris9/Nodemailer) - send emails with node.js (without sendgrid or mailgun).
-- [filesize.js](http://filesizejs.com/) - make file size pretty, e.g. `filesize(265318); // "265.32 kB"`.
-- [Numeral.js](http://numeraljs.com) - a javascript library for formatting and manipulating numbers.
-
-Interesting Client-Side libraries
----------------------------------
-- [Hover](https://github.com/IanLunn/Hover) - Awesome css3 animations on mouse hover.
-- [platform.js](https://github.com/bestiejs/platform.js) - Get client's operating system name, version, and other useful information.
-- [iCheck](https://github.com/fronteed/iCheck) - Custom nice looking radio and check boxes.
-- [Magnific Popup](http://dimsemenov.com/plugins/magnific-popup/) - Responsive jQuery Lightbox Plugin.
-- [jQuery Raty](http://wbotelhos.com/raty/) - Star Rating Plugin.
-- [Headroom.js](http://wicky.nillia.ms/headroom.js/) - Hide your header until you need it.
-- [Fotorama](http://fotorama.io) - Very nice jQuery gallery.
-- [X-editable](http://vitalets.github.io/x-editable/) - Edit form elements inline.
-- [Offline.js](http://github.hubspot.com/offline/docs/welcome/) - Detect when user's internet connection goes offline.
-- [Color Thief](https://github.com/lokesh/color-thief) - Grabs the dominant color or a representative color palette from an image.
-- [select.js](http://github.hubspot.com/select/docs/welcome/) - Styleable select elements.
-- [drop.js](http://github.hubspot.com/drop/docs/welcome/) -  Powerful Javascript and CSS library for creating dropdowns and other floating displays.
-- [scrollReveal.js](https://github.com/julianlloyd/scrollReveal.js) - Declarative on-scroll reveal animations.
-
-Pro Tips
---------
-- When you install a new npm package, add a *--save* flag and it will be automatially
-added to `package.json` as well. For example, `npm install --save moment`.
-- Use [async.parallel()](https://github.com/caolan/async#parallel) when you neeed to run multiple
-asynchronous tasks, and then render a page, but only when all tasks are completed. For example, you might
-want to scrape 3 different websites for some data (async operation) and render the results
-on a page after all 3 websites have been scraped.
-- Need to find a specific object inside an Array? Use [_.findWhere](http://underscorejs.org/#findWhere) function from Underscore.js. For example, this is how you would retrieve a Twitter token from database: `var token = _.findWhere(req.user.tokens, { kind: 'twitter' });`, where `req.user.tokens` is an Array, and a second parameter is an object with a given key/value.
-- If you right click and select **View Page Source**, notice how *Express*
-minified HTML for you. If you would like to see non-minified markup,
-add `app.locals.pretty = true;` to **app.js** with the rest of the Express configuration.
+- Copy and paste *OAuth consumer key* and *OAuth consumer secret* keys into `config/config.js`
 
 FAQ
 ---
@@ -321,7 +256,7 @@ FAQ
 You need to create just two files and edit one:
 
 1. NEW View: In `views` create your new Jade template. For example to create a "Hello World" page you could create `views/hello/hello.jade`.
-2. NEW Controller: In `controllers` you need to create a new controller to render the page when the page's route is called: `/hello`. It would look like this:
+2. NEW Controller: In `controllers` you need to create a new controller to render the page when the page's route is called (`/hello`). It would look like this:
 
   ```js
   module.exports.controller = function(app) {
@@ -339,15 +274,14 @@ Boom!  That's it.
 If you need authentication then you would add the Authentication Middleware as a dependency in your controller and then change one line of code in the controller. You will change the `apt-get` line to include the `.isAuthenticated` middleware. It always reads from left to right. A user visits `/hello` page. Then `isAuthenticated` middleware checks if you are authenticated:
 
 ```js
-var passportConf  = require('../config/passport');
+var passportConf  = require('../config/passport');  // New dependency
 
-app.get('/hello', passportConf.isAuthenticated, function(req, res) {
-  module.exports.controller = function(app) {
-    app.get('/hello', passportConf.isAuthenticated, function(req, res) {
-      res.render('hello/hello', {
-      });
+module.exports.controller = function(app) {
+  app.get('/hello', passportConf.isAuthenticated, function(req, res) { // Changed
+    res.render('hello/hello', {
     });
-  };
+  });
+};
 ```
 
 The `isAuthenticated` middleware checks if you are authenticated and if not redirects you to the login page, otherwise it just calls `next` and your conroller renders the page.
@@ -391,7 +325,7 @@ You can get MongoDB from [mongodb.org/downloads](mongodb.org/downloads), or inst
 
 ###I get an error when I deploy my app, why?
 
-Chances are you haven't changed the *Dabatase URI* in `secrets.js`. If `db` is set to `localhost`, it will only work on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB running on `localhost`. 
+Chances are you haven't changed the *Dabatase URI* in `config.js`. If `db` is set to `localhost`, it will only work on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB running on `localhost`. 
 
 You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** section for more information on how to setup an account and a new database step-by-step with MongoLab.
 
@@ -405,21 +339,14 @@ Absolutely!  But things get messy quickly.  In Drywall, several of the pages are
 
 In here we have a redimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
 
-###:bulb: How do flash messages work in this project?
+###How do flash messages work in this project?
 
 Flash messages allow you to display a message at the end of the request and access it on next request and only next request. For instance, on a failed login attempt, you would display an alert with some error message, but as soon as you refresh that page or visit a different page and come back to the login page, that error message will be gone. It is only displayed once.
 
 This project uses *express-flash* module for flash messages. And that module is built on top of *connect-flash*, which is what I used in this project initially. With *express-flash* you don't have to explicity send a flash message to every view inside `res.render()`. All flash messages are available in your views via `messages` object by default, thanks to *express-flash*.
 
 Flash messages have a two-step process. You use `req.flash('errors', { msg: 'Error messages goes here' }`
-to create a flash message in your controllers, and then display them in your views:
-
-```jade
-if messages.errors
-  .alert.alert-danger.animated.fadeIn
-    for error in messages.errors
-      div= error.msg
-```
+to create a flash message in your controllers, and then display them in your views.
 
 In the first step, `'errors'` is the name of a flash message, which should match the name of the property on `messages` object in your views. You place alert messages inside `if message.errors` because you don't want to show them flash messages are actually present.
 
@@ -434,47 +361,79 @@ The reason why you pass an error like `{ msg: 'Error messages goes here' }` inst
 
 To keep consistent with that style, you should pass all flash messages
 as `{ msg: 'My flash message' }` instead of a string. Otherwise you will just see an alert box without an error message. That is because, in **partials/flash.jade** template it will try to output `error.msg` (i.e. `"My flash message".msg`), in other words it will try to call a `msg` method on a *String* object,
-which will return *undefined*. Everything I just mentioned about errors, also applies to "info" and "success" flash messages, and you could even create a new one yourself, such as:
+which will return *undefined*. Everything I just mentioned about errors, also applies to "warning", "info" and "success" flash messages.
 
-**Data Usage Controller (Example)**
-
-```
-req.flash('warning', 'You have exceeded 90% of your data usage');
-```
-
-**User Account Page (Example)**
+The flash messages partial template is *included* in `layout.jade`, along with footer and navigation.
 
 ```jade
-if messages.warning
-  .alert.alert-warning.animated.fadeIn
-    for warning in messages.warning
-      div= warning.msg
+doctype html
+html
+  include ../partials/head
+  body
+    include ../partials/navigation
+    include ../partials/flash
+    block content
+    include ../partials/footer
+    block scripts
 ```
-
-`partials/flash.jade` is a partial template that contains how flash messages
-are formatted. If you don't like the *fadeIn* animation, try something like
-*flipInX* (refer to [animate.css](http://daneden.github.io/animate.css/)), or just delete `.animated.fadeIn` from alerts if you don't want any animations. Or if you want to customize your flash messages by displaying ✔ on success flash and ✗ on error flash, this is the place where you would do all those customizations. Previously, flash messages were scattered throughout each view that used flash messages (contact, login, signup, profile), but now, thankfully it is uses a *DRY* approach.
-
-The flash messages partial template is *included* in the `layout.jade`, along with footer and navigation.
-
-```jade
-body
-  #wrap
-    include partials/navigation
-    .container
-      include partials/flash
-      block content
-  include partials/footer
-```
-
-If you have any further questions about flash messages,
-please feel free to open an issue and I will update this mini-guide accordingly, or send a pull request if you  would like to include something that I missed.
 
 <hr>
 
-Mongoose Cheatsheet
--------------------
-TODO
+Pro Tips
+--------
+- When you install a new npm package, add a *--save* flag and it will be automatially
+added to `package.json` as well. For example, `npm install --save moment`.
+- Use [async.parallel()](https://github.com/caolan/async#parallel) when you neeed to run multiple asynchronous tasks, and then render a page, but only when all tasks are completed. For example, you might want to scrape 3 different websites for some data (async operation) and render the results on a page after all 3 websites have been scraped.
+- Use [async.waterfall()](https://github.com/caolan/async#waterfall) when you need to run sequential tasks before you render a page.
+- Need to find a specific object inside an Array? Use [_.findWhere](http://underscorejs.org/#findWhere) function from Underscore.js. For example, this is how you would retrieve a Twitter token from database: `var token = _.findWhere(req.user.tokens, { kind: 'twitter' });`, where `req.user.tokens` is an Array, and a second parameter is an object with a given key/value.
+
+Useful Tools
+------------
+- [Jade Syntax Documentation by Example](http://naltatis.github.io/jade-syntax-docs/#attributes) - Even better than official Jade docs.
+- [HTML to Jade converter](http://html2jade.aaron-powell.com) - Extremely valuable when you need to quickly copy and paste HTML snippets from the web.
+- [JavascriptOO](http://www.javascriptoo.com/) - A directory of JavaScript libraries with examples, CDN links, statistics, and videos.
+- [DailyJS](http://dailyjs.com/) - Blog about JS coding, libraries and tools.
+
+Interesting Design
+------------------
+- [Bootstrap](http://getbootstrap.com/) - Start here.  ;)
+- [Bootstrap Expo](http://expo.getbootstrap.com/) - Examples of Bootstrap based sites.
+- [Wrap Bootstrap](https://wrapbootstrap.com/) - Bootstrap themes and templates
+- [Bootswatch](http://bootswatch.com/) - Bootstrame themes (simple stuff)
+- [Google Bootstrap](http://todc.github.io/todc-bootstrap/) - Google-styled theme for Bootstrap.
+- [Font Awesome Icons](http://fortawesome.github.io/Font-Awesome/icons/) - It's already part of the Hackathon Starter, so use this page as a reference.
+- [Colors](http://clrs.cc) - a nicer color palette for the web.
+- [CSS Spinning Loaders](http://codepen.io/andymcfee/pen/ioskA) - spinning loader in CSS.
+- [SpinKit](http://tobiasahlin.com/spinkit/) - 8 awesome looking spinning loaders in CSS.
+- [Creative Button Styles](http://tympanus.net/Development/CreativeButtons/) - awesome button styles.
+- [3D Dropdown Menu](http://soulwire.github.io/Makisu/) - CSS3 3D Dropdown Menu that folds and unfolds.
+- [Creative Link Effects](http://tympanus.net/Development/CreativeLinkEffects/) - Beautiful link effects in CSS.
+- [Medium Scroll Effect](http://codepen.io/andreasstorm/pen/pyjEh) - Fade in/out header background image as you scroll.
+- [HTML5UP](http://html5up.net/) - Beautifully designed HTML templates.
+- [Codrops](http://tympanus.net/codrops/) - Excellent design tutorials!
+
+Interesting Node.js Libraries
+-----------------------------
+
+- [geoip-lite](https://github.com/bluesmoon/node-geoip) - get geolocation coordinates from IP address.
+- [filesize.js](http://filesizejs.com/) - make file size pretty, e.g. `filesize(265318); // "265.32 kB"`.
+- [Numeral.js](http://numeraljs.com) - a javascript library for formatting and manipulating numbers.
+
+Interesting Client-Side libraries
+---------------------------------
+- [Hover](https://github.com/IanLunn/Hover) - Awesome css3 animations on mouse hover.
+- [platform.js](https://github.com/bestiejs/platform.js) - Get client's operating system name, version, and other useful information.
+- [iCheck](https://github.com/fronteed/iCheck) - Custom nice looking radio and check boxes.
+- [Magnific Popup](http://dimsemenov.com/plugins/magnific-popup/) - Responsive jQuery Lightbox Plugin.
+- [jQuery Raty](http://wbotelhos.com/raty/) - Star Rating Plugin.
+- [Headroom.js](http://wicky.nillia.ms/headroom.js/) - Hide your header until you need it.
+- [Fotorama](http://fotorama.io) - Very nice jQuery gallery.
+- [X-editable](http://vitalets.github.io/x-editable/) - Edit form elements inline.
+- [Offline.js](http://github.hubspot.com/offline/docs/welcome/) - Detect when user's internet connection goes offline.
+- [Color Thief](https://github.com/lokesh/color-thief) - Grabs the dominant color or a representative color palette from an image.
+- [select.js](http://github.hubspot.com/select/docs/welcome/) - Styleable select elements.
+- [drop.js](http://github.hubspot.com/drop/docs/welcome/) -  Powerful Javascript and CSS library for creating dropdowns and other floating displays.
+- [scrollReveal.js](https://github.com/julianlloyd/scrollReveal.js) - Declarative on-scroll reveal animations.
 
 Deployment
 ----------
@@ -498,7 +457,7 @@ experience, **Heroku** is the easiest to get started with, it will automatically
 - You should see the following message:
  - *A database user is required to connect to this database.* **Click here** *to create a new one.*
 - Click the link and fill in **DB Username** and **DB Password** fields
-- Finally, in `secrets.js` instead of `db: 'localhost'`, use the following URI with your credentials:
+- Finally, in `config.js` instead of `db: 'localhost'`, use the following URI with your credentials:
  - `db: 'mongodb://<dbuser>:<dbpassword>@ds027479.mongolab.com:27479/<dbname>'`
 
 > **:exclamation:Note**: As an alternative to MongoLab, there is also [MongoHQ](http://www.mongohq.com/home).
@@ -545,12 +504,6 @@ Add this to `package.json`, after *name* and *version*. This is necessary becaus
 - And you are done! (Not quite as simple as Heroku, huh?)
 
 <img src="https://nodejs-in-production.nodejitsu.com/img/nodejitsu.png" width="200">
-
-TODO: Will be added soon.
-
-<img src="http://upload.wikimedia.org/wikipedia/en/f/ff/Windows_Azure_logo.png" width="200">
-
-TODO: Will be added soon.
 
 TODO
 ----

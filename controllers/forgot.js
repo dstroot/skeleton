@@ -125,7 +125,7 @@ module.exports.controller = function(app) {
       // lookup user
       User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
         if (err) {
-          req.flash('errors', err);
+          req.flash('errors', { msg: err.message });
           return res.redirect('/forgot');
         }
         if (!user) {
@@ -146,7 +146,7 @@ module.exports.controller = function(app) {
         // update the user's record with the token
         user.save(function(err) {
           if (err) {
-            req.flash('errors', err);
+            req.flash('errors', { msg: err.message });
             return res.redirect('/forgot');
           }
         });

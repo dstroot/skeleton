@@ -99,7 +99,7 @@ module.exports.controller = function(app) {
           .where('resetPasswordExpires').gt(Date.now())
           .exec(function(err, user) {
         if (err) {
-          req.flash('errors', err);
+          req.flash('errors', { msg: err.message });
           req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
           return res.redirect('/forgot');
         }
@@ -110,7 +110,7 @@ module.exports.controller = function(app) {
         // Validate their token
         bcrypt.compare(req.params.token, user.resetPasswordToken, function(err, isValid) {
           if (err) {
-            req.flash('errors', err);
+            req.flash('errors', { msg: err.message });
             req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
             return res.redirect('/forgot');
           }
@@ -139,13 +139,13 @@ module.exports.controller = function(app) {
       // update the user record
       user.save(function(err) {
         if (err) {
-          req.flash('errors', err);
+          req.flash('errors', { msg: err.message });
           return res.redirect('back');
         }
         // Log the user in
         req.logIn(user, function(err) {
           if (err) {
-            req.flash('errors', err);
+            req.flash('errors', { msg: err.message });
             return res.redirect('back');
           }
 
