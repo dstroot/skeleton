@@ -3,9 +3,9 @@
 [![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) 
 [![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 
-### Skeleton: A **complete framework** for building **Node.js** web applications.
+#### Skeleton: A **complete framework** for building **Node.js** web applications.
 
-### **Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
+#### **Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
 
 ![Alt](https://lh6.googleusercontent.com/-uKeCLpArf-8/UwashLnJ4gI/AAAAAAAABvg/frUvl_qroCM/w951-h891-no/Skeleton.jpg)
 
@@ -36,7 +36,6 @@ Table of Contents
 -----------------
 - [Features](#features)
 - [Technology](#technology)
-- [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
 - [Gulp Build System](#gulp-build-system)
 - [Coding Style](#coding-style)
@@ -105,8 +104,12 @@ Technology
 | express-validator |                |             |
 | express-flash     |                |             |
 
-Prerequisites
--------------
+
+
+Getting Started
+---------------
+
+### Prerequisites
 
 - [MongoDB](http://www.mongodb.org/downloads) - however I recommend [Mongolab](http://monglolab.com), more below about this.
 - [Node.js](http://nodejs.org)
@@ -117,17 +120,13 @@ Prerequisites
  - **Fedora**: `sudo yum groupinstall "Development Tools"`
  - **OpenSUSE**: `sudo zypper install --type pattern devel_basis`
 
-:exclamation: **Note**: If you are new to Node.js or Express framework,
-I highly recommend watching [Node.js and Express 101](http://www.youtube.com/watch?v=BN0JlMZCtNU) screencast by Alex Ford that teaches Node and Express from scratch. Alternatively, here is another great tutorial for complete beginners - [Getting Started With Node.js, Express, MongoDB](http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/).
-
-Getting Started
----------------
+### Installation
 
 ```bash
 # Install global dependencies
 npm install -g nodemon gulp
 
-# Fetch only the latest commits.
+# Clone the repoo (and fetch only the latest commits)
 git clone --depth=1 git@github.com:dstroot/skeleton.git
 cd skeleton
 
@@ -141,6 +140,9 @@ gulp
 ```
 
 >:exclamation: But it probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. More below.
+
+>:exclamation: **Note**: If you are new to Node.js or Express framework,
+I highly recommend watching [Node.js and Express 101](http://www.youtube.com/watch?v=BN0JlMZCtNU) screencast by Alex Ford that teaches Node and Express from scratch. Alternatively, here is another great tutorial for complete beginners - [Getting Started With Node.js, Express, MongoDB](http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/).
 
 Gulp Build System
 -----------------
@@ -284,7 +286,7 @@ module.exports.controller = function(app) {
 };
 ```
 
-The `isAuthenticated` middleware checks if you are authenticated and if not redirects you to the login page, otherwise it just calls `next` and your conroller renders the page.
+The `isAuthenticated` middleware checks if you are authenticated and if not redirects you to the login page, otherwise it just calls `next` and your controller renders the page.
 
 ```js
 exports.isAuthenticated = function(req, res, next) {
@@ -438,72 +440,47 @@ Interesting Client-Side libraries
 Deployment
 ----------
 
-Once you are ready to deploy your app, you will need to create an account with a cloud platform to host it. These are not
-the only choices, but they are my top picks. Create an account with **MongoLab** and then pick one of the 4 providers
-below. Once again, there are plenty of other choices and you are not limited to just the ones listed below. From my
-experience, **Heroku** is the easiest to get started with, it will automatically restart your node.js process when it crashes, custom domain support on free accounts, hot push deployments, and *Hackathon Starter* already includes `Procfile`, which is necessary for deployment to **Heroku**.
+Recommendations: 
 
-<img src="http://i.imgur.com/7KnCa5a.png" width="200">
-- Open [mongolab.com](https://mongolab.com) website
-- Click the yellow **Sign up** button
-- Fill in your user information then hit **Create account**
-- From the dashboard, click on **:zap:Create new** button
-- Select **any** cloud provider (I usually go with AWS)
-- Under *Plan* click on **Single-node (development)** tab and select **Sandbox** (it's free)
- - *Leave MongoDB version as is - `2.4.x`*
-- Enter *Database name** for your web app
-- Then click on **:zap:Create new MongoDB deployment** button
-- Now, to access your database you need to create a DB user
-- You should see the following message:
- - *A database user is required to connect to this database.* **Click here** *to create a new one.*
-- Click the link and fill in **DB Username** and **DB Password** fields
-- Finally, in `config.js` instead of `db: 'localhost'`, use the following URI with your credentials:
- - `db: 'mongodb://<dbuser>:<dbpassword>@ds027479.mongolab.com:27479/<dbname>'`
+1. Create an account with **MongoLab** 
+  <img src="http://i.imgur.com/7KnCa5a.png" width="200">
+  - Open [mongolab.com](https://mongolab.com) website
+  - Click the yellow **Sign up** button
+  - Fill in your user information then hit **Create account**
+  - From the dashboard, click on **:zap:Create new** button
+  - Select **any** cloud provider (I usually go with AWS)
+  - Under *Plan* click on **Single-node (development)** tab and select **Sandbox** (it's free)
+   - *Leave MongoDB version as is - `2.4.x`*
+  - Enter *Database name** for your web app
+  - Then click on **:zap:Create new MongoDB deployment** button
+  - Now, to access your database you need to create a DB user
+  - You should see the following message:
+   - *A database user is required to connect to this database.* **Click here** *to create a new one.*
+  - Click the link and fill in **DB Username** and **DB Password** fields
+  - Finally, in `config.js` instead of `db: 'localhost'`, use the following URI with your credentials:
+   - `db: 'mongodb://<dbuser>:<dbpassword>@ds027479.mongolab.com:27479/<dbname>'`
 
-> **:exclamation:Note**: As an alternative to MongoLab, there is also [MongoHQ](http://www.mongohq.com/home).
+  > **:exclamation:Note**: As an alternative to MongoLab, there is also [MongoHQ](http://www.mongohq.com/home).
 
-<img src="http://blog.exadel.com/wp-content/uploads/2013/10/heroku-Logo-1.jpg" width="200">
-- Download and install [Heroku Toolbelt](https://toolbelt.heroku.com/osx)
-- In terminal, run `heroku login` and enter your Heroku credentials
-- From *your app* directory run `heroku create`, followed by `git push heroku master`
-- Done!
+2. Create an account with **Nodejitsu** or **Heroku**
 
-<img src="http://www.opencloudconf.com/images/openshift_logo.png" width="200">
-- First, install this Ruby gem: `sudo gem install rhc` :gem:
-- Run `rhc login` and enter your OpenShift credentials
-- From *your app* directory run `rhc app create MyApp nodejs-0.10`
- - **Note**: *MyApp* is what you want to name your app (no spaces)
-- Once that is done, you will be provided with **URL**, **SSH** and **Git Remote** links
-- Visit that **URL** and you should see *Welcome to your Node.js application on OpenShift* page
-- Copy **Git Remote** and paste it into `git remote add openshift your_git_remote`
-- Before you push your app, you need to do a few modifications to your code
+  <img src="https://www.nodejitsu.com/img/media/nodejitsu-transparent.png" width="200">
 
-Add these two lines to `app.js`, just place them anywhere before `app.listen()`:
-```js
-var IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-```
+  I think Nodejitsu is dead simple and it works great!
 
-Then change `app.listen()` to:
-```js
-app.listen(PORT, IP_ADDRESS, function() {
-  console.log("✔ Express server listening on port %d in %s mode", PORT, app.settings.env);
-});
-```
-Add this to `package.json`, after *name* and *version*. This is necessary because, by default, OpenShift looks for `server.js` file. And by specifying `supervisor app.js` it will automatically restart the server when node.js process crashes.
+  - Install Nodejitsu tools: `npm install -g jitsu`
+  - Signup: `jitsu signup`
+  - Deploy: `jitsu deploy`
+  - Done!
 
-```js
-"main": "app.js",
-"scripts": {
-  "start": "supervisor app.js"
-},
-```
+  <img src="http://blog.exadel.com/wp-content/uploads/2013/10/heroku-Logo-1.jpg" width="200">
 
-- Finally, now you can push your code to OpenShift by running `git push -f openshift master`
- - **Note**: The first time you run this command, you have to pass `-f` (force) flag because OpenShift creates a dummy server with the welcome page when you create a new Node.js app. Passing `-f` flag will override everything with your *Hackathon Starter* project repository. Please **do not** do `git pull` as it will create unnecessary merge conflicts.
-- And you are done! (Not quite as simple as Heroku, huh?)
+  **Heroku** is also very good and *Skeleton* already includes `Procfile`, which is necessary for deployment to **Heroku**.
 
-<img src="https://nodejs-in-production.nodejitsu.com/img/nodejitsu.png" width="200">
+  - Download and install [Heroku Toolbelt](https://toolbelt.heroku.com/osx)
+  - In terminal, run `heroku login` and enter your Heroku credentials
+  - From *your app* directory run `heroku create`, followed by `git push heroku master`
+  - Done!
 
 TODO
 ----
