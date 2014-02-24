@@ -3,9 +3,9 @@
 [![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) 
 [![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 
-Skeleton: A **complete framework** for building **Node.js** web applications.
+### Skeleton: A **complete framework** for building **Node.js** web applications.
 
-**Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
+### **Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
 
 ![Alt](https://lh6.googleusercontent.com/-uKeCLpArf-8/UwashLnJ4gI/AAAAAAAABvg/frUvl_qroCM/w951-h891-no/Skeleton.jpg)
 
@@ -17,7 +17,7 @@ Of the two, Drywall is more sophisticated. It has an extensive User/Account/Role
 
 This brings us to Hackathon-starter. This is GREAT site to get started with and has many outstanding API integrations as well as the authentication all built out. It really lives up to it's billing.  It was easier to build up from here rather than take stuff out of Drywall.
 
-#### Other Frameworks to check out
+#### Other frameworks to check out:
 
 - [Dozer](http://dozerjs.com/)
 - [Locomotive](http://locomotivejs.org/)
@@ -30,7 +30,7 @@ Like what we do?
 ----------------
 This could literally save 100's of hours of work.  If it you find it valuable we would really appreciate your support!
 
-[Support us via GITTIP](https://www.gittip.com/dstroot/)
+[Support via GITTIP](https://www.gittip.com/danstroot/)
 
 Table of Contents
 -----------------
@@ -143,7 +143,7 @@ bower install
 gulp
 ```
 
->:exclamation: But it probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. See below:
+>:exclamation: But it probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. More below.
 
 Gulp Build System
 -----------------
@@ -180,7 +180,7 @@ Recommened reading: [Airbnb JavaScript Style Guide](https://github.com/airbnb/ja
 Obtaining API Keys
 ------------------
 
-<img src="http://images.google.com/intl/en_ALL/images/srpr/logo6w.png" width="100">
+#<img src="http://images.google.com/intl/en_ALL/images/srpr/logo6w.png" width="100">
 - Visit [Google Cloud Console](https://cloud.google.com/console/project)
 - Click **CREATE PROJECT** button
 - Enter *Project Name*, then click **CREATE**
@@ -195,7 +195,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="http://www.doit.ba/img/facebook.jpg" width="100">
+#<img src="http://www.doit.ba/img/facebook.jpg" width="100">
 - Visit [Facebook Developers](https://developers.facebook.com/)
 - Click **Apps > Create a New App** in the navigation bar
 - Enter *Display Name*, then choose a category, then click **Create app**
@@ -207,7 +207,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://github.global.ssl.fastly.net/images/modules/logos_page/GitHub-Logo.png" width="100">
+#<img src="https://github.global.ssl.fastly.net/images/modules/logos_page/GitHub-Logo.png" width="100">
 - Go to [Account Settings](https://github.com/settings/profile)
 - Select **Applications** from the sidebar
 - Then inside **Developer applications** click on **Register new application**
@@ -218,7 +218,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://g.twimg.com/Twitter_logo_blue.png" width="50">
+#<img src="https://g.twimg.com/Twitter_logo_blue.png" width="50">
 - Sign in at [https://dev.twitter.com](https://dev.twitter.com/)
 - From the profile picture dropdown menu select **My Applications**
 - Click **Create a new application**
@@ -232,7 +232,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="200">
+#<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="200">
 - Visit [PayPal Developer](https://developer.paypal.com/)
 - Log in using your existing PayPal account
 - Click **Applications > Create App** in the navigation bar
@@ -244,7 +244,7 @@ Obtaining API Keys
 
 <hr>
 
-<img src="https://www.dropboxatwork.com/wp-content/uploads/2013/02/foursquare-logo.png" width="100">
+#<img src="https://www.dropboxatwork.com/wp-content/uploads/2013/02/foursquare-logo.png" width="100">
 - Go to [foursquare for Developers](https://developer.foursquare.com/)
 - Click on **My Apps** in the top menu
 - Click the **Create A New App** button
@@ -255,21 +255,13 @@ Obtaining API Keys
 
 <hr>
 
-<img src="http://www.athgo.org/ablog/wp-content/uploads/2013/02/tumblr_logo.png" width="100">
+#<img src="http://www.athgo.org/ablog/wp-content/uploads/2013/02/tumblr_logo.png" width="100">
 - Go to http://www.tumblr.com/oauth/apps
 - Once signed in, click **+Register application**
 - Fill in all the details
 - For **Default Callback URL**: http://localhost:3000/auth/tumblr/callback
 - Click **✔Register**
 - Copy and paste *OAuth consumer key* and *OAuth consumer secret* keys into `config/secrets.js`
-
-<hr>
-
-<img src="http://www.outofoursystem.com/wp-content/uploads/2012/06/steam-logo-white.jpg" width="100">
-- Go to http://steamcommunity.com/dev/apikey
-- Sign in with your existing Steam account
-- Enter your *Domain Name*, then and click **Register**
-- Copy and paste *Key* into `config.secrets.js`
 
 Useful Tools
 ------------
@@ -294,7 +286,7 @@ Interesting Design
 - [Creative Link Effects](http://tympanus.net/Development/CreativeLinkEffects/) - Beautiful link effects in CSS.
 - [Medium Scroll Effect](http://codepen.io/andreasstorm/pen/pyjEh) - Fade in/out header background image as you scroll.
 - [HTML5UP](http://html5up.net/) - Beautifully designed HTML templates.
-- [Codrops](http://tympanus.net/codrops/) - excellent design tutorials
+- [Codrops](http://tympanus.net/codrops/) - Excellent design tutorials!
 
 Interesting Node.js Libraries
 -----------------------------
@@ -335,129 +327,6 @@ add `app.locals.pretty = true;` to **app.js** with the rest of the Express confi
 
 FAQ
 ---
-
-### Why do I keep getting `403 Error: Forbidden` on submitting a **POST** request?
-
-You may need to add this hidden input element to your form.
-```
-input(type='hidden', name='_csrf', value=token)
-```
-
-### What is app_cluster.js?
-
-From the [Node.js Documentation](http://nodejs.org/api/cluster.html#cluster_how_it_works):
-> A single instance of Node runs in a single thread. To take advantage of multi-core systems
-> the user will sometimes want to launch a cluster of Node processes to handle the load.
-> The cluster module allows you to easily create child processes that all share server ports.
-
-`app_cluster.js` allows you to take advantage of this feature by forking a process of `app.js`
-for each CPU detected. For the majority of applications serving HTTP requests,
-this is a resounding boon. However, the cluster module is still in experimental stage, therefore it should only be used after understanding its purpose and behavior. To use it, simply run `node app_cluster.js`. **Its use is entirely optional and `app.js` is not tied in any way to it**. As a reminder, if you plan to use `app_cluster.js` instead of `app.js`, be sure to indicate that in `Procfile` if you are deploying your app to Heroku.
-
-### I am getting MongoDB Connection Error, how do I fix it?
-
-As the message says, you need to have a MongoDB server running before launching `app.js` and a valid URL connection string in `config/config.js`.
-
-You can get MongoDB from [mongodb.org/downloads](mongodb.org/downloads), or install it via a package manager ([Homebrew](http://brew.sh/) on Mac, **apt-get** on Ubuntu, **yum** on Fedora, etc.).
-
-**Even Better:** Setup a free account with [Mongolab](https://mongolab.com/welcome/) and get a free database to develop with.  More below.  
-
-### I get an error when I deploy my app, why?
-
-Chances are you haven't changed the *Dabatase URI* in `secrets.js`. If `db` is set to `localhost`, it will only work on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB running on `localhost`. 
-
-You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** section for more information on how to setup an account and a new database step-by-step with MongoLab.
-
-### Why Jade instead of Handlebars template engine?
-
-Subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or any non-HAML style for that matter.  I like it.
-
-### Why do you have all routes defined in app.js?
-
-For the sake of simplicity. While there might be a better approach,
-such as passing `app` context to each controller as outlined in this
-[blog](http://timstermatic.github.io/blog/2013/08/17/a-simple-mvc-framework-with-node-and-express/),
-I find such style to be confusing for beginners.
-It took me a long time to grasp the concept of `exports` and `module.exports`,
-let alone having a global `app` reference in other files.
-That to me is a backward thinking.
-The `app.js` is the "heart of the app", it should be the one referencing
-models, routes, controllers, etc.
-When working solo on small projects I actually prefer to have everything inside `app.js` as is the case with [this]((https://github.com/sahat/ember-sass-express-starter/blob/master/app.js))
-REST API server.
-
-### Can I use Ember, Angular or Backbone with Skeleton?
-
-Absolutely!  But things get messy quickly.  In Drywall, several of the pages are Backbone apps.  You can check that out. 
-
-In here we have a redimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
-
-###:bulb: How do flash messages work in this project?
-
-Flash messages allow you to display a message at the end of the request and access it on next request and only next request. For instance, on a failed login attempt, you would display an alert with some error message, but as soon as you refresh that page or visit a different page and come back to the login page, that error message will be gone. It is only displayed once.
-
-This project uses *express-flash* module for flash messages. And that module is built on top of *connect-flash*, which is what I used in this project initially. With *express-flash* you don't have to explicity send a flash message to every view inside `res.render()`. All flash messages are available in your views via `messages` object by default, thanks to *express-flash*.
-
-Flash messages have a two-step process. You use `req.flash('errors', { msg: 'Error messages goes here' }`
-to create a flash message in your controllers, and then display them in your views:
-
-```jade
-if messages.errors
-  .alert.alert-danger.animated.fadeIn
-    for error in messages.errors
-      div= error.msg
-```
-
-In the first step, `'errors'` is the name of a flash message, which should match the name of the property on `messages` object in your views. You place alert messages inside `if message.errors` because you don't want to show them flash messages are actually present.
-
-The reason why you pass an error like `{ msg: 'Error messages goes here' }` instead of just a string - `'Error messages goes here'`, is for the sake of consistency. To clarify that, *express-validator* module which is used for validating and sanitizing user's input, returns all errors as an array of objects, where each object has a `msg` property with a message why an error has occured. Here is a more general example of what express-validator returns when there are errors present:
-
-```js
-[
-  { param: "name", msg: "Name is required", value: "<received input>" },
-  { param: "email", msg: "A valid email is required", value: "<received input>" }
-]
-```
-
-To keep consistent with that style, you should pass all flash messages
-as `{ msg: 'My flash message' }` instead of a string. Otherwise you will just see an alert box without an error message. That is because, in **partials/flash.jade** template it will try to output `error.msg` (i.e. `"My flash message".msg`), in other words it will try to call a `msg` method on a *String* object,
-which will return *undefined*. Everything I just mentioned about errors, also applies to "info" and "success" flash messages, and you could even create a new one yourself, such as:
-
-**Data Usage Controller (Example)**
-
-```
-req.flash('warning', 'You have exceeded 90% of your data usage');
-```
-
-**User Account Page (Example)**
-
-```jade
-if messages.warning
-  .alert.alert-warning.animated.fadeIn
-    for warning in messages.warning
-      div= warning.msg
-```
-
-`partials/flash.jade` is a partial template that contains how flash messages
-are formatted. If you don't like the *fadeIn* animation, try something like
-*flipInX* (refer to [animate.css](http://daneden.github.io/animate.css/)), or just delete `.animated.fadeIn` from alerts if you don't want any animations. Or if you want to customize your flash messages by displaying ✔ on success flash and ✗ on error flash, this is the place where you would do all those customizations. Previously, flash messages were scattered throughout each view that used flash messages (contact, login, signup, profile), but now, thankfully it is uses a *DRY* approach.
-
-The flash messages partial template is *included* in the `layout.jade`, along with footer and navigation.
-
-```jade
-body
-  #wrap
-    include partials/navigation
-    .container
-      include partials/flash
-      block content
-  include partials/footer
-```
-
-If you have any further questions about flash messages,
-please feel free to open an issue and I will update this mini-guide accordingly, or send a pull request if you  would like to include something that I missed.
-
-<hr>
 
 ###:snowman: How do I create a new page?
 
@@ -553,114 +422,114 @@ parsing websites using [Cheerio](https://github.com/MatthewMueller/cheerio), and
 
 <hr>
 
-###:dizzy: How do I use Socket.io with Hackathon Starter?
+### Why do I keep getting `403 Error: Forbidden` on submitting a **POST** request?
 
-Heroku supports websockets, but not until you opt-in by running this command:
-
-```js
-heroku labs:enable websockets -a myapp
+You may need to add this hidden input element to your form.
+```
+input(type='hidden', name='_csrf', value=token)
 ```
 
-And what if you are deploying to OpenShift? They do support websockets, but it is currently in a preview state. So, for OpenShift you would need to change the socket.io connect URI to the following:
+###What is app_cluster.js?
 
-```js
-var socket = io.connect('http://yoursite-namespace.rhcloud.com:8000');
-```
+From the [Node.js Documentation](http://nodejs.org/api/cluster.html#cluster_how_it_works):
+> A single instance of Node runs in a single thread. To take advantage of multi-core systems
+> the user will sometimes want to launch a cluster of Node processes to handle the load.
+> The cluster module allows you to easily create child processes that all share server ports.
 
-Wait, why is it on port 8000? Who knows, and if I didn't run across this [blog post](http://velin-georgiev-blog.appspot.com/blog/set-up-nodejs-express-socketio-application-using-websockets-on-openshift-by-red-hat/)
-I wouldn't even know I had to use port 8000.
+`app_cluster.js` allows you to take advantage of this feature by forking a process of `app.js`
+for each CPU detected. For the majority of applications serving HTTP requests,
+this is a resounding boon. However, the cluster module is still in experimental stage, therefore it should only be used after understanding its purpose and behavior. To use it, simply run `node app_cluster.js`. **Its use is entirely optional and `app.js` is not tied in any way to it**. As a reminder, if you plan to use `app_cluster.js` instead of `app.js`, be sure to indicate that in `Procfile` if you are deploying your app to Heroku.
 
-I am really glad that Heroku and OpenShift at least
-have a websockets support, because many other PaaS providers still do not support it.
-Due to the aforementioned issues with websockets, I cannot include socket.io as part of the Hackathon Starter. *For now...*
-If you need to use socket.io in your app, please continue reading.
+###I am getting MongoDB Connection Error, how do I fix it?
 
-First you need to install socket.io:
-```js
-npm install socket.io --save
-```
+As the message says, you need to have a MongoDB server running before launching `app.js` and a valid URL connection string in `config/config.js`.
 
-Replace `var app = express();` with the following code:
+You can get MongoDB from [mongodb.org/downloads](mongodb.org/downloads), or install it via a package manager ([Homebrew](http://brew.sh/) on Mac, **apt-get** on Ubuntu, **yum** on Fedora, etc.).
 
-```js
-var app = express();
-var http = require('http');
-var server = http.createServer(app);
-var io = require('socket.io').listen(server);
-```
+**Even Better:** Setup a free account with [Mongolab](https://mongolab.com/welcome/) and get a free database to develop with.  More below.  
 
-I like to have the following code organization in `app.js` (from top to bottom): module dependencies,
-import controllers, import configs, connect to database, express configuration, routes,
-start the server, socket.io stuff. That way I always know where to look for things.
+###I get an error when I deploy my app, why?
 
-Add the following code at the end of `app.js`:
+Chances are you haven't changed the *Dabatase URI* in `secrets.js`. If `db` is set to `localhost`, it will only work on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB running on `localhost`. 
 
-```js
-io.configure(function() {
-  io.set('transports', ['websocket']);
-});
+You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** section for more information on how to setup an account and a new database step-by-step with MongoLab.
 
-io.sockets.on('connection', function(socket) {
-  socket.emit('greet', { hello: 'Hey, Mr.Client!' });
-  socket.on('respond', function(data) {
-    console.log(data);
-  });
-  socket.on('disconnect', function() {
-    console.log('Socket disconnected');
-  });
-});
-```
+###Why Jade instead of Handlebars template engine?
 
-We are done with the server-side business.
+Subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or any non-HAML style for that matter.  I like it.
 
-You now have a choice - to include your JavaScript code in Jade templates or have all your client-side
-JavaScript in a separate file - in `main.js`. I will admit, when I first started out with Node.js and JavaScript in general,
-I placed all JavaScript code inside templates because I have access to template variables passed in from Express
-right then and there. It's the easiest thing you can do, but also the least efficient and harder to maintain. Since then I
-almost never include inline JavaScript inside templates anymore.
+### Can I use Ember, Angular or Backbone with Skeleton?
 
-But it's also understandable if you want take the easier road.
-Most of the time you don't even care about performance during hackathons, you just
-want to [*"get shit done"*](http://www.startupvitamins.com/media/products/13/aaron_levie_poster_black.jpg) before the time runs out.
-Well, either way, use whichever approach makes more sense to you. At the end of the day,
-it's **what** you build that matters, not **how** you build it.
+Absolutely!  But things get messy quickly.  In Drywall, several of the pages are Backbone apps.  You can check that out. 
 
-If you want to stick all your JavaScript inside templates, then in `layout.jade` -
-your main template file, add this to `head` block.
+In here we have a redimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
+
+###:bulb: How do flash messages work in this project?
+
+Flash messages allow you to display a message at the end of the request and access it on next request and only next request. For instance, on a failed login attempt, you would display an alert with some error message, but as soon as you refresh that page or visit a different page and come back to the login page, that error message will be gone. It is only displayed once.
+
+This project uses *express-flash* module for flash messages. And that module is built on top of *connect-flash*, which is what I used in this project initially. With *express-flash* you don't have to explicity send a flash message to every view inside `res.render()`. All flash messages are available in your views via `messages` object by default, thanks to *express-flash*.
+
+Flash messages have a two-step process. You use `req.flash('errors', { msg: 'Error messages goes here' }`
+to create a flash message in your controllers, and then display them in your views:
 
 ```jade
-script(src='/socket.io/socket.io.js?v=#{cacheBuster}')
-script.
-    var socket = io.connect(window.location.href);
-    socket.on('greet', function (data) {
-      console.log(data);
-      socket.emit('respond', { message: 'Hello to you too, Mr.Server!' });
-    });
+if messages.errors
+  .alert.alert-danger.animated.fadeIn
+    for error in messages.errors
+      div= error.msg
 ```
 
-**Note**: Notice the path of the `socket.io.js`, you don't actually
-have to have `socket.io.js` file anywhere in your project; it will be generated automatically
-at runtime.
+In the first step, `'errors'` is the name of a flash message, which should match the name of the property on `messages` object in your views. You place alert messages inside `if message.errors` because you don't want to show them flash messages are actually present.
 
-If you want to have JavaScript code separate from templates, move that inline script code into `main.js`,
-inside the `$(document).ready()` function:
+The reason why you pass an error like `{ msg: 'Error messages goes here' }` instead of just a string - `'Error messages goes here'`, is for the sake of consistency. To clarify that, *express-validator* module which is used for validating and sanitizing user's input, returns all errors as an array of objects, where each object has a `msg` property with a message why an error has occured. Here is a more general example of what express-validator returns when there are errors present:
 
 ```js
-$(document).ready(function() {
-
-  // Place JavaScript code here...
-  var socket = io.connect(window.location.href);
-  socket.on('greet', function (data) {
-    console.log(data);
-    socket.emit('respond', { message: 'Hello to you too, Mr.Server!' });
-  });
-
-});
+[
+  { param: "name", msg: "Name is required", value: "<received input>" },
+  { param: "email", msg: "A valid email is required", value: "<received input>" }
+]
 ```
 
-And that's it, we are done!
+To keep consistent with that style, you should pass all flash messages
+as `{ msg: 'My flash message' }` instead of a string. Otherwise you will just see an alert box without an error message. That is because, in **partials/flash.jade** template it will try to output `error.msg` (i.e. `"My flash message".msg`), in other words it will try to call a `msg` method on a *String* object,
+which will return *undefined*. Everything I just mentioned about errors, also applies to "info" and "success" flash messages, and you could even create a new one yourself, such as:
 
-If you want to see a really cool real-time dashboard check out this [live example](http://hackathonstarter.herokuapp.com/dashboard). Refer to the [pull request #23](https://github.com/sahat/hackathon-starter/pull/23/files) to see how it is implemented.
+**Data Usage Controller (Example)**
+
+```
+req.flash('warning', 'You have exceeded 90% of your data usage');
+```
+
+**User Account Page (Example)**
+
+```jade
+if messages.warning
+  .alert.alert-warning.animated.fadeIn
+    for warning in messages.warning
+      div= warning.msg
+```
+
+`partials/flash.jade` is a partial template that contains how flash messages
+are formatted. If you don't like the *fadeIn* animation, try something like
+*flipInX* (refer to [animate.css](http://daneden.github.io/animate.css/)), or just delete `.animated.fadeIn` from alerts if you don't want any animations. Or if you want to customize your flash messages by displaying ✔ on success flash and ✗ on error flash, this is the place where you would do all those customizations. Previously, flash messages were scattered throughout each view that used flash messages (contact, login, signup, profile), but now, thankfully it is uses a *DRY* approach.
+
+The flash messages partial template is *included* in the `layout.jade`, along with footer and navigation.
+
+```jade
+body
+  #wrap
+    include partials/navigation
+    .container
+      include partials/flash
+      block content
+  include partials/footer
+```
+
+If you have any further questions about flash messages,
+please feel free to open an issue and I will update this mini-guide accordingly, or send a pull request if you  would like to include something that I missed.
+
+<hr>
 
 Mongoose Cheatsheet
 -------------------

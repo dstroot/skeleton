@@ -317,8 +317,10 @@ passport.use('foursquare', new OAuth2Strategy({
 exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
+  } else {
+    req.flash('errors', { msg: 'You must be logged in to reach that page.' });
+    res.redirect('/login');
   }
-  res.redirect('/login');
 };
 
 /**
@@ -333,3 +335,24 @@ exports.isAuthorized = function(req, res, next) {
     res.redirect('/auth/' + provider);
   }
 };
+
+/**
+ * Check if the account is an Administrator
+ */
+
+exports.isAdministrator = function(req, res, next) {
+  // make sure we are logged in first
+  if (req.isAuthenticated()) {
+    //user must be be an administrator
+    if (req.user.type !== 'admin') {
+      req.flash('errors', { msg: 'You must be an Administrator reach that page.' });
+      return res.redirect('/api');
+    } else {
+      return next();
+    }
+  } else {
+    req.flash('errors', { msg: 'You must be logged in to reach that page.' });
+    res.redirect('/login');
+  }
+};
+
