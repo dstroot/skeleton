@@ -7,7 +7,7 @@
 
 #### **Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
 
-![Alt](https://lh6.googleusercontent.com/-uKeCLpArf-8/UwashLnJ4gI/AAAAAAAABvg/frUvl_qroCM/w951-h891-no/Skeleton.jpg)
+![Alt](https://raw.github.com/dstroot/skeleton/master/public/img/home.jpg)
 
 There are many excellent Node/Express/Mongo frameworks out there. I have played with many, and contributed to a few of them. Since there is really no one "right" way to do things you kind of have to explore.  Once I did that I found that none of them were "just right" as Goldilocks would say. So I built this one! 
 
@@ -87,7 +87,7 @@ Features
 
 Oh, and it's pretty optimized due to the Gulp build pipeline.  This is running on one drone at Nodejitsu ($9/mo!):
 
-![Alt](https://lh3.googleusercontent.com/-8hydR9h7vs8/UwbLLLSBtPI/AAAAAAAABwA/dgpiz1Ml3Is/w850-h627-no/pagespeed.jpg)
+![Alt](https://raw.github.com/dstroot/skeleton/master/public/img/pagespeed.jpg)
 
 Technology
 ----------
