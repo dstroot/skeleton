@@ -322,6 +322,7 @@ You need to create just two files and edit one:
 
 1. NEW View: In `views` create your new Jade template. For example to create a "Hello World" page you could create `views/hello/hello.jade`.
 2. NEW Controller: In `controllers` you need to create a new controller to render the page when the page's route is called: `/hello`. It would look like this:
+
   ```js
   module.exports.controller = function(app) {
     app.get('/hello', function(req, res) {  // When user requests hello page
@@ -330,17 +331,26 @@ You need to create just two files and edit one:
     });
   };
   ```
+
 3. EDIT Navigation: You need to edit the navigation to show the new page. You will need to edit `views/partials/navigation.jade` and add a list item 'li' for your new page to show it in the Navbar.
 
 Boom!  That's it.
 
-If you need authentication then you would change one line in the controller. You will add some middleware. It always goes from left to right. A user visits `/hello` page. Then `isAuthenticated` middleware checks if you are authenticated:
+If you need authentication then you would add the Authentication Middleware as a dependency in your controller and then change one line of code in the controller. You will change the `apt-get` line to include the `.isAuthenticated` middleware. It always reads from left to right. A user visits `/hello` page. Then `isAuthenticated` middleware checks if you are authenticated:
 
 ```js
+var passportConf  = require('../config/passport');
+
 app.get('/hello', passportConf.isAuthenticated, function(req, res) {
+  module.exports.controller = function(app) {
+    app.get('/hello', passportConf.isAuthenticated, function(req, res) {
+      res.render('hello/hello', {
+      });
+    });
+  };
 ```
 
-The `isAuthenticated` middleware checks if you are authenticated and if not redirects you to the login page:
+The `isAuthenticated` middleware checks if you are authenticated and if not redirects you to the login page, otherwise it just calls `next` and your conroller renders the page.
 
 ```js
 exports.isAuthenticated = function(req, res, next) {
