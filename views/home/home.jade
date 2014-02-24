@@ -46,19 +46,25 @@ block content
             | &nbsp;&nbsp;On every device
           p
             | #{title} is built to look great on every device. Fully responsive for mobile devices to ensure the best user experience.
-
-      //- http://github.hubspot.com/odometer/
-      h3
-        span.odometer-label
-          a.white(href='http://github.com/dstroot/skeleton', target='_blank')
-            i.fa.fa-github
-            | &nbsp;GitHub ★ :
-        .odometer.bg-purple 0
+      .row
+        .col-md-4.col-md-offset-4
+          //- http://github.hubspot.com/odometer/
+          .github-count
+            span.odometer-label
+              a.white(href='http://github.com/dstroot/skeleton', target='_blank')
+                i.fa.fa-github
+                | &nbsp;GitHub ★ :
+            .odometer.bg-purple 0
 
 //- Page-specific stuff
 block scripts
   link(rel='stylesheet', href='lib/odometer/themes/odometer-theme-minimal.css')
   style.
+    .github-count {
+      margin-top:20px;
+      font-size: 20px;
+      text-align: center;
+    }
     .odometer-label {
       margin-right: 10px;
       line-height: 1;
