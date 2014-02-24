@@ -320,18 +320,17 @@ FAQ
 
 You need to create just two files and edit one:
 
-1) NEW View: In `views` create your new Jade template. For example to create a "Hello World" page you could create `views/hello/hello.jade`.
-2) NEW Controller: In `controllers` you need to create a new controller to render the page when the page's route is called: `/hello`. It would look like this:
-
+1. NEW View: In `views` create your new Jade template. For example to create a "Hello World" page you could create `views/hello/hello.jade`.
+2. NEW Controller: In `controllers` you need to create a new controller to render the page when the page's route is called: `/hello`. It would look like this:
   ```js
   module.exports.controller = function(app) {
-    app.get('/hello', function(req, res) {
-      res.render('hello/hello', {
+    app.get('/hello', function(req, res) {  // When user requests hello page
+      res.render('hello/hello', {           // Render hello page
       });
     });
   };
   ```
-3) EDIT Navigation: You need to edit the navigation to show the new page. You will need to edit `views/partials/navigation.jade` and add a list item 'li' for your new page to show it in the Navbar.
+3. EDIT Navigation: You need to edit the navigation to show the new page. You will need to edit `views/partials/navigation.jade` and add a list item 'li' for your new page to show it in the Navbar.
 
 Boom!  That's it.
 
