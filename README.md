@@ -26,41 +26,21 @@ This brings us to Hackathon-starter. This is GREAT site to get started with and 
 
 So why offer "yet another framework"?  First, I like a fully working built-out site as a starting point to "see" a framework in action. Also because I want a playground of my own **and** you might find something interesting in here!
 
-Features
---------
-- **Local Authentication** using Email and Password
-- **OAuth 1.0a Authentication** via Twitter
-- **OAuth 2.0 Authentication** via Facebook, Google or GitHub
-- MVC project structure (in my own style - "Views" are the Jade Templates, "Models" are the Mongo/Mongoose models, and "Controllers" are the glue for routing, page logic and data access via the models. These should be the only things you need to touch to build out new pages/functionality.)
-- Node.js clusters support
-- Gulp.js build system
-- LESS stylesheets 
-- Bootstrap 3 UI
-- FontAwesome
-- Jade templates (all nicely laid out: head, navigation, footer, etc.)
-- Boilerplate Terms and Privacy pages. Note: **I am not a lawyer**. These have never been reviewed or even **seen** by a lawyer as far as you know. Use them only as a starting point with **your lawyer.**
-- **Administrative Pages**  
-  + **Real-time Dashboard**
-  + Accounts Listing
-- **Account Management**
-  + Gravatar
-  + Profile Details
-  + Change Password
-  + Link multiple OAuth strategies to one account
-  + Delete Account
-  + Password Reset
-- **API Examples**: Facebook, Foursquare, Tumblr, Twitter, PayPal, etc.
-- Contact Form
+Like what we do?
+----------------
+This could literally save 100's of hours of work.  If it you find it valuable we would really appreciate your support!
 
-Oh, and it's pretty optimized due to the Gulp build pipeline.  This is running on one drone at Nodejitsu ($9/mo!):
-
-![Alt](https://lh3.googleusercontent.com/-8hydR9h7vs8/UwbLLLSBtPI/AAAAAAAABwA/dgpiz1Ml3Is/w850-h627-no/pagespeed.jpg)
+[Support us via GITTIP](https://www.gittip.com/dstroot/)
 
 Table of Contents
 -----------------
 - [Features](#features)
+- [Technology](#technology)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
+- [Gulp Build System](#gulp-build-system)
+- [Coding Style](#coding-style)
+- []()
 - [Obtaining API Keys](#obtaining-api-keys)
 - [Project Structure](#project-structure)
 - [Useful Tools](#useful-tools)
@@ -75,49 +55,65 @@ Table of Contents
 - [Contributing](#contributing)
 - [License](#license)
 
-## Comparision
+Features
+--------
+- **Modern Technology Stack**
+  + Node.js
+  + Node.js clusters support
+  + Express.js
+  + Gulp.js build system
+  + Jade templates (all nicely laid out: head, navigation, footer, etc.)
+  + LESS stylesheets 
+  + Bootstrap 3 UI
+  + FontAwesome
+- **MVC project structure** (in my own style - "Views" are the Jade Templates, "Models" are the Mongo/Mongoose models, and "Controllers" are the glue for routing, page logic and data access via the models. These should be the only things you need to touch to build out new pages/functionality.)
+- **Robust Authentication**
+  + **Local Authentication** using Email and Password
+  + **OAuth 1.0a Authentication** via Twitter
+  + **OAuth 2.0 Authentication** via Facebook, Google or GitHub
+- **Account Management**
+  + Gravatar
+  + Profile Details
+  + Change Password
+  + Link multiple OAuth strategies to one account
+  + Delete Account
+  + Password Reset
+- **Administrative Pages**  
+  + **Real-time** Dashboard
+  + Accounts Listing
+- **API Examples**: Facebook, Foursquare, Tumblr, Twitter, PayPal, etc.
+- **Sample Pages**
+  + Contact Form
+  + Boilerplate Terms and Privacy pages. Note: **I am not a lawyer**. These have never been reviewed or even **seen** by a lawyer as far as you know. Use them only as a starting point with **your lawyer.**
 
-:white_check_mark:
+Oh, and it's pretty optimized due to the Gulp build pipeline.  This is running on one drone at Nodejitsu ($9/mo!):
 
-| Feature          | Skeleton       | Drywall       | Hackathon-starter |
-| -------------    | -------------- | ------------- | -----------       |
-| Mail-enabled     | Nodemailer     | Emailjs       | Nodemailer        |
-| UI Framework     | Bootstrap      | Bootstrap     | Bootstrap         |
-| Build System     | Gulp           | Grunt         | Connect-Assets    |
-| Dashboard        | Yes/Real-time  | Extensive     | Instructions      |
-| API Examples     | Yes            | No            | Grandaddy!        |
-| Package Mgmt     | NPM/Bower      | NPM/Bower     | NPM               |
-| Code Linting     | JSHint         | JSHINT        | No                |
-| Code Style Check | JSCS           | No            | No                |
-| Testing          | No             | No            | No                |
+![Alt](https://lh3.googleusercontent.com/-8hydR9h7vs8/UwbLLLSBtPI/AAAAAAAABwA/dgpiz1Ml3Is/w850-h627-no/pagespeed.jpg)
 
-| Authentication   | Skeleton        | Drywall        | Hackathon-starter |
-| ---------------- | --------------- | -------------- | ----------------- |
-| Local            | Yes             | Yes            | Yes               |
-| Facebook         | Yes             | Yes            | Yes               |
-| Twitter          | Yes             | Yes            | Yes               |
-| Github           | Yes             | Yes            | Yes               |
-| Google           | Yes             | No             | Yes               |
+Technology
+----------
 
-
-Coding Style
-------------
-
-A few notes on my coding style: 
-
-- I like braces and use them always, even for single-line if statements and the like. 
-- I like variable names that mean something, rather than trying to be short. 
-- I favor single quotes above double quotes. 
-- I prefer comments above lines, as opposed to on the right-hand side. 
-- I use a LOT of comments, because JS can always be minified so there's really no reason to worry about comments contributing to filesize. 
-- I use a decent amount of whitespace for the same reason. 
-- Oh, and I like my opening braces on the same line, not a new line.
+| On The Server     | On The Client  | Development |
+| -------------     | -------------- | ----------- |
+| Node/NPM          | Bootstrap      | Bower       |
+| Express           | Font-Awesome   | Gulp        |
+| Jade              | jQuery         | JSHint      |
+| Mongoose          | Moment.js      | JSCS        |
+| Passport          | animate.css    | Nodemon     |
+| Async             | Odometer       |             |
+| Modemailer        |                |             |
+| Socket.io         |                |             |
+| Helmet            |                |             |
+| Winston           |                |             |
+| express-validator |                |             |
+| express-flash     |                |             |
 
 Prerequisites
 -------------
-- [MongoDB](http://www.mongodb.org/downloads)
+
+- [MongoDB](http://www.mongodb.org/downloads) - however I recommend [Mongolab](http://monglolab.com), more below about this.
 - [Node.js](http://nodejs.org)
-- Command Line Tools
+- Command Line Tools (some NPM modules must be compiled):
  - **Mac OS X**: [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) (or **OS X 10.9 Mavericks**: `xcode-select --install`)
  - **Windows**: [Visual Studio](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-8)
  - **Ubuntu**: `sudo apt-get install build-essential`
@@ -131,26 +127,26 @@ Getting Started
 ---------------
 
 ```bash
-# Fetch only the latest commits.
-git clone --depth=1 git@github.com:dstroot/skeleton.git
-
-cd skeleton
-
-# Install dependencies
-npm install
-bower install
-
 # Install global dependencies
 npm install -g nodemon gulp
 
-# Start everything up with Gulp (builds the assets and starts the app with nodemon)
+# Fetch only the latest commits.
+git clone --depth=1 git@github.com:dstroot/skeleton.git
+cd skeleton
+
+# Install local dependencies
+npm install
+bower install
+
+# Start everything up with Gulp 
+# (builds the assets and starts the app with nodemon)
 gulp
 ```
 
 >:exclamation: But it probably won't really run yet! Go setup `config/config.js`. To use any of the APIs or OAuth authentication methods, you will need to obtain appropriate credentials: Client ID, Client Secret, API Key, or Username & Password. You will need to go through each provider to generate new credentials. See below:
 
-Gulp build system
--------------------
+Gulp Build System
+-----------------
 
 <a href="http://gulpjs.com">
   <img width="50" src="https://raw.github.com/gulpjs/artwork/master/gulp.png"/>
@@ -164,8 +160,26 @@ To take advantage of the livereload functionality install Google Chrome and then
 
 Now every time you make a change to a client component things will be recompiled and your browser will reload. Cool!
 
+Coding Style
+------------
+
+A few notes on my coding style: 
+
+- I like braces and use them always, even for single-line if statements and the like. 
+- I like variable names that mean something, rather than trying to be short. 
+- I favor single quotes above double quotes. 
+- I use a LOT of comments, because JS can always be minified so there's really no reason to worry about comments contributing to filesize. My assumption is I will have to go change something 12 months from now and want to quickly see what is going on. 
+- I use a decent amount of whitespace for the same reason. 
+- I like my opening braces on the same line, not a new line.
+- My eyes like alignment so I can scan down lists of things quickly (like dependencies).
+
+This and more is pre-configured in the `.jshintrc` file.
+
+Recommened reading: [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+
 Obtaining API Keys
 ------------------
+
 <img src="http://images.google.com/intl/en_ALL/images/srpr/logo6w.png" width="100">
 - Visit [Google Cloud Console](https://cloud.google.com/console/project)
 - Click **CREATE PROJECT** button
@@ -257,41 +271,12 @@ Obtaining API Keys
 - Enter your *Domain Name*, then and click **Register**
 - Copy and paste *Key* into `config.secrets.js`
 
-Project Structure
------------------
-
-| Name          | Description   |
-| ------------- |:-------------:|
-| **config**/passport.js      | Passport Local and OAuth strategies + Passport middleware.         |
-| **config**/secrets.js    | Your API keys, tokens, passwords and database URL.                    |
-| **controllers**/api.js | Controller for /api route and all api examples.                         |
-| **controllers**/contact.js | Controller for contact form.                                        |
-| **controllers**/home.js | Controller for home page (index).                                      |
-| **controllers**/user.js | Controller for user account management page.                           |
-| **models**/User.js | Mongoose schema and model for User.                                         |
-| **public/***                       | Static assets (fonts, css, js, img)                         |
-| **public/css**/styles.less         | Main stylesheet for your app.                               |
-| **public/css/themes**/default.less | Some Bootstrap overrides to make it look prettier.          |
-| **views/account/***                | Templates for *login, signup, profile*.                     |
-| **views/api/***                    | Templates for API Examples.                                 |
-| **views/partials**/flash.jade      | Error, info and success flash notifications.                |
-| **views/partials**/navigation.jade | Navbar partial template.                                    |
-| **views/partials**/footer.jade     | Footer partial template.                                    |
-| **views**/layout.jade              | Base template.                                              |
-| **views**/home.jade                | Home page template.                                         |
-| app.js                             | Main application file.                                      |
-| cluster_app.js                     | Creates multiple processes of `app.js` using Node.js clusters.|
-
-
-:exclamation: **Note:** There is no difference how you name or structure your views. You could place all your templates in a top-level `views` directory without having a nested folder structure, if that makes things easier for you. Just don't forget to update `extends ../layout`  and corresponding `res.render()` method in controllers. For smaller apps, I find having a flat folder structure to be easier to work with.
-
-:bangbang: **Note:** Although your main template - **layout.jade** only knows about `/css/styles.css` file, you should be editing **styles.less** stylesheet. Express will automatically generate minified **styles.css** whenever there are changes in LESS file. This is done via [less-middleware](https://github.com/emberfeather/less.js-middleware) node.js library.
-
 Useful Tools
 ------------
 - [Jade Syntax Documentation by Example](http://naltatis.github.io/jade-syntax-docs/#attributes) - Even better than official Jade docs.
 - [HTML to Jade converter](http://html2jade.aaron-powell.com) - Extremely valuable when you need to quickly copy and paste HTML snippets from the web.
 - [JavascriptOO](http://www.javascriptoo.com/) - A directory of JavaScript libraries with examples, CDN links, statistics, and videos.
+- [DailyJS](http://dailyjs.com/) - Blog about JS coding, libraries and tools.
 
 Interesting Design
 ------------------
@@ -764,7 +749,7 @@ TODO
 
 Contributing
 ------------
-If something is unclear, confusing, or needs to be refactored, please let me know. Pull requests are always welcome, but due to the opinionated nature of this project, I cannot accept every pull request. Please open an issue before submitting a pull request. This project uses [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript) with a few exceptions.
+If something is unclear, confusing, or needs to be refactored, please let me know. Pull requests are always welcome!
 
 License
 -------

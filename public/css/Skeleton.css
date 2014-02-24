@@ -1,4 +1,3 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -5098,7 +5097,7 @@ button.close {
  *  - Project Font(s)  http://www.google.com/fonts/specimen/Open+Sans
  *  - Bootstrap        http://getbootstrap.com/
  *  - Font Awesome     http://fontawesome.io/
- *  - Animate.css      http://daneden.github.io/animate.css
+ *  //- Animate.css      http://daneden.github.io/animate.css
  *
  *  Now add your own Bootstrap overrides and new styles below:
  */
@@ -5107,7 +5106,7 @@ button.close {
  *
  * This needs some explaining.  I'd rather keep colors seperate
  * from widgets. That way I can just use HTML markup to colorize
- * widgets in a sematic way:
+ * widgets in a semantic way:
  *
  *   <div class="jumbotron bg-blue white"></div>
  *
