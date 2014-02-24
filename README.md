@@ -193,8 +193,6 @@ Obtaining API Keys
 
 :exclamation: **Note**: When you ready to deploy to production don't forget to add your new url to **Authorized Javascript origins** and **Authorized redirect URI**, e.g. `http://my-awesome-app.herokuapp.com` and `http://my-awesome-app.herokuapp.com/auth/google/callback` respectively. The same goes for other providers.
 
-<hr>
-
 #<img src="http://www.doit.ba/img/facebook.jpg" width="100">
 - Visit [Facebook Developers](https://developers.facebook.com/)
 - Click **Apps > Create a New App** in the navigation bar
@@ -205,8 +203,6 @@ Obtaining API Keys
 - Select **Website**
 - Enter `http://localhost:3000` for *Site URL*
 
-<hr>
-
 #<img src="https://github.global.ssl.fastly.net/images/modules/logos_page/GitHub-Logo.png" width="100">
 - Go to [Account Settings](https://github.com/settings/profile)
 - Select **Applications** from the sidebar
@@ -215,8 +211,6 @@ Obtaining API Keys
 - For *Authorization Callback URL*: http://localhost:3000/auth/github/callback
 - Click **Register application**
 - Now copy and paste *Client ID* and *Client Secret* keys into `config/secrets.js`
-
-<hr>
 
 #<img src="https://g.twimg.com/Twitter_logo_blue.png" width="50">
 - Sign in at [https://dev.twitter.com](https://dev.twitter.com/)
@@ -230,8 +224,6 @@ Obtaining API Keys
 - Click **Update this Twitter's applications settings**
 - Copy and paste *Consumer Key* and *Consumer Secret* keys into `config/secrets.js`
 
-<hr>
-
 #<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="200">
 - Visit [PayPal Developer](https://developer.paypal.com/)
 - Log in using your existing PayPal account
@@ -242,8 +234,6 @@ Obtaining API Keys
 - Make a note of your Sandbox accounts (test user accounts) for testing purposes.  
 - Change **host** to api.paypal.com if you want to test against production and use the live credentials
 
-<hr>
-
 #<img src="https://www.dropboxatwork.com/wp-content/uploads/2013/02/foursquare-logo.png" width="100">
 - Go to [foursquare for Developers](https://developer.foursquare.com/)
 - Click on **My Apps** in the top menu
@@ -252,8 +242,6 @@ Obtaining API Keys
 - For **Redirect URI**: http://localhost:3000/auth/foursquare/callback
 - Click **Save Changes**
 - Copy and paste *Client ID* and *Client Secret* keys into `config/secrets.js`
-
-<hr>
 
 #<img src="http://www.athgo.org/ablog/wp-content/uploads/2013/02/tumblr_logo.png" width="100">
 - Go to http://www.tumblr.com/oauth/apps
@@ -328,16 +316,32 @@ add `app.locals.pretty = true;` to **app.js** with the rest of the Express confi
 FAQ
 ---
 
-###:snowman: How do I create a new page?
+###How do I create a new page?
 
-A more correct way to be to say "How do I create a route". The main file `app.js` contains all the routes. Each route has a callback function (aka controller) associated with it. Sometimes you will see 3 or more arguments
-to routes. In cases like that, the first argument is still a URL string, the middle arguments are what's called middleware. Think of middleware as a door. If this door prevents you from continuing forward, well, you won't get to your callback function (aka controller). One such example is authentication.
+You need to create just two files and edit one:
+
+1) NEW View: In `views` create your new Jade template. For example to create a "Hello World" page you could create `views/hello/hello.jade`.
+2) NEW Controller: In `controllers` you need to create a new controller to render the page when the page's route is called: `/hello`. It would look like this:
+
+  ```js
+  module.exports.controller = function(app) {
+    app.get('/hello', function(req, res) {
+      res.render('hello/hello', {
+      });
+    });
+  };
+  ```
+3) EDIT Navigation: You need to edit the navigation to show the new page. You will need to edit `views/partials/navigation.jade` and add a list item 'li' for your new page to show it in the Navbar.
+
+Boom!  That's it.
+
+If you need authentication then you would change one line in the controller. You will add some middleware. It always goes from left to right. A user visits `/hello` page. Then `isAuthenticated` middleware checks if you are authenticated:
 
 ```js
-app.get('/account', passportConf.isAuthenticated, userController.getAccount);
+app.get('/hello', passportConf.isAuthenticated, function(req, res) {
 ```
 
-It always goes from left to right. A user visits `/account` page. Then `isAuthenticated` middleware checks if you are authenticated:
+The `isAuthenticated` middleware checks if you are authenticated and if not redirects you to the login page:
 
 ```js
 exports.isAuthenticated = function(req, res, next) {
@@ -346,79 +350,7 @@ exports.isAuthenticated = function(req, res, next) {
 };
 ```
 
-If you are authenticated, you let this visitor pass through your "door" by calling `return next();`. It then proceeds to the next middleware until it reaches the last argument which is a callback function that usually renders a template, or responds with a JSON data, if you are building a REST API. But in this example it simply renders a page and nothing more:
-
-```js
-exports.getAccount = function(req, res) {
-  res.render('account/profile', {
-    title: 'Account Management'
-  });
-};
-```
-
 Express.js has `app.get`, `app.post`, `app.put`, `app.del`, but for the most part you will only use the first two. If you just want to display a page, then use `GET`, if you are submitting a form, sending a file then use `POST`.
-
-Here is a typical workflow of adding new routes to your application. Let's say we are building a page that lists all books from database.
-
-**Step 1.** Start by defining a route.
-
-```js
-app.get('/books', bookController.getBooks);
-
-```
-
-**Step 2.** Create a new controller file called `book.js`.
-
-```js
-/**
- * GET /books
- * List all books.
- */
-
-exports.getBooks = function(req, res) {
-  Book.find(function(err, docs) {
-    res.render('books', { books: docs });
-  });
-};
-```
-
-**Step 3.** Import that controller in `app.js`.
-
-```js
-var bookController = require('./controllers/book');
-```
-
-**Step 4.** Create `books.jade` template.
-
-```jade
-extends layout
-
-block content
-  .page-header
-    h3 All Books
-
-  ul
-    for book in books
-      li= book.name
-```
-
-That's it! I will say that you could have combined Step 1, 2, 3 as following:
-
-```js
-app.get('/books', function(req, res) {
-  Book.find(function(err, docs) {
-    res.render('books', { books: docs });
-  });
-});
-```
-
-Sure, it's simpler, but as soon as you pass 1000 lines of code in `app.js` it becomes a little difficult to navigate the file. I mean, the whole point of this boilerplate project was to separate concerns, so you could work with your teammates without running into *MERGE CONFLICTS*. Imagine you have 4 developers
-working on a single `app.js`, I promise you it won't be fun resolving merge conflicts all the time.If you are the only developer then it's fine. But as I said, once it gets up to a certain LoC size, it becomes difficult to maintain everything in a single file.
-
-That's all there is to it. Express.js is super simple to use.
-Most of the time you will be dealing with other APIs to do the real work:
-[Mongoose](http://mongoosejs.com/docs/guide.html) for querying database, socket.io for sending and receiving messages over websockets, sending emails via [Nodemailer](http://www.nodemailer.com/), form validation using [express-validator](https://github.com/ctavan/express-validator) library,
-parsing websites using [Cheerio](https://github.com/MatthewMueller/cheerio), and etc.
 
 <hr>
 
