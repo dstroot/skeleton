@@ -27,33 +27,33 @@ block content
                 a.btn.btn-google.btn-lg(href='/auth/google')
                   i.fa.fa-fw.fa-google-plus
                   | &nbsp;Sign in with Google
-        if config.localAuth
-          hr
-          #accordion.panel-group
-            .panel.panel-default
-              .panel-heading
-                h4.panel-title
-                  a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
-                    | Or, use a local account
-              #collapseOne.panel-collapse.collapse
-                .panel-body
-                  .form-group
-                    label.sr-only(for='email') Email:
-                    input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus=true, required)
-                  .form-group
-                    label.sr-only(for='password') Password:
-                    input.form-control(type='password', name='password', id='password', placeholder='Password', required)
-                  .form-group
-                    button.btn.btn-primary(type='submit')
-                      i.fa.fa-unlock-alt
-                      | &nbsp;Login
-                    br
-                    br
-                    p Forgot your
-                      a(href='/forgot') <strong> password?</strong>
-                    p Need to
-                      a(href='signup') <strong> sign up</strong>
-                      |  for a local #{title} account?
+          if config.localAuth
+            hr
+            #accordion.panel-group
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
+                      | Or, use a local account
+                #collapseOne.panel-collapse.collapse
+                  .panel-body
+                    .form-group
+                      label.sr-only(for='email') Email:
+                      input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus=true, required)
+                    .form-group
+                      label.sr-only(for='password') Password:
+                      input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+                    .form-group
+                      button.btn.btn-primary(type='submit')
+                        i.fa.fa-unlock-alt
+                        | &nbsp;Login
+                      br
+                      br
+                      p Forgot your
+                        a(href='/forgot') <strong> password?</strong>
+                      p Need to
+                        a(href='signup') <strong> sign up</strong>
+                        |  for a local #{title} account?
         p I accept #{title}'s
               a(href='/terms')  Terms of Use
               |  and

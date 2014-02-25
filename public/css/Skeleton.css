@@ -5366,8 +5366,11 @@ h6,
 .jumbotron li {
   line-height: 1;
   margin: 20px;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 300;
+}
+.jumbotron p {
+  font-size: 18px;
 }
 @media (max-width: 480px) {
   .jumbotron h1 {
@@ -5383,6 +5386,32 @@ h6,
   }
   .jumbotron p {
     font-size: 14px;
+  }
+}
+@media (min-width: 1170px) {
+  .jumbotron h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+  }
+  .jumbotron h2 {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 40px;
+  }
+  .jumbotron h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+  .jumbotron li {
+    line-height: 1;
+    margin: 20px;
+    font-size: 24px;
+    font-weight: 300;
+  }
+  .jumbotron p {
+    font-size: 20px;
   }
 }
 .jumbotron .btn {
