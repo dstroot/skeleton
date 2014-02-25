@@ -1,21 +1,19 @@
-/* the humans responsible for building ViziLinkz.com */
+/* the humans responsible for building Skeleton.com */
 
 /* TEAM */
-  Designer + Coder:      Dan Stroot (heavily based on Dan Grossman's Bookmarkly)
+  Designer + Coder:      Dan Stroot
   Site:                  danstroot.com
-  Contact:               dan.stroot[at]gmail.com  **Feel free to say hi.
+  Contact:               dan.stroot[at]gmail.com
   Location:              California, USA
 
 /* THANKS */
-  Bootstrap              (http://html5boilerplate.com/) *This really helps... you should try it too
+  Bootstrap              (http://getbootstrap.com/)
   jQuery                 (http://jquery.com/)
-  Lettering.js           (http://letteringjs.com/) *Made by the awesome guys at http://paravelinc.com
-  Modernizr              (http://www.modernizr.com/)
+  etc.
 
 /* SITE */
   Standards:             HTML5, CSS3
-  Components:            Modernizr, jQuery, HTML5 Boilerplate, Lettering.js
-  Software:              Notepad++, Photoshop
+  Components:            jQuery, Bootstrap, FontAwesome, etc.
 
 
 

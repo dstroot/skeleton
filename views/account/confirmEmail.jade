@@ -1,0 +1,17 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      .col-sm-6.col-sm-offset-3
+        .page-header
+          h1 Complete Sign Up!
+        form(method='POST')
+          input(type='hidden', name='_csrf', value=token)
+          .form-group
+            label.sr-only(for='email') Confirm Your Email Address:
+            input.form-control(type='email', name='email', value='#{title}', placeholder='Your Email Address', autofocus=true, required)
+          .form-group
+            button.btn.btn-primary.btn-reset(type='submit') Create My Account!
+        hr
+        p We only use this information when necessary. We will <strong>never</strong> spam you.

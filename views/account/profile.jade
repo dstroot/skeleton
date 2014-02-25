@@ -46,42 +46,42 @@ block content
       .col-sm-4
         .page-header
           h2 Social Accounts
-
-        if user.google
-          a.btn.btn-block.btn-google(href='/account/unlink/google')
-            i.fa.fa-google-plus.fa-lg.fa-fw
-            | &nbsp;Disconnect Google
-        else
-          a.btn.btn-block.btn-success(href='/auth/google')
-            i.fa.fa-google-plus.fa-lg.fa-fw
-            | &nbsp;Connect Google
-
-        if user.facebook
-          a.btn.btn-block.btn-facebook(href='/account/unlink/facebook')
-            i.fa.fa-facebook.fa-lg.fa-fw
-            | &nbsp;Disconnect Facebook
-        else
-          a.btn.btn-block.btn-success(href='/auth/facebook')
-            i.fa.fa-facebook.fa-lg.fa-fw
-            | &nbsp;Connect Facebook
-
-        if user.twitter
-          a.btn.btn-block.btn-twitter(href='/account/unlink/twitter')
-            i.fa.fa-twitter.fa-lg.fa-fw
-            | &nbsp;Disconnect Twitter
-        else
-          a.btn.btn-block.btn-success(href='/auth/twitter')
-            i.fa.fa-twitter.fa-lg.fa-fw
-            | &nbsp;Connect Twitter
-
-        if user.github
-          a.btn.btn-block.btn-github(href='/account/unlink/github')
-            i.fa.fa-github.fa-lg.fa-fw
-            | &nbsp;Disconnect GitHub
-        else
-          a.btn.btn-block.btn-success(href='/auth/github')
-            i.fa.fa-github.fa-lg.fa-fw
-            | &nbsp;Connect GitHub
+        if config.facebookAuth
+          if user.facebook
+            a.btn.btn-block.btn-facebook(href='/account/unlink/facebook')
+              i.fa.fa-facebook.fa-lg.fa-fw
+              | &nbsp;Disconnect Facebook
+          else
+            a.btn.btn-block.btn-success(href='/auth/facebook')
+              i.fa.fa-facebook.fa-lg.fa-fw
+              | &nbsp;Connect Facebook
+        if config.twitterAuth
+          if user.twitter
+            a.btn.btn-block.btn-twitter(href='/account/unlink/twitter')
+              i.fa.fa-twitter.fa-lg.fa-fw
+              | &nbsp;Disconnect Twitter
+          else
+            a.btn.btn-block.btn-success(href='/auth/twitter')
+              i.fa.fa-twitter.fa-lg.fa-fw
+              | &nbsp;Connect Twitter
+        if config.githubAuth
+          if user.github
+            a.btn.btn-block.btn-github(href='/account/unlink/github')
+              i.fa.fa-github.fa-lg.fa-fw
+              | &nbsp;Disconnect GitHub
+          else
+            a.btn.btn-block.btn-success(href='/auth/github')
+              i.fa.fa-github.fa-lg.fa-fw
+              | &nbsp;Connect GitHub
+        if config.googleAuth
+          if user.google
+            a.btn.btn-block.btn-google(href='/account/unlink/google')
+              i.fa.fa-google-plus.fa-lg.fa-fw
+              | &nbsp;Disconnect Google
+          else
+            a.btn.btn-block.btn-success(href='/auth/google')
+              i.fa.fa-google-plus.fa-lg.fa-fw
+              | &nbsp;Connect Google
     .row
       .col-sm-6.col-sm-offset-1
         .page-header

@@ -11,18 +11,23 @@ block content
           legend Sign In
           .form-group
             .btn-group.btn-group-vertical(style='width:100%')
-              a.btn.btn-facebook.btn-lg(href='/auth/facebook')
-                i.fa.fa-fw.fa-facebook
-                | &nbsp;Sign in with Facebook
-              a.btn.btn-twitter.btn-lg(href='/auth/twitter')
-                i.fa.fa-fw.fa-twitter
-                | &nbsp;Sign in with Twitter
-              a.btn.btn-github.btn-lg(href='/auth/github')
-                i.fa.fa-fw.fa-github
-                | &nbsp;Sign in with GitHub
-              a.btn.btn-google.btn-lg(href='/auth/google')
-                i.fa.fa-fw.fa-google-plus
-                | &nbsp;Sign in with Google
+              if config.facebookAuth
+                a.btn.btn-facebook.btn-lg(href='/auth/facebook')
+                  i.fa.fa-fw.fa-facebook
+                  | &nbsp;Sign in with Facebook
+              if config.twitterAuth
+                a.btn.btn-twitter.btn-lg(href='/auth/twitter')
+                  i.fa.fa-fw.fa-twitter
+                  | &nbsp;Sign in with Twitter
+              if config.githubAuth
+                a.btn.btn-github.btn-lg(href='/auth/github')
+                  i.fa.fa-fw.fa-github
+                  | &nbsp;Sign in with GitHub
+              if config.googleAuth
+                a.btn.btn-google.btn-lg(href='/auth/google')
+                  i.fa.fa-fw.fa-google-plus
+                  | &nbsp;Sign in with Google
+        if config.localAuth
           hr
           #accordion.panel-group
             .panel.panel-default
@@ -49,10 +54,10 @@ block content
                     p Need to
                       a(href='signup') <strong> sign up</strong>
                       |  for a local #{title} account?
-          p I accept #{title}'s
-                a(href='/terms')  Terms of Use
-                |  and
-                a(href='/privacy')  Privacy Policy.
+        p I accept #{title}'s
+              a(href='/terms')  Terms of Use
+              |  and
+              a(href='/privacy')  Privacy Policy.
 
 //- Form Notes
 //- ===========================================

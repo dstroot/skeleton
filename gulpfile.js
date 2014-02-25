@@ -151,7 +151,7 @@ gulp.task('scripts', function() {
 
 gulp.task('images', function() {
   gulp.src(paths.images)                  // Read images
-    // .pipe(changed(paths.images))          // Only process new/changed
+    .pipe(changed(paths.images))          // Only process new/changed
     .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))
     .pipe(gulp.dest('./public/img'))      // Write processed images
     .pipe(notify({ onLast: true, message: 'Images task complete' }));

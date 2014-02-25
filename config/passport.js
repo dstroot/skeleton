@@ -195,20 +195,34 @@ passport.use(new TwitterStrategy(config.twitter, function(req, accessToken, toke
           }
         });
         return done(null, existingUser);
+      } else {
+        // TODO
+
+        // Ideally here we would grab all thier data and save it into the session
+        // then go to another page where they can enter/confirm their email address
+        // THEN save their account
+        // ===========================================================
+        // // Save their profile data into the session
+        // req.session.socialProfile = profile;
+        // // Twitter does NOT provide an email address
+        // res.render('account/confirmEmail', { email: 'dan@thestroots.com' });
+        // ========= this would move the steps below until the next page
+
+        // BRAND NEW USER!
+        var user = new User();
+        // Twitter will not provide an email address.  Period.
+        // But a person’s twitter username is guaranteed to be unique
+        // so we can "fake" a twitter email address as follows:
+        user.email = profile.username + '@twitter.com';
+        user.twitter = profile.id;
+        user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
+        user.profile.name = profile.displayName;
+        user.profile.location = profile._json.location;
+        user.profile.picture = profile._json.profile_image_url;
+        user.save(function(err) {
+          done(err, user);
+        });
       }
-      var user = new User();
-      // Twitter will not provide an email address.  Period.
-      // But a person’s twitter username is guaranteed to be unique
-      // so we can "fake" a twitter email address as follows:
-      user.email = profile.username + '@twitter.com';
-      user.twitter = profile.id;
-      user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
-      user.profile.name = profile.displayName;
-      user.profile.location = profile._json.location;
-      user.profile.picture = profile._json.profile_image_url;
-      user.save(function(err) {
-        done(err, user);
-      });
     });
   }
 }));

@@ -248,7 +248,7 @@ module.exports.controller = function(app) {
     };
     twilio.sendMessage(message, function(err, responseData) {
       if (err) {
-        return next(err.message);
+        return next(err);
       }
       req.flash('success', { msg: 'Text sent to ' + responseData.to + '.'});
       res.redirect('/api/twilio');
