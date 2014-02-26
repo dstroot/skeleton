@@ -121,7 +121,7 @@ module.exports.controller = function(app) {
      * Step 3: Save the token and token expiration
      */
 
-    workflow.on('saveToken', function(token, hash) {
+    workflow.on('saveToken', function (token, hash) {
       // lookup user
       User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
         if (err) {
@@ -160,7 +160,7 @@ module.exports.controller = function(app) {
      * Step 4: Send the user an email with a reset link
      */
 
-    workflow.on('sendEmail', function(token, user) {
+    workflow.on('sendEmail', function (token, user) {
 
       // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
       var smtpTransport = nodemailer.createTransport('SMTP',{
@@ -204,7 +204,7 @@ module.exports.controller = function(app) {
           };
 
           // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function(err) {
+          smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
               req.flash('errors', { msg: err.message });
               return res.redirect('/forgot');
@@ -221,6 +221,7 @@ module.exports.controller = function(app) {
       });
 
     });
+
     /**
      * Initiate the workflow
      */

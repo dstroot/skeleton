@@ -6,7 +6,7 @@ block content
       .col-sm-6.col-sm-offset-3
         br
         br
-        form(id='signup-form', method='POST')
+        form(action='/signup', method='POST')
           input(type='hidden', name='_csrf', value=token)
           legend Sign Up
           .form-group

@@ -5,7 +5,9 @@
  */
 
 var passport      = require('passport');
+var nodemailer    = require('nodemailer');
 var User          = require('../models/User');
+var config        = require('../config/config');
 
 /**
  * User Controller
@@ -105,30 +107,129 @@ module.exports.controller = function(app) {
 
   app.post('/signup', function(req, res, next) {
 
-    // Validate form fields
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-    req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
-    var errors = req.validationErrors();
-    if (errors) {
-      req.flash('errors', errors);
-      return res.redirect('back');
-    }
+    // Begin a workflow
+    var workflow = new (require('events').EventEmitter)();
 
-    // Create a new account
-    var user = new User({
-      'profile.name': req.body.name,
-      email: req.body.email,
-      password: req.body.password
-    });
+    /**
+     * Step 1: Validate the form fields
+     */
 
-    user.save(function(err) {
-      if (err) {
-        if (err.code === 11000) {
-          req.flash('errors', { msg: 'User with that email already exists.' });
-        }
+    workflow.on('validate', function() {
+
+      // Check for form errors
+      req.assert('email', 'Email is not valid.').isEmail();
+      req.assert('password', 'Password must be at least 4 characters long.').len(4);
+      req.assert('confirmPassword', 'Passwords do not match.').equals(req.body.password);
+
+      var errors = req.validationErrors();
+
+      if (errors) {
+        req.flash('errors', errors);
         return res.redirect('back');
       }
+
+      // next step
+      workflow.emit('createUser');
+    });
+
+    /**
+     * Step 2: Create a new account
+     */
+
+    workflow.on('createUser', function() {
+      // create user
+      var user = new User({
+        'profile.name': req.body.name,
+        email: req.body.email,
+        password: req.body.password
+      });
+      // save user
+      user.save(function(err) {
+        if (err) {
+          if (err.code === 11000) {
+            req.flash('errors', { msg: 'User with that email already exists.' });
+          }
+          return res.redirect('back');
+        } else {
+          // next step
+          workflow.emit('sendWelcomeEmail', user);
+        }
+      });
+
+    });
+
+    /**
+     * Step 3: Send them a welcome email
+     */
+
+    workflow.on('sendWelcomeEmail', function (user) {
+
+      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
+      var smtpTransport = nodemailer.createTransport('SMTP',{
+        service: 'Gmail',
+        auth: {
+          user: config.gmail.user,
+          pass: config.gmail.password
+        }
+        // See nodemailer docs for other transports
+        // https://github.com/andris9/Nodemailer
+      });
+
+      // Render HTML to send using .jade mail template (just like rendering a page)
+      res.render('mail/welcome', {
+        name:          user.profile.name,
+        mailtoName:    config.smtp.name,
+        mailtoAddress: config.smtp.address,
+        blogLink:      req.protocol + '://' + req.headers.host, // + '/blog',
+        forumLink:     req.protocol + '://' + req.headers.host  // + '/forum'
+      }, function(err, html) {
+        if (err) {
+          return (err, null);
+        }
+        else {
+
+          // Now create email text (multiline string as array FTW)
+          var text = [
+            'Hello ' + user.profile.name + '!',
+            'We would like to welcome you as our newest member!',
+            'Thanks so much for using our services! If you have any questions, or suggestions, feel free to email us here at ' + config.smtp.address + '.',
+            'If you want to get the latest scoop check out our <a href="' +
+            req.protocol + '://' + req.headers.host + '/blog' +
+            '">blog</a> and our <a href="' +
+            req.protocol + '://' + req.headers.host + '/forums">forums</a>.',
+            '  - The ' + config.smtp.name + ' team'
+          ].join('\n\n');
+
+          // Create email
+          var mailOptions = {
+            to:       user.profile.name + ' <' + user.email + '>',
+            from:     config.smtp.name + ' <' + config.smtp.address + '>',
+            subject:  'Welcome to ' + app.locals.title + '!',
+            text:     text,
+            html:     html
+          };
+
+          // send email via nodemailer
+          smtpTransport.sendMail(mailOptions, function(err) {
+            if (err) {
+              req.flash('errors', { msg: err.message });
+            }
+          });
+
+          // shut down the connection pool, no more messages
+          smtpTransport.close();
+        }
+      });
+
+      // next step
+      workflow.emit('logUserIn', user);
+    });
+
+    /**
+     * Step 4: Log them in
+     */
+
+    workflow.on('logUserIn', function (user) {
 
       // log the user in
       req.logIn(user, function(err) {
@@ -138,7 +239,14 @@ module.exports.controller = function(app) {
         req.flash('info', { msg: 'Thanks for signing up! You rock!' });
         res.redirect('/api');
       });
+
     });
+
+    /**
+     * Initiate the workflow
+     */
+
+    workflow.emit('validate');
 
   });
 
