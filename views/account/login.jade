@@ -10,23 +10,22 @@ block content
           input(type='hidden', name='_csrf', value=token)
           legend Sign In
           .form-group
-            .btn-group.btn-group-vertical(style='width:100%')
-              if config.facebookAuth
-                a.btn.btn-facebook.btn-lg(href='/auth/facebook')
-                  i.fa.fa-fw.fa-facebook
-                  | &nbsp;Sign in with Facebook
-              if config.twitterAuth
-                a.btn.btn-twitter.btn-lg(href='/auth/twitter')
-                  i.fa.fa-fw.fa-twitter
-                  | &nbsp;Sign in with Twitter
-              if config.githubAuth
-                a.btn.btn-github.btn-lg(href='/auth/github')
-                  i.fa.fa-fw.fa-github
-                  | &nbsp;Sign in with GitHub
-              if config.googleAuth
-                a.btn.btn-google.btn-lg(href='/auth/google')
-                  i.fa.fa-fw.fa-google-plus
-                  | &nbsp;Sign in with Google
+            if config.facebookAuth
+              a.btn.btn-facebook.btn-lg(href='/auth/facebook')
+                i.fa.fa-fw.fa-facebook
+                | &nbsp;Sign in with Facebook
+            if config.twitterAuth
+              a.btn.btn-twitter.btn-lg(href='/auth/twitter')
+                i.fa.fa-fw.fa-twitter
+                | &nbsp;Sign in with Twitter
+            if config.githubAuth
+              a.btn.btn-github.btn-lg(href='/auth/github')
+                i.fa.fa-fw.fa-github
+                | &nbsp;Sign in with GitHub
+            if config.googleAuth
+              a.btn.btn-google.btn-lg(href='/auth/google')
+                i.fa.fa-fw.fa-google-plus
+                | &nbsp;Sign in with Google
           if config.localAuth
             hr
             #accordion.panel-group
@@ -34,7 +33,8 @@ block content
                 .panel-heading
                   h4.panel-title
                     a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
-                      | Or, use a local account
+                      | Or, use a local account&nbsp;
+                      b.caret
                 #collapseOne.panel-collapse.collapse
                   .panel-body
                     .form-group

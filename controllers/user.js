@@ -112,7 +112,7 @@ module.exports.controller = function(app) {
     var errors = req.validationErrors();
     if (errors) {
       req.flash('errors', errors);
-      return res.redirect('/signup');
+      return res.redirect('back');
     }
 
     // Create a new account
@@ -127,7 +127,7 @@ module.exports.controller = function(app) {
         if (err.code === 11000) {
           req.flash('errors', { msg: 'User with that email already exists.' });
         }
-        return res.redirect('/signup');
+        return res.redirect('back');
       }
 
       // log the user in
