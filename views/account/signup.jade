@@ -48,7 +48,6 @@ block scripts
     $(document).ready(function() {
 
       $('.progress').hide();
-      $('.status').hide();
 
       //- Get Mailcheck Script
       $.getScript('/lib/mailcheck/src/mailcheck.min.js')
@@ -119,7 +118,6 @@ block scripts
             }, function (valid, complexity) {
               // Show the bar
               $('.progress').show();
-              $('.status').show();
               // Change colors
               if (!valid) {
                 $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-success').addClass('progress-bar-danger');
@@ -150,6 +148,9 @@ block scripts
               }
             }
           );
+        });
+        $('#password').on('blur', function() {
+          $('.progress').hide();
         });
       })
       .fail(function(jqxhr, settings, exception) {
