@@ -15,9 +15,12 @@ block content
           .form-group
             label.sr-only(for='email') Email:
             input.form-control(type='email', name='email', id='email', placeholder='Your Email', required)
+            #hint
           .form-group
             label.sr-only(for='password') Password:
             input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+            .progress
+              .progress-bar(role='progressbar')
           .form-group
             label.sr-only(for='confirmPassword') Confirm Password:
             input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
@@ -32,10 +35,131 @@ block content
           |  and
           a(href='/privacy')  Privacy Policy.
 
-//- Form Notes
-//- ===========================================
-//- 1) Always add labels!
-//-    Screen readers will have trouble with your forms if you don't include a label for every input.
-//-    NOTE: you can hide the labels using the .sr-only class.
-//- 2) Use proper HTML5 input types (email, password, date, etc.)  This adds some HTML5 validation as
-//-    well as the correct keyboard on mobile devices.
+  //- Form Notes
+  //- ===========================================
+  //- 1) Always add labels!
+  //-    Screen readers will have trouble with your forms if you don't include a label for every input.
+  //-    NOTE: you can hide the labels using the .sr-only class.
+  //- 2) Use proper HTML5 input types (email, password, date, etc.)  This adds some HTML5 validation as
+  //-    well as the correct keyboard on mobile devices.
+
+block scripts
+  script.
+    $(document).ready(function() {
+
+      $('.progress').hide();
+      $('.status').hide();
+
+      //- Get Mailcheck Script
+      $.getScript('/lib/mailcheck/src/mailcheck.min.js')
+      .done(function(script, textStatus) {
+        // initiate mailcheck
+        $('#email').on('blur', function() {
+          $(this).mailcheck({
+            //- domains: domains,                       // optional
+            //- topLevelDomains: topLevelDomains,       // optional
+            //- distanceFunction: superStringDistance,  // optional
+            suggested: function(element, suggestion) {
+              console.log('mailcheck');
+              if (!$('#hint').html()) {
+                  // First error - fill in/show entire hint element
+                  suggestion = '<em>Did you mean <span class="suggestion">' +
+                      '<span class="address">' + suggestion.address + '</span>' +
+                      '@<a href="#" id="suggestion"><strong>' + suggestion.domain +
+                      '</strong></a></span>?</em>';
+                  $('#hint').html(suggestion).fadeIn(150);
+                  // use suggestion
+                  $( '#suggestion' ).click(function () {
+                    console.log('Suggestion clicked');
+                    // On click, fill in the field with the suggestion and remove the hint
+                    $('#email').val($('.suggestion').text());
+                    $('#hint').fadeOut(200, function() {
+                      $(this).empty();
+                    });
+                    //go to next field
+                    $('input[name=password]').focus();
+                    return false;
+                  });
+              } else {
+                  // Subsequent errors
+                  $('.address').html(suggestion.address);
+                  $('.domain').html(suggestion.domain);
+              }
+            },
+            empty: function(element) {
+              // callback code
+            }
+          });
+        });
+      })
+      .fail(function(jqxhr, settings, exception) {
+          console.log('Mailcheck load failed.');
+      });
+
+      //- Get complexity Script
+      $.getScript('/lib/complexify/jquery.complexify.js')
+      .done(function(script, textStatus) {
+
+        var $complexityLabel = $('#complexityLabel');
+        $complexityLabel.hide().empty;
+
+        //- The function to measure password complexity
+        $('#password').bind('keyup focus', function () {
+
+          $('#password').complexify({
+            minimumChars        : 6,
+            strengthScaleFactor : 0.5,
+            bannedPasswords     : complexify.banlist,
+            banmode             : 'loose',
+            preventSubmit       : function(e) {
+                                    //e.preventDefault();
+                                    //alert('Please provide a more complex password');
+                                    //return false;
+                                  }
+            }, function (valid, complexity) {
+              // Show the bar
+              $('.progress').show();
+              $('.status').show();
+              // Change colors
+              if (!valid) {
+                $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-success').addClass('progress-bar-danger');
+              } else {
+                $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-danger').addClass('progress-bar-success');
+              }
+              // Label progress bar
+              switch (true)
+              {
+                case (complexity > 81):
+                  $('.progress-bar').html('Excellent Complexity!').fadeIn(150);
+                  break;
+                case (complexity > 61):
+                  $('.progress-bar').html('Strong Complexity!').fadeIn(150);
+                  break;
+                case (complexity > 41):
+                  $('.progress-bar').html('Good Complexity').fadeIn(150);
+                  break;
+                case (complexity > 31):
+                  $('.progress-bar').html('Average Complexity').fadeIn(150);
+                  break;
+                case (complexity > 21):
+                  $('.progress-bar').html('Weak').fadeIn(150);
+                  break;
+                default:
+                  $('.progress-bar').html(':(').fadeIn(150);
+                  break;
+              }
+            }
+          );
+        });
+      })
+      .fail(function(jqxhr, settings, exception) {
+        console.log('Complexify load failed.');
+      });
+
+      //- Get password ban list
+      $.getScript('/lib/complexify/jquery.complexify.banlist.js')
+      .fail(function(jqxhr, settings, exception) {
+        console.log('Complexify banlist load failed.');
+      });
+
+    });

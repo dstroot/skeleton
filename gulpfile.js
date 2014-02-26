@@ -9,22 +9,23 @@
  */
 
 var gulp          = require('gulp');
-var clean         = require('gulp-clean');
-var less          = require('gulp-less');
-var nodemon       = require('gulp-nodemon');       // https://www.npmjs.org/package/gulp-nodemon
-var jshint        = require('gulp-jshint');
-var concat        = require('gulp-concat');
-var uglify        = require('gulp-uglify');
-var rename        = require('gulp-rename');
-var changed       = require('gulp-changed');       // https://github.com/sindresorhus/gulp-changed
-var autoprefixer  = require('gulp-autoprefixer');
-var imagemin      = require('gulp-imagemin');
 var size          = require('gulp-size');
 var jscs          = require('gulp-jscs');          // https://www.npmjs.org/package/jscs
-var minifycss     = require('gulp-minify-css');    // https://www.npmjs.org/package/gulp-minify-css
-var notify        = require('gulp-notify');        // DOES NOT WORK ON WINDOWS
-var livereload    = require('gulp-livereload');
+var less          = require('gulp-less');
+var clean         = require('gulp-clean');
+var concat        = require('gulp-concat');
 var header        = require('gulp-header');
+var uglify        = require('gulp-uglify');
+var notify        = require('gulp-notify');        // DOES NOT WORK ON WINDOWS
+var rename        = require('gulp-rename');
+var jshint        = require('gulp-jshint');        // https://github.com/wearefractal/gulp-jshint
+var stylish       = require('jshint-stylish');
+var changed       = require('gulp-changed');       // https://github.com/sindresorhus/gulp-changed
+var nodemon       = require('gulp-nodemon');       // https://www.npmjs.org/package/gulp-nodemon
+var imagemin      = require('gulp-imagemin');
+var minifycss     = require('gulp-minify-css');    // https://www.npmjs.org/package/gulp-minify-css
+var livereload    = require('gulp-livereload');
+var autoprefixer  = require('gulp-autoprefixer');
 
 /**
  * Banner
@@ -45,17 +46,18 @@ var banner = ['/**',
 
 var paths = {
   clean: [
+    '!public/js/main.js',
     'public/js/**/*.js',
     'public/js/**/*.min.js',
-    '!public/js/main.js',
     'public/css/**/*.css',
     'public/css/**/*.min.css'
   ],
   js: [
-    // Bootstrap: ==============================
+    // Bootstrap  ==============================
     // Enable/disable as needed but
     // only turn on .js that is needed
     // on *every* page. No bloat!
+    // =========================================
     'public/lib/bootstrap/js/transition.js',
     'public/lib/bootstrap/js/alert.js',
     // 'public/lib/bootstrap/js/button.js',
@@ -79,10 +81,6 @@ var paths = {
     'app.js',
     'app_cluster.js',
     'gulpfile.js'
-  ],
-  less: [
-    'less/main.less',
-    'less/bootstrap.less'
   ],
   images: 'public/img/**/*'
 };
@@ -122,8 +120,8 @@ gulp.task('styles', function() {
 
 gulp.task('lint', function() {
   gulp.src(paths.lint)                    // Read .js files
-    .pipe(jshint('.jshintrc'))            // Lint .js files
-    .pipe(jshint.reporter('default'))     // Specify a reporter for JSHint
+    .pipe(jshint())                       // Lint .js files
+    .pipe(jshint.reporter(stylish))       // Specify a reporter for JSHint
     .pipe(jscs())                         // Check code style
     .pipe(notify({ onLast: true, message: 'Lint task complete' }));
 });
@@ -137,7 +135,7 @@ gulp.task('scripts', function() {
     .pipe(concat(pkg.name + '.js'))       // Concatenate .js files into "packagename.js"
     .pipe(gulp.dest('./public/js'))       // Save main.js here
     .pipe(rename({suffix: '.min'}))       // Add .min suffix
-    .pipe(uglify({ outSourceMap: true }))   // Minify the .js
+    .pipe(uglify({ outSourceMap: true })) // Minify the .js
     .pipe(header(banner, { pkg : pkg } )) // Add banner
     .pipe(size())                         // What size are we at?
     .pipe(gulp.dest('./public/js'))       // Save minified .js
@@ -161,7 +159,7 @@ gulp.task('images', function() {
  * Build Task
  */
 
-gulp.task('build', ['clean', 'styles', 'scripts', 'images']);
+gulp.task('build', ['clean', 'styles', 'scripts', 'images', 'lint']);
 
 /**
  * Watch Files (Rerun/reload when a file changes)

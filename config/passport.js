@@ -20,7 +20,7 @@ var GoogleStrategy    = require('passport-google-oauth').OAuth2Strategy;
  * Serialize and Deserialize the User
  */
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
@@ -34,10 +34,10 @@ passport.deserializeUser(function(id, done) {
  * Local authentication
  */
 
-passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
+passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, password, done) {
   User.findOne({ email: email }, function(err, user) {
     if (!user) {
-      return done(null, false, { message: 'Email ' + email + ' not found'});
+      return done(null, false, { message: 'Invalid email or password.' });
     }
     user.comparePassword(password, function(err, isMatch) {
       if (isMatch) {
@@ -60,7 +60,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
  * Sign in with Facebook.
  */
 
-passport.use(new FacebookStrategy(config.facebook, function(req, accessToken, refreshToken, profile, done) {
+passport.use(new FacebookStrategy(config.facebook, function (req, accessToken, refreshToken, profile, done) {
   if (req.user) {
     User.findOne({ $or: [{ facebook: profile.id }, { email: profile.email }] }, function(err, existingUser) {
       if (existingUser) {
@@ -82,7 +82,7 @@ passport.use(new FacebookStrategy(config.facebook, function(req, accessToken, re
       }
     });
   } else {
-    User.findOne({ facebook: profile.id }, function(err, existingUser) {
+    User.findOne({ facebook: profile.id }, function (err, existingUser) {
       if (existingUser) {
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
@@ -112,7 +112,7 @@ passport.use(new FacebookStrategy(config.facebook, function(req, accessToken, re
  * Sign in with GitHub.
  */
 
-passport.use(new GitHubStrategy(config.github, function(req, accessToken, refreshToken, profile, done) {
+passport.use(new GitHubStrategy(config.github, function (req, accessToken, refreshToken, profile, done) {
   if (req.user) {
     User.findOne({ $or: [{ github: profile.id }, { email: profile.email }] }, function(err, existingUser) {
       if (existingUser) {
@@ -134,7 +134,7 @@ passport.use(new GitHubStrategy(config.github, function(req, accessToken, refres
       }
     });
   } else {
-    User.findOne({ github: profile.id }, function(err, existingUser) {
+    User.findOne({ github: profile.id }, function (err, existingUser) {
       if (existingUser) {
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
@@ -164,7 +164,7 @@ passport.use(new GitHubStrategy(config.github, function(req, accessToken, refres
  * Sign in with Twitter.
  */
 
-passport.use(new TwitterStrategy(config.twitter, function(req, accessToken, tokenSecret, profile, done) {
+passport.use(new TwitterStrategy(config.twitter, function (req, accessToken, tokenSecret, profile, done) {
   if (req.user) {
     User.findOne({ twitter: profile.id }, function(err, existingUser) {
       if (existingUser) {
@@ -185,11 +185,11 @@ passport.use(new TwitterStrategy(config.twitter, function(req, accessToken, toke
       }
     });
   } else {
-    User.findOne({ twitter: profile.id }, function(err, existingUser) {
+    User.findOne({ twitter: profile.id }, function (err, existingUser) {
       if (existingUser) {
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
-        existingUser.save(function(err) {
+        existingUser.save(function (err) {
           if (err) {
             return (err);
           }
@@ -231,7 +231,7 @@ passport.use(new TwitterStrategy(config.twitter, function(req, accessToken, toke
  * Sign in with Google.
  */
 
-passport.use(new GoogleStrategy(config.google, function(req, accessToken, refreshToken, profile, done) {
+passport.use(new GoogleStrategy(config.google, function (req, accessToken, refreshToken, profile, done) {
   if (req.user) {
     User.findOne({ $or: [{ google: profile.id }, { email: profile.email }] }, function(err, existingUser) {
       if (existingUser) {
@@ -252,7 +252,7 @@ passport.use(new GoogleStrategy(config.google, function(req, accessToken, refres
       }
     });
   } else {
-    User.findOne({ google: profile.id }, function(err, existingUser) {
+    User.findOne({ google: profile.id }, function (err, existingUser) {
       if (existingUser) {
         // update the user's record with login timestamp
         existingUser.activity.last_logon = Date.now();
@@ -328,7 +328,7 @@ passport.use('foursquare', new OAuth2Strategy({
  * Login Required middleware.
  */
 
-exports.isAuthenticated = function(req, res, next) {
+exports.isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   } else {
@@ -341,7 +341,7 @@ exports.isAuthenticated = function(req, res, next) {
  * Authorization Required middleware.
  */
 
-exports.isAuthorized = function(req, res, next) {
+exports.isAuthorized = function (req, res, next) {
   var provider = req.path.split('/').slice( -1 )[0];
   if (_.findWhere(req.user.tokens, { kind: provider })) {
     next();
@@ -354,7 +354,7 @@ exports.isAuthorized = function(req, res, next) {
  * Check if the account is an Administrator
  */
 
-exports.isAdministrator = function(req, res, next) {
+exports.isAdministrator = function (req, res, next) {
   // make sure we are logged in first
   if (req.isAuthenticated()) {
     //user must be be an administrator

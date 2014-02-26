@@ -13,6 +13,11 @@ var User          = require('../models/User');
 
 module.exports.controller = function(app) {
 
+/**
+ * GET /login
+ * Render login page
+ */
+
   app.get('/login', function(req, res) {
     if (req.user) {
       return res.redirect('/');
@@ -22,7 +27,14 @@ module.exports.controller = function(app) {
     });
   });
 
+/**
+ * POST /login
+ * Log the user in
+ */
+
   app.post('/login', function(req, res, next) {
+
+    // Validate the form fields
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password cannot be blank').notEmpty();
     var errors = req.validationErrors();
@@ -32,6 +44,7 @@ module.exports.controller = function(app) {
       return res.redirect('/login');
     }
 
+    // Authenticate the user
     passport.authenticate('local', function(err, user, info) {
       if (err) {
         return next(err);
@@ -61,10 +74,20 @@ module.exports.controller = function(app) {
 
   });
 
+/**
+ * GET /logout
+ * Log the user out
+ */
+
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
   });
+
+  /**
+   * GET /signup
+   * Render signup page
+   */
 
   app.get('/signup', function(req, res) {
     if (req.user) {
@@ -75,17 +98,24 @@ module.exports.controller = function(app) {
     });
   });
 
+  /**
+   * POST /signup
+   *
+   */
+
   app.post('/signup', function(req, res, next) {
+
+    // Validate form fields
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 4 characters long').len(4);
     req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
     var errors = req.validationErrors();
-
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/signup');
     }
 
+    // Create a new account
     var user = new User({
       'profile.name': req.body.name,
       email: req.body.email,
@@ -99,6 +129,8 @@ module.exports.controller = function(app) {
         }
         return res.redirect('/signup');
       }
+
+      // log the user in
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
