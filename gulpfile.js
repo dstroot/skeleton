@@ -81,8 +81,7 @@ var paths = {
     'app.js',
     'app_cluster.js',
     'gulpfile.js'
-  ],
-  images: 'public/img/**/*'
+  ]
 };
 
 /**
@@ -148,8 +147,8 @@ gulp.task('scripts', function() {
  */
 
 gulp.task('images', function() {
-  gulp.src(paths.images)                  // Read images
-    .pipe(changed(paths.images))          // Only process new/changed
+  gulp.src('public/img/**/*')             // Read images
+    .pipe(changed('public/img/**/*'))     // Only process new/changed
     .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))
     .pipe(gulp.dest('./public/img'))      // Write processed images
     .pipe(notify({ onLast: true, message: 'Images task complete' }));
@@ -168,7 +167,7 @@ gulp.task('build', ['clean', 'styles', 'scripts', 'images', 'lint']);
 gulp.task('watch', function () {
 
   // Watch .less files, process/reload as needed
-  gulp.watch(paths.less, ['styles']);
+  gulp.watch('less/**/*.less', ['styles']);
 
   // Watch client .js files, process/reload as needed
   gulp.watch(paths.js, ['scripts']);

@@ -99,9 +99,6 @@ block scripts
       $.getScript('/lib/complexify/jquery.complexify.js')
       .done(function(script, textStatus) {
 
-        var $complexityLabel = $('#complexityLabel');
-        $complexityLabel.hide().empty;
-
         //- The function to measure password complexity
         $('#password').bind('keyup focus', function () {
 
@@ -118,12 +115,14 @@ block scripts
             }, function (valid, complexity) {
               // Show the bar
               $('.progress').show();
+
               // Change colors
               if (!valid) {
                 $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-success').addClass('progress-bar-danger');
               } else {
                 $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-danger').addClass('progress-bar-success');
               }
+
               // Label progress bar
               switch (true)
               {
@@ -149,6 +148,7 @@ block scripts
             }
           );
         });
+        // Hide, our work is done ;)
         $('#password').on('blur', function() {
           $('.progress').hide();
         });
