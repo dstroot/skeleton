@@ -23,7 +23,7 @@ var config            = require('./config/config');        // Get configuration
  * Create Express Server and socket.io listener
  */
 
-var app     = express(),
+var app     = module.exports = express(),  // export app for testing
     server  = require('http').createServer(app),
     io      = io.listen(server);
 
