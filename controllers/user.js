@@ -4,10 +4,12 @@
  * Module Dependencies
  */
 
+var async         = require('async');
 var passport      = require('passport');
 var nodemailer    = require('nodemailer');
 var User          = require('../models/User');
 var config        = require('../config/config');
+var LoginAttempt  = require('../models/LoginAttempt');
 
 /**
  * User Controller
@@ -36,43 +38,129 @@ module.exports.controller = function(app) {
 
   app.post('/login', function(req, res, next) {
 
-    // Validate the form fields
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('password', 'Password cannot be blank').notEmpty();
-    var errors = req.validationErrors();
 
-    if (errors) {
-      req.flash('errors', errors);
-      return res.redirect('/login');
-    }
+    // Begin a workflow
+    var workflow = new (require('events').EventEmitter)();
 
-    // Authenticate the user
-    passport.authenticate('local', function(err, user, info) {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        req.flash('errors', { msg: info.message });
+    /**
+     * Step 1: Validate the data
+     */
+
+    workflow.on('validate', function() {
+
+      // Validate the form fields
+      req.assert('email', 'Email is not valid').isEmail();
+      req.assert('password', 'Password cannot be blank').notEmpty();
+
+      var errors = req.validationErrors();
+
+      if (errors) {
+        req.flash('errors', errors);
         return res.redirect('/login');
       }
 
-      // update the user's record with login timestamp
-      user.activity.last_logon = Date.now();
-      user.save(function(err) {
+      // next step
+      workflow.emit('abuseFilter');
+    });
+
+    /**
+     * Step 2: Prevent brute force login hacking
+     */
+
+    workflow.on('abuseFilter', function() {
+      var getIpCount = function(done) {
+        var conditions = { ip: req.ip };
+        LoginAttempt.count(conditions, function(err, count) {
+          if (err) {
+            return done(err);
+          }
+          done(null, count);
+        });
+      };
+
+      var getIpUserCount = function(done) {
+        var conditions = { ip: req.ip, user: req.body.username };
+        LoginAttempt.count(conditions, function(err, count) {
+          if (err) {
+            return done(err);
+          }
+          done(null, count);
+        });
+      };
+
+      var asyncFinally = function(err, results) {
+        if (err) {
+          return workflow.emit('exception', err);
+        }
+
+        if (results.ip >= config.loginAttempts.forIp || results.ipUser >= config.loginAttempts.forIpAndUser) {
+          req.flash('errors', { msg: 'You\'ve reached the maximum number of login attempts. Please try again later.' });
+          return res.redirect('/login');
+        }
+        else {
+          workflow.emit('authenticate');
+        }
+
+      };
+
+      async.parallel({ ip: getIpCount, ipUser: getIpUserCount }, asyncFinally);
+    });
+
+    /**
+     * Step 3: Authenticate the user
+     */
+
+    workflow.on('authenticate', function () {
+
+      // Authenticate the user
+      passport.authenticate('local', function(err, user, info) {
         if (err) {
           return next(err);
         }
-      });
 
-      // Log user in
-      req.logIn(user, function(err) {
-        if (err) {
-          return next(err);
+        if (!user) {
+
+          // Update abuse count
+          var fieldsToSet = { ip: req.ip, user: req.body.username };
+          LoginAttempt.create(fieldsToSet, function(err, doc) {
+            if (err) {
+              return next(err);
+            } else {
+              // User Not Found (Return)
+              req.flash('errors', { msg: info.message });
+              return res.redirect('/login');
+            }
+          });
+
+        } else {
+
+          // update the user's record with login timestamp
+          user.activity.last_logon = Date.now();
+          user.save(function(err) {
+            if (err) {
+              return next(err);
+            }
+          });
+
+          // Log user in
+          req.logIn(user, function(err) {
+            if (err) {
+              return next(err);
+            }
+            return res.redirect('/api');
+          });
+
         }
-        return res.redirect('/api');
-      });
 
-    })(req, res, next);
+      })(req, res, next);
+
+    });
+
+    /**
+     * Initiate the workflow
+     */
+
+    workflow.emit('validate');
 
   });
 
@@ -91,7 +179,7 @@ module.exports.controller = function(app) {
    * Render signup page
    */
 
-  app.get('/signup', function(req, res) {
+  app.get('/signup', function (req, res) {
     if (req.user) {
       return res.redirect('/');
     }
@@ -105,7 +193,7 @@ module.exports.controller = function(app) {
    *
    */
 
-  app.post('/signup', function(req, res, next) {
+  app.post('/signup', function (req, res, next) {
 
     // Begin a workflow
     var workflow = new (require('events').EventEmitter)();
@@ -249,6 +337,109 @@ module.exports.controller = function(app) {
     workflow.emit('validate');
 
   });
+
+  /**
+   * GET /auth/twitter/callback
+   * Process Twitter Authorization
+   */
+
+  // app.get('/auth/twitter', passport.authenticate('twitter'));
+  // app.get('/auth/twitter/callback', function (req, res) {
+
+
+  //   // From Drywall
+  //   req._passport.instance.authenticate('twitter', function(err, user, info) {
+  //     if (!info || !info.profile) {
+  //       return res.redirect('/signup/');
+  //     }
+  //     req.app.db.models.User.findOne({ 'twitter.id': info.profile._json.id }, function(err, user) {
+  //       if (err) {
+  //         return next(err);
+  //       }
+  //       if (!user) {
+  //         // Since we didn't find an existing user we have a brand new one
+  //         // Save thier profile data into the session
+  //         req.session.socialProfile = info.profile;
+  //         // Twitter does NOT provide an email address
+  //         res.render('signup/social', { email: '' });
+  //       }
+  //       else {
+  //         res.render('signup/index', {
+  //           oauthMessage: 'We found a user linked to your Twitter account.',
+  //           oauthTwitter: !!req.app.get('twitter-oauth-key'),
+  //           oauthGitHub: !!req.app.get('github-oauth-key'),
+  //           oauthGoogle: !!req.app.get('google-oauth-key'),
+  //           oauthFacebook: !!req.app.get('facebook-oauth-key')
+  //         });
+  //       }
+  //     });
+  //   })(req, res, next);
+
+
+  //   // From Skeleton
+  //   passport.use(new TwitterStrategy(config.twitter, function (req, accessToken, tokenSecret, profile, done) {
+  //     if (req.user) {
+  //       User.findOne({ twitter: profile.id }, function(err, existingUser) {
+  //         if (existingUser) {
+  //           req.flash('errors', { msg: 'There is already a Twitter account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
+  //           done(err);
+  //         } else {
+  //           User.findById(req.user.id, function(err, user) {
+  //             user.twitter = profile.id;
+  //             user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
+  //             user.profile.name = user.profile.name || profile.displayName;
+  //             user.profile.location = user.profile.location || profile._json.location;
+  //             user.profile.picture = user.profile.picture || profile._json.profile_image_url;
+  //             user.save(function(err) {
+  //               req.flash('info', { msg: 'Twitter account has been linked.' });
+  //               done(err, user);
+  //             });
+  //           });
+  //         }
+  //       });
+  //     } else {
+  //       User.findOne({ twitter: profile.id }, function (err, existingUser) {
+  //         if (existingUser) {
+  //           // update the user's record with login timestamp
+  //           existingUser.activity.last_logon = Date.now();
+  //           existingUser.save(function (err) {
+  //             if (err) {
+  //               return (err);
+  //             }
+  //           });
+  //           return done(null, existingUser);
+  //         } else {
+  //           // TODO
+
+  //           // Ideally here we would grab all thier data and save it into the session
+  //           // then go to another page where they can enter/confirm their email address
+  //           // THEN save their account
+  //           // ===========================================================
+  //           // // Save their profile data into the session
+  //           // req.session.socialProfile = profile;
+  //           // // Twitter does NOT provide an email address
+  //           // res.render('account/confirmEmail', { email: 'dan@thestroots.com' });
+  //           // ========= this would move the steps below until the next page
+
+  //           // BRAND NEW USER!
+  //           var user = new User();
+  //           // Twitter will not provide an email address.  Period.
+  //           // But a person’s twitter username is guaranteed to be unique
+  //           // so we can "fake" a twitter email address as follows:
+  //           user.email = profile.username + '@twitter.com';
+  //           user.twitter = profile.id;
+  //           user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
+  //           user.profile.name = profile.displayName;
+  //           user.profile.location = profile._json.location;
+  //           user.profile.picture = profile._json.profile_image_url;
+  //           user.save(function(err) {
+  //             done(err, user);
+  //           });
+  //         }
+  //       });
+  //     }
+  //   }));
+  // });
 
   /**
    * OAuth routes for sign-in.

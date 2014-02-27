@@ -47,7 +47,7 @@ config.session.maxAge = process.env.SESSION_MAX_AGE || week;
 /**
  * Throttle Login Attempts
  */
-// TODO: implement this
+
 config.loginAttempts              = {};
 config.loginAttempts.forIp        = 50;
 config.loginAttempts.forUser      = 7;

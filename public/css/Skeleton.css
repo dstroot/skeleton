@@ -1558,7 +1558,7 @@ output {
   padding-top: 7px;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #aaaaaa;
+  color: #555555;
 }
 .form-control {
   display: block;
@@ -1567,7 +1567,7 @@ output {
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #aaaaaa;
+  color: #555555;
   background-color: #ffffff;
   background-image: none;
   border: 1px solid #cccccc;
@@ -2443,7 +2443,7 @@ input[type="button"].btn-block {
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  color: #aaaaaa;
+  color: #555555;
   background-color: #ffffff;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
@@ -2880,11 +2880,11 @@ input[type="button"].btn-block {
   border-color: #e7e7e7;
 }
 .navbar-default .navbar-brand {
-  color: #777777;
+  color: #222222;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #5e5e5e;
+  color: #090909;
   background-color: transparent;
 }
 .navbar-default .navbar-text {
@@ -5303,12 +5303,6 @@ button.close {
 .white {
   color: #ffffff;
 }
-.silver {
-  color: #dddddd;
-}
-.gray {
-  color: #aaaaaa;
-}
 .black {
   color: #111111;
 }
@@ -5357,12 +5351,6 @@ button.close {
 .bg-white {
   background-color: #ffffff;
 }
-.bg-gray {
-  background-color: #aaaaaa;
-}
-.bg-silver {
-  background-color: #dddddd;
-}
 .bg-black {
   background-color: #111111;
 }
@@ -5387,31 +5375,6 @@ h3,
 .h2,
 .h3 {
   font-weight: 300;
-}
-/**
- * Footer
- */
-.footer {
-  text-align: center;
-  /* Sticky footer styles below */
-  position: absolute;
-  bottom: 0;
-  height: 80px;
-  width: 100%;
-  /* Sticky footer styles end */
-}
-.footer p {
-  font-size: 14px;
-  color: #737373;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-.footer p a {
-  text-decoration: none;
-  color: #999999;
-}
-.footer p a:hover {
-  color: #eeeeee;
 }
 /**
  * Navbar
@@ -5564,6 +5527,31 @@ h3,
   }
 }
 /**
+ * Footer
+ */
+.footer {
+  text-align: center;
+  /* Sticky footer styles below */
+  position: absolute;
+  bottom: 0;
+  height: 80px;
+  width: 100%;
+  /* Sticky footer styles end */
+}
+.footer p {
+  font-size: 14px;
+  color: #737373;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.footer p a {
+  text-decoration: none;
+  color: #999999;
+}
+.footer p a:hover {
+  color: #eeeeee;
+}
+/**
  * Social Buttons
  */
 .btn-facebook {
@@ -5637,6 +5625,18 @@ h3,
 }
 .table.privacy tbody > tr > td {
   border-top: 0px;
+}
+/**
+ * Panel Headers Like Buttons
+ */
+.panel-heading:hover {
+  background: #cfcfcf;
+}
+a.noDecoration {
+  text-decoration: none;
+}
+a.noDecoration:hover {
+  text-decoration: none;
 }
 /**
  * Other Media/Responsiveness
