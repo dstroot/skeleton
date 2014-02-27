@@ -79,7 +79,7 @@ module.exports.controller = function(app) {
       };
 
       var getIpUserCount = function(done) {
-        var conditions = { ip: req.ip, user: req.body.username };
+        var conditions = { ip: req.ip, user: req.body.email };
         LoginAttempt.count(conditions, function(err, count) {
           if (err) {
             return done(err);
@@ -93,7 +93,7 @@ module.exports.controller = function(app) {
           return workflow.emit('exception', err);
         }
 
-        if (results.ip >= config.loginAttempts.forIp || results.ipUser >= config.loginAttempts.forIpAndUser) {
+        if ( results.ip >= config.loginAttempts.forIp || results.ipUser >= config.loginAttempts.forUser ) {
           req.flash('errors', { msg: 'You\'ve reached the maximum number of login attempts. Please try again later.' });
           return res.redirect('/login');
         }
@@ -121,7 +121,7 @@ module.exports.controller = function(app) {
         if (!user) {
 
           // Update abuse count
-          var fieldsToSet = { ip: req.ip, user: req.body.username };
+          var fieldsToSet = { ip: req.ip, user: req.body.email };
           LoginAttempt.create(fieldsToSet, function(err, doc) {
             if (err) {
               return next(err);
