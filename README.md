@@ -92,20 +92,20 @@ Oh, and it's pretty optimized due to the Gulp build pipeline.  This is running o
 Technology
 ----------
 
-| On The Server     | On The Client  | Development |
-| -------------     | -------------- | ----------- |
-| Node/NPM          | Bootstrap      | Bower       |
-| Express           | Font-Awesome   | Gulp        |
-| Jade              | jQuery         | JSHint      |
-| Mongoose          | Moment.js      | JSCS        |
-| Passport          | animate.css    | Nodemon     |
-| Async             | Odometer       |             |
-| Modemailer        |                |             |
-| Socket.io         |                |             |
-| Helmet            |                |             |
-| Winston           |                |             |
-| express-validator |                |             |
-| express-flash     |                |             |
+| On The Server     | On The Client  | Development | Testing   |
+| -------------     | -------------- | ----------- | -------   |
+| Node/NPM          | Bootstrap      | Bower       | Mocha     |
+| Express           | Font-Awesome   | Gulp        | Chai      |
+| Jade              | jQuery         | JSHint      | Supertest |
+| Mongoose          | Moment.js      | JSCS        |           |
+| Passport          | animate.css    | Nodemon     |           |
+| Async             | Odometer       |             |           |
+| Modemailer        |                |             |           |
+| Socket.io         |                |             |           |
+| Helmet            |                |             |           |
+| Winston           |                |             |           |
+| express-validator |                |             |           |
+| express-flash     |                |             |           |
 
 
 
@@ -127,7 +127,7 @@ Getting Started
 
 ```bash
 # Install global dependencies
-npm install -g nodemon gulp
+npm install -g nodemon gulp mocha
 
 # Clone the repoo (and fetch only the latest commits)
 git clone --depth=1 git@github.com:dstroot/skeleton.git

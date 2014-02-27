@@ -76,6 +76,7 @@ var paths = {
   lint: [
     'config/**/*.js',
     '!config/secrets.js',
+    'test/**/*.js',
     'controllers/**/*.js',
     'models/**/*.js',
     'app.js',
