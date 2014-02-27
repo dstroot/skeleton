@@ -50,7 +50,7 @@ config.session.maxAge = process.env.SESSION_MAX_AGE || week;
 
 config.loginAttempts              = {};
 config.loginAttempts.forIp        = 50;
-config.loginAttempts.forUser      = 7;
+config.loginAttempts.forUser      = 5;
 config.loginAttempts.expires      = '20m';
 
 /**

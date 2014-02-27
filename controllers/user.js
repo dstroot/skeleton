@@ -26,7 +26,12 @@ module.exports.controller = function(app) {
     if (req.user) {
       return res.redirect('/');
     }
+    // Turn off login form if too many attempts
+    var tooManyAttempts = req.session.tooManyAttempts;
+    req.session.tooManyAttempts = null;
+
     res.render('account/login', {
+      tooManyAttempts: tooManyAttempts,
       url: req.url
     });
   });
@@ -94,7 +99,8 @@ module.exports.controller = function(app) {
         }
 
         if ( results.ip >= config.loginAttempts.forIp || results.ipUser >= config.loginAttempts.forUser ) {
-          req.flash('errors', { msg: 'You\'ve reached the maximum number of login attempts. Please try again later.' });
+          req.flash('errors', { msg: 'You\'ve reached the maximum number of login attempts. Please try again later or reset your password.' });
+          req.session.tooManyAttempts = true;
           return res.redirect('/login');
         }
         else {

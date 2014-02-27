@@ -59,6 +59,15 @@ block content
               |  and
               a(href='/privacy')  Privacy Policy.
 
+block scripts
+  script.
+    $(document).ready(function() {
+      if ( #{tooManyAttempts} === true ) {
+        $("input").prop('disabled', true);
+        $("button").prop('disabled', true);
+      }
+    });
+
 //- Form Notes
 //- ===========================================
 //- 1) Always add labels!
