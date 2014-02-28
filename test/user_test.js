@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 /*global describe*/
 /*global before*/
 /*global user:true*/

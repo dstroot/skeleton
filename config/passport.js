@@ -5,6 +5,7 @@
  */
 
 var _                 = require('underscore');
+var pkg               = require('../package.json');
 var User              = require('../models/User');
 var config            = require('./config');
 var passport          = require('passport');
@@ -60,7 +61,12 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, pass
  * Sign in with Facebook.
  */
 
-passport.use(new FacebookStrategy(config.facebook, function (req, accessToken, refreshToken, profile, done) {
+passport.use(new FacebookStrategy({
+  clientID: config.facebook.clientID,
+  clientSecret: config.facebook.clientSecret,
+  scope: ['email', 'user_location'],  // get the user's email address and location
+  passReqToCallback: true
+}, function (req, accessToken, refreshToken, profile, done) {
   if (req.user) {
     User.findOne({ $or: [{ facebook: profile.id }, { email: profile.email }] }, function(err, existingUser) {
       if (existingUser) {
@@ -112,7 +118,12 @@ passport.use(new FacebookStrategy(config.facebook, function (req, accessToken, r
  * Sign in with GitHub.
  */
 
-passport.use(new GitHubStrategy(config.github, function (req, accessToken, refreshToken, profile, done) {
+passport.use(new GitHubStrategy({
+  clientID: config.github.clientID,
+  clientSecret: config.github.clientSecret,
+  customHeaders: { 'User-Agent': pkg.name },
+  passReqToCallback: true
+}, function (req, accessToken, refreshToken, profile, done) {
   if (req.user) {
     User.findOne({ $or: [{ github: profile.id }, { email: profile.email }] }, function(err, existingUser) {
       if (existingUser) {
@@ -164,7 +175,11 @@ passport.use(new GitHubStrategy(config.github, function (req, accessToken, refre
  * Sign in with Twitter.
  */
 
-passport.use(new TwitterStrategy(config.twitter, function (req, accessToken, tokenSecret, profile, done) {
+passport.use(new TwitterStrategy({
+  consumerKey: config.twitter.consumerKey,
+  consumerSecret: config.twitter.consumerSecret,
+  passReqToCallback: true
+}, function (req, accessToken, tokenSecret, profile, done) {
   if (req.user) {
     User.findOne({ twitter: profile.id }, function(err, existingUser) {
       if (existingUser) {
@@ -231,27 +246,43 @@ passport.use(new TwitterStrategy(config.twitter, function (req, accessToken, tok
  * Sign in with Google.
  */
 
-passport.use(new GoogleStrategy(config.google, function (req, accessToken, refreshToken, profile, done) {
-  if (req.user) {
+passport.use(new GoogleStrategy({
+  clientID: config.google.clientID,
+  clientSecret: config.google.clientSecret,
+  scope: ['profile email'],  // get the user's email address
+  passReqToCallback: true
+}, function (req, accessToken, refreshToken, profile, done) {
+  if (req.user) {  // Already Logged in!  We must be connecting a new social provider to an existing account
+
+    // Check if we already have someone with that account:
     User.findOne({ $or: [{ google: profile.id }, { email: profile.email }] }, function(err, existingUser) {
       if (existingUser) {
         req.flash('errors', { msg: 'There is already a Google account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
+        // Associate the new google information to the persons account
         User.findById(req.user.id, function(err, user) {
+          if (err) {
+            return done(err, null);
+          }
           user.google = profile.id;
           user.tokens.push({ kind: 'google', accessToken: accessToken });
           user.profile.name = user.profile.name || profile.displayName;
           user.profile.gender = user.profile.gender || profile._json.gender;
           user.profile.picture = user.profile.picture || profile._json.picture;
           user.save(function(err) {
+            if (err) {
+              return done(err, null);
+            }
             req.flash('info', { msg: 'Google account has been linked.' });
-            done(err, user);
+            // Preserve the login state by supplying the existing user after association.
+            done(null, user);
           });
         });
       }
     });
-  } else {
+
+  } else {  // Either a new user or simply a login
     User.findOne({ google: profile.id }, function (err, existingUser) {
       if (existingUser) {
         // update the user's record with login timestamp
@@ -262,17 +293,19 @@ passport.use(new GoogleStrategy(config.google, function (req, accessToken, refre
           }
         });
         return done(null, existingUser);
+      } else { // NEW USER!
+        var user = new User();
+        user.email = profile._json.email;
+        user.google = profile.id;
+        user.tokens.push({ kind: 'google', accessToken: accessToken });
+        user.profile.name = profile.displayName;
+        user.profile.gender = profile._json.gender;
+        user.profile.picture = profile._json.picture;
+        user.save(function(err) {
+          done(err, user);
+        });
       }
-      var user = new User();
-      user.email = profile._json.email;
-      user.google = profile.id;
-      user.tokens.push({ kind: 'google', accessToken: accessToken });
-      user.profile.name = profile.displayName;
-      user.profile.gender = profile._json.gender;
-      user.profile.picture = profile._json.picture;
-      user.save(function(err) {
-        done(err, user);
-      });
+
     });
   }
 }));
@@ -332,6 +365,7 @@ exports.isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   } else {
+    res.set('X-Auth-Required', 'true');
     req.flash('errors', { msg: 'You must be logged in to reach that page.' });
     res.redirect('/login');
   }

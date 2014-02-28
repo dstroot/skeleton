@@ -6,7 +6,9 @@
 
 var _             = require('underscore');
 var User          = require('../models/User');
+var passport      = require('passport');
 var passportConf  = require('../config/passport');
+
 
 /**
  * Account Controller
@@ -14,12 +16,19 @@ var passportConf  = require('../config/passport');
 
 module.exports.controller = function(app) {
 
+ /**
+   * GET /account*
+   * *ALL* acount routes must be authenticated first
+   */
+
+  app.all('/account*', passportConf.isAuthenticated);
+
   /**
    * GET /account
    * Render User Profile Page
    */
 
-  app.get('/account', passportConf.isAuthenticated, function(req, res) {
+  app.get('/account', function(req, res) {
     res.render('account/profile', {
       url: req.url
     });
@@ -30,7 +39,7 @@ module.exports.controller = function(app) {
    * Update User Profile Information
    */
 
-  app.post('/account/profile', passportConf.isAuthenticated, function(req, res, next) {
+  app.post('/account/profile', function(req, res, next) {
     User.findById(req.user.id, function(err, user) {
       if (err) {
         return next(err);
@@ -57,7 +66,7 @@ module.exports.controller = function(app) {
    * Update User Password
    */
 
-  app.post('/account/password', passportConf.isAuthenticated, function(req, res, next) {
+  app.post('/account/password', function(req, res, next) {
     req.assert('password', 'Password must be at least 4 characters long').len(4);
     req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
     var errors = req.validationErrors();
@@ -91,7 +100,7 @@ module.exports.controller = function(app) {
    * Delete User Account
    */
 
-  app.post('/account/delete', passportConf.isAuthenticated, function(req, res, next) {
+  app.post('/account/delete', function(req, res, next) {
     User.remove({ _id: req.user.id }, function(err) {
       if (err) {
         return next(err);
@@ -106,7 +115,7 @@ module.exports.controller = function(app) {
    * Unlink a social account
    */
 
-  app.get('/account/unlink/:provider', passportConf.isAuthenticated, function(req, res, next) {
+  app.get('/account/unlink/:provider', function(req, res, next) {
     var provider = req.params.provider;
     User.findById(req.user.id, function(err, user) {
       if (err) {
@@ -121,10 +130,74 @@ module.exports.controller = function(app) {
         if (err) {
           return next(err);
         }
-        req.flash('info', { msg: provider + ' account has been unlinked.' });
+        // to capitalize the provider name
+        String.prototype.capitalize = function() {
+          return this.charAt(0).toUpperCase() + this.slice(1);
+        };
+
+        req.flash('info', { msg: provider.capitalize() + ' has been unlinked.' });
         res.redirect('/account');
       });
     });
   });
 
+ /**
+   * GET /account/link/:provider
+   * Link a social account
+   */
+
+  app.get('/account/link/facebook',
+    passport.authenticate('facebook', {
+      callbackURL: '/account/link/facebook/callback'
+    })
+  );
+
+  app.get('/account/link/facebook/callback',
+    passport.authenticate('facebook', {
+      callbackURL: '/account/link/facebook/callback',
+      successRedirect: '/account',
+      failureRedirect: '/account'
+    })
+  );
+
+  app.get('/account/link/twitter',
+    passport.authenticate('twitter', {
+      callbackURL: '/account/link/twitter/callback'
+    })
+  );
+
+  app.get('/account/link/twitter/callback',
+    passport.authenticate('twitter', {
+      callbackURL: '/account/link/twitter/callback',
+      successRedirect: '/account',
+      failureRedirect: '/account'
+    })
+  );
+  app.get('/account/link/github',
+    passport.authenticate('github', {
+      callbackURL: '/account/link/github/callback'
+    })
+  );
+
+  app.get('/account/link/github/callback',
+    passport.authenticate('github', {
+      callbackURL: '/account/link/github/callback',
+      successRedirect: '/account',
+      failureRedirect: '/account'
+    })
+  );
+
+  app.get('/account/link/google',
+    passport.authenticate('google', {
+      callbackURL: '/account/link/google/callback'
+    })
+  );
+
+  app.get('/account/link/google/callback',
+    passport.authenticate('google', {
+      callbackURL: '/account/link/google/callback',
+      successRedirect: '/account',
+      failureRedirect: '/account'
+    })
+  );
 };

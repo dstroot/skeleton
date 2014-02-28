@@ -27,6 +27,15 @@ var foursquare    = require('node-foursquare')({ secrets: config.foursquare });
 
 module.exports.controller = function(app) {
 
+ /**
+   * GET /api*
+   * *ALL* api routes must be authenticated first
+   */
+
+  app.all('/api*', passportConf.isAuthenticated);
+
+
+
   /**
    * GET /api
    * List of API examples.

@@ -210,7 +210,7 @@ Obtaining API Keys
 - Select **Applications** from the sidebar
 - Then inside **Developer applications** click on **Register new application**
 - Enter *Application Name* and *Homepage URL*.
-- For *Authorization Callback URL*: http://localhost:3000/auth/github/callback
+- For *Authorization Callback URL*: _leave blank_
 - Click **Register application**
 - Now copy and paste *Client ID* and *Client Secret* keys into `config/config.js`
 

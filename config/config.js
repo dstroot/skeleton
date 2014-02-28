@@ -122,31 +122,23 @@ config.facebookAuth = true;
 config.facebook                   = {};
 config.facebook.clientID          = process.env.FACEBOOK_KEY || '';
 config.facebook.clientSecret      = process.env.FACEBOOK_SECRET || '';
-config.facebook.callbackURL       = '/auth/facebook/callback';
-config.facebook.passReqToCallback = true;
 
 // Github
 config.githubAuth = true;
 config.github                     = {};
 config.github.clientID            = process.env.GITHUB_KEY || '';
 config.github.clientSecret        = process.env.GITHUB_SECRET || '';
-config.github.callbackURL         = '/auth/github/callback';
-config.github.passReqToCallback   = true;
 
 // Twitter
 config.twitterAuth = true;
 config.twitter                    = {};
 config.twitter.consumerKey        = process.env.TWITTER_KEY || '';
 config.twitter.consumerSecret     = process.env.TWITTER_SECRET || '';
-config.twitter.callbackURL        = '/auth/twitter/callback';
-config.twitter.passReqToCallback  = true;
 
 // Google
 config.googleAuth = true;
 config.google                     = {};
 config.google.clientID            = process.env.GOOGLE_KEY || '';
 config.google.clientSecret        = process.env.GOOGLE_SECRET || '';
-config.google.callbackURL         = '/auth/google/callback';
-config.google.passReqToCallback   = true;
 
 module.exports = config;

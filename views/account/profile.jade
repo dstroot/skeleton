@@ -46,13 +46,14 @@ block content
       .col-sm-4
         .page-header
           h2 Social Accounts
+        p Link your accounts here. Then you can sign in using <strong>any</strong> linked account with <strong>one click!</strong>
         if config.facebookAuth
           if user.facebook
             a.btn.btn-block.btn-facebook(href='/account/unlink/facebook')
               i.fa.fa-facebook.fa-lg.fa-fw
               | &nbsp;Disconnect Facebook
           else
-            a.btn.btn-block.btn-success(href='/auth/facebook')
+            a.btn.btn-block.btn-success(href='/account/link/facebook')
               i.fa.fa-facebook.fa-lg.fa-fw
               | &nbsp;Connect Facebook
         if config.twitterAuth
@@ -61,7 +62,7 @@ block content
               i.fa.fa-twitter.fa-lg.fa-fw
               | &nbsp;Disconnect Twitter
           else
-            a.btn.btn-block.btn-success(href='/auth/twitter')
+            a.btn.btn-block.btn-success(href='/account/link/twitter')
               i.fa.fa-twitter.fa-lg.fa-fw
               | &nbsp;Connect Twitter
         if config.githubAuth
@@ -70,7 +71,7 @@ block content
               i.fa.fa-github.fa-lg.fa-fw
               | &nbsp;Disconnect GitHub
           else
-            a.btn.btn-block.btn-success(href='/auth/github')
+            a.btn.btn-block.btn-success(href='/account/link/github')
               i.fa.fa-github.fa-lg.fa-fw
               | &nbsp;Connect GitHub
         if config.googleAuth
@@ -79,7 +80,7 @@ block content
               i.fa.fa-google-plus.fa-lg.fa-fw
               | &nbsp;Disconnect Google
           else
-            a.btn.btn-block.btn-success(href='/auth/google')
+            a.btn.btn-block.btn-success(href='/account/link/google')
               i.fa.fa-google-plus.fa-lg.fa-fw
               | &nbsp;Connect Google
     .row
