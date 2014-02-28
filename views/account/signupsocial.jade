@@ -1,0 +1,25 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      .col-sm-6.col-sm-offset-3
+        .page-header
+          h1 Complete Your Sign Up!
+        form(action='/signupsocial', method='POST')
+          input(type='hidden', name='_csrf', value=token)
+          .form-group
+            label(for='email') Please confirm your email address:
+            input.form-control(type='email', name='email', value='#{email}', placeholder='Your Email Address', required)
+          .form-group
+            button.btn.btn-primary.btn-reset(type='submit', autofocus=true ) Create My Account!
+        hr
+        p We only use this information when necessary. We will <strong>never</strong> spam you.
+
+block scripts
+  script.
+    $(document).ready(function() {
+      if ( $('input[name="email"]') === '' ) {
+        $('input[name="email"]').focus();
+      }
+    });

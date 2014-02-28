@@ -3077,7 +3077,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 30px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #4baad3;
+  background-color: #4baadd;
 }
 .jumbotron h1,
 .jumbotron .h1 {
@@ -5229,7 +5229,7 @@ button.close {
  *
  */
 .brand1 {
-  color: #4baad3;
+  color: #4baadd;
 }
 .brand2 {
   color: #2d677f;
@@ -5244,7 +5244,7 @@ button.close {
   color: #cc344c;
 }
 .bg-brand1 {
-  background-color: #4baad3;
+  background-color: #4baadd;
 }
 .bg-brand2 {
   background-color: #2d677f;
@@ -5483,7 +5483,7 @@ h3,
 .btn-white:active {
   color: #ffffff;
   background-color: transparent;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
   border-color: #ffffff;
 }
 /*

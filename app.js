@@ -356,7 +356,7 @@ io.configure('production', function() {
 });
 
 io.configure('development', function() {
-  io.set('log level', 1);                    // reduce logging
+  io.set('log level', 2);                    // reduce logging
   io.set('transports', [
     'websocket'                              // Let's use only websockets for development
   ]);

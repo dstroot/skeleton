@@ -174,8 +174,8 @@ gulp.task('watch', function () {
   gulp.watch(paths.js, ['scripts']);
 
   // Watch .jade files, reload as needed
-  gulp.watch('views/**/*.jade', function(evt) {
-    livereload().changed(evt.path);
+  gulp.watch('views/**/*.jade').on('change', function(file) {
+    livereload().changed(file.path);
   });
 
 });
@@ -187,8 +187,9 @@ gulp.task('watch', function () {
 
 gulp.task('develop', ['watch'], function () {
   // nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/'], verbose: 'true' })
-  nodemon({ script: 'app.js' })
-    .on('restart', ['lint']);
+  nodemon({ script: 'app.js' }).on('restart', ['lint'], function() {
+    livereload().changed();
+  });
 });
 
 /**
