@@ -24,7 +24,8 @@ module.exports.controller = function(app) {
 
   app.get('/login', function(req, res) {
     if (req.user) {
-      return res.redirect('/');
+      req.flash('info', { msg: 'You are already logged in silly!' });
+      return res.redirect('/api');
     }
     // Turn off login form if too many attempts
     var tooManyAttempts = req.session.tooManyAttempts;
