@@ -135,7 +135,7 @@ module.exports.controller = function(app) {
           return this.charAt(0).toUpperCase() + this.slice(1);
         };
 
-        req.flash('info', { msg: provider.capitalize() + ' has been unlinked.' });
+        req.flash('info', { msg: 'Your ' + provider.capitalize() + ' account has been unlinked.' });
         res.redirect('/account');
       });
     });
