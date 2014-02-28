@@ -12,13 +12,30 @@ var mongoose  = require('mongoose');
  * Define User Schema
  */
 
+// The permitted SchemaTypes are:
+
+// String
+// Number
+// Date
+// Buffer
+// Boolean
+// Mixed
+// ObjectId
+// Array
+
+// When your application starts up, Mongoose automatically calls
+// ensureIndex for each defined index in your schema. While nice
+// for development, it is recommended this behavior be disabled
+// in production since index creation can cause a significant
+// performance impact. Disable the behavior by setting the
+// autoIndex option of your schema to false.
+
 var userSchema = new mongoose.Schema({
 
   email: { type: String, unique: true },
   password: String,
   type: { type: String, default: 'admin' },
   // EVERYONE'S AN ADMINISTRATOR IN EXAMPLE
-
   // DEFAULT TYPE SHOULB BE 'user'!
   // type: { type: String, default: 'user' },
 
@@ -39,11 +56,11 @@ var userSchema = new mongoose.Schema({
   activity: {
     date_established: { type: Date, default: Date.now },
     last_logon: { type: Date, default: Date.now },
-    last_updated: { type: Date, default: Date.now }
+    last_updated: { type: Date }
   },
 
-  resetPasswordToken: { type: String, default: '' },
-  resetPasswordExpires: { type: Date, default: Date.now }
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date }
 
 });
 

@@ -363,7 +363,7 @@ passport.use(new GoogleStrategy({
             if (err) {
               return done(err, null);
             }
-            req.flash('info', { msg: 'Your Google account has been linked' });
+            req.flash('info', { msg: 'Your Google account has been linked! :)' });
             done(null, user);
           });
         });
