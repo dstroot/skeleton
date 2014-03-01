@@ -212,11 +212,14 @@ module.exports.controller = function(app) {
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Twitter account.' });
           return res.redirect('/account');
         } else {
+          //TODO DELETE
+          console.log('Info: ' + JSON.stringify(info));
+
           // Link Accounts: Associate the *new* Twitter information to the person's *existing* account
           User.findById(req.user.id, function(err, user) {
 
             user.twitter = info.profile.id;
-            user.tokens.push({ kind: 'twitter', accessToken: info.accessToken, tokenSecret: info.tokenSecret });
+            user.tokens.push({ kind: 'twitter', token: info.token, tokenSecret: info.tokenSecret });
             user.profile.name = user.profile.name || info.profile._json.name;
             user.profile.location = user.profile.location || info.profile._json.location;
             user.profile.picture = user.profile.picture || info.profile._json.profile_image_url;
@@ -307,6 +310,7 @@ module.exports.controller = function(app) {
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Google account.' });
           return res.redirect('/account');
         } else {
+
           // Link Accounts: Associate the *new* Google information to the person's *existing* account
           User.findById(req.user.id, function(err, user) {
 

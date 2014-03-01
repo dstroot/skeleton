@@ -92,23 +92,24 @@ passport.use('github', new GitHubStrategy({
 ));
 
 /**
- * Sign in with Twitter.
+ * Sign in with Twitter. (OAuth 1.0a)
+ * NOTE: different function args!
  */
 
 passport.use('twitter', new TwitterStrategy({
   consumerKey: config.twitter.consumerKey,
   consumerSecret: config.twitter.consumerSecret
-}, function (accessToken, refreshToken, profile, done) {
+}, function (token, tokenSecret, profile, done) {
     done(null, false, {
-      accessToken: accessToken,
-      refreshToken: refreshToken,
+      token: token,
+      tokenSecret: tokenSecret,
       profile: profile
     });
   }
 ));
 
 /**
- * Sign in with Google.
+ * Sign in with Google. (OAuth 2.0)
  */
 
 passport.use('google', new GoogleStrategy({
@@ -140,7 +141,7 @@ passport.use('tumblr', new OAuthStrategy({
   },
   function (req, token, tokenSecret, profile, done) {
     User.findById(req.user._id, function(err, user) {
-      user.tokens.push({ kind: 'tumblr', accessToken: token, tokenSecret: tokenSecret });
+      user.tokens.push({ kind: 'tumblr', token: token, tokenSecret: tokenSecret });
       user.save(function(err) {
         done(err, user);
       });

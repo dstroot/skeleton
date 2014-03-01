@@ -311,7 +311,7 @@ module.exports.controller = function(app) {
     var client = tumblr.createClient({
       consumer_key: config.tumblr.key,
       consumer_secret: config.tumblr.secret,
-      token: token.accessToken,
+      token: token.token,
       token_secret: token.tokenSecret
     });
     client.posts('goddess-of-imaginary-light.tumblr.com', { type: 'photo' }, function(err, data) {
@@ -382,7 +382,7 @@ module.exports.controller = function(app) {
     var T = new Twit({
       consumer_key: config.twitter.consumerKey,
       consumer_secret: config.twitter.consumerSecret,
-      access_token: token.accessToken,
+      access_token: token.token,
       access_token_secret: token.tokenSecret
     });
     T.get('search/tweets', { q: 'hackathon since:2013-01-01', geocode: '40.71448,-74.00598,5mi', count: 50 }, function(err, reply) {

@@ -419,6 +419,10 @@ module.exports.controller = function(app) {
     workflow.on('createUser', function () {
 
       var newUser = req.session.socialProfile;
+
+      // TODO DELETE
+      console.log('newUser: ' + JSON.stringify(newUser));
+
       var user = new User();
 
       user.email            = req.body.email.toLowerCase();
@@ -430,19 +434,19 @@ module.exports.controller = function(app) {
 
       if ( newUser.source === 'twitter' ) {
         user.twitter = newUser.id;
-        user.tokens.push({ kind: 'twitter', accessToken: newUser.accessToken, tokenSecret: newUser.tokenSecret });
+        user.tokens.push({ kind: 'twitter', token: newUser.token, tokenSecret: newUser.tokenSecret });
 
       } else if ( newUser.source === 'facebook'  ) {
         user.facebook = newUser.id;
-        user.tokens.push({ kind: 'facebook', accessToken: newUser.accessToken });
+        user.tokens.push({ kind: 'facebook', accessToken: newUser.accessToken, refreshToken: newUser.refreshToken });
 
       } else if ( newUser.source === 'github'  ) {
         user.github = newUser.id;
-        user.tokens.push({ kind: 'github', accessToken: newUser.accessToken });
+        user.tokens.push({ kind: 'github', accessToken: newUser.accessToken, refreshToken: newUser.refreshToken });
 
       } else if ( newUser.source === 'google'  ) {
         user.google = newUser.id;
-        user.tokens.push({ kind: 'google', accessToken: newUser.accessToken });
+        user.tokens.push({ kind: 'google', accessToken: newUser.accessToken, refreshToken: newUser.refreshToken });
       }
 
       // save user
@@ -567,6 +571,8 @@ module.exports.controller = function(app) {
       callbackURL: '/auth/facebook/callback',
       failureRedirect: '/login'
     }, function (err, user, info) {
+
+      // Check for data
       if (!info || !info.profile) {
         req.flash('errors', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
@@ -601,7 +607,7 @@ module.exports.controller = function(app) {
           newSocialUser.source            = 'facebook';
           newSocialUser.id                = info.profile._json.id;
           newSocialUser.accessToken       = info.accessToken;
-          newSocialUser.tokenSecret       = '';
+          newSocialUser.refreshToken      = info.refreshToken;
           newSocialUser.email             = info.profile._json.email;
 
           newSocialUser.profile           = {};
@@ -669,7 +675,7 @@ module.exports.controller = function(app) {
           newSocialUser.source            = 'github';
           newSocialUser.id                = info.profile._json.id;
           newSocialUser.accessToken       = info.accessToken;
-          newSocialUser.tokenSecret       = '';
+          newSocialUser.refreshToken      = info.refreshToken;
           newSocialUser.email             = info.profile._json.email;
 
           newSocialUser.profile           = {};
@@ -730,6 +736,11 @@ module.exports.controller = function(app) {
             });
           });
         } else {
+
+
+          // TODO DELETE
+          console.log('Info: ' + JSON.stringify(info));
+
           // Brand new Google user!
           // Save their profile data into the session
           var newSocialUser               = {};
@@ -737,7 +748,7 @@ module.exports.controller = function(app) {
           newSocialUser.source            = 'google';
           newSocialUser.id                = info.profile.id;
           newSocialUser.accessToken       = info.accessToken;
-          newSocialUser.tokenSecret       = '';
+          newSocialUser.refreshToken      = info.refreshToken;
           newSocialUser.email             = info.profile._json.email;
 
           newSocialUser.profile           = {};
@@ -804,7 +815,7 @@ module.exports.controller = function(app) {
 
           newSocialUser.source            = 'twitter';
           newSocialUser.id                = info.profile.id;
-          newSocialUser.accessToken       = info.accessToken;
+          newSocialUser.token             = info.token;
           newSocialUser.tokenSecret       = info.tokenSecret;
           newSocialUser.email             = '';  // Twitter does not provide email addresses
 
