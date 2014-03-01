@@ -288,9 +288,9 @@ db.on('error', function () {
 db.on('open', function () {
   winston.info('Mongodb connected!');
   console.log('✔ Mongodb ' + 'connected!'.green.bold);
-  // server for socket.io
+
+  // "server.listen" for socket.io
   server.listen(app.get('port'), function() {
-  //app.listen(app.get('port'), function() {
 
     // Test for correct node version as spec'ed in package.info
     if (!semver.satisfies(process.versions.node, pkg.engines.node)) {
@@ -339,7 +339,7 @@ io.configure('production', function() {
   io.enable('browser client etag');          // apply etag caching logic based on version number
   io.enable('browser client gzip');          // gzip the file
   io.set('log level', 0);                    // reduce logging
-  io.set('polling duration', 10);            // increase polling frequency
+  io.set('polling duration', 20);            // increase polling frequency
   io.set('transports', [                     // Manage transports
     'websocket',
     'htmlfile',
@@ -356,17 +356,10 @@ io.configure('production', function() {
 });
 
 io.configure('development', function() {
-  io.set('log level', 2);                    // reduce logging
+  io.set('log level', 2);                    // increase logging
   io.set('transports', [
     'websocket'                              // Let's use only websockets for development
   ]);
-  io.set('authorization', function (handshakeData, callback) {
-    if (handshakeData.xdomain) {
-      callback('Cross-domain connections are not allowed');
-    } else {
-      callback(null, true);
-    }
-  });
 });
 
 io.sockets.on('connection', function (socket) {
