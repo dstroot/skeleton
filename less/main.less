@@ -1,4 +1,5 @@
 @import "bootstrap.less";
+@import "../public/lib/bootstrap-social/bootstrap-social.less";
 @import "../public/lib/font-awesome/less/font-awesome.less";
 // @import (less) "../lib/animate.css/animate.css";
 @fa-font-path: "../lib/font-awesome/fonts";
@@ -65,12 +66,6 @@
 .bg-brand3 {    background-color: @brand3; }
 .bg-brand4 {    background-color: @brand4; }
 .bg-brand5 {    background-color: @brand5; }
-
-// Social Colors
-@facebook:      #3b5998;
-@twitter:       #00aced;
-@google:        #dd4b39;
-@github:        #444444;
 
 // Other Colors http://clrs.cc/
 
@@ -182,7 +177,9 @@ h1, h2, h3,
 /**
  * Flash Alerts
  */
+
 @alert-border-radius: 0px;
+
 .alert {
   margin-bottom: 0px;
   text-align: center;
@@ -355,43 +352,6 @@ h1, h2, h3,
         color: @gray-lighter;
       }
     }
-  }
-}
-
-/**
- * Social Buttons
- */
-
-.btn-facebook {
-  color: @white;
-  background: @facebook;
-  &:hover {
-    background: darken(@facebook, 15%);
-    color: @white;
-  }
-}
-.btn-twitter {
-  color: @white;
-  background: @twitter;
-  &:hover {
-    background: darken(@twitter, 15%);
-    color: @white;
-  }
-}
-.btn-google {
-  color: @white;
-  background: @google;
-  &:hover {
-    background: darken(@google, 15%);
-    color: @white;
-  }
-}
-.btn-github {
-  color: @white;
-  background: @github;
-  &:hover {
-    background: darken(@github, 15%);
-    color: @white;
   }
 }
 

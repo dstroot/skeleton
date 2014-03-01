@@ -49,38 +49,38 @@ block content
         p Link your accounts here. Then you can sign in using <strong>any</strong> linked account with <strong>one click!</strong>
         if config.facebookAuth
           if user.facebook
-            a.btn.btn-block.btn-facebook(href='/account/unlink/facebook')
+            a.btn.btn-block.btn-social.btn-facebook(href='/account/unlink/facebook')
               i.fa.fa-facebook.fa-lg.fa-fw
               | &nbsp;Disconnect Facebook
           else
-            a.btn.btn-block.btn-success(href='/account/link/facebook')
+            a.btn.btn-block.btn-social.btn-success(href='/account/link/facebook')
               i.fa.fa-facebook.fa-lg.fa-fw
               | &nbsp;Connect Facebook
         if config.twitterAuth
           if user.twitter
-            a.btn.btn-block.btn-twitter(href='/account/unlink/twitter')
+            a.btn.btn-block.btn-social.btn-twitter(href='/account/unlink/twitter')
               i.fa.fa-twitter.fa-lg.fa-fw
               | &nbsp;Disconnect Twitter
           else
-            a.btn.btn-block.btn-success(href='/account/link/twitter')
+            a.btn.btn-block.btn-social.btn-success(href='/account/link/twitter')
               i.fa.fa-twitter.fa-lg.fa-fw
               | &nbsp;Connect Twitter
         if config.githubAuth
           if user.github
-            a.btn.btn-block.btn-github(href='/account/unlink/github')
+            a.btn.btn-block.btn-social.btn-github(href='/account/unlink/github')
               i.fa.fa-github.fa-lg.fa-fw
               | &nbsp;Disconnect GitHub
           else
-            a.btn.btn-block.btn-success(href='/account/link/github')
+            a.btn.btn-block.btn-social.btn-success(href='/account/link/github')
               i.fa.fa-github.fa-lg.fa-fw
               | &nbsp;Connect GitHub
         if config.googleAuth
           if user.google
-            a.btn.btn-block.btn-google(href='/account/unlink/google')
+            a.btn.btn-block.btn-social.btn-google-plus(href='/account/unlink/google')
               i.fa.fa-google-plus.fa-lg.fa-fw
               | &nbsp;Disconnect Google
           else
-            a.btn.btn-block.btn-success(href='/account/link/google')
+            a.btn.btn-block.btn-social.btn-success(href='/account/link/google')
               i.fa.fa-google-plus.fa-lg.fa-fw
               | &nbsp;Connect Google
     .row
