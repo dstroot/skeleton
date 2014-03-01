@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 /*global describe*/
 /*global before*/
 /*global user:true*/
@@ -8,9 +8,8 @@
  * Module Dependencies
  */
 
-var chai = require('chai');
-var should = chai.should();
-var User = require('../models/User');
+var should  = require('chai').should();
+var User    = require('../models/User');
 
 /**
  * Test User Model

@@ -363,7 +363,7 @@ module.exports.controller = function(app) {
   app.get('/api/github', passportConf.isAuthenticated, passportConf.isAuthorized, function(req, res) {
     var token = _.findWhere(req.user.tokens, { kind: 'github' });
     var github = new Github({ token: token.accessToken });
-    var repo = github.getRepo('sahat', 'requirejs-library');
+    var repo = github.getRepo('dstroot', 'skeleton');
     repo.show(function(err, repo) {
       res.render('api/github', {
         url: req.url,
