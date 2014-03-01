@@ -4,20 +4,20 @@
  * Module Dependencies
  */
 
-var express           = require('express');                // https://npmjs.org/package/express
-var MongoStore        = require('connect-mongo')(express); // https://npmjs.org/package/connect-mongo
-var flash             = require('express-flash');          // https://npmjs.org/package/express-flash
 var fs                = require('fs');                     // http://nodejs.org/docs/v0.10.25/api/fs.html
 var io                = require('socket.io');              // https://www.npmjs.org/package/socket.io
+var pkg               = require('./package.json');         // Get package.json
 var path              = require('path');                   // http://nodejs.org/docs/v0.10.25/api/path.html
-var mongoose          = require('mongoose');               // https://npmjs.org/package/mongoose
-var passport          = require('passport');               // https://npmjs.org/package/passport
-var expressValidator  = require('express-validator');      // https://npmjs.org/package/express-validator
-var winston           = require('winston');                // https://npmjs.org/package/winston
+var flash             = require('express-flash');          // https://npmjs.org/package/express-flash
+var config            = require('./config/config');       // Get configuration
 var semver            = require('semver');                 // https://npmjs.org/package/semver
 var helmet            = require('helmet');                 // https://github.com/evilpacket/helmet
-var pkg               = require('./package.json');         // Get package.json
-var config            = require('./config/config');        // Get configuration
+var express           = require('express');                // https://npmjs.org/package/express
+var winston           = require('winston');                // https://npmjs.org/package/winston
+var mongoose          = require('mongoose');               // https://npmjs.org/package/mongoose
+var passport          = require('passport');               // https://npmjs.org/package/passport
+var MongoStore        = require('connect-mongo')(express); // https://npmjs.org/package/connect-mongo
+var expressValidator  = require('express-validator');      // https://npmjs.org/package/express-validator
 
 /**
  * Create Express Server and socket.io listener
@@ -61,11 +61,11 @@ var db = mongoose.connection;
 // arguments, length, and constructor.
 
 app.locals({
-  title: pkg.name,
-  version: pkg.version,
-  description: pkg.description,
-  author: pkg.author,
-  keywords: pkg.keywords,
+  title: config.name,
+  version: config.version,
+  description: config.description,
+  author: config.author,
+  keywords: config.keywords,
   ga: config.ga,
   // Now you can use moment anywhere
   // within a jade template like this:
@@ -294,10 +294,10 @@ db.on('open', function () {
 
     // Test for correct node version as spec'ed in package.info
     if (!semver.satisfies(process.versions.node, pkg.engines.node)) {
-      winston.error(pkg.name + ' needs Node version ' + pkg.engines.node);
+      winston.error(config.name + ' needs Node version ' + pkg.engines.node);
       console.error(
         '\nERROR: Unsupported version of Node!'.red.bold,
-        '\n✗ '.red.bold + pkg.name.red.bold + ' needs Node version'.red.bold,
+        '\n✗ '.red.bold + config.name.red.bold + ' needs Node version'.red.bold,
         pkg.engines.node.yellow.bold,
         'you are using version'.red.bold,
         process.versions.node.yellow.bold,
@@ -307,21 +307,21 @@ db.on('open', function () {
     }
 
     // Log how we are running
-    winston.info(pkg.name + ' listening on port ' + app.get('port'),
+    winston.info(config.name + ' listening on port ' + app.get('port'),
       'in ' + app.settings.env + ' mode.'
     );
     console.log(
-      '✔ ' + pkg.name + ' listening on port ' + app.get('port').toString().green.bold,
+      '✔ ' + config.name + ' listening on port ' + app.get('port').toString().green.bold,
       'in ' + app.settings.env.green.bold + ' mode.',
       '\n✔ Hint: ' + 'Ctrl+C'.green.bold + ' to shut down.'
     );
 
     // Exit cleanly on Ctrl+C
     process.on('SIGINT', function () {
-      winston.info(pkg.name + ' has shudown.');
+      winston.info(config.name + ' has shudown.');
       console.log(
-        '\n✔ ' + pkg.name + ' has ' + 'shutdown'.green.bold,
-        '\n✔ ' + pkg.name + ' was running for ' + Math.round(process.uptime()).toString().green.bold + ' seconds.'
+        '\n✔ ' + config.name + ' has ' + 'shutdown'.green.bold,
+        '\n✔ ' + config.name + ' was running for ' + Math.round(process.uptime()).toString().green.bold + ' seconds.'
       );
       process.exit(0);
     });

@@ -5,7 +5,6 @@
  */
 
 var _                 = require('underscore');
-var pkg               = require('../package.json');
 var User              = require('../models/User');
 var config            = require('./config');
 var passport          = require('passport');
@@ -81,7 +80,7 @@ passport.use('facebook', new FacebookStrategy({
 passport.use('github', new GitHubStrategy({
   clientID: config.github.clientID,
   clientSecret: config.github.clientSecret,
-  customHeaders: { 'User-Agent': pkg.name }
+  customHeaders: { 'User-Agent': config.name }
 }, function (accessToken, refreshToken, profile, done) {
     done(null, false, {
       accessToken: accessToken,

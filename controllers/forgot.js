@@ -4,11 +4,12 @@
  * Module Dependencies
  */
 
+var User          = require('../models/User');
+var config        = require('../config/config');
 var bcrypt        = require('bcrypt-nodejs');
 var crypto        = require('crypto');
 var nodemailer    = require('nodemailer');
-var User          = require('../models/User');
-var config        = require('../config/config');
+
 
 /**
  * Forgot Controller

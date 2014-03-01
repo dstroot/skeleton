@@ -88,26 +88,26 @@ config.localAuth               = true;
 // Facebook
 config.facebookAuth            = true;
 config.facebook                = {};
-config.facebook.clientID       = process.env.FACEBOOK_KEY    || '';
-config.facebook.clientSecret   = process.env.FACEBOOK_SECRET || '';
+config.facebook.clientID       = process.env.FACEBOOK_KEY    || 'Your Key';
+config.facebook.clientSecret   = process.env.FACEBOOK_SECRET || 'Your Secret';
 
 // Github
 config.githubAuth              = true;
 config.github                  = {};
-config.github.clientID         = process.env.GITHUB_KEY    || '';
-config.github.clientSecret     = process.env.GITHUB_SECRET || '';
+config.github.clientID         = process.env.GITHUB_KEY    || 'Your Key';
+config.github.clientSecret     = process.env.GITHUB_SECRET || 'Your Secret';
 
 // Twitter
 config.twitterAuth             = true;
 config.twitter                 = {};
-config.twitter.consumerKey     = process.env.TWITTER_KEY    || '';
-config.twitter.consumerSecret  = process.env.TWITTER_SECRET || '';
+config.twitter.consumerKey     = process.env.TWITTER_KEY    || 'Your Key';
+config.twitter.consumerSecret  = process.env.TWITTER_SECRET || 'Your Secret';
 
 // Google
 config.googleAuth              = true;
 config.google                  = {};
-config.google.clientID         = process.env.GOOGLE_KEY    || '';
-config.google.clientSecret     = process.env.GOOGLE_SECRET || '';
+config.google.clientID         = process.env.GOOGLE_KEY    || 'Your Key';
+config.google.clientSecret     = process.env.GOOGLE_SECRET || 'Your Secret';
 
 /**
  * API Keys
@@ -115,36 +115,36 @@ config.google.clientSecret     = process.env.GOOGLE_SECRET || '';
 
 // New York Times
 config.nyt                     = {};
-config.nyt.key                 = process.env.NYT_KEY || '';
+config.nyt.key                 = process.env.NYT_KEY || 'Your Key';
 
 // Last FM
 config.lastfm                  = {};
-config.lastfm.api_key          = process.env.LASTFM_KEY    || '';
-config.lastfm.secret           = process.env.LASTFM_SECRET || '';
+config.lastfm.api_key          = process.env.LASTFM_KEY    || 'Your Key';
+config.lastfm.secret           = process.env.LASTFM_SECRET || 'Your Secret';
 
 // Twilio
 config.twilio                  = {};
-config.twilio.sid              = process.env.TWILIO_SID   || '';
-config.twilio.token            = process.env.TWILIO_TOKEN || '';
-config.twilio.phone            = process.env.TWILIO_PHONE || '';
+config.twilio.sid              = process.env.TWILIO_SID   || 'Your SID';
+config.twilio.token            = process.env.TWILIO_TOKEN || 'Your Token';
+config.twilio.phone            = process.env.TWILIO_PHONE || 'Your Phone';
 
 // Tumblr
 config.tumblr                  = {};
-config.tumblr.key              = process.env.TUMBLR_KEY    || '';
-config.tumblr.secret           = process.env.TUMBLR_SECRET || '';
+config.tumblr.key              = process.env.TUMBLR_KEY    || 'Your Key';
+config.tumblr.secret           = process.env.TUMBLR_SECRET || 'Your Secret';
 config.tumblr.callbackURL      = process.env.TUMBLR_URL    || '/auth/tumblr/callback';
 
 // Foursquare
 config.foursquare              = {};
-config.foursquare.clientId     = process.env.FOURSQUARE_KEY    || '';
-config.foursquare.clientSecret = process.env.FOURSQUARE_SECRET || '';
+config.foursquare.clientId     = process.env.FOURSQUARE_KEY    || 'Your Key';
+config.foursquare.clientSecret = process.env.FOURSQUARE_SECRET || 'Your Secret';
 config.foursquare.redirectUrl  = process.env.FOURSQUARE_URL    || 'http://localhost:3000/auth/foursquare/callback';
 
 // Paypal
 config.paypal                  = {};
 config.paypal.host             = process.env.PAYPAL_HOST       || 'api.sandbox.paypal.com';
-config.paypal.client_id        = process.env.PAYPAL_KEY        || '';
-config.paypal.client_secret    = process.env.PAYPAL_SECRET     || '';
+config.paypal.client_id        = process.env.PAYPAL_KEY        || 'Your Key';
+config.paypal.client_secret    = process.env.PAYPAL_SECRET     || 'Your Secret';
 config.paypal.returnUrl        = process.env.PAYPAL_RETURN_URL || 'http://localhost:3000/api/paypal/success';
 config.paypal.cancelUrl        = process.env.PAYPAL_CANCEL_URL || 'http://localhost:3000/api/paypal/cancel';
 
