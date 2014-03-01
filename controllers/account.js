@@ -270,7 +270,7 @@ module.exports.controller = function(app) {
           var mailOptions = {
             to:       user.profile.name + ' <' + user.email + '>',
             from:     config.smtp.name + ' <' + config.smtp.address + '>',
-            subject:  'Your ' + app.locals.title + ' password was reset',
+            subject:  'Your ' + app.locals.title + ' password was changed',
             text:     text,
             html:     html
           };
