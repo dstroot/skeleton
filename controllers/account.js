@@ -213,9 +213,6 @@ module.exports.controller = function(app) {
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Twitter account.' });
           return res.redirect('/account');
         } else {
-          //TODO DELETE
-          console.log('Info: ' + JSON.stringify(info));
-
           // Link Accounts: Associate the *new* Twitter information to the person's *existing* account
           User.findById(req.user.id, function(err, user) {
 

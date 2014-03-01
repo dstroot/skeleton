@@ -4,11 +4,11 @@
  * Module Dependencies
  */
 
+var User          = require('../models/User');
 var async         = require('async');
+var config        = require('../config/config');
 var passport      = require('passport');
 var nodemailer    = require('nodemailer');
-var User          = require('../models/User');
-var config        = require('../config/config');
 var LoginAttempt  = require('../models/LoginAttempt');
 
 /**
@@ -419,10 +419,6 @@ module.exports.controller = function(app) {
     workflow.on('createUser', function () {
 
       var newUser = req.session.socialProfile;
-
-      // TODO DELETE
-      console.log('newUser: ' + JSON.stringify(newUser));
-
       var user = new User();
 
       user.email            = req.body.email.toLowerCase();
@@ -736,11 +732,6 @@ module.exports.controller = function(app) {
             });
           });
         } else {
-
-
-          // TODO DELETE
-          console.log('Info: ' + JSON.stringify(info));
-
           // Brand new Google user!
           // Save their profile data into the session
           var newSocialUser               = {};
