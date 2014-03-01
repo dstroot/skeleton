@@ -8,6 +8,7 @@ var _             = require('underscore');
 var User          = require('../models/User');
 var config        = require('../config/config');
 var passport      = require('passport');
+var nodemailer    = require('nodemailer');
 var passportConf  = require('../config/passport');
 
 
@@ -41,25 +42,133 @@ module.exports.controller = function(app) {
    */
 
   app.post('/account/profile', function(req, res, next) {
-    User.findById(req.user.id, function(err, user) {
-      if (err) {
-        return next(err);
-      }
-      user.email = req.body.email || '';
-      user.profile.name = req.body.name || '';
-      user.profile.gender = req.body.gender || '';
-      user.profile.location = req.body.location || '';
-      user.profile.website = req.body.website || '';
-      user.activity.last_updated = Date.now();
 
-      user.save(function(err) {
+    // Create a workflow (here you could also use the async waterfall pattern)
+    var workflow = new (require('events').EventEmitter)();
+
+    /**
+     * Step 1: Validate the form data
+     */
+
+    workflow.on('validate', function() {
+
+      req.assert('email', 'Email is not valid').isEmail();
+      // req.assert('website', 'Website URL is not valid.').isURL();
+
+      var errors = req.validationErrors();
+
+      if (errors) {
+        req.flash('errors', errors);
+        return res.redirect('/account');
+      }
+
+      // next step
+      workflow.emit('updatePassword');
+    });
+
+    /**
+     * Step 2: Update the user's information
+     */
+
+    workflow.on('updatePassword', function() {
+
+      User.findById(req.user.id, function(err, user) {
         if (err) {
           return next(err);
         }
-        req.flash('success', { msg: 'Profile information updated.' });
-        res.redirect('/account');
+
+        user.email = req.body.email.toLowerCase() || '';
+        user.profile.name = req.body.name.trim() || '';
+        user.profile.gender = req.body.gender || '';
+        user.profile.location = req.body.location.trim() || '';
+        user.profile.website = req.body.website.trim() || '';
+        user.activity.last_updated = Date.now();
+
+        user.save(function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          // next step
+          workflow.emit('sendEmail', user);
+
+        });
       });
+
     });
+
+    /**
+     * Step 3: Send the User an email letting them know their
+     * password was changed.  This is important in case the
+     * user did not initiate the reset!
+     */
+
+    workflow.on('sendEmail', function(user) {
+
+      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
+      var smtpTransport = nodemailer.createTransport('SMTP',{
+        service: 'Gmail',
+        auth: {
+          user: config.gmail.user,
+          pass: config.gmail.password
+        }
+        // See nodemailer docs for other transports
+        // https://github.com/andris9/Nodemailer
+      });
+
+      // Render HTML to send using .jade mail template (just like rendering a page)
+      res.render('mail/accountChange', {
+        name:          user.profile.name,
+        mailtoName:    config.smtp.name,
+        mailtoAddress: config.smtp.address
+      }, function(err, html) {
+        if (err) {
+          return (err, null);
+        }
+        else {
+
+          // Now create email text (multiline string as array FTW)
+          var text = [
+            'Hello ' + user.profile.name + '!',
+            'This is a courtesy message to confirm that your profile information was just updated.',
+            'Thanks so much for using our services! If you have any questions, or suggestions, feel free to email us here at ' + config.smtp.address + '.',
+            '  - The ' + config.smtp.name + ' team'
+          ].join('\n\n');
+
+          // Create email
+          var mailOptions = {
+            to:       user.profile.name + ' <' + user.email + '>',
+            from:     config.smtp.name + ' <' + config.smtp.address + '>',
+            subject:  'Your ' + app.locals.title + ' profile was updated',
+            text:     text,
+            html:     html
+          };
+
+          // Send email
+          smtpTransport.sendMail(mailOptions, function(err) {
+            if (err) {
+              req.flash('errors', { msg: err.message });
+            }
+          });
+
+          // shut down the connection pool, no more messages
+          smtpTransport.close();
+
+          // Send user on their merry way
+          req.flash('success', { msg: 'Your profile was updated.' });
+          res.redirect('/account');
+
+        }
+      });
+
+    });
+
+  /**
+   * Initiate the workflow
+   */
+
+    workflow.emit('validate');
+
   });
 
   /**
@@ -68,31 +177,128 @@ module.exports.controller = function(app) {
    */
 
   app.post('/account/password', function(req, res, next) {
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-    req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
-    var errors = req.validationErrors();
 
-    if (errors) {
-      req.flash('errors', errors);
-      return res.redirect('/account');
-    }
+   // Create a workflow (here you could also use the async waterfall pattern)
+    var workflow = new (require('events').EventEmitter)();
 
-    User.findById(req.user.id, function(err, user) {
-      if (err) {
-        return next(err);
+    /**
+     * Step 1: Validate the password(s) meet complexity requirements and match.
+     */
+
+    workflow.on('validate', function() {
+
+      req.assert('password', 'Password must be at least 4 characters long').len(4);
+      req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+
+      var errors = req.validationErrors();
+
+      if (errors) {
+        req.flash('errors', errors);
+        return res.redirect('/account');
       }
 
-      user.password = req.body.password;
-      user.activity.last_updated = Date.now();
+      // next step
+      workflow.emit('updatePassword');
+    });
 
-      user.save(function(err) {
+    /**
+     * Step 2: Update the user's passwords
+     */
+
+    workflow.on('updatePassword', function() {
+
+      User.findById(req.user.id, function(err, user) {
         if (err) {
           return next(err);
         }
-        req.flash('success', { msg: 'Password has been changed.' });
-        res.redirect('/account');
+
+        user.password = req.body.password;
+        user.activity.last_updated = Date.now();
+
+        user.save(function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          // next step
+          workflow.emit('sendEmail', user);
+
+        });
       });
+
     });
+
+    /**
+     * Step 3: Send the User an email letting them know their
+     * password was changed.  This is important in case the
+     * user did not initiate the reset!
+     */
+
+    workflow.on('sendEmail', function(user) {
+
+      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
+      var smtpTransport = nodemailer.createTransport('SMTP',{
+        service: 'Gmail',
+        auth: {
+          user: config.gmail.user,
+          pass: config.gmail.password
+        }
+        // See nodemailer docs for other transports
+        // https://github.com/andris9/Nodemailer
+      });
+
+      // Render HTML to send using .jade mail template (just like rendering a page)
+      res.render('mail/passwordChange', {
+        name:          user.profile.name,
+        mailtoName:    config.smtp.name,
+        mailtoAddress: config.smtp.address
+      }, function(err, html) {
+        if (err) {
+          return (err, null);
+        }
+        else {
+
+          // Now create email text (multiline string as array FTW)
+          var text = [
+            'Hello ' + user.profile.name + '!',
+            'This is a courtesy message to confirm that your password was just changed.',
+            'Thanks so much for using our services! If you have any questions, or suggestions, feel free to email us here at ' + config.smtp.address + '.',
+            '  - The ' + config.smtp.name + ' team'
+          ].join('\n\n');
+
+          // Create email
+          var mailOptions = {
+            to:       user.profile.name + ' <' + user.email + '>',
+            from:     config.smtp.name + ' <' + config.smtp.address + '>',
+            subject:  'Your ' + app.locals.title + ' password was reset',
+            text:     text,
+            html:     html
+          };
+
+          // Send email
+          smtpTransport.sendMail(mailOptions, function(err) {
+            if (err) {
+              req.flash('errors', { msg: err.message });
+            }
+          });
+
+          // shut down the connection pool, no more messages
+          smtpTransport.close();
+
+          // Send user on their merry way
+          req.flash('success', { msg: 'Your password was changed!' });
+          res.redirect('/account');
+
+        }
+      });
+
+    });
+
+  /**
+   * Initiate the workflow
+   */
+
+    workflow.emit('validate');
 
   });
 

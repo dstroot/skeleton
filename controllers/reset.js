@@ -175,7 +175,7 @@ module.exports.controller = function(app) {
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
-      res.render('mail/resetConfirmation', {
+      res.render('mail/passwordChange', {
         name:          user.profile.name,
         mailtoName:    config.smtp.name,
         mailtoAddress: config.smtp.address
@@ -188,7 +188,7 @@ module.exports.controller = function(app) {
           // Now create email text (multiline string as array FTW)
           var text = [
             'Hello ' + user.profile.name + '!',
-            'This is a courtesy message to confirm that your password was just reset.',
+            'This is a courtesy message to confirm that your password was just changed.',
             'Thanks so much for using our services! If you have any questions, or suggestions, feel free to email us here at ' + config.smtp.address + '.',
             '  - The ' + config.smtp.name + ' team'
           ].join('\n\n');
