@@ -8,7 +8,7 @@ var _             = require('underscore');
 var User          = require('../models/User');
 var passport      = require('passport');
 var passportConf  = require('../config/passport');
-
+var pkg           = require('../package.json');
 
 /**
  * Account Controller
@@ -146,21 +146,25 @@ module.exports.controller = function(app) {
 
   app.get('/account/link/facebook',
     passport.authenticate('facebook', {
-      callbackURL: '/account/link/facebook/callback'
+      callbackURL: '/account/link/facebook/callback',
+      failureRedirect: '/account'
     })
   );
 
   app.get('/account/link/facebook/callback', function (req, res, next) {
-    passport.authenticate('facebook', { callbackURL: '/account/link/facebook/callback' }, function (err, user, info) {
+    passport.authenticate('facebook', {
+      callbackURL: '/account/link/facebook/callback',
+      failureRedirect: '/account'
+    }, function (err, user, info) {
 
-      // We have a user linking their Facebook account
-      // Let's check to make sure we don't already have an account with same id
+      // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ facebook: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'We already have your Facebook account linked to another account! Sign out, then sign in with that account to delete it. Then sign back in with this account and link your Facebook account.' });
+          req.flash('errors', { msg: 'Your Facebook acoount is already linked to another ' + pkg.name + ' account!' });
+          req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Facebook account.' });
           return res.redirect('/account');
         } else {
-          // Link Accounts: Associate the *new* Facebook information to the persons *existing* account
+          // Link Accounts: Associate the *new* Facebook information to the person's *existing* account
           User.findById(req.user.id, function(err, user) {
 
             user.facebook = info.profile.id;
@@ -190,21 +194,25 @@ module.exports.controller = function(app) {
 
   app.get('/account/link/twitter',
     passport.authenticate('twitter', {
-      callbackURL: '/account/link/twitter/callback'
+      callbackURL: '/account/link/twitter/callback',
+      failureRedirect: '/account'
     })
   );
 
   app.get('/account/link/twitter/callback', function (req, res, next) {
-    passport.authenticate('twitter', { callbackURL: '/account/link/twitter/callback' }, function (err, user, info) {
+    passport.authenticate('twitter', {
+      callbackURL: '/account/link/twitter/callback',
+      failureRedirect: '/account'
+    }, function (err, user, info) {
 
-      // We have a user linking their Twitter account
-      // Let's check to make sure we don't already have an account with same id
+      // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ twitter: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'We already have your Twitter account linked to another account! Sign out, then sign in with that account to delete it. Then sign back in with this account and link your Twitter account.' });
+          req.flash('errors', { msg: 'Your Twitter acoount is already linked to another ' + pkg.name + ' account!' });
+          req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Twitter account.' });
           return res.redirect('/account');
         } else {
-          // Link Accounts: Associate the *new* Twitter information to the persons *existing* account
+          // Link Accounts: Associate the *new* Twitter information to the person's *existing* account
           User.findById(req.user.id, function(err, user) {
 
             user.twitter = info.profile.id;
@@ -233,21 +241,25 @@ module.exports.controller = function(app) {
 
   app.get('/account/link/github',
     passport.authenticate('github', {
-      callbackURL: '/account/link/github/callback'
+      callbackURL: '/account/link/github/callback',
+      failureRedirect: '/account'
     })
   );
 
   app.get('/account/link/github/callback', function (req, res, next) {
-    passport.authenticate('github', { callbackURL: '/account/link/github/callback' }, function (err, user, info) {
+    passport.authenticate('github', {
+      callbackURL: '/account/link/github/callback',
+      failureRedirect: '/account'
+    }, function (err, user, info) {
 
-      // We have a user linking their GitHub account
-      // Let's check to make sure we don't already have an account with same id
+      // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ github: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'We already have your GitHub account linked to another account! Sign out, then sign in with that account to delete it. Then sign back in with this account and link your GitHub account.' });
+          req.flash('errors', { msg: 'Your GitHub acoount is already linked to another ' + pkg.name + ' account!' });
+          req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your GitHub account.' });
           return res.redirect('/account');
         } else {
-          // Link Accounts: Associate the *new* GitHub information to the persons *existing* account
+          // Link Accounts: Associate the *new* GitHub information to the person's *existing* account
           User.findById(req.user.id, function(err, user) {
 
             user.github = info.profile.id;
@@ -277,21 +289,25 @@ module.exports.controller = function(app) {
 
   app.get('/account/link/google',
     passport.authenticate('google', {
-      callbackURL: '/account/link/google/callback'
+      callbackURL: '/account/link/google/callback',
+      failureRedirect: '/account'
     })
   );
 
   app.get('/account/link/google/callback', function (req, res, next) {
-    passport.authenticate('google', { callbackURL: '/account/link/google/callback' }, function (err, user, info) {
+    passport.authenticate('google', {
+      callbackURL: '/account/link/google/callback',
+      failureRedirect: '/account'
+    }, function (err, user, info) {
 
-      // We have a user linking their Google account
-      // Let's check to make sure we don't already have an account with same id
+      // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ google: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'We already have your Google account linked to another account! Sign out, then sign in with that account to delete it. Then sign back in with this account and link your Google account.' });
+          req.flash('errors', { msg: 'Your Google acoount is already linked to another ' + pkg.name + ' account!' });
+          req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Google account.' });
           return res.redirect('/account');
         } else {
-          // Link Accounts: Associate the *new* Google information to the persons *existing* account
+          // Link Accounts: Associate the *new* Google information to the person's *existing* account
           User.findById(req.user.id, function(err, user) {
 
             user.google = info.profile.id;

@@ -74,6 +74,7 @@ module.exports.controller = function(app) {
      */
 
     workflow.on('abuseFilter', function() {
+
       var getIpCount = function(done) {
         var conditions = { ip: req.ip };
         LoginAttempt.count(conditions, function(err, count) {
@@ -85,7 +86,7 @@ module.exports.controller = function(app) {
       };
 
       var getIpUserCount = function(done) {
-        var conditions = { ip: req.ip, user: req.body.email };
+        var conditions = { ip: req.ip, user: req.body.email.toLowerCase() };
         LoginAttempt.count(conditions, function(err, count) {
           if (err) {
             return done(err);
@@ -234,15 +235,16 @@ module.exports.controller = function(app) {
     workflow.on('createUser', function() {
       // create user
       var user = new User({
-        'profile.name': req.body.name,
-        email: req.body.email,
+        'profile.name': req.body.name.trim(),
+        email: req.body.email.toLowerCase(),
         password: req.body.password
       });
       // save user
       user.save(function(err) {
         if (err) {
           if (err.code === 11000) {
-            req.flash('errors', { msg: 'User with that email already exists.' });
+            req.flash('errors', { msg: 'An account with that email address already exists!' });
+            req.flash('info', { msg: 'You should sign in with that account.' });
           }
           return res.redirect('back');
         } else {
@@ -345,14 +347,22 @@ module.exports.controller = function(app) {
 
   });
 
-// WORKING HERE
 
+  /**
+   * GET /signupsocial
+   * Confirm social email address
+   */
 
-
+  app.get('/signupsocial', function (req, res) {
+    res.render('account/signupsocial', {
+      url: req.url,
+      email: ''
+    });
+  });
 
   /**
    * POST /signupsocial
-   * Process a *Social* signup - confirm email address
+   * Process a *Social* signup & confirm email address
    */
 
   app.post('/signupsocial', function (req, res, next) {
@@ -373,7 +383,7 @@ module.exports.controller = function(app) {
 
       if (errors) {
         req.flash('errors', errors);
-        return res.redirect('back');
+        return res.redirect('/signupsocial');
       }
 
       // next step
@@ -392,82 +402,23 @@ module.exports.controller = function(app) {
           return (err);
         }
         if (user) {
-          req.flash('errors', { msg: 'That email address has already been used!' });
-          return res.redirect('back');
+          req.flash('errors', { msg: 'Sorry that email address has already been used!' });
+          req.flash('info', { msg: 'You can sign in with that account and link this provider, or you can create a new account by entering a different email address.' });
+          return res.redirect('/signupsocial');
         }
       });
 
       // next step
-      workflow.emit('linkUser');
-    });
-
-    /**
-     * Step 3: If we have a user with the same email address just link the accounts
-     */
-
-    workflow.on('linkUser', function() {
-
-      var newUser = req.session.socialProfile;
-      delete req.session.socialProfile;
-
-      // Do we have an existing user with the same email? If so link the account.
-      var searchString = '{ email: ' + req.body.email.toLowerCase() + ', ' + newUser.source + ': { $exists: false } }';
-      User.findOne(searchString, function (err, existingUser) {
-        if (err) {
-          return (err);
-        }
-        if (existingUser) {  // Link the new social information to the persons account
-
-          if ( newUser.source === 'twitter' ) {
-            existingUser.twitter = newUser.id;
-            existingUser.tokens.push({ kind: 'twitter', accessToken: newUser.accessToken, tokenSecret: newUser.tokenSecret });
-
-          } else if ( newUser.source === 'facebook'  ) {
-            existingUser.facebook = newUser.id;
-            existingUser.tokens.push({ kind: 'facebook', accessToken: newUser.accessToken });
-
-          } else if ( newUser.source === 'github'  ) {
-            existingUser.github = newUser.id;
-            existingUser.tokens.push({ kind: 'github', accessToken: newUser.accessToken });
-
-          } else if ( newUser.source === 'google'  ) {
-            existingUser.google = newUser.id;
-            existingUser.tokens.push({ kind: 'google', accessToken: newUser.accessToken });
-          }
-
-          existingUser.profile.name     = existingUser.profile.name     || newUser.profile.name;
-          existingUser.profile.gender   = existingUser.profile.gender   || newUser.profile.gender;
-          existingUser.profile.location = existingUser.profile.location || newUser.profile.location;
-          existingUser.profile.website  = existingUser.profile.website  || newUser.profile.website;
-          existingUser.profile.picture  = existingUser.profile.picture  || newUser.profile.picture;
-
-          existingUser.save(function (err) {
-            if (err) {
-              return (err);
-            }
-
-            // to capitalize the provider name
-            String.prototype.capitalize = function() {
-              return this.charAt(0).toUpperCase() + this.slice(1);
-            };
-
-            req.flash('info', { msg: 'Your ' + newUser.source.capitalize() + ' account has been linked to your existing account!' });
-            return res.redirect('/api');
-          });
-        }
-      });
-
-      // next step
-      workflow.emit('createUser', newUser);
-
+      workflow.emit('createUser');
     });
 
     /**
      * Step 4: Create a new account
      */
 
-    workflow.on('createUser', function (newUser) {
+    workflow.on('createUser', function () {
 
+      var newUser = req.session.socialProfile;
       var user = new User();
 
       user.email            = req.body.email.toLowerCase();
@@ -498,9 +449,9 @@ module.exports.controller = function(app) {
       user.save(function(err) {
         if (err) {
           if (err.code === 11000) {
-            req.flash('errors', { msg: 'User with that email already exists!' });
+            req.flash('errors', { msg: 'An account with that email already exists!' });
           }
-          return res.redirect('back');
+          return res.redirect('/signupsocial');
         } else {
           // next step
           workflow.emit('sendWelcomeEmail', user);
@@ -602,7 +553,7 @@ module.exports.controller = function(app) {
   });
 
   /**
-   * Facebook Authorization
+   * Facebook Authentication
    */
 
   app.get('/auth/facebook',
@@ -612,9 +563,12 @@ module.exports.controller = function(app) {
   );
 
   app.get('/auth/facebook/callback', function (req, res, next) {
-    passport.authenticate('facebook', { callbackURL: '/auth/facebook/callback' }, function (err, user, info) {
+    passport.authenticate('facebook', {
+      callbackURL: '/auth/facebook/callback',
+      failureRedirect: '/login'
+    }, function (err, user, info) {
       if (!info || !info.profile) {
-        req.flash('errors', { msg: 'We have no data. Something went terribly wrong!' });
+        req.flash('errors', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
       }
 
@@ -643,18 +597,20 @@ module.exports.controller = function(app) {
           // Brand new Facebook user!
           // Save their profile data into the session
           var newSocialUser               = {};
+
+          newSocialUser.source            = 'facebook';
+          newSocialUser.id                = info.profile._json.id;
+          newSocialUser.accessToken       = info.accessToken;
+          newSocialUser.tokenSecret       = '';
+          newSocialUser.email             = info.profile._json.email;
+
           newSocialUser.profile           = {};
 
-          newSocialUser.email             = info.profile._json.email;
           newSocialUser.profile.name      = info.profile._json.name;
           newSocialUser.profile.gender    = info.profile._json.gender;
           newSocialUser.profile.location  = info.profile._json.location.name;
           newSocialUser.profile.website   = info.profile._json.link;
           newSocialUser.profile.picture   = 'https://graph.facebook.com/' + info.profile.id + '/picture?type=large';
-          newSocialUser.source            = 'facebook';
-          newSocialUser.id                = info.profile._json.id;
-          newSocialUser.accessToken       = info.accessToken;
-          newSocialUser.tokenSecret       = '';
 
           req.session.socialProfile = newSocialUser;
           res.render('account/signupsocial', { email: newSocialUser.email });
@@ -665,7 +621,7 @@ module.exports.controller = function(app) {
   });
 
   /**
-   * Github Authorization
+   * Github Authentication
    */
 
   app.get('/auth/github',
@@ -675,9 +631,12 @@ module.exports.controller = function(app) {
   );
 
   app.get('/auth/github/callback', function (req, res, next) {
-    passport.authenticate('github', { callbackURL: '/auth/github/callback' }, function (err, user, info) {
+    passport.authenticate('github', {
+      callbackURL: '/auth/github/callback',
+      failureRedirect: '/login'
+    }, function (err, user, info) {
       if (!info || !info.profile) {
-        req.flash('errors', { msg: 'We have no data. Something went terribly wrong!' });
+        req.flash('errors', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
       }
 
@@ -706,18 +665,20 @@ module.exports.controller = function(app) {
           // Brand new GitHub user!
           // Save their profile data into the session
           var newSocialUser               = {};
+
+          newSocialUser.source            = 'github';
+          newSocialUser.id                = info.profile._json.id;
+          newSocialUser.accessToken       = info.accessToken;
+          newSocialUser.tokenSecret       = '';
+          newSocialUser.email             = info.profile._json.email;
+
           newSocialUser.profile           = {};
 
-          newSocialUser.email             = info.profile._json.email;
           newSocialUser.profile.name      = info.profile._json.name;
           newSocialUser.profile.gender    = ''; // No gender from Github
           newSocialUser.profile.location  = info.profile._json.location;
           newSocialUser.profile.website   = info.profile._json.html_url;
           newSocialUser.profile.picture   = info.profile._json.avatar_url;
-          newSocialUser.source            = 'github';
-          newSocialUser.id                = info.profile._json.id;
-          newSocialUser.accessToken       = info.accessToken;
-          newSocialUser.tokenSecret       = '';
 
           req.session.socialProfile = newSocialUser;
           res.render('account/signupsocial', { email: newSocialUser.email });
@@ -728,7 +689,7 @@ module.exports.controller = function(app) {
   });
 
   /**
-   * Google Authorization
+   * Google Authentication
    */
 
   app.get('/auth/google',
@@ -738,9 +699,12 @@ module.exports.controller = function(app) {
   );
 
   app.get('/auth/google/callback', function (req, res, next) {
-    passport.authenticate('google', { callbackURL: '/auth/google/callback' }, function (err, user, info) {
+    passport.authenticate('google', {
+      callbackURL: '/auth/google/callback',
+      failureRedirect: '/login'
+    }, function (err, user, info) {
       if (!info || !info.profile) {
-        req.flash('errors', { msg: 'We have no data. Something went terribly wrong!' });
+        req.flash('errors', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
       }
 
@@ -769,18 +733,20 @@ module.exports.controller = function(app) {
           // Brand new Google user!
           // Save their profile data into the session
           var newSocialUser               = {};
-          newSocialUser.profile           = {};
 
-          newSocialUser.email             = info.profile._json.email;
-          newSocialUser.profile.name      = info.profile._json.name;
-          newSocialUser.profile.gender    = info.profile._json.gender;
-          newSocialUser.profile.location  = '';
-          newSocialUser.profile.website   = info.profile._json.link;
-          newSocialUser.profile.picture   = info.profile._json.picture;
           newSocialUser.source            = 'google';
           newSocialUser.id                = info.profile.id;
           newSocialUser.accessToken       = info.accessToken;
           newSocialUser.tokenSecret       = '';
+          newSocialUser.email             = info.profile._json.email;
+
+          newSocialUser.profile           = {};
+
+          newSocialUser.profile.name      = info.profile._json.name;
+          newSocialUser.profile.gender    = info.profile._json.gender;
+          newSocialUser.profile.location  = ''; // No location from Google
+          newSocialUser.profile.website   = info.profile._json.link;
+          newSocialUser.profile.picture   = info.profile._json.picture;
 
           req.session.socialProfile = newSocialUser;
           res.render('account/signupsocial', { email: newSocialUser.email });
@@ -791,7 +757,7 @@ module.exports.controller = function(app) {
   });
 
   /**
-   * Twitter Authorization
+   * Twitter Authentication
    */
 
   app.get('/auth/twitter',
@@ -801,9 +767,12 @@ module.exports.controller = function(app) {
   );
 
   app.get('/auth/twitter/callback', function (req, res, next) {
-    passport.authenticate('twitter', { callbackURL: '/auth/twitter/callback' }, function (err, user, info) {
+    passport.authenticate('twitter', {
+      callbackURL: '/auth/twitter/callback',
+      failureRedirect: '/login'
+    }, function (err, user, info) {
       if (!info || !info.profile) {
-        req.flash('errors', { msg: 'We have no data. Something went terribly wrong!' });
+        req.flash('errors', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
       }
 
@@ -832,18 +801,20 @@ module.exports.controller = function(app) {
           // Brand new Twitter user!
           // Save their profile data into the session
           var newSocialUser               = {};
+
+          newSocialUser.source            = 'twitter';
+          newSocialUser.id                = info.profile.id;
+          newSocialUser.accessToken       = info.accessToken;
+          newSocialUser.tokenSecret       = info.tokenSecret;
+          newSocialUser.email             = '';  // Twitter does not provide email addresses
+
           newSocialUser.profile           = {};
 
-          newSocialUser.email             = '';  // Twitter does not provide email addresses
           newSocialUser.profile.name      = info.profile._json.name;
           newSocialUser.profile.gender    = '';  // No gender from Twitter either
           newSocialUser.profile.location  = info.profile._json.location;
           newSocialUser.profile.website   = info.profile._json.entities.url.urls[0].expanded_url;
           newSocialUser.profile.picture   = info.profile._json.profile_image_url;
-          newSocialUser.source            = 'twitter';
-          newSocialUser.id                = info.profile.id;
-          newSocialUser.accessToken       = info.accessToken;
-          newSocialUser.tokenSecret       = info.tokenSecret;
 
           req.session.socialProfile = newSocialUser;
           res.render('account/signupsocial', { email: newSocialUser.email });

@@ -9,17 +9,19 @@ block content
         form(action='/signupsocial', method='POST')
           input(type='hidden', name='_csrf', value=token)
           .form-group
-            label(for='email') Please confirm your email address:
+            label(for='email') Please confirm (or enter) your email address:
             input.form-control(type='email', name='email', value='#{email}', placeholder='Your Email Address', required)
           .form-group
-            button.btn.btn-primary.btn-reset(type='submit', autofocus=true ) Create My Account!
+            button.btn.btn-primary.btn-reset(type='submit') Create My Account!
         hr
         p We only use this information when necessary. We will <strong>never</strong> spam you.
 
 block scripts
   script.
     $(document).ready(function() {
-      if ( $('input[name="email"]') === '' ) {
+      if ( $('input[name="email"]').val() === '' ) {
         $('input[name="email"]').focus();
+      } else {
+        $('button').focus();
       }
     });
