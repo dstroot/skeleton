@@ -1,5 +1,6 @@
 # Skeleton 
 
+[![Build Status](https://travis-ci.org/dstroot/skeleton.png)](https://travis-ci.org/dstroot/skeleton)
 [![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) 
 [![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 
