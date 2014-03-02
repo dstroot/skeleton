@@ -5844,31 +5844,73 @@ fieldset[disabled] .btn-vk.active {
   color: #4baadd;
 }
 .brand2 {
-  color: #2d677f;
+  color: #95d127;
 }
 .brand3 {
-  color: #173340;
+  color: #f2e415;
 }
 .brand4 {
-  color: #748e99;
+  color: #ff8638;
 }
 .brand5 {
-  color: #cc344c;
+  color: #ee3551;
 }
 .bg-brand1 {
   background-color: #4baadd;
 }
 .bg-brand2 {
-  background-color: #2d677f;
+  background-color: #95d127;
 }
 .bg-brand3 {
-  background-color: #173340;
+  background-color: #f2e415;
 }
 .bg-brand4 {
-  background-color: #748e99;
+  background-color: #ff8638;
 }
 .bg-brand5 {
-  background-color: #cc344c;
+  background-color: #ee3551;
+}
+.white {
+  color: #ffffff;
+}
+.gray-lighter {
+  color: #eeeeee;
+}
+.gray-light {
+  color: #999999;
+}
+.gray {
+  color: #555555;
+}
+.gray-dark {
+  color: #333333;
+}
+.gray-darker {
+  color: #222222;
+}
+.black {
+  color: #111111;
+}
+.bg-white {
+  background-color: #ffffff;
+}
+.bg-gray-lighter {
+  background-color: #eeeeee;
+}
+.bg-gray-light {
+  background-color: #999999;
+}
+.bg-gray {
+  background-color: #555555;
+}
+.bg-gray-dark {
+  background-color: #333333;
+}
+.bg-gray-darker {
+  background-color: #222222;
+}
+.bg-black {
+  background-color: #111111;
 }
 .pink {
   color: #ff748a;
@@ -5912,12 +5954,6 @@ fieldset[disabled] .btn-vk.active {
 .maroon {
   color: #85144b;
 }
-.white {
-  color: #ffffff;
-}
-.black {
-  color: #111111;
-}
 .bg-navy {
   background-color: #001f3f;
 }
@@ -5960,12 +5996,6 @@ fieldset[disabled] .btn-vk.active {
 .bg-maroon {
   background-color: #85144b;
 }
-.bg-white {
-  background-color: #ffffff;
-}
-.bg-black {
-  background-color: #111111;
-}
 /**
  * Scaffolding
  */
@@ -5997,6 +6027,14 @@ dt {
 }
 dd {
   margin-bottom: 5px;
+}
+.pvl {
+  padding: 20px;
+}
+.pvl h2,
+h3,
+h4 {
+  margin: 0px;
 }
 /**
  * Navbar

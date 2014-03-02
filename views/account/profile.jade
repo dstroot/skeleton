@@ -142,12 +142,12 @@ block scripts
                       '<span class="address">' + suggestion.address + '</span>' +
                       '@<a href="#" id="suggestion"><strong>' + suggestion.domain +
                       '</strong></a></span>?</em>';
-                  $('#hint').html(suggestion).fadeIn(150);
+                  $('#hint').html(suggestion).fadeIn(200);
                   // use suggestion
                   $( '#suggestion' ).click(function () {
                     // On click, fill in the field with the suggestion and remove the hint
                     $('#email').val($('.suggestion').text());
-                    $('#hint').fadeOut(200, function() {
+                    $('#hint').fadeOut(150, function() {
                       $(this).empty();
                     });
                     return false;
@@ -186,7 +186,7 @@ block scripts
                 }, function (valid, complexity) {
 
                   // Show the bar
-                  $('.progress').show();
+                  $('.progress').fadeIn(200);
 
                   // Change colors
                   if (!valid) {
@@ -221,7 +221,7 @@ block scripts
               );
             // Hide, our work is done ;)
             $('#password').on('blur', function() {
-              $('.progress').hide();
+              $('.progress').fadeOut(150);
             });
           })
           .fail(function(jqxhr, settings, exception) {

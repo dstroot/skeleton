@@ -46,12 +46,12 @@
 @brand-warning: #f0ad4e;
 @brand-danger:  #d9534f;
 
-// Brand Color Scheme, checkout: https://kuler.adobe.com/explore/most-used/?time=month
-@brand1:        #4BAADD;  // Blue      11A7FC
-@brand2:        #2D677F;  // Lime      95D127
-@brand3:        #173340;  // Yellow    F2E415
-@brand4:        #748E99;  // Orange    FF8638
-@brand5:        #CC344C;  // Red       EE3551
+// Brand Color Scheme (checkout: https://kuler.adobe.com/explore)
+@brand1:        #4BAADD;  // Blue (scheme 11A7FC)
+@brand2:        #95D127;  // Lime
+@brand3:        #F2E415;  // Yellow
+@brand4:        #FF8638;  // Orange
+@brand5:        #EE3551;  // Red
 
 // Brand Colors
 .brand1 {       color: @brand1; }
@@ -66,6 +66,37 @@
 .bg-brand3 {    background-color: @brand3; }
 .bg-brand4 {    background-color: @brand4; }
 .bg-brand5 {    background-color: @brand5; }
+
+// Bootstrap provides an incomplete grayscale
+// but the ones commented below are coming
+// from Bootstrap:
+
+// Gray Scale
+@white:             #FFFFFF;
+// @gray-lighter
+// @gray-light
+// @gray
+// @gray-dark
+// @gray-darker
+@black:             #111111;
+
+// Gray Scale
+.white {            color: @white; }
+.gray-lighter {     color: @gray-lighter; }
+.gray-light {       color: @gray-light; }
+.gray {             color: @gray; }
+.gray-dark {        color: @gray-dark; }
+.gray-darker {      color: @gray-darker; }
+.black {            color: @black; }
+
+// Gray Scale Backgrounds
+.bg-white {         background-color: @white; }
+.bg-gray-lighter {  background-color: @gray-lighter; }
+.bg-gray-light {    background-color: @gray-light; }
+.bg-gray {          background-color: @gray; }
+.bg-gray-dark {     background-color: @gray-dark; }
+.bg-gray-darker {   background-color: @gray-darker; }
+.bg-black {         background-color: @black; }
 
 // Other Colors http://clrs.cc/
 
@@ -87,15 +118,6 @@
 @purple:        #B10DC9;
 @maroon:        #85144B;
 
-// Gray Scale
-@black:         #111111;
-// @gray-darker
-// @gray-dark
-// @gray
-// @gray-light
-// @gray-lighter
-@white:         #FFFFFF;
-
 // Colors
 .pink {         color: @pink; }
 .navy {         color: @navy; }
@@ -111,8 +133,6 @@
 .fuchsia {      color: @fuchsia; }
 .purple {       color: @purple; }
 .maroon {       color: @maroon; }
-.white {        color: @white; }
-.black {        color: @black; }
 
 // Backgrounds
 .bg-navy {      background-color: @navy; }
@@ -129,8 +149,6 @@
 .bg-fuchsia {   background-color: @fuchsia; }
 .bg-purple {    background-color: @purple; }
 .bg-maroon {    background-color: @maroon; }
-.bg-white {     background-color: @white; }
-.bg-black {     background-color: @black; }
 
 /**
  * Scaffolding
@@ -160,6 +178,12 @@ dt {
 }
 dd {
   margin-bottom: 5px;
+}
+.pvl {
+  padding: 20px;
+}
+.pvl h2, h3, h4 {
+  margin: 0px;
 }
 /**
  * Navbar

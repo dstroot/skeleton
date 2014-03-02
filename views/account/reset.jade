@@ -52,7 +52,7 @@ block scripts
                 }, function (valid, complexity) {
 
                   // Show the bar
-                  $('.progress').show();
+                  $('.progress').fadeIn(200);
 
                   // Change colors
                   if (!valid) {
@@ -87,7 +87,7 @@ block scripts
               );
             // Hide, our work is done ;)
             $('#password').on('blur', function() {
-              $('.progress').hide();
+              $('.progress').fadeOut(150);
             });
           })
           .fail(function(jqxhr, settings, exception) {
