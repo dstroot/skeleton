@@ -6,6 +6,7 @@
 
 var _             = require('underscore');
 var User          = require('../models/User');
+var utils         = require('../config/utils');
 var config        = require('../config/config');
 var passport      = require('passport');
 var nodemailer    = require('nodemailer');
@@ -337,11 +338,7 @@ module.exports.controller = function(app) {
         if (err) {
           return next(err);
         }
-        // to capitalize the provider name
-        String.prototype.capitalize = function() {
-          return this.charAt(0).toUpperCase() + this.slice(1);
-        };
-        req.flash('info', { msg: 'Your ' + provider.capitalize() + ' account has been unlinked. :(' });
+        req.flash('info', { msg: 'Your ' + utils.capitalize(provider) + ' account has been disconnected. :(' });
         res.redirect('/account');
       });
     });
@@ -367,7 +364,7 @@ module.exports.controller = function(app) {
       // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ facebook: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'Your Facebook acoount is already linked to another ' + config.name + ' account!' });
+          req.flash('errors', { msg: 'Your Facebook acoount is already connected to another ' + config.name + ' account!' });
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Facebook account.' });
           return res.redirect('/account');
         } else {
@@ -385,7 +382,7 @@ module.exports.controller = function(app) {
               if (err) {
                 return next(err);
               }
-              req.flash('info', { msg: 'Your Facebook account has been linked! :)' });
+              req.flash('info', { msg: 'Your Facebook account has been connected! :)' });
               return res.redirect('/account');
             });
           });
@@ -415,7 +412,7 @@ module.exports.controller = function(app) {
       // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ twitter: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'Your Twitter acoount is already linked to another ' + config.name + ' account!' });
+          req.flash('errors', { msg: 'Your Twitter acoount is already connected to another ' + config.name + ' account!' });
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Twitter account.' });
           return res.redirect('/account');
         } else {
@@ -432,7 +429,7 @@ module.exports.controller = function(app) {
               if (err) {
                 return next(err);
               }
-              req.flash('info', { msg: 'Your Twitter account has been linked! :)' });
+              req.flash('info', { msg: 'Your Twitter account has been connected! :)' });
               return res.redirect('/account');
             });
           });
@@ -462,7 +459,7 @@ module.exports.controller = function(app) {
       // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ github: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'Your GitHub acoount is already linked to another ' + config.name + ' account!' });
+          req.flash('errors', { msg: 'Your GitHub acoount is already connected to another ' + config.name + ' account!' });
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your GitHub account.' });
           return res.redirect('/account');
         } else {
@@ -480,7 +477,7 @@ module.exports.controller = function(app) {
               if (err) {
                 return next(err);
               }
-              req.flash('info', { msg: 'Your GitHub account has been linked! :)' });
+              req.flash('info', { msg: 'Your GitHub account has been connected! :)' });
               return res.redirect('/account');
             });
           });
@@ -510,7 +507,7 @@ module.exports.controller = function(app) {
       // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ google: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'Your Google acoount is already linked to another ' + config.name + ' account!' });
+          req.flash('errors', { msg: 'Your Google acoount is already connected to another ' + config.name + ' account!' });
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Google account.' });
           return res.redirect('/account');
         } else {
@@ -529,7 +526,7 @@ module.exports.controller = function(app) {
               if (err) {
                 return next(err);
               }
-              req.flash('info', { msg: 'Your Google account has been linked! :)' });
+              req.flash('info', { msg: 'Your Google account has been connected! :)' });
               return res.redirect('/account');
             });
           });

@@ -6,6 +6,7 @@
 
 var _                 = require('underscore');
 var User              = require('../models/User');
+var utils             = require('./utils');
 var config            = require('./config');
 var passport          = require('passport');
 var LocalStrategy     = require('passport-local').Strategy;
@@ -192,9 +193,16 @@ exports.isAuthenticated = function (req, res, next) {
 exports.isAuthorized = function (req, res, next) {
   var provider = req.path.split('/').slice( -1 )[0];
   if (_.findWhere(req.user.tokens, { kind: provider })) {
+    // we found the provider so just continue
     next();
   } else {
-    res.redirect('/auth/' + provider);
+    // we have to get authorized first
+    if ( provider === 'tumblr' || provider === 'foursquare' || provider === 'paypal' ) {
+      res.redirect('/auth/' + provider);
+    } else {
+      req.flash('info', { msg: 'You must connect ' + utils.capitalize(provider) + ' first!' });
+      res.redirect('/account');
+    }
   }
 };
 
