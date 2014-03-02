@@ -197,11 +197,11 @@ exports.isAuthorized = function (req, res, next) {
     next();
   } else {
     // we have to get authorized first
-    if ( provider === 'tumblr' || provider === 'foursquare' || provider === 'paypal' ) {
-      res.redirect('/auth/' + provider);
-    } else {
+    if ( provider === 'facebook' || provider === 'twitter' || provider === 'github' || provider === 'google' ) {
       req.flash('info', { msg: 'You must connect ' + utils.capitalize(provider) + ' first!' });
       res.redirect('/account');
+    } else {
+      res.redirect('/auth/' + provider);
     }
   }
 };
