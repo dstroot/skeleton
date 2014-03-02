@@ -7,7 +7,7 @@
 var User          = require('../models/User');
 var config        = require('../config/config');
 var bcrypt        = require('bcrypt-nodejs');
-var crypto        = require('crypto');
+var crypto        = require('crypto');           // http://nodejs.org/api/crypto.html#crypto_crypto
 var nodemailer    = require('nodemailer');
 
 

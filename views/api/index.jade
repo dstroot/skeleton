@@ -1,55 +1,58 @@
 extends ../layouts/layout
 
 block content
+
+  .mini-tron.bg-brand1.white
+    h1 Welcome!
+    p This is the "logged in" home page. :)
   .container
     .row
-      .col-sm-6.col-sm-offset-3
-        .page-header
-          h2 API Browser
-        ol
-          li.api
-            a.btn.btn-info.btn-api(href='/api/facebook') Facebook
-            small
-              | &nbsp;&nbsp;
-              i.fa.fa-fw.fa-sign-in
-              | &nbsp;Login Required
-          li.api
-            a.btn.btn-info.btn-api(href='/api/foursquare') Foursquare
-            small
-              | &nbsp;&nbsp;
-              i.fa.fa-fw.fa-sign-in
-              | &nbsp;Login Required
-          li.api
-            a.btn.btn-info.btn-api(href='/api/github') GitHub
-            small
-              | &nbsp;&nbsp;
-              i.fa.fa-fw.fa-sign-in
-              | &nbsp;Login Required
-          li.api
-            a.btn.btn-info.btn-api(href='/api/lastfm') Last.fm
-          li.api
-            a.btn.btn-info.btn-api(href='/api/nyt') New York Times
-          li.api
-            a.btn.btn-info.btn-api(href='/api/paypal') PayPal
-            small
-              | &nbsp;&nbsp;
-              i.fa.fa-fw.fa-sign-in
-              | &nbsp;Login Required
-          //- li.api
-          //-   a.btn.btn-info.btn-api(href='/api/steam') Steam
-          li.api
-            a.btn.btn-info.btn-api(href='/api/twilio') Twilio
-          li.api
-            a.btn.btn-info.btn-api(href='/api/tumblr') Tumblr
-            small
-              | &nbsp;&nbsp;
-              i.fa.fa-fw.fa-sign-in
-              | &nbsp;Login Required
-          li.api
-            a.btn.btn-info.btn-api(href='/api/twitter') Twitter
-            small
-              | &nbsp;&nbsp;
-              i.fa.fa-fw.fa-sign-in
-              | &nbsp;Login Required
-          li.api
-            a.btn.btn-info.btn-api(href='/api/scraping') Web Scraping
+      .col-sm-10.col-sm-offset-1
+        dl
+          dt Why did I have to login to see this?
+          dd
+            | Because authentication is a primary aspect of this application. It has all the appropriate email traffic (welcome, account change, password reset, etc.), administrative features, user account management, etc.  If you didn't log in you would never see or experience this.
+          dd
+            | (NOTE: You can delete your account on the profile page.)
+          dt So what can I do here?
+          dd
+            | Start by checking out the open APIs. No additional authorization or authentication is needed.
+          dd
+            | The cool stuff is in the API's requiring authorization/authentication.  You should try a couple!
+          dt OK.  So now what?
+          dd
+            | Connect some additional OAUTH providers to your account on the "My Account" page (under your name) and see how easy it is to connect and disconnect providers.
+          dd
+            | Checkout the real-time dashboard under the admin menu. It uses Socket.io to track users in real time across the site.  It is anonymous but very cool to watch people using the site. Because the live site is proxied the IP addresses are not accurate.
+          dd
+            | (NOTE: in this demo all users are setup as administrators. Normally they would just be a "user" and the Admin menu would not be accessible or visible.)
+          dt
+            | Give us a star on&nbsp;
+            a(href='https://github.com/dstroot/skeleton')
+              i.fa.fa-fw.fa-github&nbsp;
+              | GitHub
+    .row
+      .col-sm-2.col-sm-offset-1
+        img.center-block.img-responsive(src='img/nodejs-logo.png' width='150')
+      .col-sm-2
+        img.center-block.img-responsive.img-rounded(src='img/express-logo.jpg' width='200')
+      .col-sm-1
+        img.center-block.img-responsive.img-rounded(src='img/bootstrap-logo.jpg' width='75')
+      .col-sm-3
+        img.center-block.img-responsive(src='img/fontawesome-logo.jpg' width='300')
+      .col-sm-2
+        img.center-block.img-responsive(src='img/nodejitsu-logo.png' width='150')
+    br
+    .row
+      .col-sm-2.col-sm-offset-1
+        img.center-block.img-responsive(src='img/npm-logo.png' width='150')
+      .col-sm-2
+        img.center-block.img-responsive.img-rounded(src='img/bower-logo.jpg' width='150')
+      .col-sm-2
+        img.center-block.img-responsive.img-rounded(src='img/mongodb-logo.jpg' width='200')
+      .col-sm-3
+        img.center-block.img-responsive.img-rounded(src='img/mongolab-logo.jpg' width='250')
+      .col-sm-1
+        img.center-block.img-responsive(src='img/gulp-logo.png' width='55')
+    br
+    br

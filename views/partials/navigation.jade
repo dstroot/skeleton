@@ -10,16 +10,75 @@ nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
     .collapse.navbar-collapse
       if user
         ul.nav.navbar-nav
-          li(class=url=='/api'?'active':undefined)
-            a(href='/api')
-              i.fa.fa-fw.fa-magic
-              | &nbsp;API Browser
+
+          //- li(class=url=='/api'?'active':undefined)
+          //-   a(href='/api')
+          //-     i.fa.fa-fw.fa-magic
+          //-     | &nbsp;API Browser
+
+          li.dropdown(class=url=='/apiopen'?'active':undefined)
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              i.fa.fa-fw.fa-laptop
+              | &nbsp;APIs (open)&nbsp;
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='/api/lastfm')
+                  i.fa.fa-fw.fa-laptop
+                  | &nbsp;Last.fm
+              li
+                a(href='/api/nyt')
+                  i.fa.fa-fw.fa-laptop
+                  | &nbsp;New York Times
+              li
+                a(href='/api/twilio')
+                  i.fa.fa-fw.fa-laptop
+                  | &nbsp;Twilio
+              li
+                a(href='/api/scraping')
+                  i.fa.fa-fw.fa-laptop
+                  | &nbsp;Hacker News
+
+          li.dropdown(class=url=='/apilocked'?'active':undefined)
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              i.fa.fa-fw.fa-lock
+              | &nbsp;APIs (auth needed) &nbsp;
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='/api/facebook')
+                  i.fa.fa-fw.fa-lock
+                  | &nbsp;Facebook
+              li
+                a(href='/api/foursquare')
+                  i.fa.fa-fw.fa-lock
+                  | &nbsp;Foursquare
+              li
+                a(href='/api/github')
+                  i.fa.fa-fw.fa-lock
+                  | &nbsp;GitHub
+              li
+                a(href='/api/paypal')
+                  i.fa.fa-fw.fa-lock
+                  | &nbsp;PayPal
+              li
+                a(href='/api/tumblr')
+                  i.fa.fa-fw.fa-lock
+                  | &nbsp;Tumblr
+              li
+                a(href='/api/twitter')
+                  i.fa.fa-fw.fa-lock
+                  | &nbsp;Twitter
+
+        //- Right side
         ul.nav.navbar-nav.navbar-right
+
+          //- Visible to Admin users only!
           if user.type == 'admin'
             li.dropdown(class=url=='/administration'?'active':undefined)
               a.dropdown-toggle(href='#', data-toggle='dropdown')
                 i.fa.fa-fw.fa-cogs
-                | &nbsp;Administration&nbsp;
+                | &nbsp;Admin&nbsp;
                 b.caret
               ul.dropdown-menu
                 li
@@ -30,6 +89,8 @@ nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
                   a(href='/accounts')
                     i.fa.fa-fw.fa-users
                     | &nbsp;Accounts
+
+          //- User account
           li.dropdown(class=url=='/account'?'active':undefined)
             a.dropdown-toggle(href='#', data-toggle='dropdown')
               if user.profile.picture
@@ -52,7 +113,9 @@ nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
                 a(href='/logout')
                   i.fa.fa-fw.fa-sign-out
                   | &nbsp;Logout
+
       else
+        //- No user/not logged in
         ul.nav.navbar-nav.navbar-right
           li(class=url=='/login'?'active':undefined)
             a(href='/login')

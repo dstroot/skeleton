@@ -101,7 +101,7 @@ module.exports.controller = function(app) {
         };
         res.render('api/lastfm', {
           artist: artist,
-          url: req.url
+          url: '/apiopen'
         });
       });
   });
@@ -120,7 +120,7 @@ module.exports.controller = function(app) {
       }
       var bestsellers = JSON.parse(body);
       res.render('api/nyt', {
-        url: req.url,
+        url: '/apiopen',
         books: bestsellers.results
       });
     });
@@ -162,7 +162,7 @@ module.exports.controller = function(app) {
         for (var i = 0; i < links.length; i++) {
           if (links[i].rel === 'approval_url') {
             res.render('api/paypal', {
-              url: req.url,
+              url: '/apilocked',
               approval_url: links[i].href
             });
           }
@@ -188,7 +188,7 @@ module.exports.controller = function(app) {
         });
       } else {
         res.render('api/paypal', {
-          url: req.url,
+          url: '/apilocked',
           result: true,
           success: true
         });
@@ -204,7 +204,7 @@ module.exports.controller = function(app) {
   app.get('/api/paypal/cancel', function(req, res, next) {
     req.session.payment_id = null;
     res.render('api/paypal', {
-      url: req.url,
+      url: '/apilocked',
       result: true,
       canceled: true
     });
@@ -222,11 +222,11 @@ module.exports.controller = function(app) {
       }
       var $ = cheerio.load(body);
       var links = [];
-      $('.title a').each(function() {
+      $('.title a[href^="http"], a[href^="https"]').each(function() {
         links.push($(this));
       });
       res.render('api/scraping', {
-        url: req.url,
+        url: '/apiopen',
         links: links
       });
     });
@@ -239,7 +239,7 @@ module.exports.controller = function(app) {
 
   app.get('/api/twilio', function(req, res, next) {
     res.render('api/twilio', {
-      url: req.url
+      url: '/apiopen'
     });
   });
 
@@ -293,7 +293,7 @@ module.exports.controller = function(app) {
           return next(err);
         }
         res.render('api/foursquare', {
-          url: req.url,
+          url: '/apilocked',
           trendingVenues: results.trendingVenues,
           venueDetail: results.venueDetail,
           userCheckins: results.userCheckins
@@ -316,7 +316,7 @@ module.exports.controller = function(app) {
     });
     client.posts('goddess-of-imaginary-light.tumblr.com', { type: 'photo' }, function(err, data) {
       res.render('api/tumblr', {
-        url: req.url,
+        url: '/apilocked',
         blog: data.blog,
         photoset: data.posts[0].photos
       });
@@ -348,7 +348,7 @@ module.exports.controller = function(app) {
           return next(err);
         }
         res.render('api/facebook', {
-          url: req.url,
+          url: '/apilocked',
           me: results.getMe,
           friends: results.getMyFriends
         });
@@ -366,7 +366,7 @@ module.exports.controller = function(app) {
     var repo = github.getRepo('dstroot', 'skeleton');
     repo.show(function(err, repo) {
       res.render('api/github', {
-        url: req.url,
+        url: '/apilocked',
         repo: repo
       });
     });
@@ -390,7 +390,7 @@ module.exports.controller = function(app) {
         return next(err);
       }
       res.render('api/twitter', {
-        url: req.url,
+        url: '/apilocked',
         tweets: reply.statuses
       });
     });
