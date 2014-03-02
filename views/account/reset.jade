@@ -10,10 +10,12 @@ block content
           input(type='hidden', name='_csrf', value=token)
           .form-group
             label.sr-only(for='password') New Password:
-            input.form-control(type='password', name='password', value='', placeholder='New password', autofocus=true, required)
+            input.form-control(type='password', name='password', id='password', placeholder='New password', autofocus=true, required)
+            .progress
+              .progress-bar(role='progressbar')
           .form-group
             label.sr-only(for='confirm') Confirm Password:
-            input.form-control(type='password', name='confirm', value='', placeholder='Confirm your new password', required)
+            input.form-control(type='password', name='confirm', placeholder='Confirm your new password', required)
           .form-group
             button.btn.btn-primary.btn-reset(type='submit') Set Password
         hr
@@ -27,3 +29,72 @@ block content
 //-    NOTE: you can hide the labels using the .sr-only class.
 //- 2) Use proper HTML5 input types (email, password, date, etc.)  This adds some HTML5 validation as
 //-    well as the correct keyboard on mobile devices.
+
+block scripts
+  script.
+    $(document).ready(function() {
+
+      // Hide progress bar until we need it
+      $('.progress').hide();
+
+      $.getScript( '/lib/complexify/jquery.complexify.banlist.js' )
+        .done(function( script, textStatus ) {
+
+          //- Get complexity Script
+          $.getScript('/lib/complexify/jquery.complexify.js')
+            .done(function(script, textStatus) {
+
+              $('#password').complexify({
+                minimumChars        : 6,
+                strengthScaleFactor : 0.5,
+                banmode             : 'loose',
+                evaluateOnInit      : false
+                }, function (valid, complexity) {
+
+                  // Show the bar
+                  $('.progress').show();
+
+                  // Change colors
+                  if (!valid) {
+                    $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-success').addClass('progress-bar-danger');
+                  } else {
+                    $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-danger').addClass('progress-bar-success');
+                  }
+
+                  // Label progress bar
+                  switch (true)
+                  {
+                    case (complexity > 81):
+                      $('.progress-bar').html('Excellent Complexity!').fadeIn(150);
+                      break;
+                    case (complexity > 61):
+                      $('.progress-bar').html('Strong Complexity!').fadeIn(150);
+                      break;
+                    case (complexity > 41):
+                      $('.progress-bar').html('Good Complexity').fadeIn(150);
+                      break;
+                    case (complexity > 31):
+                      $('.progress-bar').html('Average Complexity').fadeIn(150);
+                      break;
+                    case (complexity > 21):
+                      $('.progress-bar').html('Weak').fadeIn(150);
+                      break;
+                    default:
+                      $('.progress-bar').html(':(').fadeIn(150);
+                      break;
+                  }
+                }
+              );
+            // Hide, our work is done ;)
+            $('#password').on('blur', function() {
+              $('.progress').hide();
+            });
+          })
+          .fail(function(jqxhr, settings, exception) {
+            console.log('Complexify load failed.');
+          });
+        })
+        .fail(function( jqxhr, settings, exception ) {
+          console.log('Complexify banlist load failed.');
+      });
+    });
