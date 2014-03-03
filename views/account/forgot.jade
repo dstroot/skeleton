@@ -15,10 +15,11 @@ block content
             input.form-control(type='email', name='email', id='email', placeholder='Your Email', autofocus=true, required)
             #hint
           div.form-group
-            button.btn.btn-primary(type='submit') Reset Password
-        br
-        p Or, if you rembered your password
-          a(href='login') <strong> sign in.</strong>
+            button.btn.btn-primary(type='submit')
+              i.fa.fa-lock
+              | &nbsp;Reset Password
+            | &nbsp;
+            a.btn.btn-link(href='login') Remembered your password?
 
 //- Form Notes
 //- ===========================================

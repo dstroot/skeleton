@@ -33,7 +33,7 @@ block content
                 .panel-heading
                   h4.panel-title
                     a.noDecoration(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
-                      | Or, use a local account&nbsp;
+                      | Or, sign in with a local account&nbsp;
                       b.caret
                 #collapseOne.panel-collapse.collapse
                   .panel-body
@@ -47,17 +47,17 @@ block content
                       button.btn.btn-primary(type='submit')
                         i.fa.fa-unlock-alt
                         | &nbsp;Login
-                      br
-                      br
-                      p Forgot your
-                        a(href='/forgot') <strong> password?</strong>
-                      p Need to
-                        a(href='signup') <strong> sign up</strong>
-                        |  for a local #{title} account?
-        p I accept #{title}'s
-              a(href='/terms')  Terms of Use
-              |  and
-              a(href='/privacy')  Privacy Policy.
+                      | &nbsp;
+                      a.btn.btn-link(href='/forgot') Forget your password?
+            h4 Want to
+              a(href='signup') <strong> sign up</strong>
+              |  for a local #{title} account?
+            p.text-muted No problem! However you get <strong>one click</strong> access when using one of the authentication providers above <strong>and you don't need to remember another password!</strong>
+        br
+        p.text-muted <em>I accept #{title}'s
+          a(href='/terms')  Terms of Use
+          |  and
+          a(href='/privacy')  Privacy Policy.</em>
 
 block scripts
   script.

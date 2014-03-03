@@ -28,12 +28,13 @@ block content
             button.btn.btn-success(type='submit')
               i.fa.fa-check
               | &nbsp;Signup
-        p Already have an
-          a(href='/login') <strong> account?</strong>
-        p I accept #{title}'s
+            | &nbsp;
+            a.btn.btn-link(href='/login') Already have an account?
+        br
+        p.text-muted <em>I accept #{title}'s
           a(href='/terms')  Terms of Use
           |  and
-          a(href='/privacy')  Privacy Policy.
+          a(href='/privacy')  Privacy Policy.</em>
 
   //- HTML 5 Form Notes
   //- ===========================================
