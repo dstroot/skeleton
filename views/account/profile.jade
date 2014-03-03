@@ -21,17 +21,17 @@ block content
           input.form-control(type='hidden', name='_csrf', value=token)
           .form-group
             label.sr-only(for='name') Name
-            input.form-control(type='text', name='name', id='name', placeholder='Your Name', value='#{user.profile.name}')
+            input.form-control(type='text', name='name', id='name', placeholder='Your Name', value='#{user.profile.name}', required)
           .form-group
             label.sr-only(for='email') Email
-            input.form-control(type='email', name='email', id='email', value='#{user.email}')
+            input.form-control(type='email', name='email', id='email', value='#{user.email}', required)
             #hint
           .form-group
             label.sr-only(for='location') Location
             input.form-control(type='text', name='location', id='location', placeholder='Anywhere, USA', value='#{user.profile.location}')
           .form-group
             label.sr-only(for='website') Website
-            input.form-control(type='text', name='website', id='website', placeholder='http://yoursite.here', value='#{user.profile.website}')
+            input.form-control(type='url', name='website', id='website', placeholder='http://yoursite.here', value='#{user.profile.website}')
           .form-group
             label.sr-only(for='gender') Gender
             label.radio
@@ -92,12 +92,12 @@ block content
           input.form-control(type='hidden', name='_csrf', value=token)
           .form-group
             label.sr-only(for='password') New Password
-            input.form-control(type='password', name='password', id='password', placeholder='New Password', required)
+            input.form-control(type='password', name='password', id='password', placeholder='New Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
             .progress
               .progress-bar(role='progressbar')
           .form-group
             label.sr-only(for='confirmPassword') Confirm Password
-            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm New Password', required)
+            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm New Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
           .form-group
             button.btn.btn.btn-primary(type='submit')
                 i.fa.fa-check

@@ -73,8 +73,10 @@ module.exports.controller = function(app) {
 
     workflow.on('validate', function() {
 
-      req.assert('password', 'Password must be at least 4 characters long.').len(4);
-      req.assert('confirm', 'Passwords must match.').equals(req.body.password);
+      req.assert('password', 'Your password cannot be blank.').notEmpty();
+      req.assert('confirm', 'Your password confirmation cannot be blank.').notEmpty();
+      req.assert('password', 'Your password must be at least 4 characters long.').len(4);
+      req.assert('confirm', 'Your passwords must match.').equals(req.body.password);
 
       var errors = req.validationErrors();
 

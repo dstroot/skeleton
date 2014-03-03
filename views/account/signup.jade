@@ -18,12 +18,12 @@ block content
             #hint
           .form-group
             label.sr-only(for='password') Password:
-            input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+            input.form-control(type='password', name='password', id='password', placeholder='Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
             .progress
               .progress-bar(role='progressbar')
           .form-group
             label.sr-only(for='confirmPassword') Confirm Password:
-            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
+            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
           .form-group
             button.btn.btn-success(type='submit')
               i.fa.fa-check
@@ -35,13 +35,16 @@ block content
           |  and
           a(href='/privacy')  Privacy Policy.
 
-  //- Form Notes
+  //- HTML 5 Form Notes
   //- ===========================================
   //- 1) Always add labels!
   //-    Screen readers will have trouble with your forms if you don't include a label for every input.
   //-    NOTE: you can hide the labels using the .sr-only class.
-  //- 2) Use proper HTML5 input types (email, password, date, etc.)  This adds some HTML5 validation as
+  //- 2) Use proper HTML5 input types (email, password, date, url, etc.)  This adds some HTML5 validation as
   //-    well as the correct keyboard on mobile devices.
+  //- 3) When using the pattern attribute, the ^ and $ for the start and end of the regular expression
+  //-    are implied and don't need to be included.
+  //- 4) You can help the user by including a title attribute that tells them the format you require.
 
 block scripts
   script.

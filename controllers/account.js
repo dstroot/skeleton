@@ -53,7 +53,9 @@ module.exports.controller = function(app) {
 
     workflow.on('validate', function() {
 
-      req.assert('email', 'Email is not valid').isEmail();
+      req.assert('name', 'Your name cannot be empty.').notEmpty();
+      req.assert('email', 'Your email cannot be empty.').notEmpty();
+      req.assert('email', 'Your email is not valid.').isEmail();
       // req.assert('website', 'Website URL is not valid.').isURL();
 
       var errors = req.validationErrors();
@@ -187,7 +189,8 @@ module.exports.controller = function(app) {
      */
 
     workflow.on('validate', function() {
-
+      req.assert('password', 'Your password cannot be empty.').notEmpty();
+      req.assert('confirmPassword', 'Your password confirmation cannot be empty.').notEmpty();
       req.assert('password', 'Password must be at least 4 characters long').len(4);
       req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
