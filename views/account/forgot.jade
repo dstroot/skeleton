@@ -13,6 +13,7 @@ block content
             p Enter your email address and we'll send you reset instructions.
             label.sr-only(for='email') Enter Your Email:
             input.form-control(type='email', name='email', id='email', placeholder='Your Email', autofocus=true, required)
+            #hint
           div.form-group
             button.btn.btn-primary(type='submit') Reset Password
         br
@@ -26,3 +27,51 @@ block content
 //-    NOTE: you can hide the labels using the .sr-only class.
 //- 2) Use proper HTML5 input types (email, password, date, etc.)  This adds some HTML5 validation as
 //-    well as the correct keyboard on mobile devices.
+
+block scripts
+  script.
+    $(document).ready(function() {
+      //- Get Mailcheck Script
+      $.getScript('/lib/mailcheck/src/mailcheck.min.js')
+      .done(function(script, textStatus) {
+        // initiate mailcheck
+        $('#email').on('blur', function() {
+          $(this).mailcheck({
+            //- domains: domains,                       // optional
+            //- topLevelDomains: topLevelDomains,       // optional
+            //- distanceFunction: superStringDistance,  // optional
+            suggested: function(element, suggestion) {
+              if (!$('#hint').html()) {
+                  // First error - fill in/show entire hint element
+                  suggestion = '<em>Did you mean <span class="suggestion">' +
+                      '<span class="address">' + suggestion.address + '</span>' +
+                      '@<a href="#" id="suggestion"><strong>' + suggestion.domain +
+                      '</strong></a></span>?</em>';
+                  $('#hint').html(suggestion).fadeIn(200);
+                  // Use suggestion
+                  $( '#suggestion' ).click(function () {
+                    // On click, fill in the field with the suggestion and remove the hint
+                    $('#email').val($('.suggestion').text());
+                    $('#hint').fadeOut(150, function() {
+                      $(this).empty();
+                    });
+                    //go to next field
+                    $('button').focus();
+                    //- return false;
+                  });
+              } else {
+                  // Subsequent errors
+                  $('.address').html(suggestion.address);
+                  $('.domain').html(suggestion.domain);
+              }
+            },
+            empty: function(element) {
+              // callback code
+            }
+          });
+        });
+      })
+      .fail(function(jqxhr, settings, exception) {
+          console.log('Mailcheck load failed.');
+      });
+    });
