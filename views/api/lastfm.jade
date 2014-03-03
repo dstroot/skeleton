@@ -7,7 +7,7 @@ block content
         i.fa.fa-music
         | &nbsp;Last.fm API
 
-    .btn-group.btn-group-justified
+    .btn-group.btn-group-justified.hidden-xs
       a.btn.btn-primary(href='https://github.com/jammus/lastfm-node#lastfm-node', target='_blank')
         i.fa.fa-check-square-o
         | &nbsp;Last.fm Node Docs
@@ -32,7 +32,7 @@ block content
           | &nbsp;Scrobbles: #{artist.stats.playcount}
 
     p
-      img(src='#{artist.image}')
+      img.img-responsive(src='#{artist.image}')
 
     p
       for tag in artist.tags

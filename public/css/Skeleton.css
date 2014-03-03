@@ -3077,7 +3077,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 30px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #4baadd;
+  background-color: #377db5;
 }
 .jumbotron h1,
 .jumbotron .h1 {
@@ -5820,13 +5820,13 @@ fieldset[disabled] .btn-vk.active {
 /**
  * Colors
  *
- * This needs some explaining.  I'd rather keep colors seperate
+ * This needs some explaining.  I'd rather keep colors separate
  * from widgets. That way I can just use HTML markup to colorize
  * widgets in a semantic way:
  *
  *   <div class="jumbotron bg-blue white"></div>
  *
- * This means give me a blue jumbotron with white text
+ * This means give me a jumbotron with a blue background and white text
  *
  *   <div class="jumbotron bg-green orange"></div>
  *
@@ -5841,34 +5841,34 @@ fieldset[disabled] .btn-vk.active {
  *
  */
 .brand1 {
-  color: #4baadd;
+  color: #377db5;
 }
 .brand2 {
-  color: #95d127;
+  color: #70ccf2;
 }
 .brand3 {
-  color: #f2e415;
+  color: #ffdbc2;
 }
 .brand4 {
-  color: #ff8638;
+  color: #ff7b64;
 }
 .brand5 {
-  color: #ee3551;
+  color: #e61d46;
 }
 .bg-brand1 {
-  background-color: #4baadd;
+  background-color: #377db5;
 }
 .bg-brand2 {
-  background-color: #95d127;
+  background-color: #70ccf2;
 }
 .bg-brand3 {
-  background-color: #f2e415;
+  background-color: #ffdbc2;
 }
 .bg-brand4 {
-  background-color: #ff8638;
+  background-color: #ff7b64;
 }
 .bg-brand5 {
-  background-color: #ee3551;
+  background-color: #e61d46;
 }
 .white {
   color: #ffffff;
@@ -6028,14 +6028,6 @@ dt {
 dd {
   margin-bottom: 5px;
 }
-.pvl {
-  padding: 20px;
-}
-.pvl h2,
-h3,
-h4 {
-  margin: 0px;
-}
 /**
  * Navbar
  */
@@ -6159,9 +6151,8 @@ h4 {
   text-align: center;
 }
 .mini-tron h1 {
-  font-size: 26px;
+  font-size: 28px;
   margin-top: 0;
-  color: #ffffff;
 }
 .mini-tron p {
   margin-bottom: 0;
@@ -6174,8 +6165,8 @@ h4 {
 }
 @media (min-width: 768px) {
   .mini-tron {
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     margin-bottom: 30px;
     font-size: 22px;
   }
@@ -6243,6 +6234,12 @@ h4 {
   .dashboard p {
     font-size: 96px;
   }
+}
+/**
+ * Colors Page
+ */
+.pnl {
+  padding: 15px;
 }
 /**
  * Privacy Page

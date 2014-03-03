@@ -7,7 +7,7 @@ block content
         i.fa.fa-tumblr-square
         | &nbsp;Tumblr API
 
-    .btn-group.btn-group-justified
+    .btn-group.btn-group-justified.hidden-xs
       a.btn.btn-primary(href='http://www.tumblr.com/docs/en/api/v2#overview', target='_blank')
         i.fa.fa-check-square-o
         | &nbsp;Overview
@@ -24,4 +24,4 @@ block content
       | #{blog.posts} posts
     h4 Latest Photo Post
     for photo in photoset
-      img.item(src='#{photo.original_size.url}')
+      img.img-responsive(src='#{photo.original_size.url}')

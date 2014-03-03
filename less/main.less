@@ -18,13 +18,13 @@
 /**
  * Colors
  *
- * This needs some explaining.  I'd rather keep colors seperate
+ * This needs some explaining.  I'd rather keep colors separate
  * from widgets. That way I can just use HTML markup to colorize
  * widgets in a semantic way:
  *
  *   <div class="jumbotron bg-blue white"></div>
  *
- * This means give me a blue jumbotron with white text
+ * This means give me a jumbotron with a blue background and white text
  *
  *   <div class="jumbotron bg-green orange"></div>
  *
@@ -47,11 +47,11 @@
 @brand-danger:  #d9534f;
 
 // Brand Color Scheme (checkout: https://kuler.adobe.com/explore)
-@brand1:        #4BAADD;  // Blue (scheme 11A7FC)
-@brand2:        #95D127;  // Lime
-@brand3:        #F2E415;  // Yellow
-@brand4:        #FF8638;  // Orange
-@brand5:        #EE3551;  // Red
+@brand1:        #377DB5;  // Blue
+@brand2:        #70CCF2;  // Aqua
+@brand3:        #FFDBC2;  // Salmon
+@brand4:        #FF7B64;  // Orange
+@brand5:        #E61D46;  // Red
 
 // Brand Colors
 .brand1 {       color: @brand1; }
@@ -179,12 +179,7 @@ dt {
 dd {
   margin-bottom: 5px;
 }
-.pvl {
-  padding: 20px;
-}
-.pvl h2, h3, h4 {
-  margin: 0px;
-}
+
 /**
  * Navbar
  */
@@ -330,9 +325,8 @@ dd {
   padding: 30px 15px;
   text-align: center;
   h1 {
-    font-size: 26px;
+    font-size: 28px;
     margin-top: 0;
-    color: @white;
   }
   p {
     margin-bottom: 0;
@@ -346,8 +340,8 @@ dd {
 }
 @media (min-width: 768px) {
   .mini-tron {
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     margin-bottom: 30px;
     font-size: 22px;
     h1 {
@@ -424,6 +418,14 @@ dd {
       font-size: 96px;
     }
   }
+}
+
+/**
+ * Colors Page
+ */
+
+.pnl {
+  padding: 15px;
 }
 
 /**
