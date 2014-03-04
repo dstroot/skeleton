@@ -12,7 +12,7 @@ block content
           h2
             i.fa.fa-user
             | &nbsp;Account Details
-        // USER INFO
+        //- USER INFO
         #userInfo.well
           p
             img(id='userPicture', src='', width='100px')
@@ -42,16 +42,16 @@ block content
           p.hidden-xs
             strong Last Update:
             |  <span id='userInfoUpdate'></span>
-        // /USER INFO
+        //- /USER INFO
       .col-md-8.col-md-pull-4
         .page-header
           h2
             i.fa.fa-users
-            | &nbsp;#{title} Accounts
-        // Wrapper
+            | &nbsp;#{application} Accounts
+        //- Wrapper
         #wrapper
 
-          // USER LIST
+          //- USER LIST
           #userList
             table.table.table-striped
               thead
@@ -61,9 +61,9 @@ block content
                 th Last Active
                 th Delete?
               tbody
-          // /USER LIST
+          //- /USER LIST
 
-        // /WRAPPER
+        //- /WRAPPER
 
 
   #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
