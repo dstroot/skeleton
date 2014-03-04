@@ -61,7 +61,7 @@ var db = mongoose.connection;
 // arguments, length, and constructor.
 
 app.locals({
-  title: config.name,
+  application: config.name,
   version: config.version,
   description: config.description,
   author: config.author,
@@ -70,7 +70,8 @@ app.locals({
   // Now you can use moment anywhere
   // within a jade template like this:
   // p #{moment(Date.now()).format('MM/DD/YYYY')}
-  moment: require('moment'), // evergreen copyright ;)
+  // evergreen copyright ;)
+  moment: require('moment'),
   pretty: false
 });
 
