@@ -40,7 +40,6 @@ Table of Contents
 - [Features](#features)
 - [Technology](#technology)
 - [Getting Started](#getting-started)
-- [Gulp Build System](#gulp-build-system)
 - [Coding Style](#coding-style)
 - [Obtaining API Keys](#obtaining-api-keys)
 - [FAQ](#faq)
@@ -108,8 +107,6 @@ Technology
 | express-validator |                |             |           |
 | express-flash     |                |             |           |
 
-
-
 Getting Started
 ---------------
 
@@ -148,8 +145,7 @@ gulp
 >:exclamation: **Note**: If you are new to Node.js or Express framework,
 I highly recommend watching [Node.js and Express 101](http://www.youtube.com/watch?v=BN0JlMZCtNU) screencast by Alex Ford that teaches Node and Express from scratch. Alternatively, here is another great tutorial for complete beginners - [Getting Started With Node.js, Express, MongoDB](http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/).
 
-Gulp Build System
------------------
+### Gulp Build System
 
 <a href="http://gulpjs.com">
   <img width="50" src="https://raw.github.com/gulpjs/artwork/master/gulp.png"/>
@@ -166,7 +162,13 @@ Now every time you make a change to a client component things will be recompiled
 Coding Style
 ------------
 
-A few notes on my coding style: 
+My general approach:
+
+- Write code in a simple and consistent way.
+- Find and use good tools.
+- Use tools in their native/default behavior.
+
+My coding style: 
 
 - I like braces and use them always, even for single-line if statements and the like. 
 - I like variable names that mean something, rather than trying to be short. 
@@ -301,8 +303,6 @@ exports.isAuthenticated = function(req, res, next) {
 
 Express.js has `app.get`, `app.post`, `app.put`, `app.del`, but for the most part you will only use the first two. If you just want to display a page, then use `GET`, if you are submitting a form, sending a file then use `POST`.
 
-<hr>
-
 ### Why do I keep getting `403 Error: Forbidden` on submitting a **POST** request?
 
 You may need to add this hidden input element to your form.
@@ -310,7 +310,7 @@ You may need to add this hidden input element to your form.
 input(type='hidden', name='_csrf', value=token)
 ```
 
-###What is app_cluster.js?
+### What is app_cluster.js?
 
 From the [Node.js Documentation](http://nodejs.org/api/cluster.html#cluster_how_it_works):
 > A single instance of Node runs in a single thread. To take advantage of multi-core systems
@@ -321,7 +321,7 @@ From the [Node.js Documentation](http://nodejs.org/api/cluster.html#cluster_how_
 for each CPU detected. For the majority of applications serving HTTP requests,
 this is a resounding boon. However, the cluster module is still in experimental stage, therefore it should only be used after understanding its purpose and behavior. To use it, simply run `node app_cluster.js`. **Its use is entirely optional and `app.js` is not tied in any way to it**. As a reminder, if you plan to use `app_cluster.js` instead of `app.js`, be sure to indicate that in `Procfile` if you are deploying your app to Heroku.
 
-###I am getting MongoDB Connection Error, how do I fix it?
+### I am getting MongoDB Connection Error, how do I fix it?
 
 As the message says, you need to have a MongoDB server running before launching `app.js` and a valid URL connection string in `config/config.js`.
 
@@ -329,13 +329,13 @@ You can get MongoDB from [mongodb.org/downloads](mongodb.org/downloads), or inst
 
 **Even Better:** Setup a free account with [Mongolab](https://mongolab.com/welcome/) and get a free database to develop with.  More below.  
 
-###I get an error when I deploy my app, why?
+### I get an error when I deploy my app, why?
 
 Chances are you haven't changed the *Dabatase URI* in `config.js`. If `db` is set to `localhost`, it will only work on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB running on `localhost`. 
 
 You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** section for more information on how to setup an account and a new database step-by-step with MongoLab.
 
-###Why Jade instead of some other (Handlebats, EJS, etc.) template engine?
+### Why Jade instead of some other (Handlebars, EJS, etc.) template engine?
 
 Subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or any non-HAML style for that matter.  I like it.  You can use anything you like.
 
@@ -345,7 +345,7 @@ Absolutely!  But things get messy quickly.  In Drywall, several of the pages are
 
 In this project we have a rudimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
 
-###How do flash messages work in this project?
+### How do flash messages work in this project?
 
 Flash messages allow you to display a message at the end of the request and access it on next request and only next request. For instance, on a failed login attempt, you would display an alert with some error message, but as soon as you refresh that page or visit a different page and come back to the login page, that error message will be gone. It is only displayed once.
 
@@ -382,8 +382,6 @@ html
     include ../partials/footer
     block scripts
 ```
-
-<hr>
 
 Pro Tips
 --------
@@ -487,11 +485,6 @@ Recommendations:
   - From *your app* directory run `heroku create`, followed by `git push heroku master`
   - To use socket.io you have to opt-in to websockets support by running this command: `heroku labs:enable websockets -a myapp`
   - Done!
-
-TODO
-----
-- Pages that require login, should automatically redirect to last attempted URL on successful sign-in.
-- Send a welcome email for new signups.
 
 Contributing
 ------------

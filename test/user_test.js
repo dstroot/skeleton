@@ -1,7 +1,6 @@
-//'use strict';
+'use strict';
 /*global describe*/
 /*global before*/
-/*global user:true*/
 /*global it*/
 
 /**
@@ -10,6 +9,7 @@
 
 var should  = require('chai').should();
 var User    = require('../models/User');
+var user;
 
 /**
  * Test User Model
