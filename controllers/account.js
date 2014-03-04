@@ -142,7 +142,7 @@ module.exports.controller = function(app) {
           var mailOptions = {
             to:       user.profile.name + ' <' + user.email + '>',
             from:     config.smtp.name + ' <' + config.smtp.address + '>',
-            subject:  'Your ' + app.locals.title + ' profile was updated',
+            subject:  'Your ' + app.locals.application + ' profile was updated',
             text:     text,
             html:     html
           };
@@ -274,7 +274,7 @@ module.exports.controller = function(app) {
           var mailOptions = {
             to:       user.profile.name + ' <' + user.email + '>',
             from:     config.smtp.name + ' <' + config.smtp.address + '>',
-            subject:  'Your ' + app.locals.title + ' password was changed',
+            subject:  'Your ' + app.locals.application + ' password was changed',
             text:     text,
             html:     html
           };

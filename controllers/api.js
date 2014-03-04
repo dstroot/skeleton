@@ -253,7 +253,7 @@ module.exports.controller = function(app) {
     var message = {
       to: req.body.telephone,
       from: config.twilio.phone,
-      body: 'Hello from ' + app.locals.title + '. We are happy you are testing our code!'
+      body: 'Hello from ' + app.locals.application + '. We are happy you are testing our code!'
     };
     twilio.sendMessage(message, function(err, responseData) {
       if (err) {

@@ -199,7 +199,7 @@ module.exports.controller = function(app) {
           var mailOptions = {
             to:       user.profile.name + ' <' + user.email + '>',
             from:     config.smtp.name + ' <' + config.smtp.address + '>',
-            subject:  'Reset your ' + app.locals.title + ' password',
+            subject:  'Reset your ' + app.locals.application + ' password',
             text:     text,
             html:     html
           };
