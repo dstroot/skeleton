@@ -120,7 +120,7 @@ gulp.task('styles', function() {
 
 gulp.task('lint', function() {
   gulp.src(paths.lint)                    // Read .js files
-    .pipe(jshint())                       // Lint .js files
+    .pipe(jshint())                       // Lint .js files //.pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter(stylish))       // Specify a reporter for JSHint
     .pipe(jscs())                         // Check code style
     .pipe(notify({ onLast: true, message: 'Lint task complete' }));

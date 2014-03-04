@@ -72,13 +72,15 @@ app.locals({
   // p #{moment(Date.now()).format('MM/DD/YYYY')}
   // evergreen copyright ;)
   moment: require('moment'),
-  pretty: false
+  // Jade options
+  pretty: false,
+  compileDebug: false
 });
 
 // Settings for development
 if ( app.get('env') === 'development') {
-  // Don't minify html in dev
-  app.locals({ pretty: true });
+  // Don't minify html in dev, use debug intrumentation
+  app.locals({ pretty: true, compileDebug: true });
   // Turn on console logging in development
   app.use(express.logger('dev'));
 }
