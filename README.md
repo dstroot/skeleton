@@ -27,10 +27,9 @@ This brings us to Hackathon-starter. This is GREAT site to get started with and 
 
 So why offer "yet another framework"?  First, I like a fully working built-out site as a starting point to "see" a framework in action. Also because I want a playground of my own **and** you might find something interesting in here!
 
-Find this really helpful?
--------------------------
+#### Find this helpful?
 
-This could literally save 100's of hours of work.  If it you find it valuable I would really appreciate your support!
+This could literally save hundreds of hours of work.  If it you find it valuable I would appreciate your support!
 
 [Support via GITTIP](https://www.gittip.com/danstroot/)
 
@@ -148,11 +147,13 @@ gulp
   <img width="50" src="https://raw.github.com/gulpjs/artwork/master/gulp.png"/>
 </a>
 
-Many people use Express.js middleware to build assets, however I generally like a seperate build system like Grunt or Gulp.
+Many people use Express.js middleware to build assets, however I generally like a separate build system like Grunt or Gulp.
 
 Our build system compiles and minifies all assets and starts the app app using nodemon.  Nodemon will restart node every time a server .js file changes.  We also start a livereload server that will trigger a reload of your page in the browser when any client .js, .css, .jade or images change.
 
-To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the [livereload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei). :exclamation: Click on the tiny center dot to turn on the livereload capability after you start up via `gulp`.
+To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the [livereload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei). 
+
+:exclamation: Click on the tiny center dot to turn on the livereload capability after you start up via `gulp`.
 
 Now every time you make a change to a client component things will be recompiled and your browser will reload. Cool!
 

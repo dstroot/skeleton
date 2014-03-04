@@ -221,55 +221,20 @@ dd {
 @jumbotron-heading-color: @white;
 
 .jumbotron {
+  margin-bottom: 0px;
   h1 {
     text-align: center;
-    margin-top: 20px;
-    margin-bottom: 50px;
-  }
-  h2 {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 40px;
-  }
-  h3 {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 28px;
-  }
-  li {
-    line-height: 1;
-    margin: 20px;
-    font-size: 20px;
-    font-weight: 300;
-  }
-  p {
-    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size: 26px;
   }
 }
-@media (max-width: 480px) {
+
+@media (min-width: 768px) {
   .jumbotron {
+    margin-bottom: 0px;
     h1 {
-      text-align: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      font-size: 26px;
-    }
-    h2 {
-      font-size: 20px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 14px;
-    }
-  }
-}
-@media (min-width: 992px) {
-}
-@media (min-width: 1170px) {
-  .jumbotron {
-    h1 {
-      text-align: center;
+      font-size: 60px;
       margin-top: 20px;
       margin-bottom: 50px;
     }
@@ -286,18 +251,36 @@ dd {
     li {
       line-height: 1;
       margin: 20px;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 300;
     }
     p {
-      font-size: 20px;
+      font-size: 18px;
+    }
+  }
+}
+@media (min-width: 1170px) {
+  .jumbotron {
+    h3 {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 34px;
+    }
+    li {
+      line-height: 1;
+      margin: 20px;
+      font-size: 26px;
+      font-weight: 300;
+    }
+    p {
+      font-size: 22px;
     }
   }
 }
 .jumbotron .btn {
   width: 100%;
-  padding: 15px 30px;
-  font-size: 28px;
+  padding: 10px 20px;
+  font-size: 22px;
 }
 .btn-white {
   color: #333;
@@ -310,6 +293,14 @@ dd {
   background-color: transparent;
   text-shadow: 1px 1px 1px rgba(0,0,0,.6);
   border-color: @white;
+}
+
+@media (min-width: 768px) {
+  .jumbotron .btn {
+    width: 100%;
+    padding: 15px 30px;
+    font-size: 28px;
+  }
 }
 
 /*
@@ -406,7 +397,7 @@ dd {
 .dashboard {
   text-align: center;
   p {
-    font-size: 60px;
+    font-size: 50px;
     line-height: 1;
     color: @red;
     text-shadow: 1px 1px 1px @black;
