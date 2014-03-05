@@ -31,7 +31,15 @@ module.exports.controller = function (app) {
     // Turn off login form if too many attempts
     var tooManyAttempts = req.session.tooManyAttempts || false;
     req.session.tooManyAttempts = null;
-
+    
+    // If the host in the header of the User Agent making the request is
+    // the same as the server host, keep a copy of the referrer url and 
+    // redirect to that later
+    if(req.header('host') == 'localhost:3000'){
+      req.session.referrer = req.header('Referrer');
+      console.log(req.session.referrer);
+    }
+  
     res.render('account/login', {
       tooManyAttempts: tooManyAttempts,
       url: req.url
@@ -162,6 +170,8 @@ module.exports.controller = function (app) {
               req.flash('errors', { msg: err.message });
               return res.redirect('back');
             }
+            // redirecting toa referrer page else to home page
+            if(req.session.referrer) return res.redirect(req.session.referrer);
             return res.redirect('/api');
           });
 
