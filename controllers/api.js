@@ -315,7 +315,6 @@ module.exports.controller = function(app) {
       token_secret: token.tokenSecret
     });
     client.posts('danielmoyerdesign.tumblr.com', { type: 'photo' }, function (err, data) {
-      console.log('data: ' + JSON.stringify(data));
       res.render('api/tumblr', {
         url: '/apilocked',
         blog: data.blog,

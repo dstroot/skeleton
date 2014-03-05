@@ -188,6 +188,7 @@ exports.isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   } else {
+    req.session.attemptedURL = req.url;  // Save URL so we can redirect to it after authentication
     res.set('X-Auth-Required', 'true');
     req.flash('errors', { msg: 'You must be logged in to reach that page.' });
     res.redirect('/login');

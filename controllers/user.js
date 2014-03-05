@@ -45,7 +45,6 @@ module.exports.controller = function (app) {
 
   app.post('/login', function (req, res, next) {
 
-
     // Begin a workflow
     var workflow = new (require('events').EventEmitter)();
 
@@ -162,7 +161,16 @@ module.exports.controller = function (app) {
               req.flash('errors', { msg: err.message });
               return res.redirect('back');
             }
-            return res.redirect('/api');
+
+            // Send user on their merry way
+            if (req.session.attemptedURL) {
+              var redirectURL = req.session.attemptedURL;
+              delete req.session.attemptedURL;
+              res.redirect(redirectURL);
+            } else {
+              res.redirect('/api');
+            }
+
           });
 
         }
@@ -849,7 +857,16 @@ module.exports.controller = function (app) {
               if (err) {
                 return next(err);
               }
-              return res.redirect('/api');
+
+              // Send user on their merry way
+              if (req.session.attemptedURL) {
+                var redirectURL = req.session.attemptedURL;
+                delete req.session.attemptedURL;
+                return res.redirect(redirectURL);
+              } else {
+                return res.redirect('/api');
+              }
+
             });
           });
         } else {
@@ -917,7 +934,16 @@ module.exports.controller = function (app) {
               if (err) {
                 return next(err);
               }
-              return res.redirect('/api');
+
+              // Send user on their merry way
+              if (req.session.attemptedURL) {
+                var redirectURL = req.session.attemptedURL;
+                delete req.session.attemptedURL;
+                return res.redirect(redirectURL);
+              } else {
+                return res.redirect('/api');
+              }
+
             });
           });
         } else {
@@ -985,7 +1011,16 @@ module.exports.controller = function (app) {
               if (err) {
                 return next(err);
               }
-              return res.redirect('/api');
+
+              // Send user on their merry way
+              if (req.session.attemptedURL) {
+                var redirectURL = req.session.attemptedURL;
+                delete req.session.attemptedURL;
+                return res.redirect(redirectURL);
+              } else {
+                return res.redirect('/api');
+              }
+
             });
           });
         } else {
@@ -1053,7 +1088,16 @@ module.exports.controller = function (app) {
               if (err) {
                 return next(err);
               }
-              return res.redirect('/api');
+
+              // Send user on their merry way
+              if (req.session.attemptedURL) {
+                var redirectURL = req.session.attemptedURL;
+                delete req.session.attemptedURL;
+                return res.redirect(redirectURL);
+              } else {
+                return res.redirect('/api');
+              }
+
             });
           });
         } else {
