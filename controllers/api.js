@@ -306,7 +306,7 @@ module.exports.controller = function(app) {
    * Tumblr API example.
    */
 
-  app.get('/api/tumblr', passportConf.isAuthenticated, passportConf.isAuthorized, function(req, res) {
+  app.get('/api/tumblr', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res) {
     var token = _.findWhere(req.user.tokens, { kind: 'tumblr' });
     var client = tumblr.createClient({
       consumer_key: config.tumblr.key,
@@ -314,7 +314,8 @@ module.exports.controller = function(app) {
       token: token.token,
       token_secret: token.tokenSecret
     });
-    client.posts('goddess-of-imaginary-light.tumblr.com', { type: 'photo' }, function(err, data) {
+    client.posts('danielmoyerdesign.tumblr.com', { type: 'photo' }, function (err, data) {
+      console.log('data: ' + JSON.stringify(data));
       res.render('api/tumblr', {
         url: '/apilocked',
         blog: data.blog,
@@ -328,7 +329,7 @@ module.exports.controller = function(app) {
    * Facebook API example.
    */
 
-  app.get('/api/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, function(req, res, next) {
+  app.get('/api/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res, next) {
     var token = _.findWhere(req.user.tokens, { kind: 'facebook' });
     graph.setAccessToken(token.accessToken);
     async.parallel({
