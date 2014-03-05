@@ -84,6 +84,7 @@ config.gmail.password          = process.env.SMTP_PASSWORD || 'appspecificpasswo
  */
 
 config.localAuth               = true;
+config.verificationRequired    = false;  // user email verification at signup
 
 // Facebook
 config.facebookAuth            = true;

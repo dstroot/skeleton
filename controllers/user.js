@@ -6,6 +6,7 @@
 
 var User          = require('../models/User');
 var async         = require('async');
+var crypto        = require('crypto');
 var config        = require('../config/config');
 var passport      = require('passport');
 var nodemailer    = require('nodemailer');
@@ -15,14 +16,14 @@ var LoginAttempt  = require('../models/LoginAttempt');
  * User Controller
  */
 
-module.exports.controller = function(app) {
+module.exports.controller = function (app) {
 
 /**
  * GET /login
  * Render login page
  */
 
-  app.get('/login', function(req, res) {
+  app.get('/login', function (req, res) {
     if (req.user) {
       req.flash('info', { msg: 'You are already logged in silly!' });
       return res.redirect('/api');
@@ -42,7 +43,7 @@ module.exports.controller = function(app) {
  * Log the user in
  */
 
-  app.post('/login', function(req, res, next) {
+  app.post('/login', function (req, res, next) {
 
 
     // Begin a workflow
@@ -52,7 +53,7 @@ module.exports.controller = function(app) {
      * Step 1: Validate the data
      */
 
-    workflow.on('validate', function() {
+    workflow.on('validate', function () {
 
       // Validate the form fields
       req.assert('email', 'Your email cannot be empty.').notEmpty();
@@ -77,7 +78,7 @@ module.exports.controller = function(app) {
 
     workflow.on('abuseFilter', function() {
 
-      var getIpCount = function(done) {
+      var getIpCount = function (done) {
         var conditions = { ip: req.ip };
         LoginAttempt.count(conditions, function(err, count) {
           if (err) {
@@ -87,7 +88,7 @@ module.exports.controller = function(app) {
         });
       };
 
-      var getIpUserCount = function(done) {
+      var getIpUserCount = function (done) {
         var conditions = { ip: req.ip, user: req.body.email.toLowerCase() };
         LoginAttempt.count(conditions, function(err, count) {
           if (err) {
@@ -97,7 +98,7 @@ module.exports.controller = function(app) {
         });
       };
 
-      var asyncFinally = function(err, results) {
+      var asyncFinally = function (err, results) {
         if (err) {
           return workflow.emit('exception', err);
         }
@@ -125,7 +126,8 @@ module.exports.controller = function(app) {
       // Authenticate the user
       passport.authenticate('local', function(err, user, info) {
         if (err) {
-          return next(err);
+          req.flash('errors', { msg: err.message });
+          return res.redirect('back');
         }
 
         if (!user) {
@@ -134,7 +136,8 @@ module.exports.controller = function(app) {
           var fieldsToSet = { ip: req.ip, user: req.body.email };
           LoginAttempt.create(fieldsToSet, function(err, doc) {
             if (err) {
-              return next(err);
+              req.flash('errors', { msg: err.message });
+              return res.redirect('back');
             } else {
               // User Not Found (Return)
               req.flash('errors', { msg: info.message });
@@ -148,14 +151,16 @@ module.exports.controller = function(app) {
           user.activity.last_logon = Date.now();
           user.save(function(err) {
             if (err) {
-              return next(err);
+              req.flash('errors', { msg: err.message });
+              return res.redirect('back');
             }
           });
 
           // Log user in
           req.logIn(user, function(err) {
             if (err) {
-              return next(err);
+              req.flash('errors', { msg: err.message });
+              return res.redirect('back');
             }
             return res.redirect('/api');
           });
@@ -179,90 +184,61 @@ module.exports.controller = function(app) {
  * Log the user out
  */
 
-  app.get('/logout', function(req, res) {
+  app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
   });
 
   /**
-   * GET /signup
-   * Render signup page
+   * GET /verify/:id/:token
+   * Verify the user after signup
    */
 
-  app.get('/signup', function (req, res) {
-    if (req.user) {
-      return res.redirect('/');
-    }
-    res.render('account/signup', {
-      url: req.url
-    });
-  });
+  app.get('/verify/:id/:token', function (req, res) {
 
-  /**
-   * POST /signup
-   * Process a *regular* signup
-   */
-
-  app.post('/signup', function (req, res, next) {
-
-    // Begin a workflow
+    // Create a workflow
     var workflow = new (require('events').EventEmitter)();
 
     /**
-     * Step 1: Validate the form fields
+     * Step 1: Validate the user and token
      */
 
     workflow.on('validate', function() {
 
-      // Check for form errors
-      req.assert('name', 'Your name cannot be empty.').notEmpty();
-      req.assert('email', 'Your email cannot be empty.').notEmpty();
-      req.assert('email', 'Your email is not valid.').isEmail();
-      req.assert('password', 'Your password cannot be empty.').notEmpty();
-      req.assert('confirmPassword', 'Your password confirmation cannot be empty.').notEmpty();
-      req.assert('password', 'Your password must be at least 4 characters long.').len(4);
-      req.assert('confirmPassword', 'Your passwords do not match.').equals(req.body.password);
-
-      var errors = req.validationErrors();
-
-      if (errors) {
-        req.flash('errors', errors);
-        return res.redirect('back');
-      }
-
-      // next step
-      workflow.emit('createUser');
-    });
-
-    /**
-     * Step 2: Create a new account
-     */
-
-    workflow.on('createUser', function() {
-      // create user
-      var user = new User({
-        'profile.name': req.body.name.trim(),
-        email: req.body.email.toLowerCase(),
-        password: req.body.password
-      });
-      // save user
-      user.save(function(err) {
+      // Get the user using their ID and token
+      User.findOne({ _id: req.params.id, verifyToken: req.params.token }, function(err, user) {
         if (err) {
-          if (err.code === 11000) {
-            req.flash('errors', { msg: 'An account with that email address already exists!' });
-            req.flash('info', { msg: 'You should sign in with that account.' });
-          }
-          return res.redirect('back');
+          req.flash('errors', { msg: err.message });
+          req.flash('warning', { msg: 'Your account verification is invalid or has expired.' });
+          return res.redirect('/');
+        }
+
+        if (!user) {
+          req.flash('warning', { msg: 'Your password reset request is invalid or has expired.' });
+          return res.redirect('/');
         } else {
-          // next step
-          workflow.emit('sendWelcomeEmail', user);
+
+          // Let's verify the user!
+          user.verified = true;
+          user.verifyToken = undefined;
+          user.activity.last_logon = Date.now();
+
+          // update the user record
+          user.save(function (err) {
+            if (err) {
+              req.flash('errors', { msg: err.message });
+              return res.redirect('back');
+            }
+
+            // next step
+            workflow.emit('sendWelcomeEmail', user);
+          });
         }
       });
-
     });
 
     /**
-     * Step 3: Send them a welcome email
+     * Step 2: Send them a welcome email
      */
 
     workflow.on('sendWelcomeEmail', function (user) {
@@ -329,7 +305,7 @@ module.exports.controller = function(app) {
     });
 
     /**
-     * Step 4: Log them in
+     * Step 3: Log them in
      */
 
     workflow.on('logUserIn', function (user) {
@@ -337,11 +313,284 @@ module.exports.controller = function(app) {
       // log the user in
       req.logIn(user, function(err) {
         if (err) {
-          return next(err);
+          req.flash('errors', { msg: err.message });
+          return res.redirect('back');
+        }
+        req.flash('info', { msg: 'Welcome. Your account verification is completed!' });
+        res.redirect('/api');
+      });
+
+      // WORKFLOW COMPLETED
+    });
+
+    /**
+     * Initiate the workflow
+     */
+
+    workflow.emit('validate');
+
+  });
+
+  /**
+   * GET /signup
+   * Render signup page
+   */
+
+  app.get('/signup', function (req, res) {
+    if (req.user) {
+      return res.redirect('/');
+    }
+    res.render('account/signup', {
+      url: req.url
+    });
+  });
+
+  /**
+   * POST /signup
+   * Process a *regular* signup
+   */
+
+  app.post('/signup', function (req, res, next) {
+
+    // Begin a workflow
+    var workflow = new (require('events').EventEmitter)();
+
+    /**
+     * Step 1: Validate the form fields
+     */
+
+    workflow.on('validate', function() {
+
+      // Check for form errors
+      req.assert('name', 'Your name cannot be empty.').notEmpty();
+      req.assert('email', 'Your email cannot be empty.').notEmpty();
+      req.assert('email', 'Your email is not valid.').isEmail();
+      req.assert('password', 'Your password cannot be empty.').notEmpty();
+      req.assert('confirmPassword', 'Your password confirmation cannot be empty.').notEmpty();
+      req.assert('password', 'Your password must be at least 4 characters long.').len(4);
+      req.assert('confirmPassword', 'Your passwords do not match.').equals(req.body.password);
+
+      var errors = req.validationErrors();
+
+      if (errors) {
+        req.flash('errors', errors);
+        return res.redirect('back');
+      }
+
+      // next step
+      workflow.emit('verification');
+    });
+
+    /**
+     * Step 2: Account verification step
+     */
+
+    workflow.on('verification', function() {
+
+      var verified;
+      var verifyToken;
+
+      if (config.verificationRequired) {
+        verified = false;
+        // generate verification token
+        crypto.randomBytes(25, function(err, buf) {
+          verifyToken = buf.toString('hex');
+          // next step
+          workflow.emit('createUser', verified, verifyToken);
+        });
+      } else {
+        verified = true;
+        verifyToken = null;
+        // next step
+        workflow.emit('createUser', verified, verifyToken);
+      }
+
+    });
+
+    /**
+     * Step 3: Create a new account
+     */
+
+    workflow.on('createUser', function (verified, verifyToken) {
+
+      // create user
+      var user = new User({
+        'profile.name': req.body.name.trim(),
+        email:          req.body.email.toLowerCase(),
+        password:       req.body.password,
+        verifyToken:    verifyToken,
+        verified:       verified
+      });
+
+      // save user
+      user.save(function(err) {
+        if (err) {
+          if (err.code === 11000) {
+            req.flash('errors', { msg: 'An account with that email address already exists!' });
+            req.flash('info', { msg: 'You should sign in with that account.' });
+          }
+          return res.redirect('back');
+        } else {
+          if (config.verificationRequired) {
+            // next step (4a)
+            workflow.emit('sendValidateEmail', user, verifyToken);
+          } else {
+            // next step (4b)
+            workflow.emit('sendWelcomeEmail', user);
+          }
+        }
+      });
+
+    });
+
+    /**
+     * Step 4a: Send them a validate email
+     */
+
+    workflow.on('sendValidateEmail', function (user, verifyToken) {
+
+      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
+      var smtpTransport = nodemailer.createTransport('SMTP',{
+        service: 'Gmail',
+        auth: {
+          user: config.gmail.user,
+          pass: config.gmail.password
+        }
+        // See nodemailer docs for other transports
+        // https://github.com/andris9/Nodemailer
+      });
+
+      // Render HTML to send using .jade mail template (just like rendering a page)
+      res.render('mail/accountVerification', {
+        name:          user.profile.name,
+        mailtoName:    config.smtp.name,
+        validateLink:  req.protocol + '://' + req.headers.host + '/verify/' + user.id + '/' + verifyToken
+      }, function(err, html) {
+        if (err) {
+          return (err, null);
+        }
+        else {
+
+          // Now create email text (multiline string as array FTW)
+          var text = [
+            'Hello ' + user.profile.name + '!',
+            'Welcome to ' + app.locals.application + '!  Here is a special link to activate your new account:',
+            req.protocol + '://' + req.headers.host + '/verify/' + user.id + '/' + user.verifyToken,
+            '  - The ' + config.smtp.name + ' team'
+          ].join('\n\n');
+
+          // Create email
+          var mailOptions = {
+            to:       user.profile.name + ' <' + user.email + '>',
+            from:     config.smtp.name + ' <' + config.smtp.address + '>',
+            subject:  'Activate your new ' + app.locals.application + ' account',
+            text:     text,
+            html:     html
+          };
+
+          // send email via nodemailer
+          smtpTransport.sendMail(mailOptions, function(err) {
+            if (err) {
+              req.flash('errors', { msg: err.message });
+            }
+          });
+
+          // shut down the connection pool, no more messages
+          smtpTransport.close();
+        }
+      });
+
+      req.flash('info', { msg: 'Please check your email to verify your account. Thanks for signing up!' });
+      res.redirect('/signup');
+
+      // WORKFLOW COMPLETED
+
+    });
+
+    /**
+     * Step 4b: Send them a welcome email
+     */
+
+    workflow.on('sendWelcomeEmail', function (user) {
+
+      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
+      var smtpTransport = nodemailer.createTransport('SMTP',{
+        service: 'Gmail',
+        auth: {
+          user: config.gmail.user,
+          pass: config.gmail.password
+        }
+        // See nodemailer docs for other transports
+        // https://github.com/andris9/Nodemailer
+      });
+
+      // Render HTML to send using .jade mail template (just like rendering a page)
+      res.render('mail/welcome', {
+        name:          user.profile.name,
+        mailtoName:    config.smtp.name,
+        mailtoAddress: config.smtp.address,
+        blogLink:      req.protocol + '://' + req.headers.host, // + '/blog',
+        forumLink:     req.protocol + '://' + req.headers.host  // + '/forum'
+      }, function(err, html) {
+        if (err) {
+          return (err, null);
+        }
+        else {
+
+          // Now create email text (multiline string as array FTW)
+          var text = [
+            'Hello ' + user.profile.name + '!',
+            'We would like to welcome you as our newest member!',
+            'Thanks so much for using our services! If you have any questions, or suggestions, feel free to email us here at ' + config.smtp.address + '.',
+            'If you want to get the latest scoop check out our <a href="' +
+            req.protocol + '://' + req.headers.host + '/blog' +
+            '">blog</a> and our <a href="' +
+            req.protocol + '://' + req.headers.host + '/forums">forums</a>.',
+            '  - The ' + config.smtp.name + ' team'
+          ].join('\n\n');
+
+          // Create email
+          var mailOptions = {
+            to:       user.profile.name + ' <' + user.email + '>',
+            from:     config.smtp.name + ' <' + config.smtp.address + '>',
+            subject:  'Welcome to ' + app.locals.application + '!',
+            text:     text,
+            html:     html
+          };
+
+          // send email via nodemailer
+          smtpTransport.sendMail(mailOptions, function(err) {
+            if (err) {
+              req.flash('errors', { msg: err.message });
+            }
+          });
+
+          // shut down the connection pool, no more messages
+          smtpTransport.close();
+        }
+      });
+
+      // next step
+      workflow.emit('logUserIn', user);
+    });
+
+    /**
+     * Step 5: Log them in
+     */
+
+    workflow.on('logUserIn', function (user) {
+
+      // log the user in
+      req.logIn(user, function(err) {
+        if (err) {
+          req.flash('errors', { msg: err.message });
+          return res.redirect('back');
         }
         req.flash('info', { msg: 'Thanks for signing up! You rock!' });
         res.redirect('/api');
       });
+
+      // WORKFLOW COMPLETED
 
     });
 
@@ -428,6 +677,7 @@ module.exports.controller = function(app) {
       var newUser = req.session.socialProfile;
       var user = new User();
 
+      user.verified         = true;  // social users don't require verification
       user.email            = req.body.email.toLowerCase();
       user.profile.name     = newUser.profile.name;
       user.profile.gender   = newUser.profile.gender;

@@ -60,7 +60,10 @@ var userSchema = new mongoose.Schema({
   },
 
   resetPasswordToken: { type: String },
-  resetPasswordExpires: { type: Date }
+  resetPasswordExpires: { type: Date },
+
+  verified: { type: Boolean, default: true },
+  verifyToken: { type: String }
 
 });
 

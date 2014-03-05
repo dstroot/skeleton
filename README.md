@@ -76,6 +76,7 @@ Features
   + Link multiple OAuth strategies to one account
   + Delete Account
   + Password Reset
+  + User Email Verification [1]
 - **Administrative Pages**  
   + **Real-time** Dashboard
   + Accounts Listing
@@ -84,7 +85,17 @@ Features
   + Contact Form
   + Boilerplate Terms and Privacy pages. Note: **I am not a lawyer**. These have never been reviewed or even **seen** by a lawyer as far as you know. Use them only as a starting point with **your lawyer.**
 
-Oh, and it's pretty optimized due to the Gulp build pipeline.  This is running on one drone at Nodejitsu ($9/mo!):
+[1] If account verification is turned on (via config.js) then we require people who sign up for a local account to verify their email address first before they can log in. We send them an email with a verification token and when they click the link they are verified and signed in.
+
+This is pretty minimal at this point - since we don't have an easy way to regenerate/resend a verification email we don't expire the verification token - it remains good until used.  There is also no cleanup of unverifed accounts.
+
+People who signup via a social OAUTH provider are not required to verify their accounts in any case (even if account verification is turned on) since they are already considered "valid" via the account provider.  The one loophole is that Twitter does not provide us with the user's email address so we are trusting the user in this case to give us a valid email.
+
+I am not a big fan of this practice since it raises the barrier to entry and therefore have not built the functionality out very far.  It is turned off in the live example.
+
+#### Best Practices
+
+The Gulp build pipeline makes sure our assets are optimized.  The only thing we haven't done is break up our CSS into "Above the fold" and "Below the fold". This is running on one drone at Nodejitsu ($9/mo!):
 
 ![Alt](https://raw.github.com/dstroot/skeleton/master/public/img/pagespeed.jpg)
 

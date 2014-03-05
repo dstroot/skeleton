@@ -148,7 +148,7 @@ app.disable('x-powered-by');  // Don't advertise our server type
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Keep user information and csrf token available
+// Keep user, csrf token and config available
 app.use(function(req, res, next) {
   res.locals.user = req.user;
   res.locals.token = req.csrfToken();
@@ -159,14 +159,14 @@ app.use(function(req, res, next) {
 // for flash messages
 app.use(flash());
 
-// "app.router" positioned above the middleware defined below, this means
-// that Express will attempt to match & call routes before continuing on.
+// "app.router" positioned above the middleware defined below, this
+// means that Express will match & call routes before continuing on.
 app.use(app.router);
 
 // Now setup our static serving from /public
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.maxAge }));
 
-// Assume 404, as no routes responded or static assets found
+// If nothing responded above we can assume 404 (no routes responded or static assets found)
 
 // Test:
 // $ curl http://localhost:3000/notfound
@@ -235,6 +235,8 @@ if ( app.get('env') === 'development') {
 }
 
 // Robots...
+// www.robotstxt.org/
+// www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
 app.configure('development', function() {
   // In dev, keep search engines out
   app.all('/robots.txt', function(req,res) {
@@ -245,8 +247,6 @@ app.configure('development', function() {
 
 app.configure('production', function() {
   // Allow all search engines
-  // www.robotstxt.org/
-  // www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
   app.all('/robots.txt', function(req,res) {
     res.charset = 'text/plain';
     res.send('User-agent: *');

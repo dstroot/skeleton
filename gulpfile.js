@@ -46,17 +46,16 @@ var banner = ['/**',
 
 var paths = {
   clean: [
-    '!public/js/main.js',
+    '!public/js/main.js',   // not
     'public/js/**/*.js',
     'public/js/**/*.min.js',
     'public/css/**/*.css',
     'public/css/**/*.min.css'
   ],
   js: [
-    // Bootstrap  ==============================
-    // Enable/disable as needed but
-    // only turn on .js that is needed
-    // on *every* page. No bloat!
+    // ============= Bootstrap  ================
+    // Enable/disable as needed but only turn on
+    // .js that is needed on *every* page. No bloat!
     // =========================================
     'public/lib/bootstrap/js/transition.js',
     'public/lib/bootstrap/js/alert.js',
@@ -149,7 +148,7 @@ gulp.task('scripts', function() {
 
 gulp.task('images', function() {
   gulp.src('public/img/**/*')             // Read images
-    .pipe(changed('public/img/**/*'))     // Only process new/changed
+    .pipe(changed('./public/img'))        // Only process new/changed
     .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))
     .pipe(gulp.dest('./public/img'))      // Write processed images
     .pipe(notify({ onLast: true, message: 'Images task complete' }));

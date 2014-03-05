@@ -40,20 +40,28 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, pass
     if (!user) {
       return done(null, false, { message: 'Invalid email or password.' });
     }
-    user.comparePassword(password, function(err, isMatch) {
-      if (isMatch) {
-        // update the user's record with login timestamp
-        user.activity.last_logon = Date.now();
-        user.save(function(err) {
-          if (err) {
-            return (err);
-          }
-        });
-        return done(null, user);
-      } else {
-        return done(null, false, { message: 'Invalid email or password.' });
-      }
-    });
+
+    // Only authenticate if the user is verified
+    if (user.verified) {
+      user.comparePassword(password, function(err, isMatch) {
+        if (isMatch) {
+
+          // update the user's record with login timestamp
+          user.activity.last_logon = Date.now();
+          user.save(function(err) {
+            if (err) {
+              return (err);
+            }
+          });
+
+          return done(null, user);
+        } else {
+          return done(null, false, { message: 'Invalid email or password.' });
+        }
+      });
+    } else {
+      return done(null, false, { message: 'Your account must be verified first!' });
+    }
   });
 }));
 
