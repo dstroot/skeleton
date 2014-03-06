@@ -153,8 +153,46 @@
  * Typography
  */
 
+// http://coding.smashingmagazine.com/2013/02/14/setting-weights-and-styles-at-font-face-declaration/
+// http://css-tricks.com/watch-your-font-weight/
+// http://alistapart.com/article/say-no-to-faux-bold
+
+// Bootstrap uses four different font weights:
+
+// 200 - Paragraph .lead class, Jumbotron paragraph
+// 400 - Normal Font Weight
+// 500 - Headings
+// 700 - Bold Text
+
+// In order to completely change to a different font we need to:
+
+// 1) Include the font - the easiest is with an example from Google fonts.
+//    (Google sets up your @font-face rules correctly with the same
+//    name for each @font-face rule - see links above)
+//    You need to include all weights needed. BUT for example Open Sans does
+//    NOT have a 200 weight, so we will substitute a 300 weight and skip the italic
+//    version. In the Head section include the font stylesheet:
+//
+//    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700', rel='stylesheet'>
+
+// 2) Override the  the "@font-family-sans-serif" variable from variables.less:
+//    @font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+// 3) Override Jumbotron paragraph and page .lead:
+//     .lead {
+//        font-weight: 300;
+//     }
+
+//    .jumbotron {
+//       p {
+//         font-weight: 300;
+//       }
+//     }
+
+// Boom! Done.
+
 @font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-@font-size-base:          15px;
+@font-size-base:          14px;
 
 /**
  * Scaffolding
@@ -170,22 +208,6 @@ body {
   padding-top: 50px;
   /* Sticky Footer: margin bottom = footer height */
   margin-bottom: 80px;
-}
-h1, h2, h3,
-.h1, .h2, .h3 {
-  font-style: normal;
-  font-weight: 300;
-}
-
-dt {
-  font-size: 26px;
-  font-weight: 300;
-  margin-top: 25px;
-  margin-bottom: 5px;
-}
-dd {
-  margin-bottom: 5px;
-  font-size: 16px;
 }
 
 /**
@@ -231,6 +253,7 @@ dd {
 .jumbotron {
   margin-bottom: 0px;
   h1 {
+    font-weight: 300;
     text-align: center;
     margin-top: 0px;
     margin-bottom: 10px;
@@ -246,11 +269,13 @@ dd {
       margin-bottom: 50px;
     }
     h2 {
+      font-weight: 300;
       text-align: center;
       margin-top: 50px;
       font-size: 40px;
     }
     h3 {
+      font-weight: 300;
       margin-top: 20px;
       margin-bottom: 20px;
       font-size: 28px;
@@ -262,6 +287,7 @@ dd {
       font-weight: 300;
     }
     p {
+      font-weight: 300;
       font-size: 18px;
     }
   }
@@ -280,7 +306,6 @@ dd {
       line-height: 1;
       margin: 20px;
       font-size: 26px;
-      font-weight: 300;
     }
     p {
       font-size: 22px;
@@ -321,22 +346,14 @@ dd {
 .mini-tron {
   margin-top: 0px;
   margin-bottom: 15px;
-  font-size: 18px;
-  position: relative;
   padding: 30px 15px;
   text-align: center;
   h1 {
-    font-size: 28px;
+    font-weight: 300;
     margin-top: 0;
   }
   p {
-    margin-bottom: 0;
     font-weight: 300;
-    line-height: 1.4;
-    text-align: left;
-  }
-  .container {
-    position: relative;
   }
 }
 @media (min-width: 768px) {
@@ -344,15 +361,11 @@ dd {
     padding-top: 40px;
     padding-bottom: 40px;
     margin-bottom: 30px;
-    font-size: 22px;
     h1 {
       font-size: 45px;
-      line-height: 1;
     }
     p {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 20px;
+      font-size: 22px;
     }
   }
 }
