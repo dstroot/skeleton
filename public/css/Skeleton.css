@@ -6013,6 +6013,10 @@ body {
   /* Sticky Footer: margin bottom = footer height */
   margin-bottom: 80px;
 }
+h1,
+h2 {
+  font-weight: 300;
+}
 /**
  * Navbar
  */
@@ -6178,19 +6182,6 @@ body {
 }
 .footer p a:hover {
   color: #eeeeee;
-}
-/**
- * API Page
- */
-.btn-api {
-  width: 140px;
-  margin-bottom: 5px;
-  font-size: 16px;
-}
-@media (min-width: 768px) {
-  li.api {
-    font-size: 20px;
-  }
 }
 /**
  * Dashboard Page

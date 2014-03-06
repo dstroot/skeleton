@@ -435,6 +435,7 @@ Interesting Node.js Libraries
 Interesting Client-Side libraries
 ---------------------------------
 - [Hover](https://github.com/IanLunn/Hover) - Awesome css3 animations on mouse hover.
+- [retina.js](http://retinajs.com/) - Retina.js checks each image on the page to see if there is a high-resolution version. If a high-resolution variant exists, the script will swap in that image in-place.
 - [platform.js](https://github.com/bestiejs/platform.js) - Get client's operating system name, version, and other useful information.
 - [iCheck](https://github.com/fronteed/iCheck) - Custom nice looking radio and check boxes.
 - [Magnific Popup](http://dimsemenov.com/plugins/magnific-popup/) - Responsive jQuery Lightbox Plugin.
