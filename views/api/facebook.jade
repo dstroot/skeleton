@@ -30,5 +30,7 @@ block content
     ul.list-unstyled
       for friend in friends
         li
-          img(src='https://graph.facebook.com/#{friend.id}/picture?type=normal', width=30, height=30)
-          a(href='http://facebook.com/#{friend.id}') #{friend.name}
+          a.thumbnail(href='http://facebook.com/#{friend.id}', style="width: 150px;text-decoration: none;position:relative;")
+            div(style="position:relative;height:150px;width: 150px;")
+              img(src='https://graph.facebook.com/#{friend.id}/picture?type=normal', width=200, height=200)
+              div.input-block-level(style="background-color: black; opacity: .5; color: #ffffff; padding: 3px; position:absolute; bottom:0px;") #{friend.name}

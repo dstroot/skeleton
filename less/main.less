@@ -3,7 +3,6 @@
 @import "../public/lib/font-awesome/less/font-awesome.less";
 // @import (less) "../lib/animate.css/animate.css";
 @fa-font-path: "../lib/font-awesome/fonts";
-@font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
 
 /**
  * First, import base frameworks:
@@ -151,6 +150,13 @@
 .bg-maroon {    background-color: @maroon; }
 
 /**
+ * Typography
+ */
+
+@font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-size-base:          15px;
+
+/**
  * Scaffolding
  */
 
@@ -167,17 +173,19 @@ body {
 }
 h1, h2, h3,
 .h1, .h2, .h3 {
+  font-style: normal;
   font-weight: 300;
 }
-dl {
-  font-size: 18px;
-}
+
 dt {
+  font-size: 26px;
+  font-weight: 300;
   margin-top: 25px;
   margin-bottom: 5px;
 }
 dd {
   margin-bottom: 5px;
+  font-size: 16px;
 }
 
 /**

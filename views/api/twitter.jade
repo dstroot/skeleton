@@ -33,7 +33,7 @@ block content
                 - var image = tweet.user.profile_image_url.replace('_normal', '');
                 img.pull-left(src='#{image}', width=50, height=50, style='margin-right: 10px')
 
-                =tweet.user.name
-                small.text-muted  @#{tweet.user.screen_name}
-                br
-                small #{tweet.text}
+                p= tweet.user.name
+                  | &nbsp;&nbsp;
+                  span.text-muted @#{tweet.user.screen_name}
+                p #{tweet.text}

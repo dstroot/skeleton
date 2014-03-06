@@ -111,7 +111,7 @@ block content
         #accordion.panel-group
           .panel.panel-default
             .panel-heading
-              h4.panel-title
+              p.panel-title
                 a.noDecoration(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
                   | Delete my account&nbsp;
                   b.caret
@@ -121,7 +121,7 @@ block content
                 P You can always sign up again if you want to come back!
                 form(action='/account/delete', method='POST')
                   input.form-control(type='hidden', name='_csrf', value=token)
-                  button.btn.btn-danger(type='submit')
+                  button.btn.btn-block.btn-danger(type='submit')
                     i.fa.fa-trash-o
                     | &nbsp;Delete my account
 
