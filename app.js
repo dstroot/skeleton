@@ -180,6 +180,7 @@ app.use(function(req, res, next) {
   // respond with html page
   if (req.accepts('html')) {
     res.render('error/404', {
+      url: req.url
     });
     return;
   }
@@ -204,6 +205,7 @@ app.use(function(err, req, res, next) {
       res.status(err.status);
       res.render('error/403', {
         error: err,
+        url: req.url
       });
       return;
     }
