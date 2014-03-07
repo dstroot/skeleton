@@ -90,7 +90,7 @@ block content
     .row
       .col-sm-6.col-sm-offset-1
         .page-header
-          h3 Change Your Password
+          h2 Change Your Password
         form(action='/account/password', method='POST')
           input.form-control(type='hidden', name='_csrf', value=token)
           .form-group
@@ -107,10 +107,10 @@ block content
                 | &nbsp;Change Password
       .col-sm-4
         .page-header
-          h3 Delete Account
+          h2 Delete Account
         #accordion.panel-group
           .panel.panel-default
-            .panel-heading
+            .panel-heading.panel-button
               p.panel-title
                 a.noDecoration(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
                   | Delete my account&nbsp;

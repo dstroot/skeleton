@@ -1,8 +1,8 @@
 @import "bootstrap.less";
 @import "../public/lib/bootstrap-social/bootstrap-social.less";
 @import "../public/lib/font-awesome/less/font-awesome.less";
-// @import (less) "../lib/animate.css/animate.css";
 @fa-font-path: "../lib/font-awesome/fonts";
+// @import (less) "../lib/animate.css/animate.css";
 
 /**
  * First, import base frameworks:
@@ -173,12 +173,12 @@
 //    NOT have a 200 weight, so we will substitute a 300 weight and skip the italic
 //    version. In the Head section include the font stylesheet:
 //
-//    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700', rel='stylesheet'>
+//    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,500,700', rel='stylesheet'>
 
 // 2) Override the  the "@font-family-sans-serif" variable from variables.less:
 //    @font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-// 3) Override Jumbotron paragraph and page .lead:
+// 3) Override Jumbotron paragraph and page .lead if you don't have a 200 weight:
 //     .lead {
 //        font-weight: 300;
 //     }
@@ -192,7 +192,6 @@
 // Boom! Done.
 
 @font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-@font-size-base:          14px;
 
 /**
  * Scaffolding
@@ -210,6 +209,7 @@ body {
   margin-bottom: 80px;
 }
 
+/* thin style for large headers */
 h1, h2 {
   font-weight: 300;
 }
@@ -240,6 +240,7 @@ h1, h2 {
  * Flash Alerts
  */
 
+/* remove rounded border */
 @alert-border-radius: 0px;
 
 .alert {
@@ -257,7 +258,6 @@ h1, h2 {
 .jumbotron {
   margin-bottom: 0px;
   h1 {
-    font-weight: 300;
     text-align: center;
     margin-top: 0px;
     margin-bottom: 10px;
@@ -273,7 +273,6 @@ h1, h2 {
       margin-bottom: 50px;
     }
     h2 {
-      font-weight: 300;
       text-align: center;
       margin-top: 50px;
       font-size: 40px;
@@ -353,7 +352,6 @@ h1, h2 {
   padding: 30px 15px;
   text-align: center;
   h1 {
-    font-weight: 300;
     margin-top: 0;
   }
   p {
@@ -369,7 +367,7 @@ h1, h2 {
       font-size: 45px;
     }
     p {
-      font-size: 22px;
+      font-size: 18px;
     }
   }
 }
@@ -448,7 +446,7 @@ h1, h2 {
  * Panel Headers Like Buttons
  */
 
-.panel-heading:hover {
+.panel-button:hover {
   background: darken(#f5f5f5, 15%);
 }
 a.noDecoration {

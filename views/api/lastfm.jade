@@ -35,7 +35,7 @@ block content
           | &nbsp;Scrobbles: #{artist.stats.playcount}
 
     p
-      img.img-responsive(src='#{artist.image}')
+      img.img-rounded.img-responsive(src='#{artist.image}')
 
     p
       for tag in artist.tags

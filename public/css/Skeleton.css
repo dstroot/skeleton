@@ -6013,6 +6013,7 @@ body {
   /* Sticky Footer: margin bottom = footer height */
   margin-bottom: 80px;
 }
+/* thin style for large headers */
 h1,
 h2 {
   font-weight: 300;
@@ -6037,6 +6038,7 @@ h2 {
 /**
  * Flash Alerts
  */
+/* remove rounded border */
 .alert {
   margin-bottom: 0px;
   text-align: center;
@@ -6048,7 +6050,6 @@ h2 {
   margin-bottom: 0px;
 }
 .jumbotron h1 {
-  font-weight: 300;
   text-align: center;
   margin-top: 0px;
   margin-bottom: 10px;
@@ -6064,7 +6065,6 @@ h2 {
     margin-bottom: 50px;
   }
   .jumbotron h2 {
-    font-weight: 300;
     text-align: center;
     margin-top: 50px;
     font-size: 40px;
@@ -6139,7 +6139,6 @@ h2 {
   text-align: center;
 }
 .mini-tron h1 {
-  font-weight: 300;
   margin-top: 0;
 }
 .mini-tron p {
@@ -6155,7 +6154,7 @@ h2 {
     font-size: 45px;
   }
   .mini-tron p {
-    font-size: 22px;
+    font-size: 18px;
   }
 }
 /**
@@ -6221,7 +6220,7 @@ h2 {
 /**
  * Panel Headers Like Buttons
  */
-.panel-heading:hover {
+.panel-button:hover {
   background: #cfcfcf;
 }
 a.noDecoration {

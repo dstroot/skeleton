@@ -57,7 +57,7 @@ module.exports.controller = function(app) {
     async.parallel({
         artistInfo: function(done) {
           lastfm.request('artist.getInfo', {
-            artist: 'Epica',
+            artist: 'Morcheeba',
             handlers: {
               success: function(data) {
                 done(null, data);
@@ -70,7 +70,7 @@ module.exports.controller = function(app) {
         },
         artistTopAlbums: function(done) {
           lastfm.request('artist.getTopAlbums', {
-            artist: 'Epica',
+            artist: 'Morcheeba',
             handlers: {
               success: function(data) {
                 var albums = [];
