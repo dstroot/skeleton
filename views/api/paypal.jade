@@ -25,15 +25,15 @@ block content
       img(src='/img/paypal.png', width=50, height=50)
       span  Sample Payment
 
-      if result
-        if canceled
-          h3 Payment got canceled!
-        if success
-          h3 Payment got executed successfully!
-        a(href='/api/paypal')
-            button.btn.btn-primary New payment
-      else
-        div
-          p Redirects to PayPal and allows authorizing a <strong>test</strong> payment. This is done in the PayPal test/sandbox environment (you will not really make a payment).
-          a(href=approval_url)
-            button.btn.btn-primary Authorize payment
+    if result
+      if canceled
+        h4.red Payment was canceled!
+      if success
+        h4.green Payment was executed successfully!
+      a(href='/api/paypal')
+          button.btn.btn-primary Make a Payment
+    else
+      div
+        p Redirects to PayPal and allows authorizing a <strong>test</strong> payment. This is done in the PayPal test/sandbox environment (you will not really make a payment).
+        a(href=approval_url)
+          button.btn.btn-primary Authorize payment
