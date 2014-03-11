@@ -56,7 +56,7 @@ module.exports.controller = function(app) {
       req.assert('name', 'Your name cannot be empty.').notEmpty();
       req.assert('email', 'Your email cannot be empty.').notEmpty();
       req.assert('email', 'Your email is not valid.').isEmail();
-      // req.assert('website', 'Website URL is not valid.').isURL();
+      req.assert('website', 'Website URL is not valid.').isURL();
 
       var errors = req.validationErrors();
 
