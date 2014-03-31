@@ -288,7 +288,7 @@ You need to create just two files and edit one:
 
 Boom!  That's it.
 
-If you need authentication then you would add the Authentication Middleware as a dependency in your controller and then change one line of code in the controller. You will change the `apt-get` line to include the `.isAuthenticated` middleware. It always reads from left to right. A user visits `/hello` page. Then `isAuthenticated` middleware checks if you are authenticated:
+If you need authentication then you would add the Authentication Middleware as a dependency in your controller and then change one line of code in the controller. You will change the `app.get` line to include the `.isAuthenticated` middleware. It always reads from left to right. A user visits `/hello` page. Then `isAuthenticated` middleware checks if you are authenticated:
 
 ```js
 var passportConf  = require('../config/passport');  // New dependency
