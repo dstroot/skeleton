@@ -1,8 +1,8 @@
 # Skeleton 
 
-[![Build Status](https://travis-ci.org/dstroot/skeleton.png)](https://travis-ci.org/dstroot/skeleton)
-[![Dependency Status](https://david-dm.org/dstroot/skeleton.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton) 
-[![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.png?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
+[![Build Status](https://travis-ci.org/dstroot/skeleton.svg)](https://travis-ci.org/dstroot/skeleton)
+[![Dependency Status](https://david-dm.org/dstroot/skeleton.svg?theme=shields.io)](https://david-dm.org/dstroot/skeleton) 
+[![devDependency Status](https://david-dm.org/dstroot/skeleton/dev-status.svg?theme=shields.io)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 
 #### Skeleton: A **complete framework** for building **Node.js** web applications.
 
