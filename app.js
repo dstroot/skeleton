@@ -129,8 +129,9 @@ app.use(express.methodOverride());
 app.use(express.cookieParser(config.session.secret));
 app.use(express.session({
   secret: config.session.secret,
+  key: 'sessionId',  // Use something generic so you don't leak information about your server
   cookie: {
-    httpOnly: true,           // Reduce XSS attack vector
+    httpOnly: true,  // Reduce XSS attack vector
     maxAge: config.session.maxAge
   },
   store: new MongoStore({
@@ -140,9 +141,25 @@ app.use(express.session({
 }));
 
 // Security
-app.use(express.csrf());      // prevent Cross-Site Request Forgery
-helmet.defaults(app);         // default helmet security (must be above `app.router`)
 app.disable('x-powered-by');  // Don't advertise our server type
+app.use(express.csrf());      // Prevent Cross-Site Request Forgery
+app.use(helmet.defaults());   // Default helmet security (must be above `app.router`)
+// app.use(helmet.csp({
+//   'default-src': ["'self'", 'localhost:3000'],
+//   'script-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", 'http://www.google-analytics.com', 'https://oss.maxcdn.com'],
+//   'style-src': ["'self'", "'unsafe-inline'", 'http://fonts.googleapis.com'],
+//   'img-src': ["'self'", 'http://pbs.twimg.com'], // defines the origins from which images can be loaded
+//   'connect-src': ["'self'", 'ws://localhost:3000'], // limits the origins to which you can connect (via XHR, WebSockets, and EventSource)
+//   'font-src': ["'self'", 'http://fonts.googleapis.com', 'http://themes.googleusercontent.com'], // specifies the origins that can serve web fonts
+//   'object-src': ["'none'"],     // allows control over Flash and other plugins
+//   'media-src': ["'self'"],      // restricts the origins allowed to deliver video and audio
+//   'frame-src': ["'none'"],      // lists the origins that can be embedded as frames
+//   'sandbox': ['allow-same-origin', 'allow-forms', 'allow-scripts'],  // http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
+//   'report-uri': ['/report-violation'],
+//   reportOnly: true,             // set to true if you *only* want to report errors
+//   setAllHeaders: false,         // set to true if you want to set all headers
+//   safari5: false                // set to true if you want to force buggy CSP in Safari 5
+// }));
 
 // Passport OAUTH Middleware
 app.use(passport.initialize());
