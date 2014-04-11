@@ -12,11 +12,25 @@ var flash             = require('express-flash');          // https://npmjs.org/
 var config            = require('./config/config');       // Get configuration
 var semver            = require('semver');                 // https://npmjs.org/package/semver
 var helmet            = require('helmet');                 // https://github.com/evilpacket/helmet
+
+// New packages added for Express 4.x
+var csrf              = require('csurf');
+var logger            = require('morgan');
+var favicon           = require('static-favicon');
+var connect           = require('connect');
+var session           = require('express-session');
+var compress          = require('compression');
+var bodyParser        = require('body-parser');
+var cookieParser      = require('cookie-parser');
+var errorHandler      = require('errorhandler');
+var methodOverride    = require('method-override');
+
+
 var express           = require('express');                // https://npmjs.org/package/express
 var winston           = require('winston');                // https://npmjs.org/package/winston
 var mongoose          = require('mongoose');               // https://npmjs.org/package/mongoose
 var passport          = require('passport');               // https://npmjs.org/package/passport
-var MongoStore        = require('connect-mongo')(express); // https://npmjs.org/package/connect-mongo
+var MongoStore        = require('connect-mongo')(connect); // https://npmjs.org/package/connect-mongo
 var expressValidator  = require('express-validator');      // https://npmjs.org/package/express-validator
 
 /**
@@ -56,40 +70,82 @@ var db = mongoose.connection;
 // them "app.globals". They are useful for providing helper
 // functions to templates, as well as global app-level data.
 
-// NOTE: you must not reuse existing (native) named properties
+// NOTE: you must *not* reuse existing (native) named properties
 // for your own variable names, such as name, apply, bind, call,
 // arguments, length, and constructor.
 
-app.locals({
-  application: config.name,
-  version: config.version,
-  description: config.description,
-  author: config.author,
-  keywords: config.keywords,
-  ga: config.ga,
-  // Now you can use moment anywhere
-  // within a jade template like this:
-  // p #{moment(Date.now()).format('MM/DD/YYYY')}
-  // evergreen copyright ;)
-  moment: require('moment'),
-  // Jade options
-  pretty: false,
-  compileDebug: false
-});
+app.locals.application  = config.name;
+app.locals.version      = config.version;
+app.locals.description  = config.description;
+app.locals.author       = config.author;
+app.locals.keywords     = config.keywords;
+app.locals.ga           = config.ga;
+app.locals.moment       = require('moment');
+app.locals.pretty       = false;
+app.locals.compileDebug = false;
+
+// app.locals({
+//   application: config.name,
+//   version: config.version,
+//   description: config.description,
+//   author: config.author,
+//   keywords: config.keywords,
+//   ga: config.ga,
+//   // Now you can use moment anywhere within a jade template like this:
+//   // p #{moment(Date.now()).format('MM/DD/YYYY')}
+//   // Good for an evergreen copyright ;)
+//   moment: require('moment'),
+//   // Jade options
+//   pretty: false,
+//   compileDebug: false
+// });
 
 // Settings for development
-if ( app.get('env') === 'development') {
+var env = process.env.NODE_ENV || 'development';
+
+if (env === 'development') {
   // Don't minify html in dev, use debug intrumentation
-  app.locals({ pretty: true, compileDebug: true });
+  app.locals.pretty = true;
+  app.locals.compileDebug = true;
   // Turn on console logging in development
-  app.use(express.logger('dev'));
+  app.use(logger('dev'));
+} else {
+  // Stream Express Logging to Winston
+  app.use(logger({
+    stream: {
+      write: function (message, encoding) {
+        winston.info(message);
+      }
+    }
+  }));
 }
+
+// Settings for development
+// if ( app.get('env') === 'development') {
+//   // Don't minify html in dev, use debug intrumentation
+//   app.locals.pretty = true;
+//   app.locals.compileDebug = true;
+//   // Turn on console logging in development
+//   app.use(logger('dev'));
+// } else {
+//   // Stream Express Logging to Winston
+//   app.use(logger({
+//     stream: {
+//       write: function (message, encoding) {
+//         winston.info(message);
+//       }
+//     }
+//   }));
+// }
 
 // port to listen on
 app.set('port', config.port);
 
-// set favicon location
-app.use(express.favicon(__dirname + '/public/favicon.ico'));
+// Favicon - Typically this middleware will come very early in your
+// stack (maybe even first) to avoid processing any other middleware
+// if we already know the request is for favicon.ico
+app.use(favicon(__dirname + '/public/favicon.ico'));
+// app.use(express.favicon(__dirname + '/public/favicon.ico'));   // express 3.x
 
 // Setup the view engine (jade)
 app.set('views', path.join(__dirname, 'views'));
@@ -101,21 +157,14 @@ app.set('view engine', 'jade');
 // Compress response data with gzip / deflate.
 // This middleware should be placed "high" within
 // the stack to ensure all responses are compressed.
-app.use(express.compress());
-
-// Stream Express Logging to Winston
-app.use(express.logger({
-  stream: {
-    write: function (message, encoding) {
-      winston.info(message);
-    }
-  }
-}));
+app.use(compress);
+// app.use(express.compress());  // express 3.x
 
 // Body parsing middleware supporting
 // JSON, urlencoded, and multipart requests.
-app.use(express.json());
-app.use(express.urlencoded());
+// app.use(express.json());         // express 3.x
+// app.use(express.urlencoded());   // express 3.x
+app.use(bodyParser());
 
 // Easy form validation!
 // Must be immediately after app.use(express.urlencoded());
@@ -123,11 +172,12 @@ app.use(expressValidator());
 
 // If you want to simulate DELETE and PUT
 // in your app you need methodOverride
-app.use(express.methodOverride());
+// app.use(express.methodOverride());   // express 3.x
+app.use(methodOverride());
 
 // Session (use a cookie and persist session in Mongo)
-app.use(express.cookieParser(config.session.secret));
-app.use(express.session({
+app.use(cookieParser(config.session.secret));         // express 4.x
+app.use(session({                                     // express 4.x
   secret: config.session.secret,
   key: 'sessionId',  // Use something generic so you don't leak information about your server
   cookie: {
@@ -142,7 +192,7 @@ app.use(express.session({
 
 // Security
 app.disable('x-powered-by');  // Don't advertise our server type
-app.use(express.csrf());      // Prevent Cross-Site Request Forgery
+app.use(csrf());              // Prevent Cross-Site Request Forgery
 app.use(helmet.defaults());   // Default helmet security (must be above `app.router`)
 // app.use(helmet.csp({
 //   'default-src': ["'self'", 'localhost:3000'],
@@ -178,7 +228,38 @@ app.use(flash());
 
 // "app.router" positioned above the middleware defined below, this
 // means that Express will match & call routes before continuing on.
-app.use(app.router);
+// app.use(app.router);
+
+/**
+ * Dynamically include routes (via controllers)
+ */
+
+fs.readdirSync('./controllers').forEach(function (file) {
+  if (file.substr( -3 ) === '.js') {
+    var route = require('./controllers/' + file);
+    route.controller(app);
+  }
+});
+
+// Robots...
+// www.robotstxt.org/
+// www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+if ( env === 'development' ) {
+  // In development keep search engines out
+  app.all('/robots.txt', function(req,res) {
+    res.charset = 'text/plain';
+    res.send('User-agent: *\nDisallow: /');
+  });
+}
+
+if ( env === 'production' ) {
+  // Allow all search engines
+  app.all('/robots.txt', function(req,res) {
+    res.charset = 'text/plain';
+    res.send('User-agent: *');
+  });
+}
 
 // Now setup our static serving from /public
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.maxAge }));
@@ -250,38 +331,8 @@ app.use(function(err, req, res, next) {
 
 // final error catch-all just in case
 if ( app.get('env') === 'development') {
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 }
-
-// Robots...
-// www.robotstxt.org/
-// www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
-app.configure('development', function() {
-  // In dev, keep search engines out
-  app.all('/robots.txt', function(req,res) {
-    res.charset = 'text/plain';
-    res.send('User-agent: *\nDisallow: /');
-  });
-});
-
-app.configure('production', function() {
-  // Allow all search engines
-  app.all('/robots.txt', function(req,res) {
-    res.charset = 'text/plain';
-    res.send('User-agent: *');
-  });
-});
-
-/**
- * Dynamically include routes (via controllers)
- */
-
-fs.readdirSync('./controllers').forEach(function (file) {
-  if (file.substr( -3 ) === '.js') {
-    var route = require('./controllers/' + file);
-    route.controller(app);
-  }
-});
 
 /**
  * Start Express server.
