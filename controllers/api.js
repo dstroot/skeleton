@@ -3,23 +3,24 @@
 /**
  * Module Dependencies
  */
+var config        = require('../config/config');
 
 var _             = require('underscore');
 var Twit          = require('twit');
-var config        = require('../config/config');
 var async         = require('async');
-var cheerio       = require('cheerio');
-var request       = require('request');
 var graph         = require('fbgraph');
 var tumblr        = require('tumblr.js');
 var Github        = require('github-api');
-var querystring   = require('querystring');
-var LastFmNode    = require('lastfm').LastFmNode;
-var paypal        = require('paypal-rest-sdk');
-var passport      = require('passport');
-var passportConf  = require('../config/passport');
+var stripe        = require('stripe')(config.stripe.key);
 var twilio        = require('twilio')(config.twilio.sid, config.twilio.token);
+var paypal        = require('paypal-rest-sdk');
+var cheerio       = require('cheerio');
+var request       = require('request');
+var passport      = require('passport');
 var foursquare    = require('node-foursquare')({ secrets: config.foursquare });
+var LastFmNode    = require('lastfm').LastFmNode;
+var querystring   = require('querystring');
+var passportConf  = require('../config/passport');
 
 /**
  * API Controller
@@ -229,6 +230,43 @@ module.exports.controller = function(app) {
         url: '/apiopen',
         links: links
       });
+    });
+  });
+
+  /**
+   * GET /api/stripe
+   * Stripe API example.
+   */
+
+  app.get('/api/stripe', function(req, res, next) {
+    res.render('api/stripe', {
+      title: 'Stripe API'
+    });
+  });
+
+  /**
+   * POST /api/stripe
+   * @param stipeToken
+   * @param stripeEmail
+   */
+
+  app.post('/api/stripe', function(req, res, next) {
+
+    var stripeToken = req.body.stripeToken;
+    var stripeEmail = req.body.stripeEmail;
+
+    stripe.charges.create({
+      amount: 395,
+      currency: 'usd',
+      card: stripeToken,
+      description: stripeEmail
+    }, function(err, charge) {
+      if (err && err.type === 'StripeCardError') {
+        req.flash('errors', { msg: 'Your card has been declined.'});
+        res.redirect('/api/stripe');
+      }
+      req.flash('success', { msg: 'Your card has been charged successfully.'});
+      res.redirect('/api/stripe');
     });
   });
 

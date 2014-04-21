@@ -123,6 +123,10 @@ config.lastfm                  = {};
 config.lastfm.api_key          = process.env.LASTFM_KEY    || 'Your Key';
 config.lastfm.secret           = process.env.LASTFM_SECRET || 'Your Secret';
 
+// Stripe
+config.stripe                  = {};
+config.stripe.key              = process.env.STRIPE_KEY || 'Your Key';
+
 // Twilio
 config.twilio                  = {};
 config.twilio.sid              = process.env.TWILIO_SID   || 'Your SID';

@@ -13,24 +13,6 @@ var gulp = require('gulp');
 // load plugins
 var $ = require('gulp-load-plugins')();
 
-// var size          = require('gulp-size');
-// var jscs          = require('gulp-jscs');          // https://www.npmjs.org/package/jscs
-// var less          = require('gulp-less');
-// var clean         = require('gulp-clean');
-// var concat        = require('gulp-concat');
-// var header        = require('gulp-header');
-// var uglify        = require('gulp-uglify');
-// var notify        = require('gulp-notify');        // DOES NOT WORK ON WINDOWS
-// var rename        = require('gulp-rename');
-// var jshint        = require('gulp-jshint');        // https://github.com/wearefractal/gulp-jshint
-// var stylish       = require('jshint-stylish');
-// var changed       = require('gulp-changed');       // https://github.com/sindresorhus/gulp-changed
-// var nodemon       = require('gulp-nodemon');       // https://www.npmjs.org/package/gulp-nodemon
-// var imagemin      = require('gulp-imagemin');
-// var minifycss     = require('gulp-minify-css');    // https://www.npmjs.org/package/gulp-minify-css
-// var livereload    = require('gulp-livereload');
-// var autoprefixer  = require('gulp-autoprefixer');
-
 /**
  * Banner
  */
@@ -110,7 +92,6 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('./public/css'))      // Save CSS here
     .pipe($.rename({suffix: '.min'}))       // Add .min suffix
     .pipe($.csso())
-    // .pipe($.minify-css({ keepSpecialComments: 0, removeEmpty: true }))
     .pipe($.header(banner, { pkg : pkg } )) // Add banner
     .pipe($.size())                         // What size are we at?
     .pipe(gulp.dest('./public/css'))      // Save minified CSS here
@@ -153,7 +134,7 @@ gulp.task('scripts', function() {
 
 gulp.task('images', function() {
   gulp.src('public/img/**/*')             // Read images
-    .pipe($.changed('./public/img'))        // Only process new/changed
+    .pipe($.changed('./public/img'))      // Only process new/changed
     .pipe($.imagemin({
       optimizationLevel: 5,
       progressive: true,
@@ -194,10 +175,10 @@ gulp.task('watch', function () {
  */
 
 gulp.task('develop', ['watch'], function () {
-  // nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/'], verbose: 'true' })
-  $.nodemon({ script: 'app.js' }).on('restart', ['lint'], function() {
-    $.livereload().changed();
-  });
+  $.nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/', 'node_modules/'] })
+    .on('restart', ['lint'], function () {
+      $.livereload().changed();
+    });
 });
 
 /**

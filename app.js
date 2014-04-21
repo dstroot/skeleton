@@ -4,7 +4,7 @@
  * Module Dependencies
  */
 
-// New packages added for Express 4.x
+// Packages added for Express 4.x
 var csrf              = require('csurf');
 var logger            = require('morgan');
 var favicon           = require('static-favicon');
@@ -15,22 +15,22 @@ var bodyParser        = require('body-parser');
 var cookieParser      = require('cookie-parser');
 var errorHandler      = require('errorhandler');
 var methodOverride    = require('method-override');
-
-var fs                = require('fs');                     // http://nodejs.org/docs/v0.10.25/api/fs.html
-var io                = require('socket.io');              // https://www.npmjs.org/package/socket.io
-var pkg               = require('./package.json');         // Get package.json
-var path              = require('path');                   // http://nodejs.org/docs/v0.10.25/api/path.html
-var debug             = require('debug')('my-application');  // Added
-var flash             = require('express-flash');          // https://npmjs.org/package/express-flash
-var config            = require('./config/config');       // Get configuration
-var semver            = require('semver');                 // https://npmjs.org/package/semver
-var helmet            = require('helmet');                 // https://github.com/evilpacket/helmet
-var express           = require('express');                // https://npmjs.org/package/express
-var winston           = require('winston');                // https://npmjs.org/package/winston
-var mongoose          = require('mongoose');               // https://npmjs.org/package/mongoose
-var passport          = require('passport');               // https://npmjs.org/package/passport
-var MongoStore        = require('connect-mongo')(connect); // https://npmjs.org/package/connect-mongo
-var expressValidator  = require('express-validator');      // https://npmjs.org/package/express-validator
+// Additional packages
+var fs                = require('fs');                      // http://nodejs.org/docs/v0.10.25/api/fs.html
+var io                = require('socket.io');               // https://www.npmjs.org/package/socket.io
+var pkg               = require('./package.json');          // Get package.json
+var path              = require('path');                    // http://nodejs.org/docs/v0.10.25/api/path.html
+var debug             = require('debug')('my-application'); //
+var flash             = require('express-flash');           // https://npmjs.org/package/express-flash
+var config            = require('./config/config');         // Get configuration
+var semver            = require('semver');                  // https://npmjs.org/package/semver
+var helmet            = require('helmet');                  // https://github.com/evilpacket/helmet
+var express           = require('express');                 // https://npmjs.org/package/express
+var winston           = require('winston');                 // https://npmjs.org/package/winston
+var mongoose          = require('mongoose');                // https://npmjs.org/package/mongoose
+var passport          = require('passport');                // https://npmjs.org/package/passport
+var MongoStore        = require('connect-mongo')(connect);  // https://npmjs.org/package/connect-mongo
+var expressValidator  = require('express-validator');       // https://npmjs.org/package/express-validator
 
 /**
  * Create Express Server and socket.io listener
