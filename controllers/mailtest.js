@@ -2,9 +2,11 @@
 
 /**
  * Mail Test Controller
+ *
  * *Only* used to test email format rendering:
  * Change jade email templates and render in your browser
- * to see what it will look like
+ * to see what it will look like.
+ *
  */
 
 module.exports.controller = function(app) {

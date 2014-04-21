@@ -2,30 +2,34 @@
 
 // Install: you must install gulp both globally *and* locally.
 // $ npm install -g gulp
-// $ npm install gulp gulp-clean gulp-less gulp-nodemon gulp-jshint gulp-concat gulp-uglify gulp-rename gulp-autoprefixer gulp-imagemin gulp-cache gulp-size gulp-minify-css gulp-notify gulp-livereload --save-dev
+// $ npm install gulp gulp-load-plugins gulp-csso gulp-clean gulp-less gulp-nodemon gulp-jshint gulp-concat gulp-uglify gulp-rename gulp-autoprefixer gulp-imagemin gulp-cache gulp-size gulp-notify gulp-livereload --save-dev
 
 /**
  * Dependencies
  */
 
-var gulp          = require('gulp');
-var size          = require('gulp-size');
-var jscs          = require('gulp-jscs');          // https://www.npmjs.org/package/jscs
-var less          = require('gulp-less');
-var clean         = require('gulp-clean');
-var concat        = require('gulp-concat');
-var header        = require('gulp-header');
-var uglify        = require('gulp-uglify');
-var notify        = require('gulp-notify');        // DOES NOT WORK ON WINDOWS
-var rename        = require('gulp-rename');
-var jshint        = require('gulp-jshint');        // https://github.com/wearefractal/gulp-jshint
-var stylish       = require('jshint-stylish');
-var changed       = require('gulp-changed');       // https://github.com/sindresorhus/gulp-changed
-var nodemon       = require('gulp-nodemon');       // https://www.npmjs.org/package/gulp-nodemon
-var imagemin      = require('gulp-imagemin');
-var minifycss     = require('gulp-minify-css');    // https://www.npmjs.org/package/gulp-minify-css
-var livereload    = require('gulp-livereload');
-var autoprefixer  = require('gulp-autoprefixer');
+var gulp = require('gulp');
+
+// load plugins
+var $ = require('gulp-load-plugins')();
+
+// var size          = require('gulp-size');
+// var jscs          = require('gulp-jscs');          // https://www.npmjs.org/package/jscs
+// var less          = require('gulp-less');
+// var clean         = require('gulp-clean');
+// var concat        = require('gulp-concat');
+// var header        = require('gulp-header');
+// var uglify        = require('gulp-uglify');
+// var notify        = require('gulp-notify');        // DOES NOT WORK ON WINDOWS
+// var rename        = require('gulp-rename');
+// var jshint        = require('gulp-jshint');        // https://github.com/wearefractal/gulp-jshint
+// var stylish       = require('jshint-stylish');
+// var changed       = require('gulp-changed');       // https://github.com/sindresorhus/gulp-changed
+// var nodemon       = require('gulp-nodemon');       // https://www.npmjs.org/package/gulp-nodemon
+// var imagemin      = require('gulp-imagemin');
+// var minifycss     = require('gulp-minify-css');    // https://www.npmjs.org/package/gulp-minify-css
+// var livereload    = require('gulp-livereload');
+// var autoprefixer  = require('gulp-autoprefixer');
 
 /**
  * Banner
@@ -90,8 +94,8 @@ var paths = {
 
 gulp.task('clean', function() {
   gulp.src(paths.clean, {read: false})
-    .pipe(clean())
-    .pipe(notify({ onLast: true, message: 'Clean task complete' }));
+    .pipe($.clean())
+    .pipe($.notify({ onLast: true, message: 'Clean task complete' }));
 });
 
 /**
@@ -100,17 +104,18 @@ gulp.task('clean', function() {
 
 gulp.task('styles', function() {
   return gulp.src('./less/main.less')
-    .pipe(less({}))                       // Compile Less files
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(rename(pkg.name + '.css'))      // Rename to "packagename.css"
+    .pipe($.less({}))                       // Compile Less files
+    .pipe($.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe($.rename(pkg.name + '.css'))      // Rename to "packagename.css"
     .pipe(gulp.dest('./public/css'))      // Save CSS here
-    .pipe(rename({suffix: '.min'}))       // Add .min suffix
-    .pipe(minifycss({ keepSpecialComments: 0, removeEmpty: true }))
-    .pipe(header(banner, { pkg : pkg } )) // Add banner
-    .pipe(size())                         // What size are we at?
+    .pipe($.rename({suffix: '.min'}))       // Add .min suffix
+    .pipe($.csso())
+    // .pipe($.minify-css({ keepSpecialComments: 0, removeEmpty: true }))
+    .pipe($.header(banner, { pkg : pkg } )) // Add banner
+    .pipe($.size())                         // What size are we at?
     .pipe(gulp.dest('./public/css'))      // Save minified CSS here
-    .pipe(livereload())                   // Initiate a reload
-    .pipe(notify({ message: 'Styles task complete' }));
+    .pipe($.livereload())                   // Initiate a reload
+    .pipe($.notify({ message: 'Styles task complete' }));
 });
 
 /**
@@ -119,10 +124,10 @@ gulp.task('styles', function() {
 
 gulp.task('lint', function() {
   gulp.src(paths.lint)                    // Read .js files
-    .pipe(jshint())                       // Lint .js files //.pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter(stylish))       // Specify a reporter for JSHint
-    .pipe(jscs())                         // Check code style
-    .pipe(notify({ onLast: true, message: 'Lint task complete' }));
+    .pipe($.jshint())                       // Lint .js files //.pipe(jshint('.jshintrc'))
+    .pipe($.jshint.reporter($.stylish))       // Specify a reporter for JSHint
+    .pipe($.jscs())                         // Check code style
+    .pipe($.notify({ onLast: true, message: 'Lint task complete' }));
 });
 
 /**
@@ -131,15 +136,15 @@ gulp.task('lint', function() {
 
 gulp.task('scripts', function() {
   return gulp.src(paths.js)               // Read .js files
-    .pipe(concat(pkg.name + '.js'))       // Concatenate .js files into "packagename.js"
+    .pipe($.concat(pkg.name + '.js'))       // Concatenate .js files into "packagename.js"
     .pipe(gulp.dest('./public/js'))       // Save main.js here
-    .pipe(rename({suffix: '.min'}))       // Add .min suffix
-    .pipe(uglify({ outSourceMap: true })) // Minify the .js
-    .pipe(header(banner, { pkg : pkg } )) // Add banner
-    .pipe(size())                         // What size are we at?
+    .pipe($.rename({suffix: '.min'}))       // Add .min suffix
+    .pipe($.uglify({ outSourceMap: true })) // Minify the .js
+    .pipe($.header(banner, { pkg : pkg } )) // Add banner
+    .pipe($.size())                         // What size are we at?
     .pipe(gulp.dest('./public/js'))       // Save minified .js
-    .pipe(livereload())                   // Initiate a reload
-    .pipe(notify({ onLast: true, message: 'Scripts task complete' }));
+    .pipe($.livereload())                   // Initiate a reload
+    .pipe($.notify({ onLast: true, message: 'Scripts task complete' }));
 });
 
 /**
@@ -148,10 +153,14 @@ gulp.task('scripts', function() {
 
 gulp.task('images', function() {
   gulp.src('public/img/**/*')             // Read images
-    .pipe(changed('./public/img'))        // Only process new/changed
-    .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))
+    .pipe($.changed('./public/img'))        // Only process new/changed
+    .pipe($.imagemin({
+      optimizationLevel: 5,
+      progressive: true,
+      interlaced: true
+    }))
     .pipe(gulp.dest('./public/img'))      // Write processed images
-    .pipe(notify({ onLast: true, message: 'Images task complete' }));
+    .pipe($.notify({ onLast: true, message: 'Images task complete' }));
 });
 
 /**
@@ -174,7 +183,7 @@ gulp.task('watch', function () {
 
   // Watch .jade files, reload as needed
   gulp.watch('views/**/*.jade').on('change', function(file) {
-    livereload().changed(file.path);
+    $.livereload().changed(file.path);
   });
 
 });
@@ -186,8 +195,8 @@ gulp.task('watch', function () {
 
 gulp.task('develop', ['watch'], function () {
   // nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/'], verbose: 'true' })
-  nodemon({ script: 'app.js' }).on('restart', ['lint'], function() {
-    livereload().changed();
+  $.nodemon({ script: 'app.js' }).on('restart', ['lint'], function() {
+    $.livereload().changed();
   });
 });
 

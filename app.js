@@ -4,15 +4,6 @@
  * Module Dependencies
  */
 
-var fs                = require('fs');                     // http://nodejs.org/docs/v0.10.25/api/fs.html
-var io                = require('socket.io');              // https://www.npmjs.org/package/socket.io
-var pkg               = require('./package.json');         // Get package.json
-var path              = require('path');                   // http://nodejs.org/docs/v0.10.25/api/path.html
-var flash             = require('express-flash');          // https://npmjs.org/package/express-flash
-var config            = require('./config/config');       // Get configuration
-var semver            = require('semver');                 // https://npmjs.org/package/semver
-var helmet            = require('helmet');                 // https://github.com/evilpacket/helmet
-
 // New packages added for Express 4.x
 var csrf              = require('csurf');
 var logger            = require('morgan');
@@ -25,7 +16,15 @@ var cookieParser      = require('cookie-parser');
 var errorHandler      = require('errorhandler');
 var methodOverride    = require('method-override');
 
-
+var fs                = require('fs');                     // http://nodejs.org/docs/v0.10.25/api/fs.html
+var io                = require('socket.io');              // https://www.npmjs.org/package/socket.io
+var pkg               = require('./package.json');         // Get package.json
+var path              = require('path');                   // http://nodejs.org/docs/v0.10.25/api/path.html
+var debug             = require('debug')('my-application');  // Added
+var flash             = require('express-flash');          // https://npmjs.org/package/express-flash
+var config            = require('./config/config');       // Get configuration
+var semver            = require('semver');                 // https://npmjs.org/package/semver
+var helmet            = require('helmet');                 // https://github.com/evilpacket/helmet
 var express           = require('express');                // https://npmjs.org/package/express
 var winston           = require('winston');                // https://npmjs.org/package/winston
 var mongoose          = require('mongoose');               // https://npmjs.org/package/mongoose
@@ -48,7 +47,7 @@ var app     = module.exports = express(),  // export app for testing
 if ( config.logging ) {
   winston.add(winston.transports.File, { filename: config.logfilename });
   // TODO: Logging in production should be directed to a logging service
-  // such as loggly.com or to a log server or database.
+  //       such as loggly.com or to a log server or database.
 }
 
 // Turn off Winston console logging, we will use Express instead
@@ -80,30 +79,16 @@ app.locals.description  = config.description;
 app.locals.author       = config.author;
 app.locals.keywords     = config.keywords;
 app.locals.ga           = config.ga;
+// Now you can use moment anywhere within a jade template like this:
+//   p #{moment(Date.now()).format('MM/DD/YYYY')}
+// Good for an evergreen copyright ;)
 app.locals.moment       = require('moment');
+// Jade options
 app.locals.pretty       = false;
 app.locals.compileDebug = false;
 
-// app.locals({
-//   application: config.name,
-//   version: config.version,
-//   description: config.description,
-//   author: config.author,
-//   keywords: config.keywords,
-//   ga: config.ga,
-//   // Now you can use moment anywhere within a jade template like this:
-//   // p #{moment(Date.now()).format('MM/DD/YYYY')}
-//   // Good for an evergreen copyright ;)
-//   moment: require('moment'),
-//   // Jade options
-//   pretty: false,
-//   compileDebug: false
-// });
-
 // Settings for development
-var env = process.env.NODE_ENV || 'development';
-
-if (env === 'development') {
+if (app.get('env') === 'development') {
   // Don't minify html in dev, use debug intrumentation
   app.locals.pretty = true;
   app.locals.compileDebug = true;
@@ -120,24 +105,6 @@ if (env === 'development') {
   }));
 }
 
-// Settings for development
-// if ( app.get('env') === 'development') {
-//   // Don't minify html in dev, use debug intrumentation
-//   app.locals.pretty = true;
-//   app.locals.compileDebug = true;
-//   // Turn on console logging in development
-//   app.use(logger('dev'));
-// } else {
-//   // Stream Express Logging to Winston
-//   app.use(logger({
-//     stream: {
-//       write: function (message, encoding) {
-//         winston.info(message);
-//       }
-//     }
-//   }));
-// }
-
 // port to listen on
 app.set('port', config.port);
 
@@ -145,7 +112,6 @@ app.set('port', config.port);
 // stack (maybe even first) to avoid processing any other middleware
 // if we already know the request is for favicon.ico
 app.use(favicon(__dirname + '/public/favicon.ico'));
-// app.use(express.favicon(__dirname + '/public/favicon.ico'));   // express 3.x
 
 // Setup the view engine (jade)
 app.set('views', path.join(__dirname, 'views'));
@@ -157,27 +123,22 @@ app.set('view engine', 'jade');
 // Compress response data with gzip / deflate.
 // This middleware should be placed "high" within
 // the stack to ensure all responses are compressed.
-app.use(compress);
-// app.use(express.compress());  // express 3.x
+app.use(compress());
 
 // Body parsing middleware supporting
 // JSON, urlencoded, and multipart requests.
-// app.use(express.json());         // express 3.x
-// app.use(express.urlencoded());   // express 3.x
 app.use(bodyParser());
 
 // Easy form validation!
-// Must be immediately after app.use(express.urlencoded());
 app.use(expressValidator());
 
 // If you want to simulate DELETE and PUT
 // in your app you need methodOverride
-// app.use(express.methodOverride());   // express 3.x
 app.use(methodOverride());
 
 // Session (use a cookie and persist session in Mongo)
-app.use(cookieParser(config.session.secret));         // express 4.x
-app.use(session({                                     // express 4.x
+app.use(cookieParser(config.session.secret));
+app.use(session({
   secret: config.session.secret,
   key: 'sessionId',  // Use something generic so you don't leak information about your server
   cookie: {
@@ -226,10 +187,6 @@ app.use(function(req, res, next) {
 // for flash messages
 app.use(flash());
 
-// "app.router" positioned above the middleware defined below, this
-// means that Express will match & call routes before continuing on.
-// app.use(app.router);
-
 /**
  * Dynamically include routes (via controllers)
  */
@@ -244,8 +201,7 @@ fs.readdirSync('./controllers').forEach(function (file) {
 // Robots...
 // www.robotstxt.org/
 // www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
-
-if ( env === 'development' ) {
+if (app.get('env') === 'development') {
   // In development keep search engines out
   app.all('/robots.txt', function(req,res) {
     res.charset = 'text/plain';
@@ -253,7 +209,7 @@ if ( env === 'development' ) {
   });
 }
 
-if ( env === 'production' ) {
+if (app.get('env') === 'production') {
   // Allow all search engines
   app.all('/robots.txt', function(req,res) {
     res.charset = 'text/plain';
@@ -264,8 +220,7 @@ if ( env === 'production' ) {
 // Now setup our static serving from /public
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.maxAge }));
 
-// If nothing responded above we can assume 404 (no routes responded or static assets found)
-
+// If nothing responded above we can assume a 404 (no routes responded or static assets found)
 // Test:
 // $ curl http://localhost:3000/notfound
 // $ curl http://localhost:3000/notfound -H "Accept: application/json"
@@ -292,7 +247,6 @@ app.use(function(req, res, next) {
 });
 
 // Error-handling middleware requires an arity of 4, aka the signature (err, req, res, next).
-// when connect has an error, it will invoke ONLY error-handling middleware.
 
 // Handle 403 Errors
 app.use(function(err, req, res, next) {
@@ -321,11 +275,24 @@ app.use(function(err, req, res, next) {
 });
 
 // Handle 500 Errors (really anything not handled above)
+// development will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    winston.error(err.status || 500 + ' ' + err + '\n');
+    res.status(err.status || 500);
+    res.render('error/500', {
+      error: err,
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   winston.error(err.status || 500 + ' ' + err + '\n');
   res.status(err.status || 500);
   res.render('error/500', {
-    error: err,
+    error: {},
   });
 });
 
@@ -349,6 +316,8 @@ if ( app.get('env') === 'development') {
 db.on('error', function () {
   winston.error('Mongodb connection error!');
   console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.'.red.bold);
+  // testing debug functionality
+  debug('✗ MongoDB Connection Error. Please make sure MongoDB is running.'.red.bold);
   process.exit(0);
 });
 
