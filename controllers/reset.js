@@ -4,23 +4,23 @@
  * Module Dependencies
  */
 
-var bcrypt        = require('bcrypt-nodejs');
-var nodemailer    = require('nodemailer');
 var User          = require('../models/User');
 var config        = require('../config/config');
+var bcrypt        = require('bcrypt-nodejs');
+var nodemailer    = require('nodemailer');
 
 /**
  * Reset Page Controller
  */
 
-module.exports.controller = function(app) {
+module.exports.controller = function (app) {
 
   /**
    * GET /reset/:id/:token
    * Reset your password page
    */
 
-  app.get('/reset/:id/:token', function(req, res) {
+  app.get('/reset/:id/:token', function (req, res) {
     if (req.user) {
       return res.redirect('/');  //user already logged in!
     }
@@ -62,7 +62,7 @@ module.exports.controller = function(app) {
    * Process the POST to reset your password
    */
 
-  app.post('/reset/:id/:token', function(req, res) {
+  app.post('/reset/:id/:token', function (req, res) {
 
     // Create a workflow (here you could also use the async waterfall pattern)
     var workflow = new (require('events').EventEmitter)();
@@ -71,7 +71,7 @@ module.exports.controller = function(app) {
      * Step 1: Validate the password(s) meet complexity requirements and match.
      */
 
-    workflow.on('validate', function() {
+    workflow.on('validate', function () {
 
       req.assert('password', 'Your password cannot be blank.').notEmpty();
       req.assert('confirm', 'Your password confirmation cannot be blank.').notEmpty();
@@ -94,7 +94,7 @@ module.exports.controller = function(app) {
      * We are doing this again in case the user changed the URL
      */
 
-    workflow.on('findUser', function() {
+    workflow.on('findUser', function () {
 
       // Get the user using their ID
       User.findOne({ _id: req.params.id })
@@ -132,20 +132,20 @@ module.exports.controller = function(app) {
      * clear the reset token
      */
 
-    workflow.on('updatePassword', function(user) {
+    workflow.on('updatePassword', function (user) {
 
       user.password = req.body.password;
       user.resetPasswordToken = undefined;
       user.resetPasswordExpires = undefined;
 
       // update the user record
-      user.save(function(err) {
+      user.save(function (err) {
         if (err) {
           req.flash('errors', { msg: err.message });
           return res.redirect('back');
         }
         // Log the user in
-        req.logIn(user, function(err) {
+        req.logIn(user, function (err) {
           if (err) {
             req.flash('errors', { msg: err.message });
             return res.redirect('back');
@@ -163,7 +163,7 @@ module.exports.controller = function(app) {
      * user did not initiate the reset!
      */
 
-    workflow.on('sendEmail', function(user) {
+    workflow.on('sendEmail', function (user) {
 
       // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
       var smtpTransport = nodemailer.createTransport('SMTP',{
@@ -172,8 +172,6 @@ module.exports.controller = function(app) {
           user: config.gmail.user,
           pass: config.gmail.password
         }
-        // See nodemailer docs for other transports
-        // https://github.com/andris9/Nodemailer
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
@@ -205,14 +203,13 @@ module.exports.controller = function(app) {
           };
 
           // Send email
-          smtpTransport.sendMail(mailOptions, function(err) {
+          smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
               req.flash('errors', { msg: err.message });
             }
+            // shut down the connection pool, no more messages
+            smtpTransport.close();
           });
-
-          // shut down the connection pool, no more messages
-          smtpTransport.close();
 
           // Send user on their merry way
           req.flash('success', { msg: 'Your password has been changed!' });

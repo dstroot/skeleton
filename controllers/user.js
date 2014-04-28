@@ -123,7 +123,7 @@ module.exports.controller = function (app) {
     workflow.on('authenticate', function () {
 
       // Authenticate the user
-      passport.authenticate('local', function(err, user, info) {
+      passport.authenticate('local', function (err, user, info) {
         if (err) {
           req.flash('errors', { msg: err.message });
           return res.redirect('back');
@@ -133,7 +133,7 @@ module.exports.controller = function (app) {
 
           // Update abuse count
           var fieldsToSet = { ip: req.ip, user: req.body.email };
-          LoginAttempt.create(fieldsToSet, function(err, doc) {
+          LoginAttempt.create(fieldsToSet, function (err, doc) {
             if (err) {
               req.flash('errors', { msg: err.message });
               return res.redirect('back');
@@ -258,8 +258,6 @@ module.exports.controller = function (app) {
           user: config.gmail.user,
           pass: config.gmail.password
         }
-        // See nodemailer docs for other transports
-        // https://github.com/andris9/Nodemailer
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
@@ -301,10 +299,10 @@ module.exports.controller = function (app) {
             if (err) {
               req.flash('errors', { msg: err.message });
             }
+            // shut down the connection pool, no more messages
+            smtpTransport.close();
           });
 
-          // shut down the connection pool, no more messages
-          smtpTransport.close();
         }
       });
 
@@ -319,7 +317,7 @@ module.exports.controller = function (app) {
     workflow.on('logUserIn', function (user) {
 
       // log the user in
-      req.logIn(user, function(err) {
+      req.logIn(user, function (err) {
         if (err) {
           req.flash('errors', { msg: err.message });
           return res.redirect('back');
@@ -393,7 +391,7 @@ module.exports.controller = function (app) {
      * Step 2: Account verification step
      */
 
-    workflow.on('verification', function() {
+    workflow.on('verification', function () {
 
       var verified;
       var verifyToken;
@@ -401,7 +399,7 @@ module.exports.controller = function (app) {
       if (config.verificationRequired) {
         verified = false;
         // generate verification token
-        crypto.randomBytes(25, function(err, buf) {
+        crypto.randomBytes(25, function (err, buf) {
           verifyToken = buf.toString('hex');
           // next step
           workflow.emit('createUser', verified, verifyToken);
@@ -464,8 +462,6 @@ module.exports.controller = function (app) {
           user: config.gmail.user,
           pass: config.gmail.password
         }
-        // See nodemailer docs for other transports
-        // https://github.com/andris9/Nodemailer
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
@@ -501,10 +497,10 @@ module.exports.controller = function (app) {
             if (err) {
               req.flash('errors', { msg: err.message });
             }
+            // shut down the connection pool, no more messages
+            smtpTransport.close();
           });
 
-          // shut down the connection pool, no more messages
-          smtpTransport.close();
         }
       });
 
@@ -528,8 +524,6 @@ module.exports.controller = function (app) {
           user: config.gmail.user,
           pass: config.gmail.password
         }
-        // See nodemailer docs for other transports
-        // https://github.com/andris9/Nodemailer
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
@@ -571,10 +565,10 @@ module.exports.controller = function (app) {
             if (err) {
               req.flash('errors', { msg: err.message });
             }
+            // shut down the connection pool, no more messages
+            smtpTransport.close();
           });
 
-          // shut down the connection pool, no more messages
-          smtpTransport.close();
         }
       });
 
@@ -738,8 +732,6 @@ module.exports.controller = function (app) {
           user: config.gmail.user,
           pass: config.gmail.password
         }
-        // See nodemailer docs for other transports
-        // https://github.com/andris9/Nodemailer
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
@@ -781,10 +773,10 @@ module.exports.controller = function (app) {
             if (err) {
               req.flash('errors', { msg: err.message });
             }
+            // shut down the connection pool, no more messages
+            smtpTransport.close();
           });
 
-          // shut down the connection pool, no more messages
-          smtpTransport.close();
         }
       });
 

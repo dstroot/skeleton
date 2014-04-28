@@ -50,7 +50,6 @@ builtAssets/
 # Configuration
 ##################
 env.json
-secrets.js
 
 # Logging
 ##################

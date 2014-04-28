@@ -68,12 +68,12 @@ module.exports.controller = function(app) {
         req.flash('errors', { msg: err.message });
         return res.redirect('/contact');
       }
-      req.flash('success', { msg: 'Email has been sent successfully!' });
-      res.redirect('/contact');
+      // Shut down the connection pool, no more messages
+      smtpTransport.close();
     });
 
-    // Shut down the connection pool, no more messages
-    smtpTransport.close();
+    req.flash('success', { msg: 'Email has been sent successfully!' });
+    res.redirect('/contact');
 
   });
 

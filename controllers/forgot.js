@@ -52,14 +52,14 @@ var nodemailer    = require('nodemailer');
 
 */
 
-module.exports.controller = function(app) {
+module.exports.controller = function (app) {
 
   /**
    * GET /forgot
    * Forgot your password page.
    */
 
-  app.get('/forgot', function(req, res) {
+  app.get('/forgot', function (req, res) {
     if (req.user) {
       return res.redirect('/');  //user already logged in!
     }
@@ -74,7 +74,7 @@ module.exports.controller = function(app) {
    * @param {string} email
    */
 
-  app.post('/forgot', function(req, res) {
+  app.post('/forgot', function (req, res) {
 
     // Begin a workflow
     var workflow = new (require('events').EventEmitter)();
@@ -83,7 +83,7 @@ module.exports.controller = function(app) {
      * Step 1: Is the email valid?
      */
 
-    workflow.on('validate', function() {
+    workflow.on('validate', function () {
 
       // Check for form errors
       req.assert('email', 'Email cannot be blank.').notEmpty();
@@ -104,14 +104,14 @@ module.exports.controller = function(app) {
      * Step 2: Generate a one-time (nonce) token
      */
 
-    workflow.on('generateToken', function() {
+    workflow.on('generateToken', function () {
       // generate token
-      crypto.randomBytes(21, function(err, buf) {
+      crypto.randomBytes(21, function (err, buf) {
         var token = buf.toString('hex');
         // hash token
-        bcrypt.genSalt(10, function(err, salt) {
-          bcrypt.hash(token, salt, null, function(err, hash) {
-            // next step
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(token, salt, null, function (err, hash) {
+            // next step, pass token, hash
             workflow.emit('saveToken', token, hash);
           });
         });
@@ -124,7 +124,7 @@ module.exports.controller = function(app) {
 
     workflow.on('saveToken', function (token, hash) {
       // lookup user
-      User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
+      User.findOne({ email: req.body.email.toLowerCase() }, function (err, user) {
         if (err) {
           req.flash('errors', { msg: err.message });
           return res.redirect('/forgot');
@@ -145,7 +145,7 @@ module.exports.controller = function(app) {
         user.resetPasswordExpires = Date.now() + expiration;
 
         // update the user's record with the token
-        user.save(function(err) {
+        user.save(function (err) {
           if (err) {
             req.flash('errors', { msg: err.message });
             return res.redirect('/forgot');
@@ -170,8 +170,6 @@ module.exports.controller = function(app) {
           user: config.gmail.user,
           pass: config.gmail.password
         }
-        // See nodemailer docs for other transports
-        // https://github.com/andris9/Nodemailer
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
@@ -180,7 +178,7 @@ module.exports.controller = function(app) {
         resetLink:     req.protocol + '://' + req.headers.host + '/reset/' + user.id + '/' + token,
         mailtoName:    config.smtp.name,
         mailtoAddress: config.smtp.address
-      }, function(err, html) {
+      }, function (err, html) {
         if (err) {
           return (err, null);
         }
@@ -209,15 +207,15 @@ module.exports.controller = function(app) {
             if (err) {
               req.flash('errors', { msg: err.message });
               return res.redirect('/forgot');
-            } else {
-              // Message to user
-              req.flash('success', { msg: 'We sent you an email with further instructions. Check your email!' });
-              return res.redirect('/forgot');
             }
+            // shut down the connection pool, no more messages
+            smtpTransport.close();
           });
 
-          // shut down the connection pool, no more messages
-          smtpTransport.close();
+          // Message to user
+          req.flash('success', { msg: 'We sent you an email with further instructions. Check your email!' });
+          res.redirect('/forgot');
+
         }
       });
 

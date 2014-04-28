@@ -31,7 +31,7 @@ module.exports.controller = function(app) {
    * Render User Profile Page
    */
 
-  app.get('/account', function(req, res) {
+  app.get('/account', function (req, res) {
     res.render('account/profile', {
       url: req.url
     });
@@ -42,7 +42,7 @@ module.exports.controller = function(app) {
    * Update User Profile Information
    */
 
-  app.post('/account/profile', function(req, res, next) {
+  app.post('/account/profile', function (req, res, next) {
 
     // Create a workflow (here you could also use the async waterfall pattern)
     var workflow = new (require('events').EventEmitter)();
@@ -51,7 +51,7 @@ module.exports.controller = function(app) {
      * Step 1: Validate the form data
      */
 
-    workflow.on('validate', function() {
+    workflow.on('validate', function () {
 
       req.assert('name', 'Your name cannot be empty.').notEmpty();
       req.assert('email', 'Your email cannot be empty.').notEmpty();
@@ -66,16 +66,16 @@ module.exports.controller = function(app) {
       }
 
       // next step
-      workflow.emit('updatePassword');
+      workflow.emit('updateProfile');
     });
 
     /**
      * Step 2: Update the user's information
      */
 
-    workflow.on('updatePassword', function() {
+    workflow.on('updateProfile', function () {
 
-      User.findById(req.user.id, function(err, user) {
+      User.findById(req.user.id, function (err, user) {
         if (err) {
           return next(err);
         }
@@ -87,13 +87,13 @@ module.exports.controller = function(app) {
         user.profile.website = req.body.website.trim() || '';
         user.activity.last_updated = Date.now();
 
-        user.save(function(err) {
+        user.save(function (err) {
           if (err) {
             return next(err);
           }
 
-          // next step
-          workflow.emit('sendEmail', user);
+          // next step, pass user
+          workflow.emit('sendAccountEmail', user);
 
         });
       });
@@ -106,7 +106,7 @@ module.exports.controller = function(app) {
      * user did not initiate the reset!
      */
 
-    workflow.on('sendEmail', function(user) {
+    workflow.on('sendAccountEmail', function (user) {
 
       // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
       var smtpTransport = nodemailer.createTransport('SMTP',{
@@ -115,8 +115,6 @@ module.exports.controller = function(app) {
           user: config.gmail.user,
           pass: config.gmail.password
         }
-        // See nodemailer docs for other transports
-        // https://github.com/andris9/Nodemailer
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
@@ -124,7 +122,7 @@ module.exports.controller = function(app) {
         name:          user.profile.name,
         mailtoName:    config.smtp.name,
         mailtoAddress: config.smtp.address
-      }, function(err, html) {
+      }, function (err, html) {
         if (err) {
           return (err, null);
         }
@@ -151,11 +149,11 @@ module.exports.controller = function(app) {
           smtpTransport.sendMail(mailOptions, function(err) {
             if (err) {
               req.flash('errors', { msg: err.message });
+              return res.redirect('/account');
             }
+            // shut down the connection pool, no more messages
+            smtpTransport.close();
           });
-
-          // shut down the connection pool, no more messages
-          smtpTransport.close();
 
           // Send user on their merry way
           req.flash('success', { msg: 'Your profile was updated.' });
@@ -209,9 +207,9 @@ module.exports.controller = function(app) {
      * Step 2: Update the user's passwords
      */
 
-    workflow.on('updatePassword', function() {
+    workflow.on('updatePassword', function () {
 
-      User.findById(req.user.id, function(err, user) {
+      User.findById(req.user.id, function (err, user) {
         if (err) {
           return next(err);
         }
@@ -224,8 +222,8 @@ module.exports.controller = function(app) {
             return next(err);
           }
 
-          // next step
-          workflow.emit('sendEmail', user);
+          // next step, pass user
+          workflow.emit('sendPasswordEmail', user);
 
         });
       });
@@ -238,7 +236,7 @@ module.exports.controller = function(app) {
      * user did not initiate the reset!
      */
 
-    workflow.on('sendEmail', function(user) {
+    workflow.on('sendPasswordEmail', function (user) {
 
       // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
       var smtpTransport = nodemailer.createTransport('SMTP',{
@@ -247,8 +245,6 @@ module.exports.controller = function(app) {
           user: config.gmail.user,
           pass: config.gmail.password
         }
-        // See nodemailer docs for other transports
-        // https://github.com/andris9/Nodemailer
       });
 
       // Render HTML to send using .jade mail template (just like rendering a page)
@@ -256,7 +252,7 @@ module.exports.controller = function(app) {
         name:          user.profile.name,
         mailtoName:    config.smtp.name,
         mailtoAddress: config.smtp.address
-      }, function(err, html) {
+      }, function (err, html) {
         if (err) {
           return (err, null);
         }
@@ -283,11 +279,11 @@ module.exports.controller = function(app) {
           smtpTransport.sendMail(mailOptions, function(err) {
             if (err) {
               req.flash('errors', { msg: err.message });
+              return res.redirect('/account');
             }
+            // shut down the connection pool, no more messages
+            smtpTransport.close();
           });
-
-          // shut down the connection pool, no more messages
-          smtpTransport.close();
 
           // Send user on their merry way
           req.flash('success', { msg: 'Your password was changed!' });
