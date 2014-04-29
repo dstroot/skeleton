@@ -5819,6 +5819,81 @@ fieldset[disabled] .btn-vk.active {
 .fa-plus-square-o:before {
   content: "\f196";
 }
+@charset "UTF-8";
+/*!
+Animate.css - http://daneden.me/animate
+Licensed under the MIT license
+
+Copyright (c) 2013 Daniel Eden
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.animated.infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+.animated.hinge {
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+}
+@-webkit-keyframes bounceInLeft {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-2000px);
+    transform: translateX(-2000px);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translateX(30px);
+    transform: translateX(30px);
+  }
+  80% {
+    -webkit-transform: translateX(-10px);
+    transform: translateX(-10px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@keyframes bounceInLeft {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-2000px);
+    -ms-transform: translateX(-2000px);
+    transform: translateX(-2000px);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translateX(30px);
+    -ms-transform: translateX(30px);
+    transform: translateX(30px);
+  }
+  80% {
+    -webkit-transform: translateX(-10px);
+    -ms-transform: translateX(-10px);
+    transform: translateX(-10px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+.bounceInLeft {
+  -webkit-animation-name: bounceInLeft;
+  animation-name: bounceInLeft;
+}
 /**
  * First, import base frameworks:
  *  - Project Font(s)  http://www.google.com/fonts/specimen/Open+Sans

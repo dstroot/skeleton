@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.0.2-19",
+  "version": "0.0.2-20",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -103,7 +103,7 @@
     "gulp-size": "~0.3.0",
     "gulp-uglify": "~0.2.1",
     "gulp-watch": "~0.6.2",
-    "jshint-stylish": "0.1.5",
+    "jshint-stylish": "~0.2.0",
     "mocha": "~1.18.2",
     "supertest": "~0.11.0"
   }
