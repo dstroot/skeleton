@@ -174,11 +174,11 @@ block scripts
       // Hide progress bar until we need it
       $('.progress').hide();
 
-      $.getScript( '/lib/complexify/jquery.complexify.banlist.js' )
+      $.getScript( '/lib/jquery.complexify.js/jquery.complexify.banlist.js' )
         .done(function( script, textStatus ) {
 
           //- Get complexity Script
-          $.getScript('/lib/complexify/jquery.complexify.js')
+          $.getScript('/lib/jquery.complexify.js/jquery.complexify.js')
             .done(function(script, textStatus) {
 
               $('#password').complexify({

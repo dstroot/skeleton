@@ -1,8 +1,6 @@
 Complexify
 ====================
 
-repo: https://github.com/GerHobbelt/jquery.complexify.js/commit/a19f2109e6380197d8f5b2d7c4e59597a18c9188
-
 Websites have a responsibility to users to accurately tell them how good a password is, and this is not an easy job.
 
  - If your password is 8 characters long and only formed of lower case characters, you need to make it better, perhaps by adding a number or more characters.
@@ -18,9 +16,9 @@ Complexify's default settings will enforce a minimum level of complexity that wo
 
 ###Unicode
 
-Complexify supports Unicode and will add appropriate complexity for the size of character set included in a password.
+Complexify supports Unicode and will add appropriate complexity for the size of character set included in a password. 
 
-For example, as there are 96 Hiragana characters defined in the Unicode specification, including one of these will increase the brute-force complexity  by 96.
+For example, as there are 96 Hiragana characters defined in the Unicode specification, including one of these will increase the brute-force complexity  by 96. 
 
 The rationale behind this is that in an attacker were wanting to include Japanese passwords in his attack, he/she may choose to include the Hiragana set in his/her attack, but not the Katakana set. Complexify divides Unicode into 94 appropriately grouped sets.
 
@@ -39,12 +37,21 @@ By default, the banned passwords list is empty and therefore this has no effect.
 
 **0.3** - Banned password list support, better event binding.
 
-**0.2** - Unicode support
-    Note: most passwords using punctuation will score slightly lower as the punctuation set has been split into multiple sets.
+**0.2** - Unicode support  
+	Note: most passwords using punctuation will score slightly lower as the punctuation set has been split into multiple sets.
 
 **0.1** - Basic implementation
 
-- - -
+
+###Alternative Implementations
+
+Several people have kindly open-sourced their implementations of this algorithm in other languages:
+
+ - Mert Dümenci [Complexify-Objc](https://github.com/mertdumenci/Complexify-ObjC)
+ - Andrey Kislyuk [node-complexify](https://github.com/kislyuk/node-complexify)
+ - Michael Crumley [php-complexify](https://github.com/mcrumley/php-complexify/)
+
+- - - 
 
 For more information, [visit the website](http://danpalmer.me/jquery-complexify).
 

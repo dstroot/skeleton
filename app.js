@@ -5,28 +5,28 @@
  */
 
 // Packages needed for Express 4.x
-var csrf              = require('csurf');
-var logger            = require('morgan');
-var favicon           = require('static-favicon');
-var session           = require('express-session');
+var csrf              = require('csurf');                   // https://github.com/expressjs/csurf
+var logger            = require('morgan');                  // https://github.com/expressjs/morgan
+var favicon           = require('static-favicon');          // https://github.com/expressjs/favicon
+var session           = require('express-session');         // https://github.com/expressjs/session
 var express           = require('express');                 // https://npmjs.org/package/express
-var compress          = require('compression');
-var bodyParser        = require('body-parser');
-var cookieParser      = require('cookie-parser');
-var errorHandler      = require('errorhandler');
-var methodOverride    = require('method-override');
+var compress          = require('compression');             // https://github.com/expressjs/compression
+var bodyParser        = require('body-parser');             // https://github.com/expressjs/body-parser
+var cookieParser      = require('cookie-parser');           // https://github.com/expressjs/cookie-parser
+var errorHandler      = require('errorhandler');            // https://github.com/expressjs/errorhandler
+var methodOverride    = require('method-override');         // https://github.com/expressjs/method-override
 
 // Additional packages
 var fs                = require('fs');                      // http://nodejs.org/docs/v0.10.25/api/fs.html
 var io                = require('socket.io');               // https://www.npmjs.org/package/socket.io
 var pkg               = require('./package.json');          // Get package.json
 var path              = require('path');                    // http://nodejs.org/docs/v0.10.25/api/path.html
-var debug             = require('debug')('my-application'); //
+var debug             = require('debug')('skeleton');       // https://github.com/visionmedia/debug
 var flash             = require('express-flash');           // https://npmjs.org/package/express-flash
 var config            = require('./config/config');         // Get configuration
 var semver            = require('semver');                  // https://npmjs.org/package/semver
 var helmet            = require('helmet');                  // https://github.com/evilpacket/helmet
-var connect           = require('connect');
+var connect           = require('connect');                 // https://github.com/senchalabs/connect
 var winston           = require('winston');                 // https://npmjs.org/package/winston
 var mongoose          = require('mongoose');                // https://npmjs.org/package/mongoose
 var passport          = require('passport');                // https://npmjs.org/package/passport
@@ -158,6 +158,7 @@ app.use(session({
 app.disable('x-powered-by');  // Don't advertise our server type
 app.use(csrf());              // Prevent Cross-Site Request Forgery
 app.use(helmet.defaults());   // Default helmet security (must be above `app.router`)
+
 // app.use(helmet.csp({
 //   'default-src': ["'self'", 'localhost:3000'],
 //   'script-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", 'http://www.google-analytics.com', 'https://oss.maxcdn.com'],
@@ -223,11 +224,15 @@ if (app.get('env') === 'production') {
 // Now setup our static serving from /public
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.maxAge }));
 
+/**
+ * Error Handling
+ */
+
 // If nothing responded above we can assume a 404 (no routes responded or static assets found)
-// Test:
-// $ curl http://localhost:3000/notfound
-// $ curl http://localhost:3000/notfound -H "Accept: application/json"
-// $ curl http://localhost:3000/notfound -H "Accept: text/plain"
+// Tests:
+//   $ curl http://localhost:3000/notfound
+//   $ curl http://localhost:3000/notfound -H "Accept: application/json"
+//   $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 
 // Handle 404 Errors
 app.use(function(req, res, next) {
@@ -249,7 +254,7 @@ app.use(function(req, res, next) {
   res.type('txt').send('Error: Not found');
 });
 
-// Error-handling middleware requires an arity of 4, aka the signature (err, req, res, next).
+// True error-handling middleware requires an arity of 4, aka the signature (err, req, res, next).
 
 // Handle 403 Errors
 app.use(function(err, req, res, next) {
@@ -289,7 +294,7 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
+// Production error handler
 // (no stacktraces leaked to public!)
 app.use(function(err, req, res, next) {
   winston.error(err.status || 500 + ' ' + err + '\n');
@@ -299,7 +304,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// final error catch-all just in case...
+// Final error catch-all just in case...
 if ( app.get('env') === 'development') {
   app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 }

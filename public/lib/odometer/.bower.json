@@ -34,6 +34,5 @@
   },
   "_source": "git://github.com/HubSpot/odometer.git",
   "_target": "~0.4.6",
-  "_originalSource": "odometer",
-  "_direct": true
+  "_originalSource": "odometer"
 }

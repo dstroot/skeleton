@@ -8,7 +8,7 @@ To use animate.css in your website, simply drop the stylesheet into your documen
 
 ```html
 <head>
-	<link rel="stylesheet" href="animate.min.css">
+  <link rel="stylesheet" href="animate.min.css">
 </head>
 ```
 
@@ -20,17 +20,25 @@ $('#yourElement').addClass('animated bounceOutLeft');
 
 You can also detect when an animation ends:
 
+<!--
+Before you make changes to this file, you should know that $('#yourElement').one() is *NOT A TYPO*
+
+http://api.jquery.com/one/
+-->
+
 ```javascript
-$('#yourElement').one('webkitAnimationEnd mozAnimationEnd oAnimationEnd animationEnd', doSomething());
+$('#yourElement').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', doSomething);
 ```
+
+**Note:** `jQuery#one` is used when you want to execute the event handler at most *once*. More information [here](http://api.jquery.com/one/).
 
 You can change the duration of your animations, add a delay or change the number of times that it plays:
 
 ```css
 #yourElement {
-	-vendor-animation-duration: 3s;
-	-vendor-animation-delay: 2s;
-	-vendor-animation-iteration-count: infinite;
+  -vendor-animation-duration: 3s;
+  -vendor-animation-delay: 2s;
+  -vendor-animation-iteration-count: infinite;
 }
 ```
 
@@ -39,12 +47,12 @@ You can change the duration of your animations, add a delay or change the number
 ## Custom Builds
 Animate.css is powered by [Grunt](http://gruntjs.com), and you can create custom builds pretty easily. First of all, you’ll need Grunt and all other dependencies:
 
-```
+```sh
 $ cd path/to/animate.css/
 $ sudo npm install
 ```
 
-Next, run `grunt watch` to watch for changes and compile your custom builds. For example, if you want only some of the the “attention seekers”, simply edit the `.animate-config` file to select only the animations you want to use.
+Next, run `grunt watch` to watch for changes and compile your custom builds. For example, if you want only some of the the “attention seekers”, simply edit the `animate-config.json` file to select only the animations you want to use.
 
 ```javascript
 "attention_seekers": {

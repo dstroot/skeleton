@@ -33,6 +33,7 @@ block content
           tbody
 
 block scripts
+  script(src='/lib/moment/min/moment.min.js')
   script.
     var pages = {};
     var lastPageId = 0;
@@ -43,7 +44,7 @@ block scripts
         if ($('#visits tr').length > 10) {
           $('#visits tr:last').remove();
         }
-        $('#visits tbody').prepend('<tr><td>' + msg.url + '</td><td>' + msg.ip + '</td><td>' + msg.timestamp + '</td></tr>');
+        $('#visits tbody').prepend('<tr><td>' + msg.url + '</td><td>' + msg.ip + '</td><td>' + moment(msg.timestamp).format('YYYY-MM-DD, h:mm:ss a') + '</td></tr>');
         if (pages[msg.url]) {
           pages[msg.url].views = pages[msg.url].views + 1;
           $('#page' + pages[msg.url].pageId).html(pages[msg.url].views);
