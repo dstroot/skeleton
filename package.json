@@ -105,6 +105,6 @@
     "gulp-watch": "~0.6.2",
     "jshint-stylish": "~0.2.0",
     "mocha": "~1.18.2",
-    "supertest": "~0.11.0"
+    "supertest": "~0.12.0"
   }
 }
