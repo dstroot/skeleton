@@ -7,7 +7,7 @@
 // Packages needed for Express 4.x
 var csrf              = require('csurf');                   // https://github.com/expressjs/csurf
 var logger            = require('morgan');                  // https://github.com/expressjs/morgan
-var favicon           = require('static-favicon');          // https://github.com/expressjs/favicon
+var favicon           = require('serve-favicon');          // https://github.com/expressjs/favicon
 var session           = require('express-session');         // https://github.com/expressjs/session
 var express           = require('express');                 // https://npmjs.org/package/express
 var compress          = require('compression');             // https://github.com/expressjs/compression
