@@ -3,8 +3,8 @@
 /**
  * Module Dependencies
  */
-var config        = require('../config/config');
 
+var config        = require('../config/config');
 var _             = require('underscore');
 var Twit          = require('twit');
 var async         = require('async');
@@ -28,14 +28,12 @@ var passportConf  = require('../config/passport');
 
 module.exports.controller = function(app) {
 
- /**
+  /**
    * GET /api*
    * *ALL* api routes must be authenticated first
    */
 
   app.all('/api*', passportConf.isAuthenticated);
-
-
 
   /**
    * GET /api
@@ -56,6 +54,7 @@ module.exports.controller = function(app) {
   app.get('/api/lastfm', function(req, res, next) {
     var lastfm = new LastFmNode(config.lastfm);
     async.parallel({
+
         artistInfo: function(done) {
           lastfm.request('artist.getInfo', {
             artist: 'Morcheeba',
@@ -69,6 +68,7 @@ module.exports.controller = function(app) {
             }
           });
         },
+
         artistTopAlbums: function(done) {
           lastfm.request('artist.getTopAlbums', {
             artist: 'Morcheeba',
@@ -87,6 +87,7 @@ module.exports.controller = function(app) {
           });
         }
       },
+
       function(err, results) {
         if (err) {
           return next(err.message);
@@ -105,6 +106,7 @@ module.exports.controller = function(app) {
           url: '/apiopen'
         });
       });
+
   });
 
   /**
@@ -222,13 +224,27 @@ module.exports.controller = function(app) {
         return next(err);
       }
       var $ = cheerio.load(body);
+
+      // Get Articles
       var links = [];
       $('.title a[href^="http"], a[href^="https"]').each(function() {
-        links.push($(this));
+        if ( $(this).text() !== 'scribd' ) {
+          if ( $(this).text() !== 'Bugs' ) {
+            links.push($(this));
+          }
+        }
       });
+
+      //Get Comments
+      var comments = [];
+      $('.subtext a[href^="item"]').each(function() {
+        comments.push('<a href="https://news.ycombinator.com/' + $(this).attr('href') + '">' + $(this).text() + '</a>');
+      });
+
       res.render('api/scraping', {
         url: '/apiopen',
-        links: links
+        links: links,
+        comments: comments
       });
     });
   });

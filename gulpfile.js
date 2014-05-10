@@ -89,12 +89,12 @@ gulp.task('styles', function() {
     .pipe($.less({}))                       // Compile Less files
     .pipe($.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe($.rename(pkg.name + '.css'))      // Rename to "packagename.css"
-    .pipe(gulp.dest('./public/css'))      // Save CSS here
+    .pipe(gulp.dest('./public/css'))        // Save CSS here
     .pipe($.rename({suffix: '.min'}))       // Add .min suffix
-    .pipe($.csso())
+    .pipe($.csso())                         // Minify CSS
     .pipe($.header(banner, { pkg : pkg } )) // Add banner
     .pipe($.size())                         // What size are we at?
-    .pipe(gulp.dest('./public/css'))      // Save minified CSS here
+    .pipe(gulp.dest('./public/css'))        // Save minified CSS here
     .pipe($.livereload())                   // Initiate a reload
     .pipe($.notify({ message: 'Styles task complete' }));
 });
@@ -104,9 +104,9 @@ gulp.task('styles', function() {
  */
 
 gulp.task('lint', function() {
-  gulp.src(paths.lint)                    // Read .js files
+  gulp.src(paths.lint)                      // Read .js files
     .pipe($.jshint())                       // Lint .js files //.pipe(jshint('.jshintrc'))
-    .pipe($.jshint.reporter($.stylish))       // Specify a reporter for JSHint
+    .pipe($.jshint.reporter($.stylish))     // Specify a reporter for JSHint
     .pipe($.jscs())                         // Check code style
     .pipe($.notify({ onLast: true, message: 'Lint task complete' }));
 });
@@ -116,14 +116,14 @@ gulp.task('lint', function() {
  */
 
 gulp.task('scripts', function() {
-  return gulp.src(paths.js)               // Read .js files
+  return gulp.src(paths.js)                 // Read .js files
     .pipe($.concat(pkg.name + '.js'))       // Concatenate .js files into "packagename.js"
-    .pipe(gulp.dest('./public/js'))       // Save main.js here
+    .pipe(gulp.dest('./public/js'))         // Save main.js here
     .pipe($.rename({suffix: '.min'}))       // Add .min suffix
     .pipe($.uglify({ outSourceMap: true })) // Minify the .js
     .pipe($.header(banner, { pkg : pkg } )) // Add banner
     .pipe($.size())                         // What size are we at?
-    .pipe(gulp.dest('./public/js'))       // Save minified .js
+    .pipe(gulp.dest('./public/js'))         // Save minified .js
     .pipe($.livereload())                   // Initiate a reload
     .pipe($.notify({ onLast: true, message: 'Scripts task complete' }));
 });
@@ -133,14 +133,14 @@ gulp.task('scripts', function() {
  */
 
 gulp.task('images', function() {
-  gulp.src('public/img/**/*')             // Read images
-    .pipe($.changed('./public/img'))      // Only process new/changed
+  gulp.src('public/img/**/*')               // Read images
+    .pipe($.changed('./public/img'))        // Only process new/changed
     .pipe($.imagemin({
       optimizationLevel: 5,
       progressive: true,
       interlaced: true
     }))
-    .pipe(gulp.dest('./public/img'))      // Write processed images
+    .pipe(gulp.dest('./public/img'))       // Write processed images
     .pipe($.notify({ onLast: true, message: 'Images task complete' }));
 });
 
@@ -163,7 +163,7 @@ gulp.task('watch', function () {
   gulp.watch(paths.js, ['scripts']);
 
   // Watch .jade files, reload as needed
-  gulp.watch('views/**/*.jade').on('change', function(file) {
+  gulp.watch('views/**/*.jade').on('change', function (file) {
     $.livereload().changed(file.path);
   });
 
@@ -176,8 +176,9 @@ gulp.task('watch', function () {
 
 gulp.task('develop', ['watch'], function () {
   $.nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/', 'node_modules/'] })
-    .on('restart', ['lint'], function () {
-      $.livereload().changed();
+    .on('change', ['lint'])
+    .on('restart', function () {
+      $.livereload();
     });
 });
 

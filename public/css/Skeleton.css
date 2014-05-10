@@ -5920,10 +5920,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  *
  * This separation is very practical in use. However, if I
  * make a widget that is designed with a particular color
- * I use the color in the name. Ex: .btn-white or .navbar-yellow
+ * I use the color in the name. Example: .btn-white or .navbar-yellow
  *
  * I usually designate brand colors only but this
- * is an example so I included a fuller set.
+ * is an example so I included a more complete set.
  *
  */
 .brand1 {
