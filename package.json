@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.0.2-26",
+  "version": "0.0.2-27",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -38,7 +38,7 @@
   "dependencies": {
     "async": "~0.8.0",
     "bcrypt-nodejs": "~0.0.3",
-    "body-parser": "~1.0.2",
+    "body-parser": "~1.1.2",
     "cheerio": "~0.16.0",
     "compression": "^1.0.1",
     "connect": "^2.14.5",
