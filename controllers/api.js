@@ -227,7 +227,7 @@ module.exports.controller = function(app) {
 
       // Get Articles
       var links = [];
-      $('.title a[href^="http"], a[href^="https"]').each(function() {
+      $('.title a[href^="http"], .title a[href^="https"], .title a[href^="item"]').each(function() {
         if ( $(this).text() !== 'scribd' ) {
           if ( $(this).text() !== 'Bugs' ) {
             links.push($(this));

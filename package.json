@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.0.2-29",
+  "version": "0.0.2-30",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -92,7 +92,7 @@
     "gulp-csso": "^0.2.8",
     "gulp-header": "^1.0.2",
     "gulp-imagemin": "~0.5.0",
-    "gulp-jscs": "~0.4.2",
+    "gulp-jscs": "~0.5.0",
     "gulp-jshint": "~1.5.5",
     "gulp-less": "~1.2.3",
     "gulp-livereload": "~1.5.0",

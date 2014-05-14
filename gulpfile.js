@@ -10,7 +10,7 @@
 
 var gulp = require('gulp');
 
-// load plugins
+// load gulp plugins
 var $ = require('gulp-load-plugins')();
 
 /**
