@@ -9,6 +9,7 @@ var User              = require('../models/User');
 var utils             = require('./utils');
 var config            = require('./config');
 var passport          = require('passport');
+var TotpStrategy      = require('passport-totp').Strategy;
 var LocalStrategy     = require('passport-local').Strategy;
 var OAuthStrategy     = require('passport-oauth').OAuthStrategy;
 var OAuth2Strategy    = require('passport-oauth').OAuth2Strategy;
@@ -20,6 +21,12 @@ var FacebookStrategy  = require('passport-facebook').Strategy;
 /**
  * Serialize and Deserialize the User
  */
+
+// Passport session setup.
+//   To support persistent login sessions, Passport needs to be able to
+//   serialize users into and deserialize users out of the session.  Typically,
+//   this will be as simple as storing the user ID when serializing, and finding
+//   the user by ID when deserializing.
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -34,6 +41,10 @@ passport.deserializeUser(function(id, done) {
 /**
  * Local authentication
  */
+
+// Use the LocalStrategy within Passport.
+//   Strategies in passport accept credentials (in this case, a username and password),
+//   and invoke a callback with a user object.
 
 passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, password, done) {
   User.findOne({ email: email }, function(err, user) {
@@ -64,6 +75,40 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, pass
     }
   });
 }));
+
+/**
+ *
+ */
+
+var keys = {};
+
+exports.findKeyForUserId = function (id, fn) {
+  return fn(null, keys[id]);
+};
+
+exports.saveKeyForUserId = function (id, key, fn) {
+  keys[id] = key;
+  return fn(null);
+};
+
+exports.ensureSecondFactor = function (req, res, next) {
+  if (req.session.secondFactor === 'totp') {
+    return next();
+  }
+  res.redirect('/login-otp');
+};
+
+passport.use(new TotpStrategy(
+  function(user, done) {
+    // setup function, supply key and period to done callback
+    findKeyForUserId(user.id, function (err, obj) {
+      if (err) {
+        return done(err);
+      }
+      return done(null, obj.key, obj.period);
+    });
+  }
+));
 
 /**
  * Sign in with Facebook.

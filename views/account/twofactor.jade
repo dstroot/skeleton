@@ -1,0 +1,168 @@
+extends ../layouts/layout
+
+block head
+  title #{application} &middot; Setup Two Factor Authentication
+
+block content
+  .container
+    .row
+      .col-sm-6.col-sm-offset-3
+        p Thank you very much for registering!  Since we enable a simple and easy login experience we highly recommend protecting your account with enhanced security.  You can use
+          | &nbsp;
+          a(href='https://support.google.com/accounts/answer/1066447?hl=en') Google Authenticator
+          | or you can register a mobile phone number where we can text you via SMS.
+        br
+        form(action='/signup', method='POST')
+          input(type='hidden', name='_csrf', value=token)
+          legend Sign Up
+          .form-group
+            label.sr-only(for='name') Name:
+            input.form-control(type='text', name='name', id='name', placeholder='Your Name', autofocus=true, required)
+          .form-group
+            label.sr-only(for='email') Email:
+            input.form-control(type='email', name='email', id='email', placeholder='Your Email', required)
+            #hint
+          .form-group
+            label.sr-only(for='password') Password:
+            input.form-control(type='password', name='password', id='password', placeholder='Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+            .progress
+              .progress-bar(role='progressbar')
+          .form-group
+            label.sr-only(for='confirmPassword') Confirm Password:
+            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+          .form-group
+            button.btn.btn-success(type='submit')
+              i.fa.fa-check
+              | &nbsp;Sign Up
+            | &nbsp;
+            a.btn.btn-link(href='/login') Already have an account?
+        br
+        p.text-muted <em>I accept #{application}'s
+          a(href='/terms')  Terms of Use
+          |  and
+          a(href='/privacy')  Privacy Policy.</em>
+
+  //- HTML 5 Form Notes
+  //- ===========================================
+  //- 1) Always add labels!
+  //-    Screen readers will have trouble with your forms if you don't include a label for every input.
+  //-    NOTE: you can hide the labels using the .sr-only class.
+  //- 2) Use proper HTML5 input types (email, password, date, url, etc.)  This adds some HTML5 validation as
+  //-    well as the correct keyboard on mobile devices.
+  //- 3) When using the pattern attribute, the ^ and $ for the start and end of the regular expression
+  //-    are implied and don't need to be included.
+  //- 4) You can help the user by including a title attribute that tells them the format you require.
+
+block scripts
+  script.
+    $(document).ready(function() {
+
+      //- Get Mailcheck Script
+      $.getScript('/lib/mailcheck/src/mailcheck.min.js')
+      .done(function(script, textStatus) {
+        // initiate mailcheck
+        $('#email').on('blur', function() {
+          $(this).mailcheck({
+            //- domains: domains,                       // optional
+            //- topLevelDomains: topLevelDomains,       // optional
+            //- distanceFunction: superStringDistance,  // optional
+            suggested: function(element, suggestion) {
+              if (!$('#hint').html()) {
+                  // First error - fill in/show entire hint element
+                  suggestion = '<em>Did you mean <span class="suggestion">' +
+                      '<span class="address">' + suggestion.address + '</span>' +
+                      '@<a href="#" id="suggestion"><strong>' + suggestion.domain +
+                      '</strong></a></span>?</em>';
+                  $('#hint').html(suggestion).fadeIn(200);
+                  // Use suggestion
+                  $( '#suggestion' ).click(function () {
+                    // On click, fill in the field with the suggestion and remove the hint
+                    $('#email').val($('.suggestion').text());
+                    $('#hint').fadeOut(150, function() {
+                      $(this).empty();
+                    });
+                    //go to next field
+                    $('input[name=password]').focus().keyup();
+                    //- return false;
+                  });
+              } else {
+                  // Subsequent errors
+                  $('.address').html(suggestion.address);
+                  $('.domain').html(suggestion.domain);
+              }
+            },
+            empty: function(element) {
+              // callback code
+            }
+          });
+        });
+      })
+      .fail(function(jqxhr, settings, exception) {
+          console.log('Mailcheck load failed.');
+      });
+
+      // Hide progress bar until we need it
+      $('.progress').hide();
+
+      $.getScript( '/lib/jquery.complexify.js/jquery.complexify.banlist.js' )
+        .done(function( script, textStatus ) {
+
+          //- Get complexity Script
+          $.getScript('/lib/jquery.complexify.js/jquery.complexify.js')
+            .done(function(script, textStatus) {
+
+              $('#password').complexify({
+                minimumChars        : 6,
+                strengthScaleFactor : 0.5,
+                banmode             : 'loose',
+                evaluateOnInit      : false
+                }, function (valid, complexity) {
+
+                  // Show the bar
+                  $('.progress').fadeIn(200);
+
+                  // Change colors
+                  if (!valid) {
+                    $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-success').addClass('progress-bar-danger');
+                  } else {
+                    $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-danger').addClass('progress-bar-success');
+                  }
+
+                  // Label progress bar
+                  switch (true)
+                  {
+                    case (complexity > 81):
+                      $('.progress-bar').html('Excellent Complexity!');
+                      break;
+                    case (complexity > 61):
+                      $('.progress-bar').html('Strong Complexity!');
+                      break;
+                    case (complexity > 41):
+                      $('.progress-bar').html('Good Complexity');
+                      break;
+                    case (complexity > 31):
+                      $('.progress-bar').html('Average Complexity');
+                      break;
+                    case (complexity > 21):
+                      $('.progress-bar').html('Weak');
+                      break;
+                    default:
+                      $('.progress-bar').html(':(');
+                      break;
+                  }
+                }
+              );
+            // Hide, our work is done ;)
+            $('#password').on('blur', function() {
+              $('.progress').fadeOut(150);
+            });
+          })
+          .fail(function(jqxhr, settings, exception) {
+            console.log('Complexify load failed.');
+          });
+        })
+        .fail(function( jqxhr, settings, exception ) {
+          console.log('Complexify banlist load failed.');
+      });
+
+    });
