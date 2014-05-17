@@ -181,7 +181,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Keep user, csrf token and config available
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.user = req.user;
   res.locals.token = req.csrfToken();
   res.locals.config = config;

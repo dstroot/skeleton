@@ -27,7 +27,7 @@ module.exports.controller = function (app) {
 
     // Check if user is already logged in
     if (req.user) {
-      req.flash('info', { msg: 'You are already logged!' });
+      req.flash('info', { msg: 'You are already logged in!' });
       return res.redirect('/api');
     }
 
@@ -593,8 +593,15 @@ module.exports.controller = function (app) {
           req.flash('errors', { msg: err.message });
           return res.redirect('back');
         }
-        req.flash('info', { msg: 'Thanks for signing up! You rock!' });
-        res.redirect('/api');
+        // send the right welcome message
+        if (config.twoFactor) {
+          req.flash('warning', { msg: 'Welcome! We recommend turning on enhanced security in account settings.' });
+          res.redirect('/api');
+        } else {
+          req.flash('info', { msg: 'Thanks for signing up! You rock!' });
+          res.redirect('/api');
+        }
+
       });
 
       // WORKFLOW COMPLETED
