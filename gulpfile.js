@@ -18,13 +18,15 @@ var $ = require('gulp-load-plugins')();
  */
 
 var pkg = require('./package.json');
-var banner = ['/**',
+var banner = [
+  '/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
   ' * @version v<%= pkg.version %>',
   ' * @link <%= pkg.homepage %>',
   ' * @license <%= pkg.license %>',
   ' */',
-  ''].join('\n');
+  ''
+].join('\n');
 
 /**
  * Paths

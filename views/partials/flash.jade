@@ -3,6 +3,7 @@
     .alert.alert-danger.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
         i.fa.fa-times
+      //- why is the line below inconsistent?
       for error in messages.errors
         p.flashmsg
           strong Oh Snap!

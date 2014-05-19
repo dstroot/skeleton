@@ -11,14 +11,14 @@ var config        = require('../config/config');
  * Contact Form Controller
  */
 
-module.exports.controller = function(app) {
+module.exports.controller = function (app) {
 
   /**
    * GET /contact
    * Contact form page.
    */
 
-  app.get('/contact', function(req, res) {
+  app.get('/contact', function (req, res) {
     res.render('contact/contact', {
       url: req.url
     });
@@ -32,7 +32,7 @@ module.exports.controller = function(app) {
    * @param {string} message
    */
 
-  app.post('/contact', function(req, res) {
+  app.post('/contact', function (req, res) {
 
     req.assert('name', 'Name cannot be blank').notEmpty();
     req.assert('email', 'Email is not valid').isEmail();

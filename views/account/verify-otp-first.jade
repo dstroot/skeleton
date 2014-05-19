@@ -1,0 +1,25 @@
+extends ../layouts/layout
+
+block head
+  title Sign In
+
+block content
+  .container
+    .row
+      .col-sm-6.col-sm-offset-3
+        br
+        br
+        form(action="/verify-otp-first", method='POST')
+          input.form-control(type='hidden', name='_csrf', value=token)
+          legend Test your enhanced security code:
+          .form-group
+            label.sr-only(for='code') Code:
+            input.form-control(type='text', name='code', placeholder='code', autofocus=true, required)
+          .form-group
+            a.btn.btn-danger(href='/account/disable-otp')
+              i.fa.fa-times
+              | &nbsp;Cancel Enhanced Security
+            | &nbsp;
+            button.btn.btn-success(type='submit')
+              i.fa.fa-check
+              | &nbsp;Continue

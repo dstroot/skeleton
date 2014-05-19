@@ -181,7 +181,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Keep user, csrf token and config available
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.user = req.user;
   res.locals.token = req.csrfToken();
   res.locals.config = config;
@@ -410,9 +410,9 @@ io.sockets.on('connection', function (socket) {
   socket.on('message', function (message) {
     var ip = socket.handshake.address.address;
     var url = message;
-    io.sockets.emit('pageview', { 'connections': Object.keys(io.connected).length, 'ip': ip, 'url': url, 'xdomain': socket.handshake.xdomain, 'timestamp': new Date()});
+    io.sockets.emit('pageview', { connections: Object.keys(io.connected).length, ip: ip, url: url, xdomain: socket.handshake.xdomain, timestamp: new Date()});
   });
   socket.on('disconnect', function () {
-    io.sockets.emit('pageview', { 'connections': Object.keys(io.connected).length});
+    io.sockets.emit('pageview', { connections: Object.keys(io.connected).length});
   });
 });

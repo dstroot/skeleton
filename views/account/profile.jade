@@ -38,11 +38,11 @@ block content
           .form-group
             label.sr-only(for='gender') Gender
             label.radio
-                input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
-                span Male
-              label.radio
-                input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
-                span Female
+              input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
+              span Male
+            label.radio
+              input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
+              span Female
           .form-group
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-check
@@ -87,6 +87,18 @@ block content
             a.btn.btn-block.btn-social.btn-success(href='/account/link/google')
               i.fa.fa-google-plus.fa-lg.fa-fw
               | &nbsp;Connect Google
+        if config.enhancedSecurity
+          .page-header
+            h2 Enhanced Security
+          p Enhanced security adds an extra layer of protection to your account. Once enabled, a security code is required in addition to your password whenever you sign in. The code <strong>changes every 30 seconds</strong> making it <strong>very difficult</strong> for hackers to gain access to your account.
+          if user.enhancedSecurity.enabled
+            a.btn.btn-block.btn-danger(href='/account/disable-otp')
+              i.fa.fa-unlock
+              | &nbsp;Disable Enhanced Security
+          else
+            a.btn.btn-block.btn-success(href='/setup-otp')
+              i.fa.fa-lock
+              | &nbsp;Enable Enhanced Security
     .row
       .col-sm-6.col-sm-offset-1
         .page-header
@@ -103,8 +115,8 @@ block content
             input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm New Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
           .form-group
             button.btn.btn.btn-primary(type='submit')
-                i.fa.fa-check
-                | &nbsp;Change Password
+              i.fa.fa-check
+              | &nbsp;Change Password
       .col-sm-4
         .page-header
           h2 Delete Account

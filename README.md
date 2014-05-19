@@ -63,13 +63,15 @@ Features
   + Gulp.js build system
   + Jade templates (all nicely laid out: head, navigation, footer, etc.)
   + LESS stylesheets 
-  + Bootstrap 3 UI
+  + Bootstrap 3.x UI
   + FontAwesome
+  + etc.
 - **MVC project structure** (in my own style) - "Views" are the Jade Templates, "Models" are the Mongo/Mongoose models, and "Controllers" are the glue for routing, page logic and data access via the models. These should be the only things you need to touch to build out new pages and functionality.
 - **Robust Authentication**
-  + **Local Authentication** using Email and Password
+  + **Local Authentication** using Email and Password, with optional email verification step. [1]
   + **OAuth 1.0a Authentication** via Twitter
   + **OAuth 2.0 Authentication** via Facebook, Google or GitHub
+  + **Two-factor TOTP Authentication** optional feature for users to enable two-factor authentication.  Can be turned off/on via the config file.
 - **Account Management**
   + Gravatar
   + Profile Details
@@ -77,7 +79,7 @@ Features
   + Link multiple OAuth strategies to one account
   + Delete Account
   + Password Reset
-  + User Email Verification [1]
+  + Enable/disable enhanced security [2]
 - **Administrative Pages**  
   + **Real-time** Dashboard
   + Accounts Listing
@@ -93,6 +95,8 @@ This is pretty minimal at this point - since we don't have an easy way to regene
 People who signup via a social OAUTH provider are not required to verify their accounts in any case (even if account verification is turned on) since they are already considered "valid" via the account provider.  The one loophole is that Twitter does not provide us with the user's email address so we are trusting the user in this case to give us a valid email.
 
 I am not a big fan of this practice since it raises the barrier to entry and therefore have not built the functionality out very far.  It is turned off in the live example.
+
+[2] If enhanced security is enabled in the config file then users can enable enhanced security via their profile.  This turns on two-factor TOTP based authentication for the user.
 
 #### Best Practices
 
