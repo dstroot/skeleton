@@ -87,6 +87,18 @@ block content
             a.btn.btn-block.btn-social.btn-success(href='/account/link/google')
               i.fa.fa-google-plus.fa-lg.fa-fw
               | &nbsp;Connect Google
+        if config.enhancedSecurity
+          .page-header
+            h2 Enhanced Security
+          p Enhanced security adds an extra layer of protection to your account. Once enabled, a security code is required in addition to your password whenever you sign in. The code <strong>changes every 30 seconds</strong> making it <strong>very difficult</strong> for hackers to gain access to your account.
+          if user.enhancedSecurityToken.key
+            a.btn.btn-block.btn-danger(href='/account/disable-otp')
+              i.fa.fa-unlock
+              | &nbsp;Disable Enhanced Security
+          else
+            a.btn.btn-block.btn-success(href='/setup-otp')
+              i.fa.fa-lock
+              | &nbsp;Enable Enhanced Security
     .row
       .col-sm-6.col-sm-offset-1
         .page-header
@@ -124,21 +136,6 @@ block content
                   button.btn.btn-block.btn-danger(type='submit')
                     i.fa.fa-trash-o
                     | &nbsp;Delete my account
-    if true
-      .row
-        .col-sm-6.col-sm-offset-1
-          .page-header
-            h2 Enable Enhanced Security
-          form(action='/account/twofactor', method='POST')
-            input.form-control(type='hidden', name='_csrf', value=token)
-            .checkbox
-              label
-                input(type="checkbox")
-                | Enhanced Security
-            .form-group
-              button.btn.btn.btn-primary(type='submit')
-                i.fa.fa-check
-                | &nbsp;Turn On Enhanced Security
 
 block scripts
   script.

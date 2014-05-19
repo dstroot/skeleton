@@ -1,0 +1,50 @@
+extends ../layouts/layout
+
+block head
+  title Enhanced Security
+
+block content
+  .container
+    .row
+      .col-sm-8.col-sm-offset-2
+        h1 Welcome to Enhanced Security!
+        p We recommend protecting your account with enhanced security, adding an extra layer of protection to your account. Once enabled, a unique time-sensitive security code is required in addition to your password whenever you sign in.
+        p.lead Use a compatible mobile app:
+        p Several mobile apps are available that will generate security codes for you. Any app that supports the Time-based One-Time Password (TOTP) protocol should work, including the following:
+        ul
+          li
+            a(href='https://support.google.com/accounts/answer/1066447?hl=en') Google Authenticator
+            |  (Android/iPhone/BlackBerry)
+          li
+            a(href='http://guide.duosecurity.com/third-party-accounts') Duo Mobile
+            |  (Android/iPhone)
+          li
+            a(href='http://www.amazon.com/gp/product/B0061MU68M') Amazon AWS MFA
+            |  (Android)
+          li
+            a(href='http://www.windowsphone.com/en-us/store/app/authenticator/021dd79f-0598-e011-986b-78e7d1fa76f8') Authenticator
+            |  (Windows Phone 7)
+
+        p Install one of the apps above if you don't already have one (Google Authenticator works well). Then scan the QR Code below (if your app supports it) or type your secret key into the app.
+
+        br
+        p.lead Scan this QR Code:
+          img.center-block(src='#{qrImage}')
+        br
+        p.lead Or enter this key manually: &nbsp;&nbsp;<b>#{key}</b>
+        br
+        //- p.lead Save your emergency backup code:  <b>L1KCYRCFP0GEWY76TRNVGFWSHGK</b>
+        //- p Before enabling two-step verification, print (
+        //-   a(href="javascript:window.print()")
+        //-     i.fa.fa-lg.fa-print
+        //-   | ), or write down this special emergency backup key. It is very important that you write this key down and store it somewhere safe. Someday you'll probably need this backup code for emergency access to your account!
+        //- br
+    .row
+      .col-sm-4.col-sm-offset-2
+        a.btn.btn-danger.btn-block(href='/account/disable-otp')
+          i.fa.fa-times
+          | &nbsp;Cancel Enhanced Security
+      .col-sm-4
+        a.btn.btn-success.btn-block(href='/verify-otp-first')
+          i.fa.fa-check
+          | &nbsp;I Am Ready To Go!

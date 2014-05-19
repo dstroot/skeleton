@@ -9,9 +9,9 @@
  *
  */
 
-module.exports.controller = function(app) {
+module.exports.controller = function (app) {
 
-  app.get('/mail', function(req, res) {
+  app.get('/mail', function (req, res) {
 
     //user must be logged in
     if (!req.user) {

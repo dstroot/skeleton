@@ -153,7 +153,7 @@ module.exports.controller = function (app) {
 
           // update the user's record with login timestamp
           user.activity.last_logon = Date.now();
-          user.save(function(err) {
+          user.save(function (err) {
             if (err) {
               req.flash('errors', { msg: err.message });
               return res.redirect('back');
@@ -198,6 +198,8 @@ module.exports.controller = function (app) {
  */
 
   app.get('/logout', function (req, res) {
+    // Augment Logout to handle enhanced security
+    delete req.session.passport.secondFactor;
     req.logout();
     res.redirect('/');
   });
@@ -327,7 +329,7 @@ module.exports.controller = function (app) {
           req.flash('errors', { msg: err.message });
           return res.redirect('back');
         }
-        req.flash('info', { msg: 'Welcome. Your account verification is completed!' });
+        req.flash('info', { msg: 'Your account verification is completed!' });
         res.redirect('/api');
       });
 

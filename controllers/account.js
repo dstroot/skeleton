@@ -17,7 +17,7 @@ var passportConf  = require('../config/passport');
  * Account Controller
  */
 
-module.exports.controller = function(app) {
+module.exports.controller = function (app) {
 
  /**
    * GET /account*

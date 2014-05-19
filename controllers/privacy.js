@@ -4,9 +4,9 @@
  * Privacy Controller
  */
 
-module.exports.controller = function(app) {
+module.exports.controller = function (app) {
 
-  app.get('/privacy', function(req, res) {
+  app.get('/privacy', function (req, res) {
     res.render('privacy/privacy', {
       url: req.url
     });

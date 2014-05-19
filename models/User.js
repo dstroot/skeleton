@@ -32,8 +32,8 @@ var mongoose  = require('mongoose');
 
 var userSchema = new mongoose.Schema({
 
-  email: { type: String, unique: true },
-  password: String,
+  email: { type: String, unique: true, index: true },
+  password: { type: String },
   type: { type: String, default: 'admin' },
   // EVERYONE'S AN ADMINISTRATOR IN EXAMPLE
   // DEFAULT TYPE SHOULB BE 'user'!
@@ -63,7 +63,12 @@ var userSchema = new mongoose.Schema({
   resetPasswordExpires: { type: Date },
 
   verified: { type: Boolean, default: true },
-  verifyToken: { type: String }
+  verifyToken: { type: String },
+
+  enhancedSecurityToken: {
+    key: { type: String },
+    period: { type: Number }
+  }
 
 });
 
