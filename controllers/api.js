@@ -55,57 +55,57 @@ module.exports.controller = function (app) {
     var lastfm = new LastFmNode(config.lastfm);
     async.parallel({
 
-        artistInfo: function(done) {
-          lastfm.request('artist.getInfo', {
-            artist: 'Morcheeba',
-            handlers: {
-              success: function(data) {
-                done(null, data);
-              },
-              error: function(err) {
-                done(err);
-              }
+      artistInfo: function(done) {
+        lastfm.request('artist.getInfo', {
+          artist: 'Morcheeba',
+          handlers: {
+            success: function(data) {
+              done(null, data);
+            },
+            error: function(err) {
+              done(err);
             }
-          });
-        },
-
-        artistTopAlbums: function(done) {
-          lastfm.request('artist.getTopAlbums', {
-            artist: 'Morcheeba',
-            handlers: {
-              success: function(data) {
-                var albums = [];
-                _.each(data.topalbums.album, function(album) {
-                  albums.push(album.image.slice( -1 )[0]['#text']);
-                });
-                done(null, albums.slice(0, 4));
-              },
-              error: function(err) {
-                done(err);
-              }
-            }
-          });
-        }
+          }
+        });
       },
 
-      function (err, results) {
-        if (err) {
-          return next(err.message);
-        }
-        var artist = {
-          name: results.artistInfo.artist.name,
-          image: results.artistInfo.artist.image.slice( -1 )[0]['#text'],
-          tags: results.artistInfo.artist.tags.tag,
-          bio: results.artistInfo.artist.bio.summary,
-          stats: results.artistInfo.artist.stats,
-          similar: results.artistInfo.artist.similar.artist,
-          topAlbums: results.artistTopAlbums
-        };
-        res.render('api/lastfm', {
-          artist: artist,
-          url: '/apiopen'
+      artistTopAlbums: function(done) {
+        lastfm.request('artist.getTopAlbums', {
+          artist: 'Morcheeba',
+          handlers: {
+            success: function(data) {
+              var albums = [];
+              _.each(data.topalbums.album, function(album) {
+                albums.push(album.image.slice( -1 )[0]['#text']);
+              });
+              done(null, albums.slice(0, 4));
+            },
+            error: function(err) {
+              done(err);
+            }
+          }
         });
+      }
+    },
+
+    function (err, results) {
+      if (err) {
+        return next(err.message);
+      }
+      var artist = {
+        name: results.artistInfo.artist.name,
+        image: results.artistInfo.artist.image.slice( -1 )[0]['#text'],
+        tags: results.artistInfo.artist.tags.tag,
+        bio: results.artistInfo.artist.bio.summary,
+        stats: results.artistInfo.artist.stats,
+        similar: results.artistInfo.artist.similar.artist,
+        topAlbums: results.artistTopAlbums
+      };
+      res.render('api/lastfm', {
+        artist: artist,
+        url: '/apiopen'
       });
+    });
 
   });
 
@@ -137,20 +137,20 @@ module.exports.controller = function (app) {
   app.get('/api/paypal', function (req, res, next) {
     paypal.configure(config.paypal);
     var payment_details = {
-      'intent': 'sale',
-      'payer': {
-        'payment_method': 'paypal'
+      intent: 'sale',
+      payer: {
+        payment_method: 'paypal'
       },
-      'redirect_urls': {
-        'return_url': config.paypal.returnUrl,
-        'cancel_url': config.paypal.cancelUrl
+      redirect_urls: {
+        return_url: config.paypal.returnUrl,
+        cancel_url: config.paypal.cancelUrl
       },
-      'transactions': [
+      transactions: [
         {
-          'description': 'ITEM: Something Awesome!',
-          'amount': {
-            'currency': 'USD',
-            'total': '2.99'
+          description: 'ITEM: Something Awesome!',
+          amount: {
+            currency: 'USD',
+            total: '2.99'
           }
         }
       ]
@@ -181,7 +181,7 @@ module.exports.controller = function (app) {
 
   app.get('/api/paypal/success', function (req, res, next) {
     var payment_id = req.session.payment_id;
-    var payment_details = { 'payer_id': req.query.PayerID };
+    var payment_details = { payer_id: req.query.PayerID };
     paypal.payment.execute(payment_id, payment_details, function (error, payment) {
       if (error) {
         res.render('api/paypal', {
@@ -326,33 +326,33 @@ module.exports.controller = function (app) {
   app.get('/api/foursquare', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res, next) {
     var token = _.findWhere(req.user.tokens, { kind: 'foursquare' });
     async.parallel({
-        trendingVenues: function (callback) {
-          foursquare.Venues.getTrending('40.7222756', '-74.0022724', { limit: 50 }, token.accessToken, function(err, results) {
-            callback(err, results);
-          });
-        },
-        venueDetail: function (callback) {
-          foursquare.Venues.getVenue('49da74aef964a5208b5e1fe3', token.accessToken, function(err, results) {
-            callback(err, results);
-          });
-        },
-        userCheckins: function (callback) {
-          foursquare.Users.getCheckins('self', null, token.accessToken, function(err, results) {
-            callback(err, results);
-          });
-        }
-      },
-      function (err, results) {
-        if (err) {
-          return next(err);
-        }
-        res.render('api/foursquare', {
-          url: '/apilocked',
-          trendingVenues: results.trendingVenues,
-          venueDetail: results.venueDetail,
-          userCheckins: results.userCheckins
+      trendingVenues: function (callback) {
+        foursquare.Venues.getTrending('40.7222756', '-74.0022724', { limit: 50 }, token.accessToken, function(err, results) {
+          callback(err, results);
         });
+      },
+      venueDetail: function (callback) {
+        foursquare.Venues.getVenue('49da74aef964a5208b5e1fe3', token.accessToken, function(err, results) {
+          callback(err, results);
+        });
+      },
+      userCheckins: function (callback) {
+        foursquare.Users.getCheckins('self', null, token.accessToken, function(err, results) {
+          callback(err, results);
+        });
+      }
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      res.render('api/foursquare', {
+        url: '/apilocked',
+        trendingVenues: results.trendingVenues,
+        venueDetail: results.venueDetail,
+        userCheckins: results.userCheckins
       });
+    });
   });
 
   /**
@@ -386,27 +386,27 @@ module.exports.controller = function (app) {
     var token = _.findWhere(req.user.tokens, { kind: 'facebook' });
     graph.setAccessToken(token.accessToken);
     async.parallel({
-        getMe: function(done) {
-          graph.get(req.user.facebook, function(err, me) {
-            done(err, me);
-          });
-        },
-        getMyFriends: function(done) {
-          graph.get(req.user.facebook + '/friends', function (err, friends) {
-            done(err, friends.data);
-          });
-        }
-      },
-      function(err, results) {
-        if (err) {
-          return next(err);
-        }
-        res.render('api/facebook', {
-          url: '/apilocked',
-          me: results.getMe,
-          friends: results.getMyFriends
+      getMe: function(done) {
+        graph.get(req.user.facebook, function(err, me) {
+          done(err, me);
         });
+      },
+      getMyFriends: function(done) {
+        graph.get(req.user.facebook + '/friends', function (err, friends) {
+          done(err, friends.data);
+        });
+      }
+    },
+    function(err, results) {
+      if (err) {
+        return next(err);
+      }
+      res.render('api/facebook', {
+        url: '/apilocked',
+        me: results.getMe,
+        friends: results.getMyFriends
       });
+    });
   });
 
   /**

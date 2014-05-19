@@ -105,13 +105,12 @@ passport.use('facebook', new FacebookStrategy({
   clientSecret: config.facebook.clientSecret,
   scope: ['email', 'user_location']
 }, function (accessToken, refreshToken, profile, done) {
-    done(null, false, {
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      profile: profile
-    });
-  }
-));
+  done(null, false, {
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+    profile: profile
+  });
+}));
 
 /**
  * Sign in with GitHub.
@@ -122,13 +121,12 @@ passport.use('github', new GitHubStrategy({
   clientSecret: config.github.clientSecret,
   customHeaders: { 'User-Agent': config.name }
 }, function (accessToken, refreshToken, profile, done) {
-    done(null, false, {
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      profile: profile
-    });
-  }
-));
+  done(null, false, {
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+    profile: profile
+  });
+}));
 
 /**
  * Sign in with Twitter. (OAuth 1.0a)
@@ -139,13 +137,12 @@ passport.use('twitter', new TwitterStrategy({
   consumerKey: config.twitter.consumerKey,
   consumerSecret: config.twitter.consumerSecret
 }, function (token, tokenSecret, profile, done) {
-    done(null, false, {
-      token: token,
-      tokenSecret: tokenSecret,
-      profile: profile
-    });
-  }
-));
+  done(null, false, {
+    token: token,
+    tokenSecret: tokenSecret,
+    profile: profile
+  });
+}));
 
 /**
  * Sign in with Google. (OAuth 2.0)
@@ -156,13 +153,12 @@ passport.use('google', new GoogleStrategy({
   clientSecret: config.google.clientSecret,
   scope: ['profile email']  // get the user's email address
 }, function (accessToken, refreshToken, profile, done) {
-    done(null, false, {
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      profile: profile
-    });
-  }
-));
+  done(null, false, {
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+    profile: profile
+  });
+}));
 
 /**
  * Tumblr API
@@ -170,23 +166,21 @@ passport.use('google', new GoogleStrategy({
  */
 
 passport.use('tumblr', new OAuthStrategy({
-    requestTokenURL: 'http://www.tumblr.com/oauth/request_token',
-    accessTokenURL: 'http://www.tumblr.com/oauth/access_token',
-    userAuthorizationURL: 'http://www.tumblr.com/oauth/authorize',
-    consumerKey: config.tumblr.key,
-    consumerSecret: config.tumblr.secret,
-    callbackURL: config.tumblr.callbackURL,
-    passReqToCallback: true
-  },
-  function (req, token, tokenSecret, profile, done) {
-    User.findById(req.user._id, function(err, user) {
-      user.tokens.push({ kind: 'tumblr', token: token, tokenSecret: tokenSecret });
-      user.save(function(err) {
-        done(err, user);
-      });
+  requestTokenURL: 'http://www.tumblr.com/oauth/request_token',
+  accessTokenURL: 'http://www.tumblr.com/oauth/access_token',
+  userAuthorizationURL: 'http://www.tumblr.com/oauth/authorize',
+  consumerKey: config.tumblr.key,
+  consumerSecret: config.tumblr.secret,
+  callbackURL: config.tumblr.callbackURL,
+  passReqToCallback: true
+}, function (req, token, tokenSecret, profile, done) {
+  User.findById(req.user._id, function(err, user) {
+    user.tokens.push({ kind: 'tumblr', token: token, tokenSecret: tokenSecret });
+    user.save(function(err) {
+      done(err, user);
     });
-  }
-));
+  });
+}));
 
 /**
  * Foursquare API
@@ -194,22 +188,20 @@ passport.use('tumblr', new OAuthStrategy({
  */
 
 passport.use('foursquare', new OAuth2Strategy({
-    authorizationURL: 'https://foursquare.com/oauth2/authorize',
-    tokenURL: 'https://foursquare.com/oauth2/access_token',
-    clientID: config.foursquare.clientId,
-    clientSecret: config.foursquare.clientSecret,
-    callbackURL: config.foursquare.redirectUrl,
-    passReqToCallback: true
-  },
-  function (req, accessToken, refreshToken, profile, done) {
-    User.findById(req.user._id, function(err, user) {
-      user.tokens.push({ kind: 'foursquare', accessToken: accessToken });
-      user.save(function(err) {
-        done(err, user);
-      });
+  authorizationURL: 'https://foursquare.com/oauth2/authorize',
+  tokenURL: 'https://foursquare.com/oauth2/access_token',
+  clientID: config.foursquare.clientId,
+  clientSecret: config.foursquare.clientSecret,
+  callbackURL: config.foursquare.redirectUrl,
+  passReqToCallback: true
+}, function (req, accessToken, refreshToken, profile, done) {
+  User.findById(req.user._id, function(err, user) {
+    user.tokens.push({ kind: 'foursquare', accessToken: accessToken });
+    user.save(function(err) {
+      done(err, user);
     });
-  }
-));
+  });
+}));
 
 /**
  * Login Required middleware.

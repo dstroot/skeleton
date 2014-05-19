@@ -410,9 +410,9 @@ io.sockets.on('connection', function (socket) {
   socket.on('message', function (message) {
     var ip = socket.handshake.address.address;
     var url = message;
-    io.sockets.emit('pageview', { 'connections': Object.keys(io.connected).length, 'ip': ip, 'url': url, 'xdomain': socket.handshake.xdomain, 'timestamp': new Date()});
+    io.sockets.emit('pageview', { connections: Object.keys(io.connected).length, ip: ip, url: url, xdomain: socket.handshake.xdomain, timestamp: new Date()});
   });
   socket.on('disconnect', function () {
-    io.sockets.emit('pageview', { 'connections': Object.keys(io.connected).length});
+    io.sockets.emit('pageview', { connections: Object.keys(io.connected).length});
   });
 });
