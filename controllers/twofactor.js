@@ -6,6 +6,7 @@
 
 var User          = require('../models/User');
 var utils         = require('../config/utils');
+var config        = require('../config/config');
 var base32        = require('thirty-two');
 var passport      = require('passport');
 var passportConf  = require('../config/passport');
@@ -22,20 +23,28 @@ module.exports.controller = function (app) {
 
   app.get('/setup-otp', passportConf.isAuthenticated, function (req, res) {
 
-    // Prevent someone from seeing your QR code if
-    // enhanced security is *already* enabled.
-    if (typeof req.user.enhancedSecurityToken.key !== 'undefined') {
+    // Prevent someone from seeing your QR code if enhanced security is *already* enabled.
+    // Otherwise they could make it display if they knew the URL and had access to your
+    // machine while you were already logged in.
+    if (req.user.enhancedSecurity.enabled) {
       req.flash('info', { msg: 'You already enabled enhanced security.' });
       return res.redirect('back');
     }
 
-    // Generate a secret key
-    var key = utils.randomKey(10);
+    var key;
+    if (typeof req.user.enhancedSecurity.token === 'undefined') {
+      // Generate a new key
+      key = utils.randomKey(10);
+    } else {
+      // use existing key
+      key = req.user.enhancedSecurity.token;
+    }
+
     var encodedKey = base32.encode(key);
 
     // Generate QR code
     // Reference: https://code.google.com/p/google-authenticator/wiki/KeyUriFormat
-    var otpUrl = 'otpauth://totp/' + 'Example:%20' + req.user.email + '?issuer=Example&secret=' + encodedKey + '&period=30';
+    var otpUrl = 'otpauth://totp/' + config.name + ':%20' + req.user.email + '?issuer=' + config.name + '&secret=' + encodedKey + '&period=30';
     var qrImage = 'https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=' + encodeURIComponent(otpUrl);
 
     // Save the key for the user
@@ -45,8 +54,8 @@ module.exports.controller = function (app) {
         return (err);
       }
 
-      user.enhancedSecurityToken.key = key;
-      user.enhancedSecurityToken.period = 30;
+      user.enhancedSecurity.token = key;
+      user.enhancedSecurity.period = 30;
       user.activity.last_updated = Date.now();
 
       user.save(function (err) {
@@ -54,13 +63,16 @@ module.exports.controller = function (app) {
           req.flash('error', { msg: err.message });
           return (err);
         }
-        res.render('account/setup-otp', {
-          user: req.user,
-          url: '/administration', // to set navbar active state
-          key: encodedKey,
-          qrImage: qrImage
-        });
       });
+
+    });
+
+    // Render setup page
+    res.render('account/setup-otp', {
+      user: req.user,
+      url: '/administration', // to set navbar active state
+      key: encodedKey,
+      qrImage: qrImage
     });
 
   });
@@ -97,8 +109,29 @@ module.exports.controller = function (app) {
             req.flash('errors', { msg: 'That code did not work.' });
             return res.redirect('back');
           } else {
+
+            // Finalize enabling enhanced security
+            User.findById(req.user.id, function (err, user) {
+              if (err) {
+                req.flash('error', { msg: err.message });
+                return (err);
+              }
+
+              user.enhancedSecurity.enabled = true;
+              user.activity.last_updated = Date.now();
+
+              user.save(function (err) {
+                if (err) {
+                  req.flash('error', { msg: err.message });
+                  return (err);
+                }
+              });
+
+            });
+
             // Save the fact that we have authenticated via two factor
             req.session.passport.secondFactor = 'totp';
+
             // Complete enhanced security setup
             res.redirect('/complete-otp');
           }
@@ -179,7 +212,7 @@ module.exports.controller = function (app) {
         return (err);
       }
 
-      user.enhancedSecurityToken = null;
+      user.enhancedSecurity = null;
       user.activity.last_updated = Date.now();
 
       user.save(function (err) {

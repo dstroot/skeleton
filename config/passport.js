@@ -91,7 +91,7 @@ passport.use(new TotpStrategy(function (user, done) {
     if (!user) {
       return done(null, false, { message: 'User not found' });
     } else {
-      return done(null, user.enhancedSecurityToken.key, user.enhancedSecurityToken.period);
+      return done(null, user.enhancedSecurity.token, user.enhancedSecurity.period);
     }
   });
 }));
@@ -211,16 +211,10 @@ exports.isAuthenticated = function (req, res, next) {
   // Is the user authenticated?
   if (req.isAuthenticated()) {
     // Does the user have enhanced security enabled?
-    // // TODO remove ...
-    // http://stackoverflow.com/questions/6003884/how-to-check-null-values-in-javascript
-    // console.log('Sec Key: ' + req.user.enhancedSecurityToken.key);
-    // console.log('Sec Key: ' + typeof req.user.enhancedSecurityToken.key);
-    if (typeof req.user.enhancedSecurityToken.key !== 'undefined') {
-    // if (!req.user.enhancedSecurityToken.key) {
-    // if ((typeof req.user.enhancedSecurityToken.key != 'undefined') || (req.user.enhancedSecurityToken.key != '')) {
+    if (req.user.enhancedSecurity.enabled) {
+      // If we already have validated the second factor it's
+      // a noop, otherwise redirect to capture the OTP.
       if (req.session.passport.secondFactor === 'totp') {
-        // If we already have validated the second factor it's
-        // a noop, otherwise redirect to capture the OTP.
         return next();
       } else {
         res.redirect('/verify-otp');

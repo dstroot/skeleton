@@ -65,8 +65,9 @@ var userSchema = new mongoose.Schema({
   verified: { type: Boolean, default: true },
   verifyToken: { type: String },
 
-  enhancedSecurityToken: {
-    key: { type: String },
+  enhancedSecurity: {
+    enabled: { type: Boolean, default: false },
+    token: { type: String },
     period: { type: Number }
   }
 
