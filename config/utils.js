@@ -35,6 +35,7 @@ function getRandomInt (min, max) {
 
 /**
  * Encode Base32
+ * NOTE: Code borrowed from "thirty-two" library on NPM but is no longer maintained
  */
 
 var charTable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -53,7 +54,7 @@ exports.encode = function (plain) {
 
   while (i < plain.length) {
 
-  // bitwise operators:
+  // Javascript bitwise operators:
   //  <<   Left shifts the bits of an expression. result = expression1 << expression2
   //  >>   The >> operator shifts the bits of expression1 right by the number of bits specified in expression2
   //  &    Performs a bitwise AND operation on two 32-bit expressions.
