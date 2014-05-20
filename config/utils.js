@@ -54,11 +54,12 @@ exports.encode = function (plain) {
 
   while (i < plain.length) {
 
-  // Javascript bitwise operators:
-  //  <<   Left shifts the bits of an expression. result = expression1 << expression2
-  //  >>   The >> operator shifts the bits of expression1 right by the number of bits specified in expression2
-  //  &    Performs a bitwise AND operation on two 32-bit expressions.
-  //  |    The | operator looks at the binary representation of the values of two expressions and does a bitwise OR operation on them
+  /* Javascript bitwise operators:  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators
+      <<   Left shifts the bits of an expression. result = expression1 << expression2
+      >>   The >> operator shifts the bits of expression1 right by the number of bits specified in expression2
+      &    Performs a bitwise AND operation on two 32-bit expressions.
+      |    The | operator looks at the binary representation of the values of two expressions and does a bitwise OR operation on them
+  */
 
     var current = plain.charCodeAt(i);
 
