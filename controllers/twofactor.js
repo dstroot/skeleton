@@ -23,48 +23,46 @@ module.exports.controller = function (app) {
   app.get('/setup-otp', passportConf.isAuthenticated, function (req, res) {
 
     // Prevent someone from seeing your QR code if enhanced security is *already* enabled.
-    // Otherwise they could make it display if they knew the URL and had access to your
-    // machine while you were already logged in.
+    // Otherwise if they knew the URL and had access to your machine while
+    // you were already logged in they could make it display.
     if (req.user.enhancedSecurity.enabled) {
       req.flash('info', { msg: 'You already enabled enhanced security.' });
       return res.redirect('back');
     }
 
+    // Make this page idempotent in case user hits back or refresh
     var key;
     if (typeof req.user.enhancedSecurity.token === 'undefined') {
       // Generate a new key
       key = utils.randomKey(10);
+      // Save the key for the user
+      User.findById(req.user.id, function (err, user) {
+        if (err) {
+          req.flash('error', { msg: err.message });
+          return (err);
+        }
+        user.enhancedSecurity.token = key;
+        user.enhancedSecurity.period = 30;
+        user.activity.last_updated = Date.now();
+        user.save(function (err) {
+          if (err) {
+            req.flash('error', { msg: err.message });
+            return (err);
+          }
+        });
+      });
     } else {
-      // use existing key
+      // Use existing key
       key = req.user.enhancedSecurity.token;
     }
 
+    // encode key to base32
     var encodedKey = utils.encode(key);
 
     // Generate QR code
     // Reference: https://code.google.com/p/google-authenticator/wiki/KeyUriFormat
     var otpUrl = 'otpauth://totp/' + config.name + ':%20' + req.user.email + '?issuer=' + config.name + '&secret=' + encodedKey + '&period=30';
     var qrImage = 'https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=' + encodeURIComponent(otpUrl);
-
-    // Save the key for the user
-    User.findById(req.user.id, function (err, user) {
-      if (err) {
-        req.flash('error', { msg: err.message });
-        return (err);
-      }
-
-      user.enhancedSecurity.token = key;
-      user.enhancedSecurity.period = 30;
-      user.activity.last_updated = Date.now();
-
-      user.save(function (err) {
-        if (err) {
-          req.flash('error', { msg: err.message });
-          return (err);
-        }
-      });
-
-    });
 
     // Render setup page
     res.render('account/setup-otp', {
@@ -109,7 +107,7 @@ module.exports.controller = function (app) {
             return res.redirect('back');
           } else {
 
-            // Finalize enabling enhanced security
+            // Finalize enabling enhanced security by setting enhancedSecurity.enabled = true
             User.findById(req.user.id, function (err, user) {
               if (err) {
                 req.flash('error', { msg: err.message });
@@ -203,17 +201,14 @@ module.exports.controller = function (app) {
    */
 
   app.get('/account/disable-otp', passportConf.isAuthenticated, function (req, res) {
-
-    // Delete the key for the user
     User.findById(req.user.id, function (err, user) {
       if (err) {
         req.flash('error', { msg: err.message });
         return (err);
       }
-
+      // Remove enhanced security profile
       user.enhancedSecurity = null;
       user.activity.last_updated = Date.now();
-
       user.save(function (err) {
         if (err) {
           req.flash('error', { msg: err.message });
@@ -221,7 +216,6 @@ module.exports.controller = function (app) {
         }
       });
     });
-
     // Then redirect back to account
     res.redirect('/account');
   });
