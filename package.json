@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.0.2-34",
+  "version": "0.0.2-36",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -76,7 +76,6 @@
     "serve-favicon": "~2.0.0",
     "socket.io": "~0.9.16",
     "stripe": "^2.5.5",
-    "thirty-two": "0.0.1",
     "tumblr.js": "~0.0.4",
     "twilio": "~1.6.0",
     "twit": "~1.1.14",

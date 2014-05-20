@@ -7,7 +7,6 @@
 var User          = require('../models/User');
 var utils         = require('../config/utils');
 var config        = require('../config/config');
-var base32        = require('thirty-two');
 var passport      = require('passport');
 var passportConf  = require('../config/passport');
 
@@ -40,7 +39,7 @@ module.exports.controller = function (app) {
       key = req.user.enhancedSecurity.token;
     }
 
-    var encodedKey = base32.encode(key);
+    var encodedKey = utils.encode(key);
 
     // Generate QR code
     // Reference: https://code.google.com/p/google-authenticator/wiki/KeyUriFormat
