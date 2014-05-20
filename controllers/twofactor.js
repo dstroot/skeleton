@@ -67,7 +67,7 @@ module.exports.controller = function (app) {
     // Render setup page
     res.render('account/setup-otp', {
       user: req.user,
-      url: '/administration', // to set navbar active state
+      url: '/account', // to set navbar active state
       key: encodedKey,
       qrImage: qrImage
     });
@@ -83,7 +83,7 @@ module.exports.controller = function (app) {
 
   app.get('/verify-otp-first', passportConf.isAuthenticated, function (req, res) {
     res.render('account/verify-otp-first', {
-      url: '/administration', // to set navbar active state
+      url: '/account', // to set navbar active state
       user: req.user
     });
   });
@@ -145,7 +145,7 @@ module.exports.controller = function (app) {
 
   app.get('/complete-otp', passportConf.isAuthenticated, function (req, res) {
     res.render('account/complete-otp', {
-      url: '/administration', // to set navbar active state
+      url: '/account', // to set navbar active state
       user: req.user
     });
   });
@@ -156,7 +156,7 @@ module.exports.controller = function (app) {
 
   app.get('/verify-otp', function (req, res) {
     res.render('account/verify-otp', {
-      url: '/administration', // to set navbar active state
+      url: '/account', // to set navbar active state
       user: req.user
     });
   });
