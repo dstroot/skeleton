@@ -9,10 +9,11 @@ footer.footer.bg-black
       a(href='/privacy') Privacy Policy
 
 //- Javascript
-//- ! Place scripts in footer for faster page rendering !
+//- Place scripts in footer for faster page rendering
 script(src='/socket.io/socket.io.v1.0.0.js')
 script(src='/lib/jquery/dist/jquery.min.js')
-//- Then we use jQuery to async load everything else!
+
+//- Then we use jQuery to async load everything else
 script.
   $(document).ready(function() {
     // Load main project js

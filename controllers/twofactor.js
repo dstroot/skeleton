@@ -218,6 +218,12 @@ module.exports.controller = function (app) {
     });
     // Then redirect back to account
     res.redirect('/account');
+    // TODO:
+    // In a real scenario we would also send the person an email notifying them
+    // that enhanced security has been turned off.  This is an extra measure of
+    // security in case somehow they did not initiate the action (much like a
+    // password change email).  There are examples in the user.js and account.js
+    // controllers.
   });
 
 };
