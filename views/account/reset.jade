@@ -13,12 +13,12 @@ block content
           input(type='hidden', name='_csrf', value=token)
           .form-group
             label.sr-only(for='password') New Password:
-            input.form-control(type='password', name='password', id='password', placeholder='New password', autofocus=true, required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+            input.form-control(type='password', name='password', id='password', placeholder='New password', autocomplete='off', autofocus=true, required, pattern='^[^\S]{4,}', title='At least 4 characters!')
             .progress
               .progress-bar(role='progressbar')
           .form-group
             label.sr-only(for='confirm') Confirm Password:
-            input.form-control(type='password', name='confirm', placeholder='Confirm your new password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+            input.form-control(type='password', name='confirm', placeholder='Confirm your new password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
           .form-group
             button.btn.btn-primary.btn-reset(type='submit') Set Password
         hr

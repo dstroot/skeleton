@@ -37,9 +37,29 @@ var expressValidator  = require('express-validator');       // https://npmjs.org
  * Create Express Server and socket.io listener
  */
 
-var app     = module.exports = express(),  // export app for testing
-    server  = require('http').createServer(app),
-    io      = io.listen(server);
+var app         = module.exports = express();  // export app for testing
+var server      = require('http').createServer(app);
+var io          = io.listen(server);
+
+/**
+ * Create SSL Server
+ */
+
+/* TODO:
+
+Since our application has signup,,login, etc. forms these should be protected
+with encryption.  We should be using SSL encryption so the data cannot be sniffed.
+To do so we need a SSL certificate and to switch over to HTTPS. Here's the basics:
+
+var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+var sslserver   = require('https').createServer(credentials, app);
+
+// down at the bottom when we launch the server we use port 443
+sslserver.listen(443);
+
+*/
 
 /**
  * Configure Logging

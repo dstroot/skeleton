@@ -107,12 +107,12 @@ block content
           input.form-control(type='hidden', name='_csrf', value=token)
           .form-group
             label.sr-only(for='password') New Password
-            input.form-control(type='password', name='password', id='password', placeholder='New Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+            input.form-control(type='password', name='password', id='password', placeholder='New Password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
             .progress
               .progress-bar(role='progressbar')
           .form-group
             label.sr-only(for='confirmPassword') Confirm Password
-            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm New Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm New Password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
           .form-group
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-check

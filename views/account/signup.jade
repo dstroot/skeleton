@@ -21,12 +21,17 @@ block content
             #hint
           .form-group
             label.sr-only(for='password') Password:
-            input.form-control(type='password', name='password', id='password', placeholder='Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+
+            //- Set the autocomplete attribute of any password fields in any form to "off".
+            //- You can keep other aspects of the form autocompletable, but force the user
+            //- to retype his/her own password, helping ensure they are who they say they are.
+
+            input.form-control(type='password', name='password', id='password', placeholder='Password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
             .progress
               .progress-bar(role='progressbar')
           .form-group
             label.sr-only(for='confirmPassword') Confirm Password:
-            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+            input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
           .form-group
             button.btn.btn-success(type='submit')
               i.fa.fa-check

@@ -2,7 +2,7 @@
   if messages.errors
     .alert.alert-danger.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
-        i.fa.fa-times
+        i.fa.fa-lg.fa-times-circle
       //- why is the line below inconsistent?
       for error in messages.errors
         p.flashmsg
@@ -11,7 +11,7 @@
   if messages.info
     .alert.alert-info.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
-        i.fa.fa-times
+        i.fa.fa-lg.fa-times-circle
       for info in messages.info
         p.flashmsg
           strong Heads Up!
@@ -19,7 +19,7 @@
   if messages.warning
     .alert.alert-warning.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
-        i.fa.fa-times
+        i.fa.fa-lg.fa-times-circle
       for warning in messages.warning
         p.flashmsg
           strong Heads Up!
@@ -27,7 +27,7 @@
   if messages.success
     .alert.alert-success.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
-        i.fa.fa-times
+        i.fa.fa-lg.fa-times-circle
       for success in messages.success
         p.flashmsg
           strong Success!

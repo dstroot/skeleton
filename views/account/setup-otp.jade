@@ -10,7 +10,14 @@ block content
         h1 Welcome to Enhanced Security!
         p We recommend protecting your account with enhanced security, adding an extra layer of protection to your account. Once enabled, a unique time-sensitive security code is required in addition to your password whenever you sign in.
         p.lead Use a compatible mobile app:
-        p Several mobile apps are available that will generate security codes for you. Any app that supports the Time-based One-Time Password (TOTP) protocol should work, including the following:
+        p Several mobile apps are available that will generate security codes for you. We recommend Google Authenticator:
+        p
+          a(href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8', target='_blank')
+            img(src='/img/app_store.svg', height=43)
+          | &nbsp;
+          a(href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2', target='_blank')
+            img(src='/img/play@2x.png', height=45)
+        p However any app that supports the Time-based One-Time Password (TOTP) protocol should work, including the following:
         ul
           li
             a(href='https://support.google.com/accounts/answer/1066447?hl=en') Google Authenticator
@@ -24,15 +31,11 @@ block content
           li
             a(href='http://www.windowsphone.com/en-us/store/app/authenticator/021dd79f-0598-e011-986b-78e7d1fa76f8') Authenticator
             |  (Windows Phone 7)
-
-        p Install one of the apps above if you don't already have one (Google Authenticator works well). Then scan the QR Code below (if your app supports it) or type your secret key into the app.
-
-        br
+        p Scan the QR Code below (if your app supports it) or type your secret key into the app.
         p.lead Scan this QR Code:
           img.center-block(src='#{qrImage}')
         br
         p.lead Or enter this key manually: &nbsp;&nbsp;<b>#{key}</b>
-        br
         //- p.lead Save your emergency backup code:  <b>L1KCYRCFP0GEWY76TRNVGFWSHGK</b>
         //- p Before enabling two-step verification, print (
         //-   a(href="javascript:window.print()")
@@ -41,10 +44,13 @@ block content
         //- br
     .row
       .col-sm-4.col-sm-offset-2
+        br
         a.btn.btn-danger.btn-block(href='/account/disable-otp')
           i.fa.fa-times
           | &nbsp;Cancel Enhanced Security
       .col-sm-4
+        br
         a.btn.btn-success.btn-block(href='/verify-otp-first')
           i.fa.fa-check
           | &nbsp;I Am Ready To Go!
+      br
