@@ -9,7 +9,7 @@ block content
       .col-sm-8.col-sm-offset-2
         br
         br
-        form(action="/verify-totp-first", method='POST')
+        form(action="/verify-sms-first", method='POST')
           input.form-control(type='hidden', name='_csrf', value=token)
           legend Test your enhanced security code:
           .form-group
@@ -20,6 +20,6 @@ block content
               i.fa.fa-check
               | &nbsp;Continue
             | &nbsp;
-            a.btn.btn-danger(href='/account/disable-enhanced-security')
+            a.btn.btn-danger(href='/twofactor/disable-enhanced-security')
               i.fa.fa-times
               | &nbsp;Cancel Enhanced Security

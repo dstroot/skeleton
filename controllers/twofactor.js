@@ -35,7 +35,7 @@ module.exports.controller = function (app) {
       req.flash('info', { msg: 'You already enabled enhanced security.' });
       return res.redirect('back');
     }
-    res.render('account/enable-enhanced-security', {
+    res.render('twofactor/enable-enhanced-security', {
       url: '/account', // to set navbar active state
       user: req.user
     });
@@ -48,7 +48,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/complete-enhanced-security', passportConf.isAuthenticated, function (req, res) {
-    res.render('account/complete-enhanced-security', {
+    res.render('twofactor/complete-enhanced-security', {
       url: '/account', // to set navbar active state
       user: req.user
     });
@@ -84,14 +84,14 @@ module.exports.controller = function (app) {
             User.findById(req.user.id, function (err, user) {
               if (err) {
                 req.flash('errors', { msg: err.message });
-                return (err);
+                return res.redirect('back');
               }
               user.enhancedSecurity.sms = hash;
               user.enhancedSecurity.smsExpires = Date.now() + expiration;
               user.save(function (err) {
                 if (err) {
                   req.flash('errors', { msg: err.message });
-                  return (err);
+                  return res.redirect('back');
                 }
               });
               // Send the SMS token to the User
@@ -103,7 +103,7 @@ module.exports.controller = function (app) {
               twilio.sendMessage(message, function (err, responseData) {
                 if (err) {
                   req.flash('errors', { msg: err.message});
-                  return (err);
+                  return res.redirect('back');
                 }
                 req.flash('success', { msg: 'Text sent to ' + responseData.to + '.'});
               });
@@ -113,7 +113,7 @@ module.exports.controller = function (app) {
       }
     }
 
-    res.render('account/verify-otp', {
+    res.render('twofactor/verify-otp', {
       url: '/account', // to set navbar active state
       user: req.user
     });
@@ -127,7 +127,6 @@ module.exports.controller = function (app) {
    */
 
   app.post('/verify-otp', function (req, res, next) {
-
     // Handle SMS
     if ((req.user.enhancedSecurity.enabled) && (req.user.enhancedSecurity.type === 'sms')) {
       // Get the user using their ID and make sure their sms token hasn't expired yet
@@ -181,9 +180,8 @@ module.exports.controller = function (app) {
           });
         });
     }
-
     // Handle TOTP
-    if (req.user.enhancedSecurity.type === 'totp') {
+    if ((req.user.enhancedSecurity.enabled) && (req.user.enhancedSecurity.type === 'totp')) {
       // Use Passport's TOTP authentication
       passport.authenticate('totp', function (err, user, info) {
         if (err) {
@@ -211,7 +209,6 @@ module.exports.controller = function (app) {
         }
       })(req, res, next);
     }
-
   });
 
   /**
@@ -236,7 +233,6 @@ module.exports.controller = function (app) {
         }
       });
     });
-
     // Then redirect back to account
     res.redirect('/account');
 
@@ -264,7 +260,6 @@ module.exports.controller = function (app) {
    */
 
   app.get('/setup-totp', passportConf.isAuthenticated, function (req, res) {
-
     // Prevent someone from seeing your QR code if enhanced security is *already* enabled.
     // Otherwise if they knew the URL and had access to your machine while
     // you were already logged in they could make it display.
@@ -272,7 +267,6 @@ module.exports.controller = function (app) {
       req.flash('info', { msg: 'You already enabled enhanced security.' });
       return res.redirect('back');
     }
-
     // Make this page idempotent in case user hits back or refresh
     var key;
     if (typeof req.user.enhancedSecurity.token === 'undefined') {
@@ -297,17 +291,14 @@ module.exports.controller = function (app) {
       // Just use existing key
       key = req.user.enhancedSecurity.token;
     }
-
     // encode key to base32
     var encodedKey = utils.encode(key);
-
     // Generate QR code
     // Reference: https://code.google.com/p/google-authenticator/wiki/KeyUriFormat
     var otpUrl = 'otpauth://totp/' + config.name + ':%20' + req.user.email + '?issuer=' + config.name + '&secret=' + encodedKey + '&period=30';
     var qrImage = 'https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=' + encodeURIComponent(otpUrl);
-
     // Render the setup page
-    res.render('account/setup-totp', {
+    res.render('twofactor/setup-totp', {
       user: req.user,
       url: '/account', // to set navbar active state
       key: encodedKey,
@@ -324,7 +315,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/verify-totp-first', passportConf.isAuthenticated, function (req, res) {
-    res.render('account/verify-totp-first', {
+    res.render('twofactor/verify-totp-first', {
       url: '/account', // to set navbar active state
       user: req.user
     });
@@ -333,7 +324,8 @@ module.exports.controller = function (app) {
   /**
    * POST /verify-otp-first (requires authentication)
    *
-   *   If the code is verified then turn on enhanced security.
+   *   If the code is verified then turn on enhanced security
+   *   and redirect to the 'complete-enhanced-security' page.
    */
 
   app.post('/verify-totp-first', passportConf.isAuthenticated, function (req, res, next) {
@@ -363,7 +355,6 @@ module.exports.controller = function (app) {
                   return (err);
                 }
               });
-
             });
             // Save the fact that we have authenticated via two factor
             req.session.passport.secondFactor = 'validated';
@@ -389,7 +380,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/setup-sms', passportConf.isAuthenticated, function (req, res) {
-    res.render('account/setup-sms', {
+    res.render('twofactor/setup-sms', {
       user: req.user,
       url: '/account', // to set navbar active state
     });
@@ -403,14 +394,11 @@ module.exports.controller = function (app) {
    */
 
   app.post('/setup-sms', passportConf.isAuthenticated, function (req, res) {
-
     // Generate a six digit key
     var sms = utils.randomSMS(6);
-
     // SET SMS Expiration Period (5 Minutes)
     var minute = 60000;
     var expiration = (minute * 5);
-
     // Hash the SMS token prior to saving it
     bcrypt.genSalt(10, function (err, salt) {
       bcrypt.hash(sms, salt, null, function (err, hash) {
@@ -449,7 +437,6 @@ module.exports.controller = function (app) {
     });
   });
 
-
   /**
    * GET /verify-sms-first (requires authentication)
    *
@@ -457,7 +444,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/verify-sms-first', passportConf.isAuthenticated, function (req, res, next) {
-    res.render('account/verify-sms-first', {
+    res.render('twofactor/verify-sms-first', {
       user: req.user,
       url: '/account', // to set navbar active state
     });
@@ -467,12 +454,11 @@ module.exports.controller = function (app) {
    * POST /verify-sms-first (requires authentication)
    *
    *   If the code is verified then turn on enhanced security
-   *   and redirect to the 'complete-enhanced-security' page
+   *   and redirect to the 'complete-enhanced-security' page.
    */
 
   app.post('/verify-sms-first', passportConf.isAuthenticated, function (req, res, next) {
-
-    // Get the user using their ID and their sms token hasn't expired yet
+    // Get the user using their ID and make sure their sms token hasn't expired yet
     User.findOne({ _id: req.user.id })
       .where('enhancedSecurity.smsExpires').gt(Date.now())
       .exec(function (err, user) {
@@ -484,32 +470,25 @@ module.exports.controller = function (app) {
           req.flash('errors', { msg: 'Your SMS code has expired.' });
           return res.redirect('back');
         }
-
         // Validate their SMS token
         user.compareSMS(req.body.code, function (err, isMatch) {
-
           if (isMatch) {
-
             // Finalize enabling enhanced security
             user.enhancedSecurity.enabled = true;
             user.enhancedSecurity.type = 'sms';
             user.enhancedSecurity.sms = null;
             user.enhancedSecurity.smsExpires = null;
             user.activity.last_updated = Date.now();
-
             user.save(function (err) {
               if (err) {
                 req.flash('errors', { msg: err.message });
-                return (err);
+                return res.redirect('back');
               }
             });
-
             // Save the fact that we have authenticated via two factor
             req.session.passport.secondFactor = 'validated';
-
             // Complete enhanced security setup
             res.redirect('/complete-enhanced-security');
-
           } else {
             req.flash('errors', { msg: 'Your SMS code is invalid.' });
             return res.redirect('back');
