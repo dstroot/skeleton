@@ -31,7 +31,8 @@ block content
             #hint
           .form-group
             label.sr-only(for='email') Mobile Phone
-            input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}', required)
+            //- input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}')
+            input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}', placeholder='+1 (999) 999-9999', pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/', title='Phone Number: +1 (999) 999-9999')
           .form-group
             label.sr-only(for='location') Location
             input.form-control(type='text', name='location', id='location', placeholder='Anywhere, USA', value='#{user.profile.location}')
@@ -95,7 +96,7 @@ block content
             h2 Enhanced Security
           p Enhanced security adds an extra layer of protection to your account. Once enabled, a security code is required in addition to your password whenever you sign in. The code <strong>changes every 30 seconds</strong> making it <strong>very difficult</strong> for hackers to gain access to your account.
           if user.enhancedSecurity.enabled
-            a.btn.btn-block.btn-danger(href='/account/disable-enhanced-security')
+            a.btn.btn-block.btn-danger(href='/disable-enhanced-security')
               i.fa.fa-unlock
               | &nbsp;Disable Enhanced Security
           else

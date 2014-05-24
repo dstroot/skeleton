@@ -212,11 +212,11 @@ module.exports.controller = function (app) {
   });
 
   /**
-   * GET /account/disable-enhanced-security (requires authentication)
+   * GET /disable-enhanced-security (requires authentication)
    *   Turns *off* two factor enhanced security
    */
 
-  app.get('/account/disable-enhanced-security', passportConf.isAuthenticated, function (req, res) {
+  app.get('/disable-enhanced-security', passportConf.isAuthenticated, function (req, res) {
     // Get user
     User.findById(req.user.id, function (err, user) {
       if (err) {

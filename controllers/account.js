@@ -84,6 +84,7 @@ module.exports.controller = function (app) {
         user.profile.name = req.body.name.trim() || '';
         user.profile.gender = req.body.gender || '';
         user.profile.location = req.body.location.trim() || '';
+        user.profile.phone.mobile = req.body.phoneMobile.trim() || '';
         user.profile.website = req.body.website.trim() || '';
         user.activity.last_updated = Date.now();
 
