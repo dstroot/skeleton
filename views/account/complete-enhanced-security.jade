@@ -1,0 +1,21 @@
+extends ../layouts/layout
+
+block head
+  title My Account
+
+block content
+  .container
+    .row
+      .col-sm-8.col-sm-offset-2
+        .page-header
+          h2 Enhanced Security Setup Completed!
+        br
+        p Congratulations! Your account is now protected with enhanced security. When you log in in the future you will see an extra prompt to enter the security code from your smartphone app or an SMS (text) message.
+        p It's pretty simple and it adds a great deal of additional protection to your account for a small amount of extra effort.
+        //- p If you would like to learn more about this you can check out
+        //-   | &nbsp;
+        //-   a(href='http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm', target='_blank') Wikipedia.
+        br
+        a.btn.btn-success(href='/account')
+          i.fa.fa-check
+          | &nbsp;Continue

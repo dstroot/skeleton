@@ -9,8 +9,14 @@ block content
       .col-sm-8.col-sm-offset-2
         h1 Welcome to Enhanced Security!
         p We recommend protecting your account with enhanced security, adding an extra layer of protection to your account. Once enabled, a unique time-sensitive security code is required in addition to your password whenever you sign in.
-        p.lead Use a compatible mobile app:
-        p Several mobile apps are available that will generate security codes for you. We recommend Google Authenticator:
+        p You can elect to <strong>use a mobile app</strong> on your smartphone, or you can elect to <strong>receive SMS text messages</strong> whenever you log in.
+        p.lead SMS text Considerations
+        ul
+          li If your phone is in a poor service area you may not be able to receive text messages. If this happens you will be unable to log in until you are in a service location where you can receive text messages.
+          li Sometimes there is a slight delay before a text message is delivered. You will have to wait to receive the text message with your one-time code to login.
+        p.lead Mobile App Considerations
+        p When using a mobile app you do not need to worry about your phone's service or signal quality.  Mobile apps work even when your cellular service is off.
+        p Several mobile apps are available that will generate security codes for you. We recommend using Google Authenticator:
         p
           a(href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8', target='_blank')
             img(src='/img/app_store.svg', height=43)
@@ -31,26 +37,15 @@ block content
           li
             a(href='http://www.windowsphone.com/en-us/store/app/authenticator/021dd79f-0598-e011-986b-78e7d1fa76f8') Authenticator
             |  (Windows Phone 7)
-        p Scan the QR Code below (if your app supports it) or type your secret key into the app.
-        p.lead Scan this QR Code:
-          img.center-block(src='#{qrImage}')
-        br
-        p.lead Or enter this key manually: &nbsp;&nbsp;<b>#{key}</b>
-        //- p.lead Save your emergency backup code:  <b>L1KCYRCFP0GEWY76TRNVGFWSHGK</b>
-        //- p Before enabling two-step verification, print (
-        //-   a(href="javascript:window.print()")
-        //-     i.fa.fa-lg.fa-print
-        //-   | ), or write down this special emergency backup key. It is very important that you write this key down and store it somewhere safe. Someday you'll probably need this backup code for emergency access to your account!
-        //- br
+        p.lead Please choose the option you prefer below:
     .row
       .col-sm-4.col-sm-offset-2
         br
-        a.btn.btn-danger.btn-block(href='/account/disable-otp')
-          i.fa.fa-times
-          | &nbsp;Cancel Enhanced Security
+        a.btn.btn-success.btn-block.btn-lg(href='/setup-sms')
+          i.fa.fa-check
+          | &nbsp;I prefer text messages
       .col-sm-4
         br
-        a.btn.btn-success.btn-block(href='/verify-otp-first')
+        a.btn.btn-success.btn-block.btn-lg(href='/setup-totp')
           i.fa.fa-check
-          | &nbsp;I Am Ready To Go!
-      br
+          | &nbsp;I prefer a mobile app

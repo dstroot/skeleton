@@ -214,7 +214,7 @@ exports.isAuthenticated = function (req, res, next) {
     if (req.user.enhancedSecurity.enabled) {
       // If we already have validated the second factor it's
       // a noop, otherwise redirect to capture the OTP.
-      if (req.session.passport.secondFactor === 'totp') {
+      if (req.session.passport.secondFactor === 'validated') {
         return next();
       } else {
         res.redirect('/verify-otp');

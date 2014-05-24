@@ -30,6 +30,9 @@ block content
             input.form-control(type='email', name='email', id='email', value='#{user.email}', required)
             #hint
           .form-group
+            label.sr-only(for='email') Mobile Phone
+            input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}', required)
+          .form-group
             label.sr-only(for='location') Location
             input.form-control(type='text', name='location', id='location', placeholder='Anywhere, USA', value='#{user.profile.location}')
           .form-group
@@ -92,11 +95,11 @@ block content
             h2 Enhanced Security
           p Enhanced security adds an extra layer of protection to your account. Once enabled, a security code is required in addition to your password whenever you sign in. The code <strong>changes every 30 seconds</strong> making it <strong>very difficult</strong> for hackers to gain access to your account.
           if user.enhancedSecurity.enabled
-            a.btn.btn-block.btn-danger(href='/account/disable-otp')
+            a.btn.btn-block.btn-danger(href='/account/disable-enhanced-security')
               i.fa.fa-unlock
               | &nbsp;Disable Enhanced Security
           else
-            a.btn.btn-block.btn-success(href='/setup-otp')
+            a.btn.btn-block.btn-success(href='/enable-enhanced-security')
               i.fa.fa-lock
               | &nbsp;Enable Enhanced Security
     .row

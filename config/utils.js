@@ -26,6 +26,23 @@ exports.randomKey = function (len) {
 };
 
 /**
+ * Generate a random SMS Value
+ */
+
+exports.randomSMS = function (len) {
+
+  var buf = [];
+  var chars = '0123456789';
+  var charlen = chars.length;
+
+  for (var i = 0; i < len; ++i) {
+    buf.push(chars[getRandomInt(0, charlen - 1)]);
+  }
+
+  return buf.join('');
+};
+
+/**
  * Get a random number between a min and max number
  */
 

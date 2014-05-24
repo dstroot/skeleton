@@ -50,7 +50,12 @@ var userSchema = new mongoose.Schema({
     gender: { type: String, default: '' },
     location: { type: String, default: '' },
     website: { type: String, default: '' },
-    picture: { type: String, default: '' }
+    picture: { type: String, default: '' },
+    phone: {
+      work: { type: String, default: '' },
+      home: { type: String, default: '' },
+      mobile: { type: String, default: '' }
+    }
   },
 
   activity: {
@@ -67,44 +72,79 @@ var userSchema = new mongoose.Schema({
 
   enhancedSecurity: {
     enabled: { type: Boolean, default: false },
+    type: { type: String },  // sms or totp
     token: { type: String },
-    period: { type: Number }
+    period: { type: Number },
+    sms: { type: String },
+    smsExpires: { type: Date }
   }
 
 });
 
 /**
- * Hash the password for security.
+ * Hash the password and sms token for security.
  */
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
+
   var user = this;
   var SALT_FACTOR = 5;
 
   if (!user.isModified('password')) {
     return next();
-  }
-
-  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
-    if (err) {
-      return next(err);
-    }
-    bcrypt.hash(user.password, salt, null, function(err, hash) {
+  } else {
+    bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
       if (err) {
         return next(err);
       }
-      user.password = hash;
-      next();
+      bcrypt.hash(user.password, salt, null, function (err, hash) {
+        if (err) {
+          return next(err);
+        }
+        user.password = hash;
+        next();
+      });
     });
-  });
+  }
+
+  // if (!user.isModified('enhancedSecurity.sms')) {
+  //   return next();
+  // } else {
+  //   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     bcrypt.hash(user.enhancedSecurity.sms, salt, null, function (err, hash) {
+  //       if (err) {
+  //         return next(err);
+  //       }
+  //       user.enhancedSecurity.sms = hash;
+  //       next();
+  //     });
+  //   });
+  // }
+
 });
 
 /**
  * Check the user's password
  */
 
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
+userSchema.methods.comparePassword = function (candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, isMatch);
+  });
+};
+
+/**
+ * Check user's SMS token
+ */
+
+userSchema.methods.compareSMS = function (candidateSMS, cb) {
+  bcrypt.compare(candidateSMS, this.enhancedSecurity.sms, function (err, isMatch) {
     if (err) {
       return cb(err);
     }
@@ -116,7 +156,7 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
  *  Get a URL to a user's Gravatar email.
  */
 
-userSchema.methods.gravatar = function(size, defaults) {
+userSchema.methods.gravatar = function (size, defaults) {
   if (!size) {
     size = 200;
   }

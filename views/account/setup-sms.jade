@@ -1,0 +1,31 @@
+extends ../layouts/layout
+
+block head
+  title #{application} &middot; Confirm Your Mobile Phone Number
+
+block content
+  .container
+    .row
+      .col-sm-8.col-sm-offset-2
+        .page-header
+          h1 We Need Your Mobile Phone Number:
+        form(action='/setup-sms', method='POST')
+          input(type='hidden', name='_csrf', value=token)
+          .form-group
+            label(for='email') Please confirm (or enter) your mobile phone number:
+
+            //- input.form-control(type='tel', pattern='[\+]\d{1}[\(]\d{3}[\)]\d{3}[\-]\d{4}', title='Phone Number (Format: +9(999)999-9999)')
+
+            //- input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}', placeholder='+1(999)999-9999', required, pattern='[\+]\d{1}[\(]\d{3}[\)]\d{3}[\-]\d{4}', title='Phone Number (Format: +9(999)999-9999)')
+
+            input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}', placeholder='+1 (999) 999-9999', pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/', title='Phone Number: +1 (999) 999-9999', required)
+
+            //- input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}', placeholder='1999999999', required)
+          .form-group
+            button.btn.btn-success(type='submit')
+              i.fa.fa-check
+              | &nbsp;Continue
+            | &nbsp;
+            a.btn.btn-danger(href='/account/disable-enhanced-security')
+              i.fa.fa-times
+              | &nbsp;Cancel Enhanced Security
