@@ -271,3 +271,19 @@ exports.isAdministrator = function (req, res, next) {
   }
 };
 
+/**
+ * Redirect to HTTPS (SSL) connection
+ *
+ * Good middleware for login forms, etc.
+ * Not currently used since we are directing
+ * *all* traffic to ssl in production
+ */
+
+exports.isSecure = function (req, res, next) {
+  // Reroute HTTP traffic to HTTPS
+  if ((req.secure) || (req.headers['x-forwarded-proto'] === 'https')) {
+    return next();
+  } else {
+    res.redirect('https://' + req.headers.host + req.url);
+  }
+};

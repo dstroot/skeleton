@@ -71,7 +71,7 @@ Features
   + **Local Authentication** using Email and Password, with optional email verification step. [1]
   + **OAuth 1.0a Authentication** via Twitter
   + **OAuth 2.0 Authentication** via Facebook, Google or GitHub
-  + **Two-factor TOTP Authentication** optional feature for users to enable two-factor authentication.  Can be turned off/on via the config file.
+  + **Two-factor TOTP and SMS Authentication** optional feature for users to enable two-factor authentication.  Can be turned off/on via the config file.
 - **Account Management**
   + Gravatar
   + Profile Details
@@ -103,6 +103,60 @@ I am not a big fan of this practice since it raises the barrier to entry and the
 The Gulp build pipeline makes sure our assets are optimized.  The only thing we haven't done is break up our CSS into "Above the fold" and "Below the fold". This is running on one drone at Nodejitsu ($9/mo!):
 
 ![Alt](https://raw.github.com/dstroot/skeleton/master/public/img/pagespeed.jpg)
+
+In addition we meet all basic security guidelines.  This is the result of a Tinfoil security scan of our site on Nodejitsu:
+
+![Alt](https://raw.github.com/dstroot/skeleton/master/public/img/security.png)
+
+Security Tests Passed:
+- Cross-Site Request Forgery
+- Code Injection
+- Code injection (timing)
+- LDAP Injection
+- Operating system command injection
+- Operating system command injection (timing attack)
+- Path Traversal
+- File Inclusion
+- Source Code Disclosure
+- Response splitting
+- Remote file inclusion
+- SQL Injection
+- Blind SQL Injection (timing attack)
+- Unvalidated redirect
+- XPath Injection
+- Cross-Site Scripting (XSS)
+- Cross-Site Scripting in event attribute of HTML element
+- Cross-Site Scripting in attribute of HTML element
+- Cross-Site Scripting (XSS) in path
+- Cross-Site Scripting in HTML "script" tag
+- Cross-Site Scripting in HTML "vbscript" tag
+- Cross-Site Scripting in HTML tag
+- YAML Injection
+- YAML Injection (timing)
+- Allowed HTTP methods
+- Found a CAPTCHA protected form
+- Credit card number disclosure
+- CVS/SVN user disclosure
+- Directory listing is enabled.
+- Disclosed e-mail address
+- Found an HTML object
+- Non HTTP-Only Cookies
+- Insecure Cookies
+- Private IP address disclosure
+- Disclosed US Social Security Number
+- Misconfiguration in LIMIT directive of .htaccess file
+- HTTP PUT is enabled
+- Mixed Resource
+- Unencrypted password form
+- Unencrypted HTTP Basic Authentication
+- WebDAV
+- The TRACE HTTP method is enabled
+- Spammable contact form
+- Common sensitive file
+- Found Robots.txt
+- Password field with autocomplete
+- Found Stacktrace
+- OpenSSL Heartbeat Extension Memory Leak (Heartbleed)
 
 Technology
 ----------

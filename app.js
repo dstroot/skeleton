@@ -26,6 +26,7 @@ var flash             = require('express-flash');           // https://npmjs.org
 var config            = require('./config/config');         // Get configuration
 var semver            = require('semver');                  // https://npmjs.org/package/semver
 var helmet            = require('helmet');                  // https://github.com/evilpacket/helmet
+var enforce           = require('express-sslify');          // https://github.com/florianheinemann/express-sslify
 var connect           = require('connect');                 // https://github.com/senchalabs/connect
 var winston           = require('winston');                 // https://npmjs.org/package/winston
 var mongoose          = require('mongoose');                // https://npmjs.org/package/mongoose
@@ -34,32 +35,17 @@ var MongoStore        = require('connect-mongo')(connect);  // https://npmjs.org
 var expressValidator  = require('express-validator');       // https://npmjs.org/package/express-validator
 
 /**
- * Create Express Server and socket.io listener
+ * Create Express App
  */
 
 var app         = module.exports = express();  // export app for testing
-var server      = require('http').createServer(app);
-var io          = io.listen(server);
 
 /**
- * Create SSL Server
+ * Create Express HTTP Server and socket.io listener
  */
 
-/* TODO:
-
-Since our application has signup,,login, etc. forms these should be protected
-with encryption.  We should be using SSL encryption so the data cannot be sniffed.
-To do so we need a SSL certificate and to switch over to HTTPS. Here's the basics:
-
-var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
-var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
-var sslserver   = require('https').createServer(credentials, app);
-
-// down at the bottom when we launch the server we use port 443
-sslserver.listen(443);
-
-*/
+var server      = require('http').createServer(app);
+var io          = io.listen(server);
 
 /**
  * Configure Logging
@@ -68,7 +54,7 @@ sslserver.listen(443);
 if ( config.logging ) {
   winston.add(winston.transports.File, { filename: config.logfilename });
   // TODO: Logging in production should be directed to a logging service
-  //       such as loggly.com or to a log server or database.
+  // such as loggly.com or to a log server or database.
 }
 
 // Turn off Winston console logging, we will use Express instead
@@ -102,7 +88,7 @@ app.locals.keywords     = config.keywords;
 app.locals.ga           = config.ga;
 
 // Now you can use moment anywhere within a jade template like this:
-//   p #{moment(Date.now()).format('MM/DD/YYYY')}
+// p #{moment(Date.now()).format('MM/DD/YYYY')}
 // Good for an evergreen copyright ;)
 app.locals.moment       = require('moment');
 
@@ -140,8 +126,22 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// Enable If behind nginx!
-// app.enable('trust proxy');
+// Since our application has signup, login, etc. forms these should be protected
+// with encryption.  We should be using SSL encryption so the data cannot be sniffed.
+// Heroku, nodejitsu and other hosters often use reverse proxies which offer SSL
+// endpoints but then forward unencrypted HTTP traffic to the server.  This makes
+// it simple for us - when in production we will redirect all traffic to SSL
+// by using a little middleware.
+
+if (app.get('env') === 'production') {
+  // Enable If behind nginx, or a load balancer
+  app.enable('trust proxy');
+  // In case of a non-encrypted HTTP request, enforce.HTTPS automatically
+  // redirects to an HTTPS address using a 301 permanent redirect.
+  // use enforce.HTTPS(true) in case you are behind a load balancer
+  // (e.g. Heroku, Nodejitsu)
+  app.use(enforce.HTTPS(true));
+}
 
 // Compress response data with gzip / deflate.
 // This middleware should be placed "high" within
@@ -161,24 +161,43 @@ app.use(methodOverride());
 
 // Session (use a cookie and persist session in Mongo)
 app.use(cookieParser(config.session.secret));
-app.use(session({
-  secret: config.session.secret,
-  key: 'sessionId',  // Use something generic so you don't leak information about your server
-  cookie: {
-    httpOnly: true,  // Reduce XSS attack vector
-    maxAge: config.session.maxAge
-  },
-  store: new MongoStore({
-    mongoose_connection: db,
-    auto_reconnect: true
-  })
-}));
+
+if (app.get('env') === 'production') {
+  // Cookies via SSL
+  app.use(session({
+    secret: config.session.secret,
+    key: 'sessionId',  // Use something generic so you don't leak information about your server
+    cookie: {
+      httpOnly: true,  // Reduce XSS attack vector
+      secure: true,    // Cookies via SSL
+      maxAge: config.session.maxAge
+    },
+    store: new MongoStore({
+      mongoose_connection: db,
+      auto_reconnect: true
+    })
+  }));
+} else {
+  app.use(session({
+    secret: config.session.secret,
+    key: 'sessionId',  // Use something generic so you don't leak information about your server
+    cookie: {
+      httpOnly: true,  // Reduce XSS attack vector
+      maxAge: config.session.maxAge
+    },
+    store: new MongoStore({
+      mongoose_connection: db,
+      auto_reconnect: true
+    })
+  }));
+}
 
 // Security
 app.disable('x-powered-by');  // Don't advertise our server type
 app.use(csrf());              // Prevent Cross-Site Request Forgery
-app.use(helmet.defaults());   // Default helmet security (must be above `app.router`)
+app.use(helmet.defaults());   // Default helmet security
 
+// Content Security Policy
 // app.use(helmet.csp({
 //   'default-src': ["'self'", 'localhost:3000'],
 //   'script-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", 'http://www.google-analytics.com', 'https://oss.maxcdn.com'],
@@ -212,9 +231,10 @@ app.use(function (req, res, next) {
 app.use(flash());
 
 /**
- * Dynamically include routes (via controllers)
+ * Routes/Routing
  */
 
+// Dynamically include routes (via controllers)
 fs.readdirSync('./controllers').forEach(function (file) {
   if (file.substr( -3 ) === '.js') {
     var route = require('./controllers/' + file);
@@ -222,24 +242,24 @@ fs.readdirSync('./controllers').forEach(function (file) {
   }
 });
 
-// Robots...
-// www.robotstxt.org/
-// www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
-if (app.get('env') === 'development') {
-  // In development keep search engines out
-  app.all('/robots.txt', function(req,res) {
-    res.charset = 'text/plain';
-    res.send('User-agent: *\nDisallow: /');
-  });
-}
+// // Robots...
+// // www.robotstxt.org/
+// // www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+// if (app.get('env') === 'development') {
+//   // In development keep search engines out
+//   app.all('/robots.txt', function(req,res) {
+//     res.charset = 'text/plain';
+//     res.send('User-agent: *\nDisallow: /');
+//   });
+// }
 
-if (app.get('env') === 'production') {
-  // Allow all search engines
-  app.all('/robots.txt', function(req,res) {
-    res.charset = 'text/plain';
-    res.send('User-agent: *');
-  });
-}
+// if (app.get('env') === 'production') {
+//   // Allow all search engines
+//   app.all('/robots.txt', function(req,res) {
+//     res.charset = 'text/plain';
+//     res.send('User-agent: *');
+//   });
+// }
 
 // Now setup our static serving from /public
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.maxAge }));
