@@ -140,7 +140,10 @@ if (app.get('env') === 'production') {
   // redirects to an HTTPS address using a 301 permanent redirect.
   // use enforce.HTTPS(true) in case you are behind a load balancer
   // (e.g. Heroku, Nodejitsu)
-  app.use(enforce.HTTPS(true));
+
+  // TODO - had to turn this off because authentication was breaking because
+  // the URIs changed...  sigh.
+  // app.use(enforce.HTTPS(true));
 }
 
 // Compress response data with gzip / deflate.
