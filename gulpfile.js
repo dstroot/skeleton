@@ -76,7 +76,7 @@ var paths = {
  * Clean
  */
 
-gulp.task('clean', function() {
+gulp.task('clean', function () {
   gulp.src(paths.clean, {read: false})
     .pipe($.clean())
     .pipe($.notify({ onLast: true, message: 'Clean task complete' }));
@@ -86,7 +86,7 @@ gulp.task('clean', function() {
  * Process CSS
  */
 
-gulp.task('styles', function() {
+gulp.task('styles', function () {
   return gulp.src('./less/main.less')
     .pipe($.less({}))                       // Compile Less files
     .pipe($.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -105,7 +105,7 @@ gulp.task('styles', function() {
  * JSHint Files
  */
 
-gulp.task('lint', function() {
+gulp.task('lint', function () {
   gulp.src(paths.lint)                      // Read .js files
     .pipe($.jshint())                       // Lint .js files //.pipe(jshint('.jshintrc'))
     .pipe($.jshint.reporter($.stylish))     // Specify a reporter for JSHint
@@ -117,7 +117,7 @@ gulp.task('lint', function() {
  * Process Scripts
  */
 
-gulp.task('scripts', function() {
+gulp.task('scripts', function () {
   return gulp.src(paths.js)                 // Read .js files
     .pipe($.concat(pkg.name + '.js'))       // Concatenate .js files into "packagename.js"
     .pipe(gulp.dest('./public/js'))         // Save main.js here
@@ -134,7 +134,7 @@ gulp.task('scripts', function() {
  * Process Images
  */
 
-gulp.task('images', function() {
+gulp.task('images', function () {
   gulp.src('public/img/**/*')               // Read images
     .pipe($.changed('./public/img'))        // Only process new/changed
     .pipe($.imagemin({
