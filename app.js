@@ -131,9 +131,26 @@ if (app.get('env') === 'production') {
       }
     }
   }));
+  // Enable If behind nginx, or a load balancer (e.g. Heroku, Nodejitsu).
+  app.enable('trust proxy');
+  // Since our application has signup, login, etc. forms these should be protected
+  // with SSL encryption. Heroku, Nodejitsu and other hosters often use reverse
+  // proxies or load balancers which offer SSL endpoints (but then forward unencrypted
+  // HTTP traffic to the server).  This makes it simpler for us since we don't have to
+  // setup HTTPS in express. When in production we can redirect all traffic to SSL
+  // by using a little middleware.
+  //
+  // In case of a non-encrypted HTTP request, enforce.HTTPS automatically
+  // redirects to an HTTPS address using a 301 permanent redirect. BE VERY
+  // CAREFUL with this! 301 redirects are cached by browsers and should be
+  // considered permanent.
+  //
+  // NOTE: Use `enforce.HTTPS(true)` if you are behind a proxy or load
+  // balancer that terminates SSL for you (e.g. Heroku, Nodejitsu).
+  app.use(enforce.HTTPS(true));
 }
 
-// port to listen on
+// Port to listen on.
 app.set('port', config.port);
 
 // Favicon - This middleware will come very early in your stack
@@ -144,26 +161,6 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 // Setup the view engine (jade)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
-// Since our application has signup, login, etc. forms these should be protected
-// with encryption.  We should be using SSL encryption so the data cannot be sniffed.
-// Heroku, nodejitsu and other hosters often use reverse proxies which offer SSL
-// endpoints but then forward unencrypted HTTP traffic to the server.  This makes
-// it simple for us - when in production we will redirect all traffic to SSL
-// by using a little middleware.
-
-if (app.get('env') === 'production') {
-  // Enable If behind nginx, or a load balancer (e.g. Heroku, Nodejitsu).
-  app.enable('trust proxy');
-  // In case of a non-encrypted HTTP request, enforce.HTTPS automatically
-  // redirects to an HTTPS address using a 301 permanent redirect. BE VERY
-  // CAREFUL with this! 301 redirects are cached by browsers and should be
-  // considered permanent.
-
-  // NOTE: Use `enforce.HTTPS(true)` if you are behind a proxy or load
-  // balancer that terminates SSL for you (e.g. Heroku, Nodejitsu).
-  app.use(enforce.HTTPS(true));
-}
 
 // Compress response data with gzip / deflate.
 // This middleware should be placed "high" within
@@ -178,7 +175,7 @@ app.use(bodyParser());
 app.use(expressValidator());
 
 // If you want to simulate DELETE and PUT
-// in your app you need methodOverride
+// in your app you need methodOverride.
 app.use(methodOverride());
 
 // CookieParser is required before session.  Session data is
@@ -237,25 +234,6 @@ fs.readdirSync('./controllers').forEach(function (file) {
   }
 });
 
-// // Robots...
-// // www.robotstxt.org/
-// // www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
-// if (app.get('env') === 'development') {
-//   // In development keep search engines out
-//   app.all('/robots.txt', function(req,res) {
-//     res.charset = 'text/plain';
-//     res.send('User-agent: *\nDisallow: /');
-//   });
-// }
-
-// if (app.get('env') === 'production') {
-//   // Allow all search engines
-//   app.all('/robots.txt', function(req,res) {
-//     res.charset = 'text/plain';
-//     res.send('User-agent: *');
-//   });
-// }
-
 // Now setup our static serving from /public
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.maxAge }));
 
@@ -263,7 +241,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.
  * Error Handling
  */
 
-// If nothing responded above we can assume a 404 (no routes responded or static assets found)
+// If nothing responded above we will assume a 404 (no routes responded or static assets found)
 // Tests:
 //   $ curl http://localhost:3000/notfound
 //   $ curl http://localhost:3000/notfound -H "Accept: application/json"
@@ -289,7 +267,8 @@ app.use(function (req, res, next) {
   res.type('txt').send('Error: Not found');
 });
 
-// True error-handling middleware requires an arity of 4, aka the signature (err, req, res, next).
+// True error-handling middleware requires an arity of 4,
+// aka the signature (err, req, res, next).
 
 // Handle 403 Errors
 app.use(function (err, req, res, next) {
@@ -317,8 +296,18 @@ app.use(function (err, req, res, next) {
   }
 });
 
-// Handle 500 Errors (really anything not handled above)
-// development will print stacktrace
+// Production 500 error handler (no stacktraces leaked to public!)
+if (app.get('env') === 'production') {
+  app.use(function (err, req, res, next) {
+    winston.error(err.status || 500 + ' ' + err + '\n');
+    res.status(err.status || 500);
+    res.render('error/500', {
+      error: {},
+    });
+  });
+}
+
+// Development 500 error handler
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
     winston.error(err.status || 500 + ' ' + err + '\n');
@@ -327,20 +316,7 @@ if (app.get('env') === 'development') {
       error: err,
     });
   });
-}
-
-// Production error handler
-// (no stacktraces leaked to public!)
-app.use(function (err, req, res, next) {
-  winston.error(err.status || 500 + ' ' + err + '\n');
-  res.status(err.status || 500);
-  res.render('error/500', {
-    error: {},
-  });
-});
-
-// Final error catch-all just in case...
-if ( app.get('env') === 'development') {
+  // Final error catch-all just in case...
   app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 }
 
@@ -351,7 +327,7 @@ if ( app.get('env') === 'development') {
 // NOTE: To alter the environment we can set the
 // NODE_ENV environment variable, for example:
 
-// $ NODE_ENV=production node cluster_app.js
+// $ NODE_ENV=production node app.js
 
 // This is *very* important, as many caching mechanisms
 // are *only* enabled when in production!
@@ -414,11 +390,11 @@ db.on('open', function () {
  */
 
 io.configure('production', function () {
-  io.enable('browser client minification');  // send minified client
-  io.enable('browser client etag');          // apply etag caching logic based on version number
-  io.enable('browser client gzip');          // gzip the file
-  io.set('log level', 0);                    // reduce logging
-  io.set('polling duration', 20);            // increase polling frequency
+  io.enable('browser client minification');  // Send minified client
+  io.enable('browser client etag');          // Apply etag caching logic based on version number
+  io.enable('browser client gzip');          // Gzip the file
+  io.set('log level', 0);                    // Reduce logging
+  io.set('polling duration', 20);            // Increase polling frequency
   io.set('transports', [                     // Manage transports
     'websocket',
     'htmlfile',
@@ -435,14 +411,15 @@ io.configure('production', function () {
 });
 
 io.configure('development', function () {
-  io.set('log level', 2);                    // increase logging
+  io.set('log level', 2);                    // Increase logging
   io.set('transports', [
-    'websocket'                              // Let's use only websockets for development
+    'websocket'                              // Use only websockets for development
   ]);
 });
 
 io.sockets.on('connection', function (socket) {
   socket.on('message', function (message) {
+    // Handle proxy or load balancer
     var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;
     var url = message;
     io.sockets.emit('pageview', { connections: Object.keys(io.connected).length, ip: ip, url: url, xdomain: socket.handshake.xdomain, timestamp: new Date()});
