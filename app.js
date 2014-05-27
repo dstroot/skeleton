@@ -87,23 +87,42 @@ app.locals.author       = config.author;
 app.locals.keywords     = config.keywords;
 app.locals.ga           = config.ga;
 
-// Now you can use moment anywhere within a jade template like this:
+// Use moment anywhere within a jade template like this:
 // p #{moment(Date.now()).format('MM/DD/YYYY')}
 // Good for an evergreen copyright ;)
 app.locals.moment       = require('moment');
 
-// Jade options
-app.locals.pretty       = false;
-app.locals.compileDebug = false;
+// Create Express session configuration
+var sessionConfig = {
+  secret: config.session.secret,
+  name: 'sid',      // Generic - don't leak information
+  proxy: true,      // Trust the reverse proxy for HTTPS/SSL
+  cookie: {
+    httpOnly: true, // Reduce XSS attack vector
+    secure: true,   // Cookies via SSL
+    maxAge: config.session.maxAge
+  },
+  store: new MongoStore({
+    mongoose_connection: db,
+    auto_reconnect: true
+  })
+};
 
-// Settings for development
 if (app.get('env') === 'development') {
-  // Don't minify html in dev, use debug intrumentation
+  // Jade options: Don't minify html, debug intrumentation
   app.locals.pretty = true;
   app.locals.compileDebug = true;
   // Turn on console logging in development
   app.use(logger('dev'));
-} else {
+  // Allow non-SSL cookies when not in production
+  sessionConfig.proxy = false;
+  sessionConfig.cookie.secure = false;
+}
+
+if (app.get('env') === 'production') {
+  // Jade options: minify html, no debug intrumentation
+  app.locals.pretty = false;
+  app.locals.compileDebug = false;
   // Stream Express Logging to Winston
   app.use(logger({
     stream: {
@@ -137,10 +156,12 @@ if (app.get('env') === 'production') {
   // Enable If behind nginx, or a load balancer (e.g. Heroku, Nodejitsu).
   app.enable('trust proxy');
   // In case of a non-encrypted HTTP request, enforce.HTTPS automatically
-  // redirects to an HTTPS address using a 301 permanent redirect.
-  // use enforce.HTTPS(true) if you are behind a load balancer
-  // (e.g. Heroku, Nodejitsu). BE CAREFUL with this! 301 redirects are
-  // cached by browsers and are considered permanent.
+  // redirects to an HTTPS address using a 301 permanent redirect. BE VERY
+  // CAREFUL with this! 301 redirects are cached by browsers and should be
+  // considered permanent.
+
+  // NOTE: Use `enforce.HTTPS(true)` if you are behind a proxy or load
+  // balancer that terminates SSL for you (e.g. Heroku, Nodejitsu).
   app.use(enforce.HTTPS(true));
 }
 
@@ -164,38 +185,9 @@ app.use(methodOverride());
 // not saved in the cookie itself, however cookies are used,
 // so we must use the cookie-parser middleware before session().
 app.use(cookieParser(config.session.secret));
-if (app.get('env') === 'production') {
-  // Secure cookies via HTTPS/SSL
-  app.use(session({
-    secret: config.session.secret,
-    name: 'sid',      // Generic - don't leak information
-    proxy: true,      // Trust the reverse proxy for HTTPS/SSL
-    cookie: {
-      httpOnly: true, // Reduce XSS attack vector
-      secure: true,   // Cookies via HTTPS/SSL
-      maxAge: config.session.maxAge
-    },
-    store: new MongoStore({
-      mongoose_connection: db,
-      auto_reconnect: true
-    })
-  }));
-} else {
-  app.use(session({
-    secret: config.session.secret,
-    name: 'sid',
-    cookie: {
-      httpOnly: true,
-      maxAge: config.session.maxAge
-    },
-    store: new MongoStore({
-      mongoose_connection: db,
-      auto_reconnect: true
-    })
-  }));
-}
+app.use(session(sessionConfig));
 
-// Security
+// Security Settings
 app.disable('x-powered-by');  // Don't advertise our server type
 app.use(csrf());              // Prevent Cross-Site Request Forgery
 app.use(helmet.defaults());   // Default helmet security
@@ -278,7 +270,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: config.session.
 //   $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 
 // Handle 404 Errors
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   winston.warn('404 Warning. URL: ' + req.url + '\n');
   res.status(404);
   // respond with html page
@@ -300,7 +292,7 @@ app.use(function(req, res, next) {
 // True error-handling middleware requires an arity of 4, aka the signature (err, req, res, next).
 
 // Handle 403 Errors
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   if (err.status === 403) {
     winston.error('403 Not Allowed. ' + err + '\n');
     // Respond with HTML
@@ -328,7 +320,7 @@ app.use(function(err, req, res, next) {
 // Handle 500 Errors (really anything not handled above)
 // development will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     winston.error(err.status || 500 + ' ' + err + '\n');
     res.status(err.status || 500);
     res.render('error/500', {
@@ -339,7 +331,7 @@ if (app.get('env') === 'development') {
 
 // Production error handler
 // (no stacktraces leaked to public!)
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   winston.error(err.status || 500 + ' ' + err + '\n');
   res.status(err.status || 500);
   res.render('error/500', {
@@ -421,7 +413,7 @@ db.on('open', function () {
  *
  */
 
-io.configure('production', function() {
+io.configure('production', function () {
   io.enable('browser client minification');  // send minified client
   io.enable('browser client etag');          // apply etag caching logic based on version number
   io.enable('browser client gzip');          // gzip the file
@@ -442,7 +434,7 @@ io.configure('production', function() {
   });
 });
 
-io.configure('development', function() {
+io.configure('development', function () {
   io.set('log level', 2);                    // increase logging
   io.set('transports', [
     'websocket'                              // Let's use only websockets for development
