@@ -7,8 +7,10 @@ block content
   .container
     .row
       .col-sm-8.col-sm-offset-2
-        h1 OK! Let's Get this party started!
-        p Scan the QR Code below (if your app supports it) or type your secret key into the app.
+        .page-header
+          h2 Let's get this party started!
+        //- p Scan the QR Code below (if your app supports it) or type your secret key into the app.
+        p.text-muted (You did install an app first, right?)
         p.lead Scan this QR Code:
           img.center-block(src='#{qrImage}')
         br
