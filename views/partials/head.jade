@@ -13,7 +13,7 @@ head
 
   //- Behavioral Meta Data
   meta(charset='utf-8')
-  meta(name='csrf-token', content=token)
+  meta(name='x-csrf-token', content=_csrf)
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
   meta(name='apple-mobile-web-app-capable', content='yes')
   meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -47,7 +47,7 @@ head
   link(rel='stylesheet', href='/css/#{application}.min.css')
 
   //- Fonts
-  link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,500,700')
+  link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,500,700')
 
   //- favicon.ico and apple-touch-icon(s)
 

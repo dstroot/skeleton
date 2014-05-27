@@ -23,8 +23,7 @@ block content
     br
 
     form(method='POST')
-      //- input(type='hidden', name='_csrf', value=_csrf)
-      input(type='hidden', name='_csrf', value=token)
+      input(type='hidden', name='_csrf', value=_csrf)
       script(
       src='https://checkout.stripe.com/checkout.js',
       class='stripe-button',

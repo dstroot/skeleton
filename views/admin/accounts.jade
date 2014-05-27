@@ -183,7 +183,7 @@ block scripts
           $.ajax({
             type: 'DELETE',
             //- headers: { 'X-CSRF-Token': '#{token}' },
-            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+            headers: { 'X-CSRF-Token': $('meta[name="x-csrf-token"]').attr('content')},
             url: '/accountlist/' + userid
           }).done(function( response ) {
             // Check for a successful (blank) response
