@@ -2,33 +2,36 @@
   if messages.error
     .alert.alert-danger.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
-        i.fa.fa-lg.fa-times-circle
-      //- why is the line below inconsistent?
+        i.fa.fa-times-circle
       for error in messages.error
         p.flashmsg
-          strong Oh Snap!
-          |  #{error.msg}
-  if messages.info
-    .alert.alert-info.alert-dismissable
-      button.close(type='button', data-dismiss='alert', aria-hidden='true')
-        i.fa.fa-lg.fa-times-circle
-      for info in messages.info
-        p.flashmsg
-          strong Heads Up!
-          |  #{info.msg}
+          strong
+            i.fa.fa-lg.fa-exclamation-triangle
+          | &nbsp;&nbsp;#{error.msg}
   if messages.warning
     .alert.alert-warning.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
-        i.fa.fa-lg.fa-times-circle
+        i.fa.fa-times-circle
       for warning in messages.warning
         p.flashmsg
-          strong Heads Up!
-          |  #{warning.msg}
+          strong
+            i.fa.fa-lg.fa-exclamation-triangle
+          | &nbsp;&nbsp;#{warning.msg}
+  if messages.info
+    .alert.alert-info.alert-dismissable
+      button.close(type='button', data-dismiss='alert', aria-hidden='true')
+        i.fa.fa-times-circle
+      for info in messages.info
+        p.flashmsg
+          strong
+            i.fa.fa-lg.fa-info-circle
+          | &nbsp;&nbsp;#{info.msg}
   if messages.success
     .alert.alert-success.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
-        i.fa.fa-lg.fa-times-circle
+        i.fa.fa-times-circle
       for success in messages.success
         p.flashmsg
-          strong Success!
-          |  #{success.msg}
+          strong
+            i.fa.fa-lg.fa-check-circle
+          | &nbsp;&nbsp;#{success.msg}

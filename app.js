@@ -164,28 +164,36 @@ app.use(methodOverride());
 // not saved in the cookie itself, however cookies are used,
 // so we must use the cookie-parser middleware before session().
 app.use(cookieParser(config.session.secret));
-
-// Session (persist session in Mongo)
-app.use(session({
-  secret: config.session.secret,
-  name: 'sessionId',  // Something generic so you don't leak information about your server
-  cookie: {
-    httpOnly: true,  // Reduce XSS attack vector
-    // Note that "secure: true" is a recommended option. However, it
-    // requires an https-enabled website (HTTPS is necessary for
-    // secure cookies). If secure is not set, session will default
-    // to it when using https. For development, or if your SSL
-    // termination is done outside of your node server, use the
-    // proxy option:
-    proxy: true,     // Trust the reverse proxy
-    // secure: true,    // Cookies via SSL
-    maxAge: config.session.maxAge
-  },
-  store: new MongoStore({
-    mongoose_connection: db,
-    auto_reconnect: true
-  })
-}));
+if (app.get('env') === 'production') {
+  // Secure cookies via HTTPS/SSL
+  app.use(session({
+    secret: config.session.secret,
+    name: 'sid',      // Generic - don't leak information
+    proxy: true,      // Trust the reverse proxy for HTTPS/SSL
+    cookie: {
+      httpOnly: true, // Reduce XSS attack vector
+      secure: true,   // Cookies via HTTPS/SSL
+      maxAge: config.session.maxAge
+    },
+    store: new MongoStore({
+      mongoose_connection: db,
+      auto_reconnect: true
+    })
+  }));
+} else {
+  app.use(session({
+    secret: config.session.secret,
+    name: 'sid',
+    cookie: {
+      httpOnly: true,
+      maxAge: config.session.maxAge
+    },
+    store: new MongoStore({
+      mongoose_connection: db,
+      auto_reconnect: true
+    })
+  }));
+}
 
 // Security
 app.disable('x-powered-by');  // Don't advertise our server type
