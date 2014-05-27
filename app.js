@@ -160,39 +160,32 @@ app.use(expressValidator());
 // in your app you need methodOverride
 app.use(methodOverride());
 
-// Session (use a cookie and persist session in Mongo)
+// CookieParser is required before session.  Session data is
+// not saved in the cookie itself, however cookies are used,
+// so we must use the cookie-parser middleware before session().
 app.use(cookieParser(config.session.secret));
 
-if (app.get('env') === 'production') {
-  // Cookies via SSL
-  app.use(session({
-    secret: config.session.secret,
-    name: 'sessionId',  // Use something generic so you don't leak information about your server
-    cookie: {
-      httpOnly: true,  // Reduce XSS attack vector
-      proxy: true,     // Trust the reverse proxy when using secure cookies
-      secure: true,    // Cookies via SSL
-      maxAge: config.session.maxAge
-    },
-    store: new MongoStore({
-      mongoose_connection: db,
-      auto_reconnect: true
-    })
-  }));
-} else {
-  app.use(session({
-    secret: config.session.secret,
-    name: 'sessionId',  // Use something generic so you don't leak information about your server
-    cookie: {
-      httpOnly: true,  // Reduce XSS attack vector
-      maxAge: config.session.maxAge
-    },
-    store: new MongoStore({
-      mongoose_connection: db,
-      auto_reconnect: true
-    })
-  }));
-}
+// Session (persist session in Mongo)
+app.use(session({
+  secret: config.session.secret,
+  name: 'sessionId',  // Something generic so you don't leak information about your server
+  cookie: {
+    httpOnly: true,  // Reduce XSS attack vector
+    // Note that "secure: true" is a recommended option. However, it
+    // requires an https-enabled website (HTTPS is necessary for
+    // secure cookies). If secure is not set, session will default
+    // to it when using https. For development, or if your SSL
+    // termination is done outside of your node server, use the
+    // proxy option:
+    proxy: true,     // Trust the reverse proxy
+    // secure: true,    // Cookies via SSL
+    maxAge: config.session.maxAge
+  },
+  store: new MongoStore({
+    mongoose_connection: db,
+    auto_reconnect: true
+  })
+}));
 
 // Security
 app.disable('x-powered-by');  // Don't advertise our server type
@@ -450,7 +443,7 @@ io.configure('development', function() {
 
 io.sockets.on('connection', function (socket) {
   socket.on('message', function (message) {
-    var ip = socket.handshake.address.address;
+    var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;
     var url = message;
     io.sockets.emit('pageview', { connections: Object.keys(io.connected).length, ip: ip, url: url, xdomain: socket.handshake.xdomain, timestamp: new Date()});
   });

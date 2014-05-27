@@ -94,12 +94,12 @@ block content
         if config.enhancedSecurity
           .page-header
             h2 Enhanced Security
-          p Enhanced security adds an extra layer of protection to your account. Once enabled, a security code is required in addition to your password whenever you sign in. The code <strong>changes every 30 seconds</strong> making it <strong>very difficult</strong> for hackers to gain access to your account.
           if user.enhancedSecurity.enabled
             a.btn.btn-block.btn-danger(href='/disable-enhanced-security')
               i.fa.fa-unlock
               | &nbsp;Disable Enhanced Security
           else
+            p Enhanced security adds an extra layer of protection to your account. Once enabled, a security code is required whenever you sign in. The code <strong>changes every 30 seconds</strong> making it <strong>very difficult for hackers</strong> to gain access to your account.
             a.btn.btn-block.btn-success(href='/enable-enhanced-security')
               i.fa.fa-lock
               | &nbsp;Enable Enhanced Security
