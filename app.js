@@ -167,9 +167,10 @@ if (app.get('env') === 'production') {
   // Cookies via SSL
   app.use(session({
     secret: config.session.secret,
-    key: 'sessionId',  // Use something generic so you don't leak information about your server
+    name: 'sessionId',  // Use something generic so you don't leak information about your server
     cookie: {
       httpOnly: true,  // Reduce XSS attack vector
+      proxy: true,     // Trust the reverse proxy when using secure cookies
       secure: true,    // Cookies via SSL
       maxAge: config.session.maxAge
     },
@@ -181,7 +182,7 @@ if (app.get('env') === 'production') {
 } else {
   app.use(session({
     secret: config.session.secret,
-    key: 'sessionId',  // Use something generic so you don't leak information about your server
+    name: 'sessionId',  // Use something generic so you don't leak information about your server
     cookie: {
       httpOnly: true,  // Reduce XSS attack vector
       maxAge: config.session.maxAge
