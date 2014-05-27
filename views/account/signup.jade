@@ -10,7 +10,7 @@ block content
         br
         br
         form(action='/signup', method='POST')
-          input(type='hidden', name='_csrf', value=token)
+          input(type='hidden', name='_csrf', value=_csrf)
           legend Sign Up
           .form-group
             label.sr-only(for='name') Name:

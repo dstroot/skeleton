@@ -217,7 +217,8 @@ exports.isAuthenticated = function (req, res, next) {
       if (req.session.passport.secondFactor === 'validated') {
         return next();
       } else {
-        res.redirect('/verify-otp');
+        // Verify their OTP code
+        res.redirect('/verify-setup');
       }
     } else {
       // If enhanced security is disabled just continue.
@@ -226,7 +227,7 @@ exports.isAuthenticated = function (req, res, next) {
   } else {
     req.session.attemptedURL = req.url;  // Save URL so we can redirect to it after authentication
     res.set('X-Auth-Required', 'true');
-    req.flash('errors', { msg: 'You must be logged in to reach that page.' });
+    req.flash('error', { msg: 'You must be logged in to reach that page.' });
     res.redirect('/login');
   }
 };
@@ -260,13 +261,13 @@ exports.isAdministrator = function (req, res, next) {
   if (req.isAuthenticated()) {
     //user must be be an administrator
     if (req.user.type !== 'admin') {
-      req.flash('errors', { msg: 'You must be an Administrator reach that page.' });
+      req.flash('error', { msg: 'You must be an Administrator reach that page.' });
       return res.redirect('/api');
     } else {
       return next();
     }
   } else {
-    req.flash('errors', { msg: 'You must be logged in to reach that page.' });
+    req.flash('error', { msg: 'You must be logged in to reach that page.' });
     res.redirect('/login');
   }
 };

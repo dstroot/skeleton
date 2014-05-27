@@ -61,7 +61,7 @@ module.exports.controller = function (app) {
       var errors = req.validationErrors();
 
       if (errors) {
-        req.flash('errors', errors);
+        req.flash('error', errors);
         return res.redirect('/account');
       }
 
@@ -149,7 +149,7 @@ module.exports.controller = function (app) {
           // Send email
           smtpTransport.sendMail(mailOptions, function(err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return res.redirect('/account');
             }
             // shut down the connection pool, no more messages
@@ -196,7 +196,7 @@ module.exports.controller = function (app) {
       var errors = req.validationErrors();
 
       if (errors) {
-        req.flash('errors', errors);
+        req.flash('error', errors);
         return res.redirect('/account');
       }
 
@@ -279,7 +279,7 @@ module.exports.controller = function (app) {
           // Send email
           smtpTransport.sendMail(mailOptions, function(err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return res.redirect('/account');
             }
             // shut down the connection pool, no more messages
@@ -364,7 +364,7 @@ module.exports.controller = function (app) {
       // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ facebook: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'Your Facebook acoount is already connected to another ' + config.name + ' account!' });
+          req.flash('error', { msg: 'Your Facebook acoount is already connected to another ' + config.name + ' account!' });
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Facebook account.' });
           return res.redirect('/account');
         } else {
@@ -412,7 +412,7 @@ module.exports.controller = function (app) {
       // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ twitter: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'Your Twitter acoount is already connected to another ' + config.name + ' account!' });
+          req.flash('error', { msg: 'Your Twitter acoount is already connected to another ' + config.name + ' account!' });
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Twitter account.' });
           return res.redirect('/account');
         } else {
@@ -459,7 +459,7 @@ module.exports.controller = function (app) {
       // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ github: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'Your GitHub acoount is already connected to another ' + config.name + ' account!' });
+          req.flash('error', { msg: 'Your GitHub acoount is already connected to another ' + config.name + ' account!' });
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your GitHub account.' });
           return res.redirect('/account');
         } else {
@@ -507,7 +507,7 @@ module.exports.controller = function (app) {
       // Let's check to make sure we don't already have an account with the same credentials
       User.findOne({ google: info.profile._json.id }, function (err, existingUser) {
         if (existingUser) {
-          req.flash('errors', { msg: 'Your Google acoount is already connected to another ' + config.name + ' account!' });
+          req.flash('error', { msg: 'Your Google acoount is already connected to another ' + config.name + ' account!' });
           req.flash('info', { msg: 'Sign in with that account and delete it. Then sign back in (with this account) and link your Google account.' });
           return res.redirect('/account');
         } else {

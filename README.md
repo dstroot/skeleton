@@ -419,10 +419,10 @@ Flash messages allow you to display a message at the end of the request and acce
 
 This project uses *express-flash* module for flash messages. And that module is built on top of *connect-flash*, which is what I used in this project initially. With *express-flash* you don't have to explicity send a flash message to every view inside `res.render()`. All flash messages are available in your views via `messages` object by default, thanks to *express-flash*.
 
-Flash messages have a two-step process. You use `req.flash('errors', { msg: 'Error messages goes here' }`
+Flash messages have a two-step process. You use `req.flash('error', { msg: 'Error messages goes here' }`
 to create a flash message in your controllers, and then display them in your views.
 
-In the first step, `'errors'` is the name of a flash message, which should match the name of the property on `messages` object in your views. You place alert messages inside `if message.errors` because you don't want to show them flash messages are actually present.
+In the first step, `'error'` is the type of a flash message, which should match the name of the property on `messages` object in your views. You place alert messages inside `if message.error` because you don't want to show them flash messages are actually present.
 
 The reason why you pass an error like `{ msg: 'Error messages goes here' }` instead of just a string - `'Error messages goes here'`, is for the sake of consistency. To clarify that, *express-validator* module which is used for validating and sanitizing user's input, returns all errors as an array of objects, where each object has a `msg` property with a message why an error has occured. Here is a more general example of what express-validator returns when there are errors present:
 

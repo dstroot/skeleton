@@ -10,7 +10,7 @@ block content
         br
         br
         form(action="/verify-sms-first", method='POST')
-          input.form-control(type='hidden', name='_csrf', value=token)
+          input.form-control(type='hidden', name='_csrf', value=_csrf)
           legend Test your enhanced security code:
           .form-group
             label.sr-only(for='code') Code:

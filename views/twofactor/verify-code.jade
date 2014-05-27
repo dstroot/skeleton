@@ -9,8 +9,8 @@ block content
       .col-sm-8.col-sm-offset-2
         br
         br
-        form(action="/verify-otp", method='POST')
-          input.form-control(type='hidden', name='_csrf', value=token)
+        form(action="/verify-code", method='POST')
+          input.form-control(type='hidden', name='_csrf', value=_csrf)
           legend Enter your enhanced security code:
           .form-group
             label.sr-only(for='code') Code:

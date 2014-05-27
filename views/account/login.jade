@@ -10,7 +10,7 @@ block content
         br
         br
         form(method='POST')
-          input(type='hidden', name='_csrf', value=token)
+          input(type='hidden', name='_csrf', value=_csrf)
           legend Sign In
           .form-group
             if config.facebookAuth

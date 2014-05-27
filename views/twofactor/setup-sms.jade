@@ -10,7 +10,7 @@ block content
         .page-header
           h1 We Need Your Mobile Phone Number:
         form(action='/setup-sms', method='POST')
-          input(type='hidden', name='_csrf', value=token)
+          input(type='hidden', name='_csrf', value=_csrf)
           .form-group
             label(for='email') Please confirm (or enter) your mobile phone number:
 

@@ -278,7 +278,7 @@ module.exports.controller = function (app) {
       description: stripeEmail
     }, function (err, charge) {
       if (err && err.type === 'StripeCardError') {
-        req.flash('errors', { msg: 'Your card has been declined.'});
+        req.flash('error', { msg: 'Your card has been declined.'});
         res.redirect('/api/stripe');
       }
       req.flash('success', { msg: 'Your card has been charged successfully.'});

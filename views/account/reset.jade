@@ -10,7 +10,7 @@ block content
         .page-header
           h1 Reset Your Password
         form(method='POST')
-          input(type='hidden', name='_csrf', value=token)
+          input(type='hidden', name='_csrf', value=_csrf)
           .form-group
             label.sr-only(for='password') New Password:
             input.form-control(type='password', name='password', id='password', placeholder='New password', autocomplete='off', autofocus=true, required, pattern='^[^\S]{4,}', title='At least 4 characters!')

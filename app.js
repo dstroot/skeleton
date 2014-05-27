@@ -134,16 +134,14 @@ app.set('view engine', 'jade');
 // by using a little middleware.
 
 if (app.get('env') === 'production') {
-  // Enable If behind nginx, or a load balancer
+  // Enable If behind nginx, or a load balancer (e.g. Heroku, Nodejitsu).
   app.enable('trust proxy');
   // In case of a non-encrypted HTTP request, enforce.HTTPS automatically
   // redirects to an HTTPS address using a 301 permanent redirect.
-  // use enforce.HTTPS(true) in case you are behind a load balancer
-  // (e.g. Heroku, Nodejitsu)
-
-  // TODO - had to turn this off because authentication was breaking because
-  // the URIs changed...  sigh.
-  // app.use(enforce.HTTPS(true));
+  // use enforce.HTTPS(true) if you are behind a load balancer
+  // (e.g. Heroku, Nodejitsu). BE CAREFUL with this! 301 redirects are
+  // cached by browsers and are considered permanent.
+  app.use(enforce.HTTPS(true));
 }
 
 // Compress response data with gzip / deflate.
@@ -225,8 +223,8 @@ app.use(passport.session());
 // Keep user, csrf token and config available
 app.use(function (req, res, next) {
   res.locals.user = req.user;
-  res.locals.token = req.csrfToken();
   res.locals.config = config;
+  res.locals._csrf = req.csrfToken();
   next();
 });
 

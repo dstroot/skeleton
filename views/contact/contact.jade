@@ -12,7 +12,7 @@ block content
             i.fa.fa-envelope-o
             | &nbsp;Contact Us
         form(role='form', method='POST')
-          input(type='hidden', name='_csrf', value=token)
+          input(type='hidden', name='_csrf', value=_csrf)
           .form-group
             label.sr-only(for='name') Your Name:
             input.form-control(type='name', name='name', id='name', placeholder='Your Name', autofocus=true, required)

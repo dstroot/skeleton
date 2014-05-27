@@ -1,10 +1,10 @@
 #flash
-  if messages.errors
+  if messages.error
     .alert.alert-danger.alert-dismissable
       button.close(type='button', data-dismiss='alert', aria-hidden='true')
         i.fa.fa-lg.fa-times-circle
       //- why is the line below inconsistent?
-      for error in messages.errors
+      for error in messages.error
         p.flashmsg
           strong Oh Snap!
           |  #{error.msg}

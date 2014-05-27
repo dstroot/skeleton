@@ -27,7 +27,7 @@ module.exports.controller = function (app) {
   /**
    * GET /enable-enhanced-security (requires authentication)
    *
-   *     Begin the enhanced security setup process!
+   *     Begin the enhanced security setup process.
    */
 
   app.get('/enable-enhanced-security', passportConf.isAuthenticated, function (req, res) {
@@ -44,7 +44,7 @@ module.exports.controller = function (app) {
   /**
    * GET /complete-enhanced-security (requires authentication)
    *
-   *     Finalize enhanced security setup with the user
+   *     Finalize enhanced security setup with the user.
    */
 
   app.get('/complete-enhanced-security', passportConf.isAuthenticated, function (req, res) {
@@ -55,19 +55,22 @@ module.exports.controller = function (app) {
   });
 
   /**
-   * GET /verify-otp
+   * GET /verify-setup
    *
-   *     Get OTP Code from user for validation
+   *     Prepare for code validation. If the user
+   *     is using SMS send them their code. Otherwise
+   *     Continue to /verify-code.
+   *     Used for both TOTP and SMS authentication.
    */
 
-  app.get('/verify-otp', function (req, res) {
-
+  app.get('/verify-setup', function (req, res) {
     if ((req.user.enhancedSecurity.enabled) && (req.user.enhancedSecurity.type === 'sms')) {
 
       // NOTE: The JavaScript date is  based on a time value that is milliseconds
       // since midnight 01 January, 1970 UTC. A day holds 86,400,000 milliseconds.
-      // To convert the Mongo date we need to parse it so we can compare it to now.
+      // To convert the Mongo date we need to parse it so we can compare it to "now".
 
+      // If we don't already have a token (so user can reload page, etc.)
       if ((Date.parse(req.user.enhancedSecurity.smsExpires) < Date.now()) || (!req.user.enhancedSecurity.sms)) {
 
         // Generate a six digit SMS token
@@ -83,14 +86,14 @@ module.exports.controller = function (app) {
             // Save the SMS token
             User.findById(req.user.id, function (err, user) {
               if (err) {
-                req.flash('errors', { msg: err.message });
+                req.flash('error', { msg: err.message });
                 return res.redirect('back');
               }
               user.enhancedSecurity.sms = hash;
               user.enhancedSecurity.smsExpires = Date.now() + expiration;
               user.save(function (err) {
                 if (err) {
-                  req.flash('errors', { msg: err.message });
+                  req.flash('error', { msg: err.message });
                   return res.redirect('back');
                 }
               });
@@ -98,26 +101,40 @@ module.exports.controller = function (app) {
               var message = {
                 to: user.profile.phone.mobile,
                 from: config.twilio.phone,
-                body: 'Your code is: ' + sms + '. From ' + app.locals.application + '.'
+                body: 'Your ' + app.locals.application + ' login code is: ' + sms + '.'
               };
               twilio.sendMessage(message, function (err, responseData) {
                 if (err) {
-                  req.flash('errors', { msg: err.message});
+                  req.flash('error', { msg: err.message});
                   return res.redirect('back');
                 }
-                req.flash('success', { msg: 'Text sent to ' + responseData.to + '.'});
+                req.flash('info', { msg: 'A login code was sent to your mobile phone.' });
+                res.redirect('/verify-code');
               });
             });
           });
         });
+      } else {
+        res.redirect('/verify-code');
       }
+    } else {
+      req.flash('info', { msg: 'Use your mobile app to get your login code.' });
+      res.redirect('/verify-code');
     }
+  });
 
-    res.render('twofactor/verify-otp', {
+/**
+   * GET /verify-code
+   *
+   *     Get OTP Code from user for validation.
+   *     Used for both TOTP and SMS authentication.
+   */
+
+  app.get('/verify-code', function (req, res) {
+    res.render('twofactor/verify-code', {
       url: '/account', // to set navbar active state
       user: req.user
     });
-
   });
 
   /**
@@ -126,7 +143,7 @@ module.exports.controller = function (app) {
    *   Verify OTP Password
    */
 
-  app.post('/verify-otp', function (req, res, next) {
+  app.post('/verify-code', function (req, res, next) {
     // Handle SMS
     if ((req.user.enhancedSecurity.enabled) && (req.user.enhancedSecurity.type === 'sms')) {
       // Get the user using their ID and make sure their sms token hasn't expired yet
@@ -134,31 +151,31 @@ module.exports.controller = function (app) {
         .where('enhancedSecurity.smsExpires').gt(Date.now())
         .exec(function (err, user) {
           if (err) {
-            req.flash('errors', { msg: err.message });
+            req.flash('error', { msg: err.message });
             return res.redirect('back');
           }
           if (!user) {
-            req.flash('errors', { msg: 'Your SMS code has expired.' });
-            return res.redirect('back');
+            req.flash('error', { msg: 'Your code has expired.' });
+            return res.redirect('/verify-setup');
           }
           // Validate their SMS token
           user.compareSMS(req.body.code, function (err, isMatch) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return res.redirect('back');
             }
             if (isMatch) {
               // Clean out SMS token
               User.findById(req.user.id, function (err, user) {
                 if (err) {
-                  req.flash('errors', { msg: err.message });
+                  req.flash('error', { msg: err.message });
                   return res.redirect('back');
                 }
                 user.enhancedSecurity.sms = null;
                 user.enhancedSecurity.smsExpires = null;
                 user.save(function (err) {
                   if (err) {
-                    req.flash('errors', { msg: err.message });
+                    req.flash('error', { msg: err.message });
                     return res.redirect('back');
                   }
                 });
@@ -174,7 +191,7 @@ module.exports.controller = function (app) {
                 res.redirect('/');
               }
             } else {
-              req.flash('errors', { msg: 'Your SMS code is invalid.' });
+              req.flash('error', { msg: 'That code is invalid.' });
               return res.redirect('back');
             }
           });
@@ -185,13 +202,13 @@ module.exports.controller = function (app) {
       // Use Passport's TOTP authentication
       passport.authenticate('totp', function (err, user, info) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           return res.redirect('back');
         } else {
           // Log user in
           req.logIn(user, function (err) {
             if (err) {
-              req.flash('errors', { msg: 'That code is invalid.' });
+              req.flash('error', { msg: 'That code is invalid.' });
               return res.redirect('back');
             } else {
               // Save the fact that we have authenticated via two factor
@@ -220,7 +237,7 @@ module.exports.controller = function (app) {
     // Get user
     User.findById(req.user.id, function (err, user) {
       if (err) {
-        req.flash('errors', { msg: err.message });
+        req.flash('error', { msg: err.message });
         return (err);
       }
       // Remove enhanced security profile
@@ -228,7 +245,7 @@ module.exports.controller = function (app) {
       user.activity.last_updated = Date.now();
       user.save(function (err) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           return (err);
         }
       });
@@ -275,14 +292,14 @@ module.exports.controller = function (app) {
       // Save the key for the user
       User.findById(req.user.id, function (err, user) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           return (err);
         }
         user.enhancedSecurity.token = key;
         user.enhancedSecurity.period = 30;
         user.save(function (err) {
           if (err) {
-            req.flash('errors', { msg: err.message });
+            req.flash('error', { msg: err.message });
             return (err);
           }
         });
@@ -331,19 +348,19 @@ module.exports.controller = function (app) {
   app.post('/verify-totp-first', passportConf.isAuthenticated, function (req, res, next) {
     passport.authenticate('totp', function (err, user, info) {
       if (err) {
-        req.flash('errors', { msg: err.message });
+        req.flash('error', { msg: err.message });
         return res.redirect('back');
       } else {
         // Log user in
         req.logIn(user, function(err) {
           if (err) {
-            req.flash('errors', { msg: 'That code did not work.' });
+            req.flash('error', { msg: 'That code is invalid.' });
             return res.redirect('back');
           } else {
             // Finalize enabling enhanced security by setting enhancedSecurity.enabled = true
             User.findById(req.user.id, function (err, user) {
               if (err) {
-                req.flash('errors', { msg: err.message });
+                req.flash('error', { msg: err.message });
                 return (err);
               }
               user.enhancedSecurity.enabled = true;
@@ -351,7 +368,7 @@ module.exports.controller = function (app) {
               user.activity.last_updated = Date.now();
               user.save(function (err) {
                 if (err) {
-                  req.flash('errors', { msg: err.message });
+                  req.flash('error', { msg: err.message });
                   return (err);
                 }
               });
@@ -405,7 +422,7 @@ module.exports.controller = function (app) {
         // Save the Mobile number and SMS for the user
         User.findById(req.user.id, function (err, user) {
           if (err) {
-            req.flash('errors', { msg: err.message });
+            req.flash('error', { msg: err.message });
             return (err);
           }
           user.profile.phone.mobile = req.body.phoneMobile;
@@ -414,7 +431,7 @@ module.exports.controller = function (app) {
           user.activity.last_updated = Date.now();
           user.save(function (err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return (err);
             }
           });
@@ -423,14 +440,14 @@ module.exports.controller = function (app) {
         var message = {
           to: req.body.phoneMobile,
           from: config.twilio.phone,
-          body: 'Your code is: ' + sms + '. From ' + app.locals.application + '.'
+          body: 'Your ' + app.locals.application + ' login code is: ' + sms + '.'
         };
         twilio.sendMessage(message, function (err, responseData) {
           if (err) {
-            req.flash('errors', { msg: err.message});
+            req.flash('error', { msg: err.message});
             return res.redirect('back');
           }
-          req.flash('success', { msg: 'Text sent to ' + responseData.to + '.'});
+          req.flash('success', { msg: 'A login code was sent to your mobile phone.'});
           res.redirect('/verify-sms-first');
         });
       });
@@ -463,11 +480,11 @@ module.exports.controller = function (app) {
       .where('enhancedSecurity.smsExpires').gt(Date.now())
       .exec(function (err, user) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           return res.redirect('back');
         }
         if (!user) {
-          req.flash('errors', { msg: 'Your SMS code has expired.' });
+          req.flash('error', { msg: 'Your code has expired.' });
           return res.redirect('back');
         }
         // Validate their SMS token
@@ -481,7 +498,7 @@ module.exports.controller = function (app) {
             user.activity.last_updated = Date.now();
             user.save(function (err) {
               if (err) {
-                req.flash('errors', { msg: err.message });
+                req.flash('error', { msg: err.message });
                 return res.redirect('back');
               }
             });
@@ -490,7 +507,7 @@ module.exports.controller = function (app) {
             // Complete enhanced security setup
             res.redirect('/complete-enhanced-security');
           } else {
-            req.flash('errors', { msg: 'Your SMS code is invalid.' });
+            req.flash('error', { msg: 'That code is invalid.' });
             return res.redirect('back');
           }
         });

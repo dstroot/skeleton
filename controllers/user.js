@@ -68,7 +68,7 @@ module.exports.controller = function (app) {
       var errors = req.validationErrors();
 
       if (errors) {
-        req.flash('errors', errors);
+        req.flash('error', errors);
         return res.redirect('/login');
       }
 
@@ -108,7 +108,7 @@ module.exports.controller = function (app) {
         }
 
         if ( results.ip >= config.loginAttempts.forIp || results.ipUser >= config.loginAttempts.forUser ) {
-          req.flash('errors', { msg: 'You\'ve reached the maximum number of login attempts. Please try again later or reset your password.' });
+          req.flash('error', { msg: 'You\'ve reached the maximum number of login attempts. Please try again later or reset your password.' });
           req.session.tooManyAttempts = true;
           return res.redirect('/login');
         }
@@ -130,7 +130,7 @@ module.exports.controller = function (app) {
       // Authenticate the user
       passport.authenticate('local', function (err, user, info) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           return res.redirect('back');
         }
 
@@ -140,11 +140,11 @@ module.exports.controller = function (app) {
           var fieldsToSet = { ip: req.ip, user: req.body.email };
           LoginAttempt.create(fieldsToSet, function (err, doc) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return res.redirect('back');
             } else {
               // User Not Found (Return)
-              req.flash('errors', { msg: info.message });
+              req.flash('error', { msg: info.message });
               return res.redirect('/login');
             }
           });
@@ -155,7 +155,7 @@ module.exports.controller = function (app) {
           user.activity.last_logon = Date.now();
           user.save(function (err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return res.redirect('back');
             }
           });
@@ -163,7 +163,7 @@ module.exports.controller = function (app) {
           // Log user in
           req.logIn(user, function(err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return res.redirect('back');
             }
 
@@ -223,7 +223,7 @@ module.exports.controller = function (app) {
       // Get the user using their ID and token
       User.findOne({ _id: req.params.id, verifyToken: req.params.token }, function(err, user) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           req.flash('warning', { msg: 'Your account verification is invalid or has expired.' });
           return res.redirect('/');
         }
@@ -241,7 +241,7 @@ module.exports.controller = function (app) {
           // update the user record
           user.save(function (err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return res.redirect('back');
             }
 
@@ -304,7 +304,7 @@ module.exports.controller = function (app) {
           // send email via nodemailer
           smtpTransport.sendMail(mailOptions, function(err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
             }
             // shut down the connection pool, no more messages
             smtpTransport.close();
@@ -326,7 +326,7 @@ module.exports.controller = function (app) {
       // log the user in
       req.logIn(user, function (err) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           return res.redirect('back');
         }
         req.flash('info', { msg: 'Your account verification is completed!' });
@@ -386,7 +386,7 @@ module.exports.controller = function (app) {
       var errors = req.validationErrors();
 
       if (errors) {
-        req.flash('errors', errors);
+        req.flash('error', errors);
         return res.redirect('back');
       }
 
@@ -439,7 +439,7 @@ module.exports.controller = function (app) {
       user.save(function(err) {
         if (err) {
           if (err.code === 11000) {
-            req.flash('errors', { msg: 'An account with that email address already exists!' });
+            req.flash('error', { msg: 'An account with that email address already exists!' });
             req.flash('info', { msg: 'You should sign in with that account.' });
           }
           return res.redirect('back');
@@ -502,7 +502,7 @@ module.exports.controller = function (app) {
           // send email via nodemailer
           smtpTransport.sendMail(mailOptions, function(err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
             }
             // shut down the connection pool, no more messages
             smtpTransport.close();
@@ -570,7 +570,7 @@ module.exports.controller = function (app) {
           // send email via nodemailer
           smtpTransport.sendMail(mailOptions, function(err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
             }
             // shut down the connection pool, no more messages
             smtpTransport.close();
@@ -592,7 +592,7 @@ module.exports.controller = function (app) {
       // log the user in
       req.logIn(user, function(err) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           return res.redirect('back');
         }
         // send the right welcome message
@@ -654,7 +654,7 @@ module.exports.controller = function (app) {
       var errors = req.validationErrors();
 
       if (errors) {
-        req.flash('errors', errors);
+        req.flash('error', errors);
         return res.redirect('/signupsocial');
       }
 
@@ -674,7 +674,7 @@ module.exports.controller = function (app) {
           return (err);
         }
         if (user) {
-          req.flash('errors', { msg: 'Sorry that email address has already been used!' });
+          req.flash('error', { msg: 'Sorry that email address has already been used!' });
           req.flash('info', { msg: 'You can sign in with that account and link this provider, or you can create a new account by entering a different email address.' });
           return res.redirect('/signupsocial');
         }
@@ -722,7 +722,7 @@ module.exports.controller = function (app) {
       user.save(function(err) {
         if (err) {
           if (err.code === 11000) {
-            req.flash('errors', { msg: 'An account with that email already exists!' });
+            req.flash('error', { msg: 'An account with that email already exists!' });
           }
           return res.redirect('/signupsocial');
         } else {
@@ -785,7 +785,7 @@ module.exports.controller = function (app) {
           // send email via nodemailer
           smtpTransport.sendMail(mailOptions, function(err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
             }
             // shut down the connection pool, no more messages
             smtpTransport.close();
@@ -841,7 +841,7 @@ module.exports.controller = function (app) {
 
       // Check for data
       if (!info || !info.profile) {
-        req.flash('errors', { msg: 'We have no data. Something went wrong!' });
+        req.flash('error', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
       }
 
@@ -918,7 +918,7 @@ module.exports.controller = function (app) {
       failureRedirect: '/login'
     }, function (err, user, info) {
       if (!info || !info.profile) {
-        req.flash('errors', { msg: 'We have no data. Something went wrong!' });
+        req.flash('error', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
       }
 
@@ -995,7 +995,7 @@ module.exports.controller = function (app) {
       failureRedirect: '/login'
     }, function (err, user, info) {
       if (!info || !info.profile) {
-        req.flash('errors', { msg: 'We have no data. Something went wrong!' });
+        req.flash('error', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
       }
 
@@ -1072,7 +1072,7 @@ module.exports.controller = function (app) {
       failureRedirect: '/login'
     }, function (err, user, info) {
       if (!info || !info.profile) {
-        req.flash('errors', { msg: 'We have no data. Something went wrong!' });
+        req.flash('error', { msg: 'We have no data. Something went wrong!' });
         return res.redirect('/login');
       }
 

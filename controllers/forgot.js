@@ -92,7 +92,7 @@ module.exports.controller = function (app) {
       var errors = req.validationErrors();
 
       if (errors) {
-        req.flash('errors', errors);
+        req.flash('error', errors);
         return res.redirect('/forgot');
       }
 
@@ -126,7 +126,7 @@ module.exports.controller = function (app) {
       // lookup user
       User.findOne({ email: req.body.email.toLowerCase() }, function (err, user) {
         if (err) {
-          req.flash('errors', { msg: err.message });
+          req.flash('error', { msg: err.message });
           return res.redirect('/forgot');
         }
         if (!user) {
@@ -147,7 +147,7 @@ module.exports.controller = function (app) {
         // update the user's record with the token
         user.save(function (err) {
           if (err) {
-            req.flash('errors', { msg: err.message });
+            req.flash('error', { msg: err.message });
             return res.redirect('/forgot');
           }
         });
@@ -205,7 +205,7 @@ module.exports.controller = function (app) {
           // send email via nodemailer
           smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
-              req.flash('errors', { msg: err.message });
+              req.flash('error', { msg: err.message });
               return res.redirect('/forgot');
             }
             // shut down the connection pool, no more messages

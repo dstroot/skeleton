@@ -21,7 +21,7 @@ block content
             p.hidden-xs
               img(src="#{user.gravatar()}", class='profile', width='100', height='100')
         form(action='/account/profile', method='POST')
-          input.form-control(type='hidden', name='_csrf', value=token)
+          input.form-control(type='hidden', name='_csrf', value=_csrf)
           .form-group
             label.sr-only(for='name') Name
             input.form-control(type='text', name='name', id='name', placeholder='Your Name', value='#{user.profile.name}', required)
@@ -108,7 +108,7 @@ block content
         .page-header
           h2 Change Your Password
         form(action='/account/password', method='POST')
-          input.form-control(type='hidden', name='_csrf', value=token)
+          input.form-control(type='hidden', name='_csrf', value=_csrf)
           .form-group
             label.sr-only(for='password') New Password
             input.form-control(type='password', name='password', id='password', placeholder='New Password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
@@ -136,7 +136,7 @@ block content
                 p You can delete your account anytime.
                 P You can always sign up again if you want to come back!
                 form(action='/account/delete', method='POST')
-                  input.form-control(type='hidden', name='_csrf', value=token)
+                  input.form-control(type='hidden', name='_csrf', value=_csrf)
                   button.btn.btn-block.btn-danger(type='submit')
                     i.fa.fa-trash-o
                     | &nbsp;Delete my account
