@@ -375,7 +375,7 @@ Express.js has `app.get`, `app.post`, `app.put`, `app.del`, but for the most par
 
 You may need to add this hidden input element to your form.
 ```
-input(type='hidden', name='_csrf', value=token)
+input(type='hidden', name='_csrf', value=_csrf)
 ```
 
 ### What is app_cluster.js?
@@ -453,8 +453,7 @@ html
 
 Pro Tips
 --------
-- When you install a new npm package, add a *--save* flag and it will be automatially
-added to `package.json` as well. For example, `npm install --save moment`.
+- When you install a new npm package, add a *--save* flag and it will be automatially added to `package.json` as well. For example, `npm install --save moment`.
 - Use [async.parallel()](https://github.com/caolan/async#parallel) when you neeed to run multiple asynchronous tasks, and then render a page, but only when all tasks are completed. For example, you might want to scrape 3 different websites for some data (async operation) and render the results on a page after all 3 websites have been scraped.
 - Use [async.waterfall()](https://github.com/caolan/async#waterfall) when you need to run sequential tasks before you render a page.
 - Need to find a specific object inside an Array? Use [_.findWhere](http://underscorejs.org/#findWhere) function from Underscore.js. For example, this is how you would retrieve a Twitter token from database: `var token = _.findWhere(req.user.tokens, { kind: 'twitter' });`, where `req.user.tokens` is an Array, and a second parameter is an object with a given key/value.
