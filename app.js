@@ -7,7 +7,7 @@
 // Packages needed for Express 4.x
 var csrf              = require('csurf');                   // https://github.com/expressjs/csurf
 var logger            = require('morgan');                  // https://github.com/expressjs/morgan
-var favicon           = require('serve-favicon');          // https://github.com/expressjs/favicon
+var favicon           = require('serve-favicon');           // https://github.com/expressjs/favicon
 var session           = require('express-session');         // https://github.com/expressjs/session
 var express           = require('express');                 // https://npmjs.org/package/express
 var compress          = require('compression');             // https://github.com/expressjs/compression
@@ -61,11 +61,17 @@ if ( config.logging ) {
 winston.remove(winston.transports.Console);
 
 /**
- * Configure Database
+ * Configure Mongo Database
  */
 
 mongoose.connect(config.mongodb.url);
 var db = mongoose.connection;
+
+// Use Mongo for session store
+config.session.store  = new MongoStore({
+  mongoose_connection: db,
+  auto_reconnect: true
+});
 
 /**
  * Express Configuration and Setup
@@ -92,31 +98,15 @@ app.locals.ga           = config.ga;
 // Good for an evergreen copyright ;)
 app.locals.moment       = require('moment');
 
-// Create Express session configuration
-var sessionConfig = {
-  secret: config.session.secret,
-  name: 'sid',      // Generic - don't leak information
-  proxy: true,      // Trust the reverse proxy for HTTPS/SSL
-  cookie: {
-    httpOnly: true, // Reduce XSS attack vector
-    secure: true,   // Cookies via SSL
-    maxAge: config.session.maxAge
-  },
-  store: new MongoStore({
-    mongoose_connection: db,
-    auto_reconnect: true
-  })
-};
-
 if (app.get('env') === 'development') {
   // Jade options: Don't minify html, debug intrumentation
   app.locals.pretty = true;
   app.locals.compileDebug = true;
   // Turn on console logging in development
   app.use(logger('dev'));
-  // Allow non-SSL cookies when not in production
-  sessionConfig.proxy = false;
-  sessionConfig.cookie.secure = false;
+  // Turn off HTTPS/SSL cookies in development
+  config.session.proxy = false;
+  config.session.cookie.secure = false;
 }
 
 if (app.get('env') === 'production') {
@@ -131,7 +121,7 @@ if (app.get('env') === 'production') {
       }
     }
   }));
-  // Enable If behind nginx, or a load balancer (e.g. Heroku, Nodejitsu).
+  // Enable If behind nginx, proxy, or a load balancer (e.g. Heroku, Nodejitsu).
   app.enable('trust proxy');
   // Since our application has signup, login, etc. forms these should be protected
   // with SSL encryption. Heroku, Nodejitsu and other hosters often use reverse
@@ -140,7 +130,7 @@ if (app.get('env') === 'production') {
   // setup HTTPS in express. When in production we can redirect all traffic to SSL
   // by using a little middleware.
   //
-  // In case of a non-encrypted HTTP request, enforce.HTTPS automatically
+  // In case of a non-encrypted HTTP request, enforce.HTTPS() automatically
   // redirects to an HTTPS address using a 301 permanent redirect. BE VERY
   // CAREFUL with this! 301 redirects are cached by browsers and should be
   // considered permanent.
@@ -181,8 +171,9 @@ app.use(methodOverride());
 // CookieParser is required before session.  Session data is
 // not saved in the cookie itself, however cookies are used,
 // so we must use the cookie-parser middleware before session().
-app.use(cookieParser(config.session.secret));
-app.use(session(sessionConfig));
+// Use a secret for signed cookies.
+app.use(cookieParser(config.cookie.secret));
+app.use(session(config.session));
 
 // Security Settings
 app.disable('x-powered-by');  // Don't advertise our server type

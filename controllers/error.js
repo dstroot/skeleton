@@ -9,7 +9,7 @@ module.exports.controller = function (app) {
   /**
    * Error Routes
    *
-   * NOTE: These routes *only* exist to test error functionality.
+   * NOTE: These routes only exist to test error functionality.
    * They are not used under normal circumstances.
    */
 

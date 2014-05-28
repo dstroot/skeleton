@@ -20,6 +20,7 @@ module.exports.controller = function (app) {
 
     //user must be be an administrator
     if (req.user.type !== 'admin') {
+      req.flash('warning', { msg: 'You must be an administrator to test email layouts.' });
       return res.redirect('/api');
     }
 

@@ -10,9 +10,10 @@ var pkg               = require('../package.json');
  * Configuration File
  *
  * Why like this?
- *  - All environmental vars documented in one place
+ *
+ *  - All environmental variables documented in one place
  *  - If I use "." notation it's easy to cut/paste into code
- *  - Unlike JSON, js allows comments
+ *  - Unlike JSON, javascript allows comments (which I like)
  *  - Reading package.json here centralizes all config info
  *
  */
@@ -52,9 +53,20 @@ var hour              = 3600000;
 var day               = (hour * 24);
 var week              = (day * 7);
 
+// Cookie
+config.cookie         = {};
+config.cookie.secret  = process.env.COOKIE_SECRET  || 'Mb88Sz7Dlv3fq5pzIp9vVx';
+
+// Session
 config.session        = {};
-config.session.secret = process.env.SESSION_SECRET  || 'nLz8gSz7DHv3fDU3LIp60G';
-config.session.maxAge = process.env.SESSION_MAX_AGE || week;
+config.session.secret = process.env.SESSION_SECRET || 'nLz8gSz7DHv3fDU3LIp60G';
+config.session.name   = 'sid';  // Generic - don't leak information
+config.session.proxy  = true;   // Trust the reverse proxy for HTTPS/SSL
+
+config.session.cookie          = {};
+config.session.cookie.httpOnly = true;   // Reduce XSS attack vector
+config.session.cookie.secure   = true;   // Cookies via HTTPS/SSL
+config.session.cookie.maxAge   = process.env.SESSION_MAX_AGE || week;
 
 /**
  * Throttle Login Attempts

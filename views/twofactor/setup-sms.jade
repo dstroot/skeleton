@@ -8,7 +8,9 @@ block content
     .row
       .col-sm-8.col-sm-offset-2
         .page-header
-          h2 We Need Your Mobile Phone Number:
+          h2
+            i.fa.fa-phone
+            | &nbsp;We Need Your Mobile Phone Number:
         form(action='/setup-sms', method='POST')
           input(type='hidden', name='_csrf', value=_csrf)
           .form-group

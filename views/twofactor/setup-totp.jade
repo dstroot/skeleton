@@ -8,8 +8,9 @@ block content
     .row
       .col-sm-8.col-sm-offset-2
         .page-header
-          h2 Let's get this party started!
-        //- p Scan the QR Code below (if your app supports it) or type your secret key into the app.
+          h2
+            i.fa.fa-lock
+            | &nbsp;Let's get this party started!
         p.text-muted (You did install an app first, right?)
         p.lead Scan this QR Code:
           img.center-block(src='#{qrImage}')
@@ -22,15 +23,3 @@ block content
         a.btn.btn-danger(href='/disable-enhanced-security')
           i.fa.fa-times
           | &nbsp;Cancel Enhanced Security
-    //- .row
-    //-   .col-sm-4.col-sm-offset-2
-    //-     br
-    //-     a.btn.btn-success.btn-block(href='/verify-totp-first')
-    //-       i.fa.fa-check
-    //-       | &nbsp;I Am Ready To Go!
-    //-   .col-sm-4
-    //-     br
-    //-     a.btn.btn-danger.btn-block(href='/account/disable-enhanced-security')
-    //-       i.fa.fa-times
-    //-       | &nbsp;Cancel Enhanced Security
-    //-   br
