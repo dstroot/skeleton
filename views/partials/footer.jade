@@ -10,7 +10,8 @@ footer.footer.bg-black
 
 //- Javascript
 //- Place scripts in footer for faster page rendering
-script(src='/socket.io/socket.io.v1.0.0.js')
+//- script(src='/socket.io/socket.io.js')
+script(src='//cdn.socket.io/socket.io-1.0.1.js')
 script(src='/lib/jquery/dist/jquery.min.js')
 
 //- Then we use jQuery to async load everything else
@@ -20,12 +21,12 @@ script.
     $.getScript('/js/#{application}.min.js');
   });
   // socket.io processing
-  var socket = io.connect();
-  // Send inital connection
+  var socket = io();
   socket.on('connect', function () {
-    socket.send(window.location.href);
+    // Tell the server your URL
+    socket.emit('pageUrl', window.location.href);
   });
-  // send page views
   window.onhashchange = function () {
-    socket.send(window.location.href);
+    // Tell the server your new URL
+    socket.emit('pageUrl', window.location.href);
   };

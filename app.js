@@ -18,7 +18,7 @@ var methodOverride    = require('method-override');         // https://github.co
 
 // Additional packages
 var fs                = require('fs');                      // http://nodejs.org/docs/v0.10.25/api/fs.html
-var io                = require('socket.io');               // https://www.npmjs.org/package/socket.io
+// var io                = require('socket.io')();               // https://www.npmjs.org/package/socket.io
 var pkg               = require('./package.json');          // Get package.json
 var path              = require('path');                    // http://nodejs.org/docs/v0.10.25/api/path.html
 var debug             = require('debug')('skeleton');       // https://github.com/visionmedia/debug
@@ -45,7 +45,9 @@ var app         = module.exports = express();  // export app for testing
  */
 
 var server      = require('http').createServer(app);
-var io          = io.listen(server);
+var io          = require('socket.io')(server, {
+  // options go here
+});
 
 /**
  * Configure Logging
@@ -377,45 +379,29 @@ db.on('open', function () {
 /**
  * Emit Pageviews on Socket.io for Dashboard
  * https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
- *
  */
 
-io.configure('production', function () {
-  io.enable('browser client minification');  // Send minified client
-  io.enable('browser client etag');          // Apply etag caching logic based on version number
-  io.enable('browser client gzip');          // Gzip the file
-  io.set('log level', 0);                    // Reduce logging
-  io.set('polling duration', 20);            // Increase polling frequency
-  io.set('transports', [                     // Manage transports
-    'websocket',
-    'htmlfile',
-    'xhr-polling',
-    'jsonp-polling'
-  ]);
-  io.set('authorization', function (handshakeData, callback) {
-    if (handshakeData.xdomain) {
-      callback('Cross-domain connections are not allowed');
-    } else {
-      callback(null, true);
-    }
-  });
-});
-
-io.configure('development', function () {
-  io.set('log level', 2);                    // Increase logging
-  io.set('transports', [
-    'websocket'                              // Use only websockets for development
-  ]);
-});
+var connectedCount = 0;
 
 io.sockets.on('connection', function (socket) {
-  socket.on('message', function (message) {
-    // Handle proxy or load balancer
+  connectedCount += 1;
+  // Listen for PageUrl updates from clients
+  socket.on('pageUrl', function (message) {
     var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;
     var url = message;
-    io.sockets.emit('pageview', { connections: Object.keys(io.connected).length, ip: ip, url: url, xdomain: socket.handshake.xdomain, timestamp: new Date()});
+    // Broadcast update to all clients in default namespace
+    io.emit('pageview', {
+      connections: connectedCount,
+      ip: ip,
+      url: url,
+      timestamp: new Date()
+    });
   });
   socket.on('disconnect', function () {
-    io.sockets.emit('pageview', { connections: Object.keys(io.connected).length});
+    connectedCount -= 1;
+    // Broadcast update to all clients in default namespace
+    io.emit('pageview', {
+      connections: connectedCount
+    });
   });
 });
