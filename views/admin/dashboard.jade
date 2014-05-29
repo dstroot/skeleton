@@ -37,9 +37,9 @@ block scripts
   script.
     var pages = {};
     var lastPageId = 0;
-    socket.on('pageview', function (msg) {
+    // process dashboard update messages from socket.io
+    socket.on('dashUpdate', function (msg) {
       $('#connections > p').html(msg.connections);
-      // $('#connections > p').html(msg.connections - 1);  // -1 since we don't count our own dashboard connection?
       if (msg.url) {
         if ($('#visits tr').length > 10) {
           $('#visits tr:last').remove();

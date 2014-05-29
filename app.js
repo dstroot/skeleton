@@ -385,22 +385,22 @@ var connectedCount = 0;
 
 io.sockets.on('connection', function (socket) {
   connectedCount += 1;
-  // Listen for PageUrl updates from clients
-  socket.on('pageUrl', function (message) {
+  // Listen for pageview messages from clients
+  socket.on('pageview', function (msg) {
     var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;
-    var url = message;
-    // Broadcast update to all clients in default namespace
-    io.emit('pageview', {
+    var url = msg;
+    // Broadcast dashboard update (to all clients in default namespace)
+    io.emit('dashUpdate', {
       connections: connectedCount,
       ip: ip,
       url: url,
       timestamp: new Date()
     });
   });
+  // Update dashboard connections on disconnect events
   socket.on('disconnect', function () {
     connectedCount -= 1;
-    // Broadcast update to all clients in default namespace
-    io.emit('pageview', {
+    io.emit('dashUpdate', {
       connections: connectedCount
     });
   });

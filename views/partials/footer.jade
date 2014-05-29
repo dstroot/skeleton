@@ -24,9 +24,9 @@ script.
   var socket = io();
   socket.on('connect', function () {
     // Tell the server your URL
-    socket.emit('pageUrl', window.location.href);
+    socket.emit('pageview', window.location.href);
   });
   window.onhashchange = function () {
     // Tell the server your new URL
-    socket.emit('pageUrl', window.location.href);
+    socket.emit('pageview', window.location.href);
   };
