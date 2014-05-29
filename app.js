@@ -46,7 +46,16 @@ var app         = module.exports = express();  // export app for testing
 
 var server      = require('http').createServer(app);
 var io          = require('socket.io')(server, {
-  // options go here
+  'log level': 0,
+  'browser client minification': true,  // Send minified client
+  'browser client etag': true,          // Apply etag caching logic based on version number
+  'browser client gzip': true,          // Gzip the file
+  'browser client expires': true,       // Adds Cache-Control: private, x-gzip-ok="", max-age=31536000 header
+  // Should be set to true when you want the location handshake
+  // to match the protocol of the origin. This fixes issues with
+  // terminating the SSL in front of Node and forcing
+  // location to think it's wss instead of ws.
+  'match origin protocol': true         // Used when running socket.io behind a proxy.
 });
 
 /**
@@ -379,6 +388,10 @@ db.on('open', function () {
 /**
  * Emit Pageviews on Socket.io for Dashboard
  * https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
+ *
+ * Web Page (Client)   --- ( `pageview` messages ) --->> Server
+ * Web Page (Client) <<--- (`dashUpdate` messages) ---   Server
+ *
  */
 
 var connectedCount = 0;
