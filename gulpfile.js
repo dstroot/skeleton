@@ -62,7 +62,6 @@ var paths = {
   ],
   lint: [
     'config/**/*.js',
-    '!config/secrets.js',
     'test/**/*.js',
     'controllers/**/*.js',
     'models/**/*.js',
@@ -177,7 +176,7 @@ gulp.task('watch', function () {
  */
 
 gulp.task('develop', ['watch'], function () {
-  $.nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/', 'node_modules/'] })
+  $.nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/', 'views/', 'less/', 'node_modules/'] })
     .on('change', ['lint'])
     .on('restart', function () {
       $.livereload();

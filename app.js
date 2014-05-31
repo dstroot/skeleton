@@ -4,27 +4,26 @@
  * Module Dependencies
  */
 
-// Packages needed for Express 4.x
+// Needed for Express 4.x
 var csrf              = require('csurf');                   // https://github.com/expressjs/csurf
 var logger            = require('morgan');                  // https://github.com/expressjs/morgan
+var express           = require('express');                 // https://npmjs.org/package/express
 var favicon           = require('serve-favicon');           // https://github.com/expressjs/favicon
 var session           = require('express-session');         // https://github.com/expressjs/session
-var express           = require('express');                 // https://npmjs.org/package/express
 var compress          = require('compression');             // https://github.com/expressjs/compression
 var bodyParser        = require('body-parser');             // https://github.com/expressjs/body-parser
 var cookieParser      = require('cookie-parser');           // https://github.com/expressjs/cookie-parser
 var errorHandler      = require('errorhandler');            // https://github.com/expressjs/errorhandler
 var methodOverride    = require('method-override');         // https://github.com/expressjs/method-override
 
-// Additional packages
+// Additional Modules
 var fs                = require('fs');                      // http://nodejs.org/docs/v0.10.25/api/fs.html
-var pkg               = require('./package.json');          // Get package.json
 var path              = require('path');                    // http://nodejs.org/docs/v0.10.25/api/path.html
 var debug             = require('debug')('skeleton');       // https://github.com/visionmedia/debug
 var flash             = require('express-flash');           // https://npmjs.org/package/express-flash
-var config            = require('./config/config');         // Get configuration
-var semver            = require('semver');                  // https://npmjs.org/package/semver
+var config            = require('./config/config');         // Get configuration file
 var helmet            = require('helmet');                  // https://github.com/evilpacket/helmet
+var semver            = require('semver');                  // https://npmjs.org/package/semver
 var enforce           = require('express-sslify');          // https://github.com/florianheinemann/express-sslify
 var winston           = require('winston');                 // https://npmjs.org/package/winston
 var mongoose          = require('mongoose');                // https://npmjs.org/package/mongoose
@@ -45,15 +44,15 @@ var app         = module.exports = express();  // export app for testing
 
 var server      = require('http').createServer(app);
 var io          = require('socket.io')(server, {
-  'log level': 0,
+  'log level': 0,                       // Errors only
   'browser client minification': true,  // Send minified client
   'browser client etag': true,          // Apply etag caching logic based on version number
   'browser client gzip': true,          // Gzip the file
   'browser client expires': true,       // Adds Cache-Control: private, x-gzip-ok="", max-age=31536000 header
   // Should be set to true when you want the location handshake
   // to match the protocol of the origin. This fixes issues with
-  // terminating the SSL in front of Node and forcing
-  // location to think it's wss instead of ws.
+  // terminating the SSL in front of Node and forcing location
+  // to think it's wss instead of ws.
   'match origin protocol': true         // Used when running socket.io behind a proxy.
 });
 
@@ -61,10 +60,10 @@ var io          = require('socket.io')(server, {
  * Configure Logging
  */
 
+// TODO: Logging in production should be directed to a logging service
+// such as loggly.com or to a log server or database.
 if ( config.logging ) {
   winston.add(winston.transports.File, { filename: config.logfilename });
-  // TODO: Logging in production should be directed to a logging service
-  // such as loggly.com or to a log server or database.
 }
 
 // Turn off Winston console logging, we will use Express instead
@@ -349,12 +348,12 @@ db.on('open', function () {
   server.listen(app.get('port'), function() {
 
     // Test for correct node version as spec'ed in package.info
-    if (!semver.satisfies(process.versions.node, pkg.engines.node)) {
-      winston.error(config.name + ' needs Node version ' + pkg.engines.node);
+    if (!semver.satisfies(process.versions.node, config.nodeVersion)) {
+      winston.error(config.name + ' needs Node version ' + config.nodeVersion);
       console.error(
         '\nERROR: Unsupported version of Node!'.red.bold,
         '\n✗ '.red.bold + config.name.red.bold + ' needs Node version'.red.bold,
-        pkg.engines.node.yellow.bold,
+        config.nodeVersion.yellow.bold,
         'you are using version'.red.bold,
         process.versions.node.yellow.bold,
         '\n✔ Please go to http://nodejs.org to get a supported version.'.red.bold
