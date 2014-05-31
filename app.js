@@ -18,7 +18,6 @@ var methodOverride    = require('method-override');         // https://github.co
 
 // Additional packages
 var fs                = require('fs');                      // http://nodejs.org/docs/v0.10.25/api/fs.html
-// var io                = require('socket.io')();               // https://www.npmjs.org/package/socket.io
 var pkg               = require('./package.json');          // Get package.json
 var path              = require('path');                    // http://nodejs.org/docs/v0.10.25/api/path.html
 var debug             = require('debug')('skeleton');       // https://github.com/visionmedia/debug
@@ -27,11 +26,10 @@ var config            = require('./config/config');         // Get configuration
 var semver            = require('semver');                  // https://npmjs.org/package/semver
 var helmet            = require('helmet');                  // https://github.com/evilpacket/helmet
 var enforce           = require('express-sslify');          // https://github.com/florianheinemann/express-sslify
-var connect           = require('connect');                 // https://github.com/senchalabs/connect
 var winston           = require('winston');                 // https://npmjs.org/package/winston
 var mongoose          = require('mongoose');                // https://npmjs.org/package/mongoose
 var passport          = require('passport');                // https://npmjs.org/package/passport
-var MongoStore        = require('connect-mongo')(connect);  // https://npmjs.org/package/connect-mongo
+var MongoStore        = require('connect-mongo')(session);  // https://npmjs.org/package/connect-mongo
 var expressValidator  = require('express-validator');       // https://npmjs.org/package/express-validator
 
 /**
@@ -42,6 +40,7 @@ var app         = module.exports = express();  // export app for testing
 
 /**
  * Create Express HTTP Server and socket.io listener
+ * https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
  */
 
 var server      = require('http').createServer(app);
@@ -387,11 +386,9 @@ db.on('open', function () {
 
 /**
  * Emit Pageviews on Socket.io for Dashboard
- * https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
  *
- * Web Page (Client)   --- ( `pageview` messages ) --->> Server
- * Web Page (Client) <<--- (`dashUpdate` messages) ---   Server
- *
+ * Web Page (Client) --->> ( `pageview` messages ) --->> Server
+ * Web Page (Client) <<--- (`dashUpdate` messages) <<--- Server
  */
 
 var connectedCount = 0;
