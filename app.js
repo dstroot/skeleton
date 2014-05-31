@@ -166,6 +166,9 @@ app.set('view engine', 'jade');
 // the stack to ensure all responses are compressed.
 app.use(compress());
 
+// http://en.wikipedia.org/wiki/HTTP_ETag
+app.set('etag', true);  // other values 'weak', 'strong'
+
 // Body parsing middleware supporting
 // JSON, urlencoded, and multipart requests.
 app.use(bodyParser());

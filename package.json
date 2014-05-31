@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.0.2-65",
+  "version": "0.0.2-66",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -46,7 +46,7 @@
     "csurf": "^1.2.0",
     "debug": "^0.8.1",
     "errorhandler": "^1.0.1",
-    "express": "~4.3.2",
+    "express": "4.4.x",
     "express-flash": "~0.0.2",
     "express-session": "^1.2.1",
     "express-sslify": "^0.1.0",
