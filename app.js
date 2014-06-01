@@ -244,38 +244,34 @@ var hour = 3600000;
 var day  = (hour * 24);
 var week = (day * 7);
 
+// app.use(express.static(__dirname + '/public', { maxAge: week }));
+
 // Use st as a replacement for express.static
 app.use(st({
   path: 'public/', // resolved against the process cwd
   url: '/', // defaults to '/'
-
   cache: { // specify cache:false to turn off caching entirely
     fd: {
       max: 1000, // number of fd's to hang on to
       maxAge: 1000 * 60 * 60, // amount of ms before fd's expire
     },
-
     stat: {
       max: 5000, // number of stat objects to hang on to
       maxAge: 1000 * 60, // number of ms that stats are good for
     },
-
     content: {
       max: 1024 * 1024 * 64, // how much memory to use on caching contents
       maxAge: week, // how long to cache contents for
     },
-
     index: { // irrelevant if not using index:true
       max: 1024 * 8, // how many bytes of autoindex html to cache
       maxAge: 1000 * 60 * 10, // how long to store it for
     },
-
     readdir: { // irrelevant if not using index:true
       max: 1000, // how many dir entries to cache
       maxAge: 1000 * 60 * 10, // how long to cache them for
     }
   },
-
   // indexing options
   index: true,        // auto-index, the default
   dot: false,         // default: return 403 for any url with a dot-file part
