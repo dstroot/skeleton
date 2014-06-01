@@ -74,7 +74,7 @@
     "request": "~2.36.0",
     "semver": "~2.3.0",
     "serve-favicon": "~2.0.0",
-    "socket.io": "~1.0.2",
+    "socket.io": "~1.0.3",
     "stripe": "^2.6.3",
     "tumblr.js": "~0.0.4",
     "twilio": "~1.6.0",
