@@ -84,7 +84,7 @@
   },
   "devDependencies": {
     "chai": "~1.9.1",
-    "gulp": "~3.6.2",
+    "gulp": "3.7.x",
     "gulp-autoprefixer": "0.0.7",
     "gulp-cache": "~0.1.11",
     "gulp-changed": "^0.3.0",
