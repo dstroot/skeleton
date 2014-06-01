@@ -40,12 +40,10 @@ var app         = module.exports = express();  // export app for testing
 
 /**
  * Create Express HTTP Server and socket.io listener
- * https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
  */
 
 var server      = require('http').createServer(app);
 var io          = require('socket.io')(server, {
-  'log level': 0,                       // Errors only
   'browser client minification': true,  // Send minified client
   'browser client etag': true,          // Apply etag caching logic based on version number
   'browser client gzip': true,          // Gzip the file
@@ -440,12 +438,12 @@ db.on('open', function () {
 
 var connectedCount = 0;
 
-io.sockets.on('connection', function (socket) {
+io.on('connection', function (socket) {
   connectedCount += 1;
   // Listen for pageview messages from clients
-  socket.on('pageview', function (msg) {
+  socket.on('pageview', function (message) {
     var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;
-    var url = msg;
+    var url = message;
     // Broadcast dashboard update (to all clients in default namespace)
     io.emit('dashUpdate', {
       connections: connectedCount,
