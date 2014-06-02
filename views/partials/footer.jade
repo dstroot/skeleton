@@ -25,6 +25,7 @@ script.
     $.getScript('/js/#{application}.min.js');
   });
   //- socket.io processing
+  //- var socket = io(window.location.hostname);
   var socket = io();
   socket.on('connect', function () {
     //- Tell the server your URL
