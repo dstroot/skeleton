@@ -1117,8 +1117,8 @@ module.exports.controller = function (app) {
 
           newSocialUser.profile.name      = info.profile._json.name;
           newSocialUser.profile.gender    = '';  // No gender from Twitter either
-          newSocialUser.profile.location  = info.profile._json.location;
-          newSocialUser.profile.website   = info.profile._json.entities.url.urls[0].expanded_url;
+          newSocialUser.profile.location  = info.profile._json.location || '';
+          newSocialUser.profile.website   = info.profile._json.entities.url.urls[0].expanded_url || '';
           newSocialUser.profile.picture   = info.profile._json.profile_image_url;
 
           req.session.socialProfile = newSocialUser;
