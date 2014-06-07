@@ -46,6 +46,18 @@ module.exports.controller = function (app) {
     });
   });
 
+
+  /**
+   * GET /creditcard
+   * Credit Card Form Example.
+   */
+
+  app.get('/creditcard', function (req, res) {
+    res.render('api/creditcard', {
+      url: req.url
+    });
+  });
+
   /**
    * GET /api/lastfm
    * Last.fm API example.

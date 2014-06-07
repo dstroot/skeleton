@@ -1,0 +1,102 @@
+extends ../layouts/layout
+
+block head
+  title #{application} &middot; Credit Card Form
+  link(rel='stylesheet', href='/lib/card/lib/css/card.css')
+
+block content
+
+  .container
+    .page-header
+      h2 Credit Card Form Example
+
+    .row
+      .col-sm-6.col-sm-offset-3
+        .card-wrapper
+
+        form.form-inline(action='', method='POST')
+          input(type='hidden', name='_csrf', value=_csrf)
+          .row
+            .form-group
+              label.sr-only(for='number') Card Number:
+              input.form-control(type='text', name='number', id='number', placeholder='Card number', autofocus=true, required)
+            .form-group
+              label.sr-only(for='name') Name on Card:
+              input.form-control(type='text', name='name', id='name', placeholder='Name on Card', required)
+          .row
+            .form-group
+              label.sr-only(for='expiry') Expiration:
+              input.form-control(type='text', name='expiry', id='expiry', placeholder='MM/YY', required)
+              //- input.form-control(type='password', name='password', id='password', placeholder='Password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
+            .form-group
+              label.sr-only(for='cvc') CVC Code:
+              input.form-control(type='text', name='cvc', id='cvc', placeholder='CVC', required)
+            .form-group
+              button.btn.btn-success(type='submit')
+                i.fa.fa-check
+                | &nbsp;Sign Up
+
+    br
+    h3
+      i.fa.fa-credit-card
+      | &nbsp;Test Cards
+    p In test mode, you can use these test cards to simulate a successful transaction.  You can use any card expiration date and CVV:
+
+    table.table.table-striped.table-bordered.table-condensed
+      thead
+        tr
+          th Number
+          th Card type
+        tbody
+          tr
+            td 4242 4242 4242 4242
+            td Visa
+          tr
+            td 4012 8888 8888 1881
+            td Visa
+          tr
+            td 5555 5555 5555 4444
+            td MasterCard
+          tr
+            td 5105 1051 0510 5100
+            td MasterCard
+          tr
+            td 3782 822463 10005
+            td American Express
+          tr
+            td 3714 496353 98431
+            td American Express
+          tr
+            td 6011 1111 1111 1117
+            td Discover
+          tr
+            td 6011 0009 9013 9424
+            td Discover
+          tr
+            td 3056 9309 0259 04
+            td Diners Club
+          tr
+            td 3852 0000 0232 37
+            td Diners Club
+          tr
+            td 3530 1113 3330 0000
+            td JCB
+          tr
+            td 3566 0020 2036 0505
+            td JCB
+
+block scripts
+  script(src='/lib/card/lib/js/card.js')
+  script.
+    $('form').card({
+      // a selector or jQuery object for the container
+      // where you want the card to appear
+      container: '.card-wrapper', // *required*
+      numberInput: 'input#number', // optional — default input[name="number"]
+      expiryInput: 'input#expiry', // optional — default input[name="expiry"]
+      cvcInput: 'input#cvc', // optional — default input[name="cvc"]
+      nameInput: 'input#name', // options - defaults input[name="name"]
+
+      width: 200, // optional — default 350px
+      formatting: true // optional - default true
+    });

@@ -34,7 +34,9 @@ var banner = [
 
 var paths = {
   clean: [
-    '!public/js/main.js',   // not
+    '!public/js/main.js', // not
+    '!public/js/socket.io-1.0.4.js', // not
+    '!pub lic/js/socket.io-1.0.4.min.js', // not
     'public/js/**/*.js',
     'public/js/**/*.min.js',
     'public/css/**/*.css',

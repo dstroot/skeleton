@@ -1,0 +1,36 @@
+{
+  "name": "Card",
+  "version": "0.0.2",
+  "author": "Jesse Pollak <jpollak92@gmail.com>",
+  "description": "A better way to enter credit card information.",
+  "contributors": [
+    {
+      "name": "Jesse Pollak",
+      "email": "jpollak92@gmail.com"
+    }
+  ],
+  "scripts": {
+    "start": "gulp watch"
+  },
+  "devDependencies": {
+    "bower": "~1.2.8",
+    "coffee-script": "~1.7.1",
+    "gulp": "^3.7.0",
+    "gulp-browserify": "~0.5.0",
+    "gulp-sass": "~0.7.1",
+    "gulp-autoprefixer": "0.0.7",
+    "tiny-lr": "0.0.7",
+    "gulp-livereload": "~1.5.0",
+    "nodemon": "~1.1.1",
+    "coffeeify": "~0.6.0",
+    "gulp-rename": "~1.2.0",
+    "gulp-changed": "~0.3.0",
+    "gulp-clean": "~0.3.0",
+    "gulp-connect": "~2.0.5",
+    "gulp-open": "~0.2.8"
+  },
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "jquery.payment": "~1.0.3"
+  }
+}
