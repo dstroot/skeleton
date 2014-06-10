@@ -6694,6 +6694,40 @@ h2 {
   font-size: 20px;
 }
 /**
+ * Credit Card Page
+ */
+@media (min-width: 768px) {
+  .ccform .form-group {
+    display: inline-block;
+    margin-bottom: 3px;
+    vertical-align: middle;
+  }
+  .ccform #ccnumber {
+    width: 220px;
+  }
+  .ccform #ccname {
+    width: 220px;
+  }
+  .ccform #expiry {
+    width: 78px;
+  }
+  .ccform #cvc {
+    width: 70px;
+  }
+}
+#ccnumber {
+  width: 220px;
+}
+#ccname {
+  width: 220px;
+}
+#expiry {
+  width: 78px;
+}
+#cvc {
+  width: 70px;
+}
+/**
  * Panel Headers Like Buttons
  */
 .panel-button:hover {
