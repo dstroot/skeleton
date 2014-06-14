@@ -240,16 +240,25 @@ fs.readdirSync('./controllers').forEach(function (file) {
 });
 
 // Now setup our static serving from /public
-var hour = 3600000;
-var day  = (hour * 24);
-var week = (day * 7);
+
+// in milliseconds...
+var minute = 1000 * 60;   // 60000
+var hour = (minute * 60); // 3600000
+var day  = (hour * 24);   // 86400000
+var week = (day * 7);     // 604800000
 
 // app.use(express.static(__dirname + '/public', { maxAge: week }));
 
-// Use st as a replacement for express.static
+// Use `st` as a replacement for express.static
 app.use(st({
-  path: 'public/', // resolved against the process cwd
-  url: '/', // defaults to '/'
+  path: 'public/',    // resolved against the process cwd
+  url: '/',           // defaults to '/'
+  // indexing options
+  index: false,       // return 404's for directories
+  dot: true,          // false: return 403 for any url with a dot-file part
+  passthrough: true,  // calls next/returns instead of returning a 404 error
+  gzip: true,         // default: compresses the response with gzip compression
+  // caching options
   cache: { // specify cache:false to turn off caching entirely
     fd: {
       max: 1000, // number of fd's to hang on to
@@ -262,21 +271,9 @@ app.use(st({
     content: {
       max: 1024 * 1024 * 64, // how much memory to use on caching contents
       maxAge: week, // how long to cache contents for
-    },
-    index: { // irrelevant if not using index:true
-      max: 1024 * 8, // how many bytes of autoindex html to cache
-      maxAge: 1000 * 60 * 10, // how long to store it for
-    },
-    readdir: { // irrelevant if not using index:true
-      max: 1000, // how many dir entries to cache
-      maxAge: 1000 * 60 * 10, // how long to cache them for
+      cacheControl: 'public, max-age=604800' // set an explicit cache-control header value (seconds)
     }
-  },
-  // indexing options
-  index: true,        // auto-index, the default
-  dot: false,         // default: return 403 for any url with a dot-file part
-  passthrough: true,  // calls next/returns instead of returning a 404 error
-  gzip: true,         // default: compresses the response with gzip compression
+  }
 }));
 
 /**
