@@ -12,6 +12,8 @@ var favicon           = require('serve-favicon');           // https://github.co
 var session           = require('express-session');         // https://github.com/expressjs/session
 var compress          = require('compression');             // https://github.com/expressjs/compression
 var bodyParser        = require('body-parser');             // https://github.com/expressjs/body-parser
+// Trying st module instead...
+// var serveStatic       = require('serve-static');            // https://github.com/expressjs/serve-static
 var cookieParser      = require('cookie-parser');           // https://github.com/expressjs/cookie-parser
 var errorHandler      = require('errorhandler');            // https://github.com/expressjs/errorhandler
 var methodOverride    = require('method-override');         // https://github.com/expressjs/method-override
@@ -224,7 +226,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-// for flash messages
+// Flash messages
 app.use(flash());
 
 /**
@@ -239,27 +241,25 @@ fs.readdirSync('./controllers').forEach(function (file) {
   }
 });
 
-// Now setup our static serving from /public
+// Now setup serving static assets from /public
 
-// in milliseconds...
+// time in milliseconds...
 var minute = 1000 * 60;   // 60000
 var hour = (minute * 60); // 3600000
 var day  = (hour * 24);   // 86400000
 var week = (day * 7);     // 604800000
 
-// app.use(express.static(__dirname + '/public', { maxAge: week }));
+// app.use(serveStatic(__dirname + '/public', { maxAge: week }));
 
-// Use `st` as a replacement for express.static
+// Use `st` as a replacement for express.static & serveStatic
 app.use(st({
   path: 'public/',    // resolved against the process cwd
   url: '/',           // defaults to '/'
-  // indexing options
   index: false,       // return 404's for directories
   dot: true,          // false: return 403 for any url with a dot-file part
   passthrough: true,  // calls next/returns instead of returning a 404 error
   gzip: true,         // default: compresses the response with gzip compression
-  // caching options
-  cache: { // specify cache:false to turn off caching entirely
+  cache: {
     fd: {
       max: 1000, // number of fd's to hang on to
       maxAge: 1000 * 60 * 60, // amount of ms before fd's expire
@@ -271,7 +271,7 @@ app.use(st({
     content: {
       max: 1024 * 1024 * 64, // how much memory to use on caching contents
       maxAge: week, // how long to cache contents for
-      cacheControl: 'public, max-age=604800' // set an explicit cache-control header value (seconds)
+      cacheControl: 'public, max-age=604800' // cache-control header (seconds)
     }
   }
 }));

@@ -4,7 +4,7 @@
  * Module Dependences
  */
 
-var _             = require('underscore');
+var _             = require('lodash');
 var User          = require('../models/User');
 var utils         = require('../config/utils');
 var config        = require('../config/config');

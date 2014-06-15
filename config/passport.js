@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var _                 = require('underscore');
+var _                 = require('lodash');
 var User              = require('../models/User');
 var utils             = require('./utils');
 var config            = require('./config');
@@ -238,7 +238,7 @@ exports.isAuthenticated = function (req, res, next) {
 
 exports.isAuthorized = function (req, res, next) {
   var provider = req.path.split('/').slice( -1 )[0];
-  if (_.findWhere(req.user.tokens, { kind: provider })) {
+  if (_.find(req.user.tokens, { kind: provider })) {
     // we found the provider so just continue
     next();
   } else {

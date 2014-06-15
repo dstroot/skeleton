@@ -5,7 +5,7 @@
  */
 
 var config        = require('../config/config');
-var _             = require('underscore');
+var _             = require('lodash');
 var Twit          = require('twit');
 var async         = require('async');
 var graph         = require('fbgraph');
@@ -87,7 +87,7 @@ module.exports.controller = function (app) {
           handlers: {
             success: function(data) {
               var albums = [];
-              _.each(data.topalbums.album, function(album) {
+              _.forEach(data.topalbums.album, function(album) {
                 albums.push(album.image.slice( -1 )[0]['#text']);
               });
               done(null, albums.slice(0, 4));
@@ -336,7 +336,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/api/foursquare', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res, next) {
-    var token = _.findWhere(req.user.tokens, { kind: 'foursquare' });
+    var token = _.find(req.user.tokens, { kind: 'foursquare' });
     async.parallel({
       trendingVenues: function (callback) {
         foursquare.Venues.getTrending('40.7222756', '-74.0022724', { limit: 50 }, token.accessToken, function(err, results) {
@@ -373,7 +373,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/api/tumblr', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res) {
-    var token = _.findWhere(req.user.tokens, { kind: 'tumblr' });
+    var token = _.find(req.user.tokens, { kind: 'tumblr' });
     var client = tumblr.createClient({
       consumer_key: config.tumblr.key,
       consumer_secret: config.tumblr.secret,
@@ -395,7 +395,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/api/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res, next) {
-    var token = _.findWhere(req.user.tokens, { kind: 'facebook' });
+    var token = _.find(req.user.tokens, { kind: 'facebook' });
     graph.setAccessToken(token.accessToken);
     async.parallel({
       getMe: function(done) {
@@ -427,7 +427,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/api/github', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res) {
-    var token = _.findWhere(req.user.tokens, { kind: 'github' });
+    var token = _.find(req.user.tokens, { kind: 'github' });
     var github = new Github({ token: token.accessToken });
     var repo = github.getRepo('dstroot', 'skeleton');
     repo.show(function (err, repo) {
@@ -444,7 +444,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res, next) {
-    var token = _.findWhere(req.user.tokens, { kind: 'twitter' });
+    var token = _.find(req.user.tokens, { kind: 'twitter' });
     var T = new Twit({
       consumer_key: config.twitter.consumerKey,
       consumer_secret: config.twitter.consumerSecret,
