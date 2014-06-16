@@ -52,7 +52,7 @@ module.exports.controller = function (app) {
    * Credit Card Form Example.
    */
 
-  app.get('/creditcard', function (req, res) {
+  app.get('/api/creditcard', function (req, res) {
     res.render('api/creditcard', {
       url: req.url
     });

@@ -12,15 +12,13 @@ var favicon           = require('serve-favicon');           // https://github.co
 var session           = require('express-session');         // https://github.com/expressjs/session
 var compress          = require('compression');             // https://github.com/expressjs/compression
 var bodyParser        = require('body-parser');             // https://github.com/expressjs/body-parser
-// Trying st module instead...
-// var serveStatic       = require('serve-static');            // https://github.com/expressjs/serve-static
+var serveStatic       = require('serve-static');            // https://github.com/expressjs/serve-static
 var cookieParser      = require('cookie-parser');           // https://github.com/expressjs/cookie-parser
 var errorHandler      = require('errorhandler');            // https://github.com/expressjs/errorhandler
 var methodOverride    = require('method-override');         // https://github.com/expressjs/method-override
 
 // Additional Modules
 var fs                = require('fs');                      // http://nodejs.org/docs/v0.10.25/api/fs.html
-var st                = require('st');                      // https://github.com/isaacs/st
 var path              = require('path');                    // http://nodejs.org/docs/v0.10.25/api/path.html
 var debug             = require('debug')('skeleton');       // https://github.com/visionmedia/debug
 var flash             = require('express-flash');           // https://npmjs.org/package/express-flash
@@ -192,9 +190,14 @@ app.use(cookieParser(config.cookie.secret));
 app.use(session(config.session));
 
 // Security Settings
-app.disable('x-powered-by');  // Don't advertise our server type
-app.use(csrf());              // Prevent Cross-Site Request Forgery
-app.use(helmet.defaults());   // Default helmet security
+app.disable('x-powered-by');          // Don't advertise our server type
+app.use(csrf());                      // Prevent Cross-Site Request Forgery
+app.use(helmet.contentTypeOptions()); // nosniff
+app.use(helmet.ienoopen());           // X-Download-Options for IE8+
+app.use(helmet.iexss());              // sets the X-XSS-Protection header
+app.use(helmet.hsts());               // HTTP Strict Transport Security
+app.use(helmet.xframe('deny'));       // Prevent iframe
+app.use(helmet.crossdomain());        // crossdomain.xml
 
 // Content Security Policy
 // app.use(helmet.csp({
@@ -244,37 +247,12 @@ fs.readdirSync('./controllers').forEach(function (file) {
 // Now setup serving static assets from /public
 
 // time in milliseconds...
-var minute = 1000 * 60;   // 60000
-var hour = (minute * 60); // 3600000
-var day  = (hour * 24);   // 86400000
+var minute = 1000 * 60;   //     60000
+var hour = (minute * 60); //   3600000
+var day  = (hour * 24);   //  86400000
 var week = (day * 7);     // 604800000
 
-// app.use(serveStatic(__dirname + '/public', { maxAge: week }));
-
-// Use `st` as a replacement for express.static & serveStatic
-app.use(st({
-  path: 'public/',    // resolved against the process cwd
-  url: '/',           // defaults to '/'
-  index: false,       // return 404's for directories
-  dot: true,          // false: return 403 for any url with a dot-file part
-  passthrough: true,  // calls next/returns instead of returning a 404 error
-  gzip: true,         // default: compresses the response with gzip compression
-  cache: {
-    fd: {
-      max: 1000, // number of fd's to hang on to
-      maxAge: 1000 * 60 * 60, // amount of ms before fd's expire
-    },
-    stat: {
-      max: 5000, // number of stat objects to hang on to
-      maxAge: 1000 * 60, // number of ms that stats are good for
-    },
-    content: {
-      max: 1024 * 1024 * 64, // how much memory to use on caching contents
-      maxAge: week, // how long to cache contents for
-      cacheControl: 'public, max-age=604800' // cache-control header (seconds)
-    }
-  }
-}));
+app.use(serveStatic(__dirname + '/public', { maxAge: week }));
 
 /**
  * Error Handling
