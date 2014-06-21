@@ -54,19 +54,14 @@ var hour              = 3600000;
 var day               = (hour * 24);
 var week              = (day * 7);
 
-// Cookie
-config.cookie         = {};
-config.cookie.secret  = process.env.COOKIE_SECRET  || 'Mb88Sz7Dlv3fq5pzIp9vVx';
-
 // Session
-config.session        = {};
-config.session.secret = process.env.SESSION_SECRET || 'nLz8gSz7DHv3fDU3LIp60G';
-config.session.name   = 'sid';  // Generic - don't leak information
-config.session.proxy  = true;   // Trust the reverse proxy for HTTPS/SSL
-
+config.session                 = {};
+config.session.secret          = process.env.SESSION_SECRET || 'nLz8gSz7DHv3fDU3LIp60G';
+config.session.name            = 'sid';  // Generic - don't leak information
+config.session.proxy           = false;  // Trust the reverse proxy for HTTPS/SSL
 config.session.cookie          = {};
 config.session.cookie.httpOnly = true;   // Reduce XSS attack vector
-config.session.cookie.secure   = true;   // Cookies via HTTPS/SSL
+config.session.cookie.secure   = false;  // Cookies via HTTPS/SSL
 config.session.cookie.maxAge   = process.env.SESSION_MAX_AGE || week;
 
 /**

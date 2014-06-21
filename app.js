@@ -13,7 +13,7 @@ var session           = require('express-session');         // https://github.co
 var compress          = require('compression');             // https://github.com/expressjs/compression
 var bodyParser        = require('body-parser');             // https://github.com/expressjs/body-parser
 var serveStatic       = require('serve-static');            // https://github.com/expressjs/serve-static
-var cookieParser      = require('cookie-parser');           // https://github.com/expressjs/cookie-parser
+// var cookieParser      = require('cookie-parser');           // https://github.com/expressjs/cookie-parser
 var errorHandler      = require('errorhandler');            // https://github.com/expressjs/errorhandler
 var methodOverride    = require('method-override');         // https://github.com/expressjs/method-override
 
@@ -112,9 +112,6 @@ if (app.get('env') === 'development') {
   app.locals.compileDebug = true;
   // Turn on console logging in development
   app.use(logger('dev'));
-  // Turn off HTTPS/SSL cookies in development
-  config.session.proxy = false;
-  config.session.cookie.secure = false;
 }
 
 if (app.get('env') === 'production') {
@@ -129,8 +126,8 @@ if (app.get('env') === 'production') {
       }
     }
   }));
-  // Enable If behind nginx, proxy, or a load balancer (e.g. Heroku, Nodejitsu).
-  app.enable('trust proxy');
+  // Enable If behind nginx, proxy, or a load balancer (e.g. Heroku, Nodejitsu)
+  app.enable('trust proxy', 1);  // trust first proxy
   // Since our application has signup, login, etc. forms these should be protected
   // with SSL encryption. Heroku, Nodejitsu and other hosters often use reverse
   // proxies or load balancers which offer SSL endpoints (but then forward unencrypted
@@ -146,6 +143,9 @@ if (app.get('env') === 'production') {
   // NOTE: Use `enforce.HTTPS(true)` if you are behind a proxy or load
   // balancer that terminates SSL for you (e.g. Heroku, Nodejitsu).
   app.use(enforce.HTTPS(true));
+  // Turn on HTTPS/SSL cookies
+  config.session.proxy = true;
+  config.session.cookie.secure = true;
 }
 
 // Port to listen on.
@@ -173,7 +173,8 @@ app.set('etag', true);  // other values 'weak', 'strong'
 
 // Body parsing middleware supporting
 // JSON, urlencoded, and multipart requests.
-app.use(bodyParser());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true}));
 
 // Easy form validation!
 app.use(expressValidator());
@@ -182,11 +183,7 @@ app.use(expressValidator());
 // in your app you need methodOverride.
 app.use(methodOverride());
 
-// CookieParser is required before session.  Session data is
-// not saved in the cookie itself, however cookies are used,
-// so we must use the cookie-parser middleware before session().
-// Use a secret for signed cookies.
-app.use(cookieParser(config.cookie.secret));
+// Use sessions
 app.use(session(config.session));
 
 // Security Settings

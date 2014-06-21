@@ -12,6 +12,7 @@ var gulp = require('gulp');
 
 // load gulp plugins
 var $ = require('gulp-load-plugins')();
+var pagespeed = require('psi');
 
 /**
  * Banner
@@ -35,8 +36,7 @@ var banner = [
 var paths = {
   clean: [
     '!public/js/main.js', // not
-    '!public/js/socket.io-1.0.4.js', // not
-    '!pub lic/js/socket.io-1.0.4.min.js', // not
+    '!public/js/socket.io-1.0.6.js', // not
     'public/js/**/*.js',
     'public/js/**/*.min.js',
     'public/css/**/*.css',
@@ -191,3 +191,16 @@ gulp.task('develop', ['watch'], function () {
  */
 
 gulp.task('default', [ 'build', 'develop']);
+
+/**
+ * Run PageSpeed Insights
+ */
+
+gulp.task('pagespeed', pagespeed.bind(null, {
+  // By default, we use the PageSpeed Insights
+  // free (no API key) tier. You can use a Google
+  // Developer API key if you have one. See
+  // http://goo.gl/RkN0vE for info key: 'YOUR_API_KEY'
+  url: 'https://skeleton-app.jit.su',
+  strategy: 'desktop'
+}));
