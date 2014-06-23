@@ -251,6 +251,7 @@ module.exports.controller = function (app) {
       });
     });
     // Then redirect back to account
+    req.flash('info', { msg: 'Enhanced security has been turned off.' });
     res.redirect('/account');
 
     // TODO:

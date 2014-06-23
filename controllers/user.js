@@ -1118,7 +1118,7 @@ module.exports.controller = function (app) {
           newSocialUser.profile.name      = info.profile._json.name;
           newSocialUser.profile.gender    = '';  // No gender from Twitter either
           newSocialUser.profile.location  = info.profile._json.location || '';
-          // Twitter may or may not provide a URL
+          // // Twitter may or may not provide a URL
           if (typeof info.profile._json.entities.url !== 'undefined') {
             newSocialUser.profile.website = info.profile._json.entities.url.urls[0].expanded_url;
           } else {

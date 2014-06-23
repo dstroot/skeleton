@@ -15,7 +15,9 @@ block content
 
         h3 Why did I have to login to see this?
         p
-          | Because authentication is a primary aspect of this application. It has all the appropriate email traffic (welcome, account change, password reset, etc.), administrative features, user account management, etc.  If you didn't log in you would never see or experience this.
+          | Because authentication is a primary aspect of this application. It has all the appropriate email traffic (welcome, account change, password reset, etc.), administrative features, user account management, etc. It even has two-factor authentication that you can turn on in your profile!
+        P
+          | If you didn't log in you would never see or experience this. Bummer right?
         p
           | (NOTE: You can delete your account on the profile page.)
         h3 So what can I do here?
@@ -28,8 +30,8 @@ block content
           | Connect some additional OAUTH providers to your account on the "My Account" page (under your name) and see how easy it is to connect and disconnect providers.
         p
           | Checkout the real-time dashboard under the admin menu. It uses Socket.io to track users in real time across the site.  It is anonymous but very cool to watch people using the site. Because the live site is proxied the IP addresses are not accurate.
-        p.bg-warning
-          | (NOTE: in this demo all users are setup as administrators. Normally they would just be a "user" and the Admin menu would not be accessible or visible.)
+        p.bg-info
+          | (<strong>NOTE:</strong> in this demo all users are setup as administrators. Normally they would just be a "user" and the Admin menu would not be accessible or visible.)
         h3
           | Give us a star on&nbsp;
           a(href='https://github.com/dstroot/skeleton')

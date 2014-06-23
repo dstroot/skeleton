@@ -1,5 +1,13 @@
 {
-  "ignore": ["public/**/*", "gulpfile.js"],
-  "ext": "js",
-  "verbose": true
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "verbose": false,
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js json",
+  "nodeArgs": ["--debug"]
 }

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.0.2-82",
+  "version": "0.0.2-87",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -47,7 +47,7 @@
     "errorhandler": "^1.1.1",
     "express": "~4.4.4",
     "express-flash": "~0.0.2",
-    "express-session": "^1.5.0",
+    "express-session": "^1.5.1",
     "express-sslify": "^0.1.0",
     "express-validator": "~2.3.0",
     "fbgraph": "~0.2.10",
@@ -106,8 +106,8 @@
     "gulp-uglify": "~0.3.1",
     "gulp-watch": "~0.6.7",
     "jshint-stylish": "~0.2.0",
-    "psi": "^0.0.4",
     "mocha": "~1.20.1",
+    "psi": "^0.0.4",
     "supertest": "~0.13.0"
   }
 }

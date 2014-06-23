@@ -11,7 +11,8 @@ block content
         br
         form(action="/verify-totp-first", method='POST')
           input.form-control(type='hidden', name='_csrf', value=_csrf)
-          legend Test your enhanced security code:
+          legend Test your enhanced security code
+          p Check your app for a six-digit code and enter it below to complete your setup:
           .form-group
             label.sr-only(for='code') Code:
             input.form-control(type='text', name='code', placeholder='code', autocomplete='off', autofocus=true, required)

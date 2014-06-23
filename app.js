@@ -13,7 +13,6 @@ var session           = require('express-session');         // https://github.co
 var compress          = require('compression');             // https://github.com/expressjs/compression
 var bodyParser        = require('body-parser');             // https://github.com/expressjs/body-parser
 var serveStatic       = require('serve-static');            // https://github.com/expressjs/serve-static
-// var cookieParser      = require('cookie-parser');           // https://github.com/expressjs/cookie-parser
 var errorHandler      = require('errorhandler');            // https://github.com/expressjs/errorhandler
 var methodOverride    = require('method-override');         // https://github.com/expressjs/method-override
 
@@ -184,6 +183,8 @@ app.use(expressValidator());
 app.use(methodOverride());
 
 // Use sessions
+// NOTE: cookie-parser not needed with
+// express-session > v1.5 ;)
 app.use(session(config.session));
 
 // Security Settings
