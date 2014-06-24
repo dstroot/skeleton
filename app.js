@@ -60,7 +60,7 @@ var io          = require('socket.io')(server, {
 
 // TODO: Logging in production should be directed to a logging service
 // such as loggly.com or to a log server or database.
-if ( config.logging ) {
+if (config.logging) {
   winston.add(winston.transports.File, { filename: config.logfilename });
 }
 
@@ -173,7 +173,7 @@ app.set('etag', true);  // other values 'weak', 'strong'
 // Body parsing middleware supporting
 // JSON, urlencoded, and multipart requests.
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Easy form validation!
 app.use(expressValidator());
@@ -236,7 +236,7 @@ app.use(flash());
 
 // Dynamically include routes (via controllers)
 fs.readdirSync('./controllers').forEach(function (file) {
-  if (file.substr( -3 ) === '.js') {
+  if (file.substr(-3) === '.js') {
     var route = require('./controllers/' + file);
     route.controller(app);
   }
@@ -317,7 +317,7 @@ if (app.get('env') === 'production') {
     winston.error(err.status || 500 + ' ' + err + '\n');
     res.status(err.status || 500);
     res.render('error/500', {
-      error: {},
+      error: {}
     });
   });
 }
@@ -328,7 +328,7 @@ if (app.get('env') === 'development') {
     winston.error(err.status || 500 + ' ' + err + '\n');
     res.status(err.status || 500);
     res.render('error/500', {
-      error: err,
+      error: err
     });
   });
   // Final error catch-all just in case...
@@ -360,7 +360,7 @@ db.on('open', function () {
   console.log('✔ Mongodb ' + 'connected!'.green.bold);
 
   // "server.listen" for socket.io
-  server.listen(app.get('port'), function() {
+  server.listen(app.get('port'), function () {
 
     // Test for correct node version as spec'ed in package.info
     if (!semver.satisfies(process.versions.node, config.nodeVersion)) {

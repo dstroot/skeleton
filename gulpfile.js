@@ -36,7 +36,7 @@ var banner = [
 
 var paths = {
   clean: [
-    '!public/js/main.js', // ! not
+    '!public/js/main.js',            // ! not
     '!public/js/socket.io-1.0.6.js', // ! not
     'public/js/**/*.js',
     'public/js/**/*.min.js',
@@ -81,11 +81,11 @@ var paths = {
  * Clean
  */
 
-// Return the stream so that gulp knows the clean task is asynchronous
+// Return the stream so that gulp knows the task is asynchronous
 // and waits for it to terminate before starting dependent tasks.
 
 gulp.task('clean', function () {
-  return gulp.src(paths.clean, {read: false})  // return the stream
+  return gulp.src(paths.clean, { read: false })
     .pipe($.clean());
 });
 
@@ -96,13 +96,22 @@ gulp.task('clean', function () {
 gulp.task('styles', ['clean'], function () {
   return gulp.src('./less/main.less')       // Return the stream
     .pipe($.less({}))                       // Compile Less files
-    .pipe($.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe($.autoprefixer([                  // Autoprefix for target browsers
+      'Android 2.3',
+      'Android >= 4',
+      'Chrome >= 20',
+      'Firefox >= 24',
+      'Explorer >= 8',
+      'iOS >= 6',
+      'Opera >= 12',
+      'Safari >= 6'
+    ], { cascade: true }))
     .pipe($.rename(pkg.name + '.css'))      // Rename to "packagename.css"
     .pipe(gulp.dest('./public/css'))        // Save CSS here
-    .pipe($.rename({suffix: '.min'}))       // Add .min suffix
+    .pipe($.rename({ suffix: '.min' }))     // Add .min suffix
     .pipe($.csso())                         // Minify CSS
-    .pipe($.header(banner, { pkg : pkg } )) // Add banner
-    .pipe($.size({title: 'CSS:'}))          // What size are we at?
+    .pipe($.header(banner, { pkg : pkg }))  // Add banner
+    .pipe($.size({ title: 'CSS:' }))        // What size are we at?
     .pipe(gulp.dest('./public/css'))        // Save minified CSS
     .pipe($.livereload());                  // Initiate a reload
 });
@@ -113,12 +122,12 @@ gulp.task('styles', ['clean'], function () {
 
 gulp.task('scripts', ['clean'], function () {
   return gulp.src(paths.js)                 // Read .js files
-    .pipe($.concat(pkg.name + '.js'))       // Concatenate .js files into "packagename.js"
+    .pipe($.concat(pkg.name + '.js'))       // Concatenate .js files
     .pipe(gulp.dest('./public/js'))         // Save main.js here
-    .pipe($.rename({suffix: '.min'}))       // Add .min suffix
+    .pipe($.rename({ suffix: '.min' }))     // Add .min suffix
     .pipe($.uglify({ outSourceMap: true })) // Minify the .js
-    .pipe($.header(banner, { pkg : pkg } )) // Add banner
-    .pipe($.size({ title: 'JS:'}))          // What size are we at?
+    .pipe($.header(banner, { pkg : pkg }))  // Add banner
+    .pipe($.size({ title: 'JS:' }))         // What size are we at?
     .pipe(gulp.dest('./public/js'))         // Save minified .js
     .pipe($.livereload());                  // Initiate a reload
 });
@@ -135,7 +144,7 @@ gulp.task('images', function () {
       progressive: true,
       interlaced: true
     }))
-    .pipe($.size({title: 'Images:'}))      // What size are we at?
+    .pipe($.size({ title: 'Images:' }))    // What size are we at?
     .pipe(gulp.dest('./public/img'));      // Write processed images
 });
 
@@ -148,15 +157,14 @@ gulp.task('lint', function () {
     .pipe($.jshint())                       // Lint .js files
     .pipe($.jshint.reporter($.stylish))     // Specify a reporter for JSHint
     .pipe($.jshint.reporter($.fail))
-    .pipe($.jscs())                         // Check code style also
-    .pipe($.livereload());                  // Initiate a reload
+    .pipe($.jscs());                        // Check code style also
 });
 
 /**
  * Build Task
  */
 
-gulp.task('build', ['styles', 'scripts', 'images']);
+gulp.task('build', ['styles', 'scripts', 'images', 'lint']);
 
 /**
  * Watch Files (Rerun/reload when a file changes)
@@ -193,7 +201,7 @@ gulp.task('develop', ['watch'], function () {
  * (depends on Build and Develop Tasks)
  */
 
-gulp.task('default', [ 'build', 'develop']);
+gulp.task('default', ['build', 'develop']);
 
 /**
  * Run PageSpeed Insights

@@ -9,13 +9,13 @@ footer.footer.bg-black
       a(href='/privacy') Privacy Policy
 
 //- Javascript
-//- Place scripts in footer for faster page rendering
-script(src='/js/socket.io-1.0.6.js')
-//- Use CDN Socket.IO
-//- script(src='//cdn.socket.io/socket.io-1.0.6.js')
+//- //- Place scripts in footer for faster page rendering
+//- script(src='/js/socket.io-1.0.6.js')
+//- //- Use CDN Socket.IO
+//- //- script(src='//cdn.socket.io/socket.io-1.0.6.js')
 //- Use CDN jQuery
 script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
-//- If that didn't load use our version
+//- If that didn't load use our local version
 script window.jQuery || document.write('<script src="/lib/jquery/dist/jquery.min.js"><\/script>')
 
 //- Then we use jQuery to async load everything else
@@ -23,15 +23,31 @@ script.
   $(document).ready(function() {
     //- Load main project js
     $.getScript('/js/#{application}.min.js');
+    $.getScript('//cdn.socket.io/socket.io-1.0.6.js')
+      .done(function () {
+        $(function(){
+          //- socket.io processing
+          var socket = io(window.location.hostname);
+          //- var socket = io();
+          socket.on('connect', function () {
+            //- Tell the server your URL
+            socket.emit('pageview', window.location.href);
+          });
+          window.onhashchange = function () {
+            //- Tell the server your new URL
+            socket.emit('pageview', window.location.href);
+          };
+        });
+      });
   });
-  //- socket.io processing
-  //- var socket = io(window.location.hostname);
-  var socket = io();
-  socket.on('connect', function () {
-    //- Tell the server your URL
-    socket.emit('pageview', window.location.href);
-  });
-  window.onhashchange = function () {
-    //- Tell the server your new URL
-    socket.emit('pageview', window.location.href);
-  };
+  //- //- socket.io processing
+  //- //- var socket = io(window.location.hostname);
+  //- var socket = io();
+  //- socket.on('connect', function () {
+  //-   //- Tell the server your URL
+  //-   socket.emit('pageview', window.location.href);
+  //- });
+  //- window.onhashchange = function () {
+  //-   //- Tell the server your new URL
+  //-   socket.emit('pageview', window.location.href);
+  //- };

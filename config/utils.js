@@ -59,7 +59,7 @@ var charTable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
 function quintetCount (buff) {
   var quintets = Math.floor(buff.length / 5);
-  return buff.length % 5 === 0 ? quintets: quintets + 1;
+  return buff.length % 5 === 0 ? quintets : quintets + 1;
 }
 
 exports.encode = function (plain) {

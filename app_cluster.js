@@ -17,7 +17,7 @@ cluster.setupMaster({
 });
 
 // Listen for dying workers
-cluster.on('exit', function(worker) {
+cluster.on('exit', function (worker) {
   console.log('Worker ' + worker.id + ' died');
   // Replace the dead worker
   cluster.fork();

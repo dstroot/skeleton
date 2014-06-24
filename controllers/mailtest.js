@@ -13,12 +13,12 @@ module.exports.controller = function (app) {
 
   app.get('/mail', function (req, res) {
 
-    //user must be logged in
+    // user must be logged in
     if (!req.user) {
       return res.redirect('/');
     }
 
-    //user must be be an administrator
+    // user must be be an administrator
     if (req.user.type !== 'admin') {
       req.flash('warning', { msg: 'You must be an administrator to test email layouts.' });
       return res.redirect('/api');

@@ -14,8 +14,8 @@ var Github        = require('github-api');
 var stripe        = require('stripe')(config.stripe.key);
 var twilio        = require('twilio')(config.twilio.sid, config.twilio.token);
 var paypal        = require('paypal-rest-sdk');
-var cheerio       = require('cheerio');         //https://github.com/cheeriojs/cheerio
-var request       = require('request');         //https://github.com/mikeal/request
+var cheerio       = require('cheerio');         // https://github.com/cheeriojs/cheerio
+var request       = require('request');         // https://github.com/mikeal/request
 var passport      = require('passport');
 var foursquare    = require('node-foursquare')({ secrets: config.foursquare });
 var LastFmNode    = require('lastfm').LastFmNode;
@@ -67,32 +67,32 @@ module.exports.controller = function (app) {
     var lastfm = new LastFmNode(config.lastfm);
     async.parallel({
 
-      artistInfo: function(done) {
+      artistInfo: function (done) {
         lastfm.request('artist.getInfo', {
           artist: 'Morcheeba',
           handlers: {
-            success: function(data) {
+            success: function (data) {
               done(null, data);
             },
-            error: function(err) {
+            error: function (err) {
               done(err);
             }
           }
         });
       },
 
-      artistTopAlbums: function(done) {
+      artistTopAlbums: function (done) {
         lastfm.request('artist.getTopAlbums', {
           artist: 'Morcheeba',
           handlers: {
-            success: function(data) {
+            success: function (data) {
               var albums = [];
-              _.forEach(data.topalbums.album, function(album) {
-                albums.push(album.image.slice( -1 )[0]['#text']);
+              _.forEach(data.topalbums.album, function (album) {
+                albums.push(album.image.slice(-1)[0]['#text']);
               });
               done(null, albums.slice(0, 4));
             },
-            error: function(err) {
+            error: function (err) {
               done(err);
             }
           }
@@ -106,7 +106,7 @@ module.exports.controller = function (app) {
       }
       var artist = {
         name: results.artistInfo.artist.name,
-        image: results.artistInfo.artist.image.slice( -1 )[0]['#text'],
+        image: results.artistInfo.artist.image.slice(-1)[0]['#text'],
         tags: results.artistInfo.artist.tags.tag,
         bio: results.artistInfo.artist.bio.summary,
         stats: results.artistInfo.artist.stats,
@@ -239,17 +239,17 @@ module.exports.controller = function (app) {
 
       // Get Articles
       var links = [];
-      $('.title a[href^="http"], .title a[href^="https"], .title a[href^="item"]').each(function() {
-        if ( $(this).text() !== 'scribd' ) {
-          if ( $(this).text() !== 'Bugs' ) {
+      $('.title a[href^="http"], .title a[href^="https"], .title a[href^="item"]').each(function () {
+        if ($(this).text() !== 'scribd') {
+          if ($(this).text() !== 'Bugs') {
             links.push($(this));
           }
         }
       });
 
-      //Get Comments
+      // Get Comments
       var comments = [];
-      $('.subtext a[href^="item"]').each(function() {
+      $('.subtext a[href^="item"]').each(function () {
         comments.push('<a href="https://news.ycombinator.com/' + $(this).attr('href') + '">' + $(this).text() + '</a>');
       });
 
@@ -290,10 +290,10 @@ module.exports.controller = function (app) {
       description: stripeEmail
     }, function (err, charge) {
       if (err && err.type === 'StripeCardError') {
-        req.flash('error', { msg: 'Your card has been declined.'});
+        req.flash('error', { msg: 'Your card has been declined.' });
         res.redirect('/api/stripe');
       }
-      req.flash('success', { msg: 'Your card has been charged successfully.'});
+      req.flash('success', { msg: 'Your card has been charged successfully.' });
       res.redirect('/api/stripe');
     });
   });
@@ -325,7 +325,7 @@ module.exports.controller = function (app) {
       if (err) {
         return next(err);
       }
-      req.flash('success', { msg: 'Text sent to ' + responseData.to + '.'});
+      req.flash('success', { msg: 'Text sent to ' + responseData.to + '.' });
       res.redirect('/api/twilio');
     });
   });
@@ -339,17 +339,17 @@ module.exports.controller = function (app) {
     var token = _.find(req.user.tokens, { kind: 'foursquare' });
     async.parallel({
       trendingVenues: function (callback) {
-        foursquare.Venues.getTrending('40.7222756', '-74.0022724', { limit: 50 }, token.accessToken, function(err, results) {
+        foursquare.Venues.getTrending('40.7222756', '-74.0022724', { limit: 50 }, token.accessToken, function (err, results) {
           callback(err, results);
         });
       },
       venueDetail: function (callback) {
-        foursquare.Venues.getVenue('49da74aef964a5208b5e1fe3', token.accessToken, function(err, results) {
+        foursquare.Venues.getVenue('49da74aef964a5208b5e1fe3', token.accessToken, function (err, results) {
           callback(err, results);
         });
       },
       userCheckins: function (callback) {
-        foursquare.Users.getCheckins('self', null, token.accessToken, function(err, results) {
+        foursquare.Users.getCheckins('self', null, token.accessToken, function (err, results) {
           callback(err, results);
         });
       }
@@ -398,18 +398,18 @@ module.exports.controller = function (app) {
     var token = _.find(req.user.tokens, { kind: 'facebook' });
     graph.setAccessToken(token.accessToken);
     async.parallel({
-      getMe: function(done) {
-        graph.get(req.user.facebook, function(err, me) {
+      getMe: function (done) {
+        graph.get(req.user.facebook, function (err, me) {
           done(err, me);
         });
       },
-      getMyFriends: function(done) {
+      getMyFriends: function (done) {
         graph.get(req.user.facebook + '/friends', function (err, friends) {
           done(err, friends.data);
         });
       }
     },
-    function(err, results) {
+    function (err, results) {
       if (err) {
         return next(err);
       }

@@ -22,7 +22,7 @@ module.exports.controller = function (app) {
 
   app.get('/reset/:id/:token', function (req, res) {
     if (req.user) {
-      return res.redirect('/');  //user already logged in!
+      return res.redirect('/');  // user already logged in!
     }
 
     // Get the user using their ID
@@ -99,7 +99,7 @@ module.exports.controller = function (app) {
       // Get the user using their ID
       User.findOne({ _id: req.params.id })
         .where('resetPasswordExpires').gt(Date.now())
-        .exec(function(err, user) {
+        .exec(function (err, user) {
           if (err) {
             req.flash('error', { msg: err.message });
             req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
@@ -110,7 +110,7 @@ module.exports.controller = function (app) {
             return res.redirect('/forgot');
           }
           // Validate their token
-          bcrypt.compare(req.params.token, user.resetPasswordToken, function(err, isValid) {
+          bcrypt.compare(req.params.token, user.resetPasswordToken, function (err, isValid) {
             if (err) {
               req.flash('error', { msg: err.message });
               req.flash('warning', { msg: 'Your password reset request is invalid or has expired. Try again?' });
@@ -179,7 +179,7 @@ module.exports.controller = function (app) {
         name:          user.profile.name,
         mailtoName:    config.smtp.name,
         mailtoAddress: config.smtp.address
-      }, function(err, html) {
+      }, function (err, html) {
         if (err) {
           return (err, null);
         }

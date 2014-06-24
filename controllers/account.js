@@ -147,7 +147,7 @@ module.exports.controller = function (app) {
           };
 
           // Send email
-          smtpTransport.sendMail(mailOptions, function(err) {
+          smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
               req.flash('error', { msg: err.message });
               return res.redirect('/account');
@@ -178,7 +178,7 @@ module.exports.controller = function (app) {
    * Update User Password
    */
 
-  app.post('/account/password', function(req, res, next) {
+  app.post('/account/password', function (req, res, next) {
 
    // Create a workflow (here you could also use the async waterfall pattern)
     var workflow = new (require('events').EventEmitter)();
@@ -187,7 +187,7 @@ module.exports.controller = function (app) {
      * Step 1: Validate the password(s) meet complexity requirements and match.
      */
 
-    workflow.on('validate', function() {
+    workflow.on('validate', function () {
       req.assert('password', 'Your password cannot be empty.').notEmpty();
       req.assert('confirmPassword', 'Your password confirmation cannot be empty.').notEmpty();
       req.assert('password', 'Password must be at least 4 characters long').len(4);
@@ -218,7 +218,7 @@ module.exports.controller = function (app) {
         user.password = req.body.password;
         user.activity.last_updated = Date.now();
 
-        user.save(function(err) {
+        user.save(function (err) {
           if (err) {
             return next(err);
           }
@@ -277,7 +277,7 @@ module.exports.controller = function (app) {
           };
 
           // Send email
-          smtpTransport.sendMail(mailOptions, function(err) {
+          smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
               req.flash('error', { msg: err.message });
               return res.redirect('/account');
@@ -308,8 +308,8 @@ module.exports.controller = function (app) {
    * Delete User Account
    */
 
-  app.post('/account/delete', function(req, res, next) {
-    User.remove({ _id: req.user.id }, function(err) {
+  app.post('/account/delete', function (req, res, next) {
+    User.remove({ _id: req.user.id }, function (err) {
       if (err) {
         return next(err);
       }
@@ -323,18 +323,20 @@ module.exports.controller = function (app) {
    * Unlink a social account
    */
 
-  app.get('/account/unlink/:provider', function(req, res, next) {
+  app.get('/account/unlink/:provider', function (req, res, next) {
     var provider = req.params.provider;
-    User.findById(req.user.id, function(err, user) {
+    User.findById(req.user.id, function (err, user) {
       if (err) {
         return next(err);
       }
 
       user[provider] = undefined;
-      user.tokens = _.reject(user.tokens, function(token) { return token.kind === provider; });
+      user.tokens = _.reject(user.tokens, function (token) {
+        return token.kind === provider;
+      });
       user.activity.last_updated = Date.now();
 
-      user.save(function(err) {
+      user.save(function (err) {
         if (err) {
           return next(err);
         }
@@ -369,7 +371,7 @@ module.exports.controller = function (app) {
           return res.redirect('/account');
         } else {
           // Link Accounts: Associate the *new* Facebook information to the person's *existing* account
-          User.findById(req.user.id, function(err, user) {
+          User.findById(req.user.id, function (err, user) {
 
             user.facebook = info.profile.id;
             user.tokens.push({ kind: 'facebook', accessToken: info.accessToken });
@@ -417,7 +419,7 @@ module.exports.controller = function (app) {
           return res.redirect('/account');
         } else {
           // Link Accounts: Associate the *new* Twitter information to the person's *existing* account
-          User.findById(req.user.id, function(err, user) {
+          User.findById(req.user.id, function (err, user) {
 
             user.twitter = info.profile.id;
             user.tokens.push({ kind: 'twitter', token: info.token, tokenSecret: info.tokenSecret });
@@ -464,7 +466,7 @@ module.exports.controller = function (app) {
           return res.redirect('/account');
         } else {
           // Link Accounts: Associate the *new* GitHub information to the person's *existing* account
-          User.findById(req.user.id, function(err, user) {
+          User.findById(req.user.id, function (err, user) {
 
             user.github = info.profile.id;
             user.tokens.push({ kind: 'github', accessToken: info.accessToken });
@@ -513,7 +515,7 @@ module.exports.controller = function (app) {
         } else {
 
           // Link Accounts: Associate the *new* Google information to the person's *existing* account
-          User.findById(req.user.id, function(err, user) {
+          User.findById(req.user.id, function (err, user) {
 
             user.google = info.profile.id;
             user.tokens.push({ kind: 'google', accessToken: info.accessToken });

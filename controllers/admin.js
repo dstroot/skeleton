@@ -19,7 +19,7 @@ module.exports.controller = function (app) {
    */
 
   app.get('/dashboard', passportConf.isAuthenticated, passportConf.isAdministrator, function (req, res) {
-    User.count({}, function(err, count) {
+    User.count({}, function (err, count) {
       if (err) {
         return (err, null);
       }
@@ -62,7 +62,7 @@ module.exports.controller = function (app) {
    */
 
   app.delete('/accountlist/:id', passportConf.isAuthenticated, passportConf.isAdministrator, function (req, res) {
-    User.remove({ _id : req.params.id }, function(err, result) {
+    User.remove({ _id : req.params.id }, function (err, result) {
       res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + err });
     });
   });
@@ -74,7 +74,7 @@ module.exports.controller = function (app) {
 
   app.get('/colors', passportConf.isAuthenticated, passportConf.isAdministrator, function (req, res) {
     res.render('admin/colors', {
-      url: '/administration',  // to set navbar active state
+      url: '/administration'  // to set navbar active state
     });
   });
 

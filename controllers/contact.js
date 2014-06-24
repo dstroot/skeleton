@@ -63,7 +63,7 @@ module.exports.controller = function (app) {
     };
 
     // Send email
-    smtpTransport.sendMail(mailOptions, function(err) {
+    smtpTransport.sendMail(mailOptions, function (err) {
       if (err) {
         req.flash('error', { msg: err.message });
         return res.redirect('/contact');

@@ -76,11 +76,11 @@ module.exports.controller = function (app) {
      * Step 2: Prevent brute force login hacking
      */
 
-    workflow.on('abuseFilter', function() {
+    workflow.on('abuseFilter', function () {
 
       var getIpCount = function (done) {
         var conditions = { ip: req.ip };
-        LoginAttempt.count(conditions, function(err, count) {
+        LoginAttempt.count(conditions, function (err, count) {
           if (err) {
             return done(err);
           }
@@ -90,7 +90,7 @@ module.exports.controller = function (app) {
 
       var getIpUserCount = function (done) {
         var conditions = { ip: req.ip, user: req.body.email.toLowerCase() };
-        LoginAttempt.count(conditions, function(err, count) {
+        LoginAttempt.count(conditions, function (err, count) {
           if (err) {
             return done(err);
           }
@@ -103,7 +103,7 @@ module.exports.controller = function (app) {
           return workflow.emit('exception', err);
         }
 
-        if ( results.ip >= config.loginAttempts.forIp || results.ipUser >= config.loginAttempts.forUser ) {
+        if (results.ip >= config.loginAttempts.forIp || results.ipUser >= config.loginAttempts.forUser) {
           req.flash('error', { msg: 'You\'ve reached the maximum number of login attempts. Please try again later or reset your password.' });
           req.session.tooManyAttempts = true;
           return res.redirect('/login');
@@ -157,7 +157,7 @@ module.exports.controller = function (app) {
           });
 
           // Log user in
-          req.logIn(user, function(err) {
+          req.logIn(user, function (err) {
             if (err) {
               req.flash('error', { msg: err.message });
               return res.redirect('back');
@@ -214,10 +214,10 @@ module.exports.controller = function (app) {
      * Step 1: Validate the user and token
      */
 
-    workflow.on('validate', function() {
+    workflow.on('validate', function () {
 
       // Get the user using their ID and token
-      User.findOne({ _id: req.params.id, verifyToken: req.params.token }, function(err, user) {
+      User.findOne({ _id: req.params.id, verifyToken: req.params.token }, function (err, user) {
         if (err) {
           req.flash('error', { msg: err.message });
           req.flash('warning', { msg: 'Your account verification is invalid or has expired.' });
@@ -270,7 +270,7 @@ module.exports.controller = function (app) {
         mailtoAddress: config.smtp.address,
         blogLink:      req.protocol + '://' + req.headers.host, // + '/blog',
         forumLink:     req.protocol + '://' + req.headers.host  // + '/forum'
-      }, function(err, html) {
+      }, function (err, html) {
         if (err) {
           return (err, null);
         }
@@ -298,7 +298,7 @@ module.exports.controller = function (app) {
           };
 
           // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function(err) {
+          smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
               req.flash('error', { msg: err.message });
             }
@@ -368,7 +368,7 @@ module.exports.controller = function (app) {
      * Step 1: Validate the form fields
      */
 
-    workflow.on('validate', function() {
+    workflow.on('validate', function () {
 
       // Check for form errors
       req.assert('name', 'Your name cannot be empty.').notEmpty();
@@ -432,7 +432,7 @@ module.exports.controller = function (app) {
       });
 
       // save user
-      user.save(function(err) {
+      user.save(function (err) {
         if (err) {
           if (err.code === 11000) {
             req.flash('error', { msg: 'An account with that email address already exists!' });
@@ -472,7 +472,7 @@ module.exports.controller = function (app) {
         name:          user.profile.name,
         mailtoName:    config.smtp.name,
         validateLink:  req.protocol + '://' + req.headers.host + '/verify/' + user.id + '/' + verifyToken
-      }, function(err, html) {
+      }, function (err, html) {
         if (err) {
           return (err, null);
         }
@@ -496,7 +496,7 @@ module.exports.controller = function (app) {
           };
 
           // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function(err) {
+          smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
               req.flash('error', { msg: err.message });
             }
@@ -536,7 +536,7 @@ module.exports.controller = function (app) {
         mailtoAddress: config.smtp.address,
         blogLink:      req.protocol + '://' + req.headers.host, // + '/blog',
         forumLink:     req.protocol + '://' + req.headers.host  // + '/forum'
-      }, function(err, html) {
+      }, function (err, html) {
         if (err) {
           return (err, null);
         }
@@ -564,7 +564,7 @@ module.exports.controller = function (app) {
           };
 
           // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function(err) {
+          smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
               req.flash('error', { msg: err.message });
             }
@@ -586,7 +586,7 @@ module.exports.controller = function (app) {
     workflow.on('logUserIn', function (user) {
 
       // log the user in
-      req.logIn(user, function(err) {
+      req.logIn(user, function (err) {
         if (err) {
           req.flash('error', { msg: err.message });
           return res.redirect('back');
@@ -641,7 +641,7 @@ module.exports.controller = function (app) {
      * Step 1: Validate the form fields
      */
 
-    workflow.on('validate', function() {
+    workflow.on('validate', function () {
 
       // Check for form errors
       req.assert('email', 'Your email cannot be empty.').notEmpty();
@@ -662,7 +662,7 @@ module.exports.controller = function (app) {
      * Step 2: Make sure the email address is unique
      */
 
-    workflow.on('duplicateEmailCheck', function() {
+    workflow.on('duplicateEmailCheck', function () {
 
       // Make sure we have a unique email address!
       User.findOne({ email: req.body.email.toLowerCase() }, function (err, user) {
@@ -697,25 +697,25 @@ module.exports.controller = function (app) {
       user.profile.website  = newUser.profile.website;
       user.profile.picture  = newUser.profile.picture;
 
-      if ( newUser.source === 'twitter' ) {
+      if (newUser.source === 'twitter') {
         user.twitter = newUser.id;
         user.tokens.push({ kind: 'twitter', token: newUser.token, tokenSecret: newUser.tokenSecret });
 
-      } else if ( newUser.source === 'facebook'  ) {
+      } else if (newUser.source === 'facebook') {
         user.facebook = newUser.id;
         user.tokens.push({ kind: 'facebook', accessToken: newUser.accessToken, refreshToken: newUser.refreshToken });
 
-      } else if ( newUser.source === 'github'  ) {
+      } else if (newUser.source === 'github') {
         user.github = newUser.id;
         user.tokens.push({ kind: 'github', accessToken: newUser.accessToken, refreshToken: newUser.refreshToken });
 
-      } else if ( newUser.source === 'google'  ) {
+      } else if (newUser.source === 'google') {
         user.google = newUser.id;
         user.tokens.push({ kind: 'google', accessToken: newUser.accessToken, refreshToken: newUser.refreshToken });
       }
 
       // save user
-      user.save(function(err) {
+      user.save(function (err) {
         if (err) {
           if (err.code === 11000) {
             req.flash('error', { msg: 'An account with that email already exists!' });
@@ -751,7 +751,7 @@ module.exports.controller = function (app) {
         mailtoAddress: config.smtp.address,
         blogLink:      req.protocol + '://' + req.headers.host, // + '/blog',
         forumLink:     req.protocol + '://' + req.headers.host  // + '/forum'
-      }, function(err, html) {
+      }, function (err, html) {
         if (err) {
           return (err, null);
         }
@@ -779,7 +779,7 @@ module.exports.controller = function (app) {
           };
 
           // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function(err) {
+          smtpTransport.sendMail(mailOptions, function (err) {
             if (err) {
               req.flash('error', { msg: err.message });
             }
@@ -801,7 +801,7 @@ module.exports.controller = function (app) {
     workflow.on('logUserIn', function (user) {
 
       // log the user in
-      req.logIn(user, function(err) {
+      req.logIn(user, function (err) {
         if (err) {
           return next(err);
         }
@@ -850,12 +850,12 @@ module.exports.controller = function (app) {
         if (justLogin) {
           // Update the user's record with login timestamp
           justLogin.activity.last_logon = Date.now();
-          justLogin.save(function(err) {
+          justLogin.save(function (err) {
             if (err) {
               return next(err);
             }
             // Log the user in
-            req.login(justLogin, function(err) {
+            req.login(justLogin, function (err) {
               if (err) {
                 return next(err);
               }
@@ -927,12 +927,12 @@ module.exports.controller = function (app) {
         if (justLogin) {
           // Update the user's record with login timestamp
           justLogin.activity.last_logon = Date.now();
-          justLogin.save(function(err) {
+          justLogin.save(function (err) {
             if (err) {
               return next(err);
             }
             // Log the user in
-            req.login(justLogin, function(err) {
+            req.login(justLogin, function (err) {
               if (err) {
                 return next(err);
               }
@@ -1004,12 +1004,12 @@ module.exports.controller = function (app) {
         if (justLogin) {
           // Update the user's record with login timestamp
           justLogin.activity.last_logon = Date.now();
-          justLogin.save(function(err) {
+          justLogin.save(function (err) {
             if (err) {
               return next(err);
             }
             // Log the user in
-            req.login(justLogin, function(err) {
+            req.login(justLogin, function (err) {
               if (err) {
                 return next(err);
               }
@@ -1058,7 +1058,7 @@ module.exports.controller = function (app) {
 
   app.get('/auth/twitter',
     passport.authenticate('twitter', {
-      callbackURL: '/auth/twitter/callback',
+      callbackURL: '/auth/twitter/callback'
     })
   );
 
@@ -1081,12 +1081,12 @@ module.exports.controller = function (app) {
         if (justLogin) {
           // Update the user's record with login timestamp
           justLogin.activity.last_logon = Date.now();
-          justLogin.save(function(err) {
+          justLogin.save(function (err) {
             if (err) {
               return next(err);
             }
             // Log the user in
-            req.login(justLogin, function(err) {
+            req.login(justLogin, function (err) {
               if (err) {
                 return next(err);
               }

@@ -59,7 +59,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, pass
 
           // update the user's record with login timestamp
           user.activity.last_logon = Date.now();
-          user.save(function(err) {
+          user.save(function (err) {
             if (err) {
               return (err);
             }
@@ -174,9 +174,9 @@ passport.use('tumblr', new OAuthStrategy({
   callbackURL: config.tumblr.callbackURL,
   passReqToCallback: true
 }, function (req, token, tokenSecret, profile, done) {
-  User.findById(req.user._id, function(err, user) {
+  User.findById(req.user._id, function (err, user) {
     user.tokens.push({ kind: 'tumblr', token: token, tokenSecret: tokenSecret });
-    user.save(function(err) {
+    user.save(function (err) {
       done(err, user);
     });
   });
@@ -195,9 +195,9 @@ passport.use('foursquare', new OAuth2Strategy({
   callbackURL: config.foursquare.redirectUrl,
   passReqToCallback: true
 }, function (req, accessToken, refreshToken, profile, done) {
-  User.findById(req.user._id, function(err, user) {
+  User.findById(req.user._id, function (err, user) {
     user.tokens.push({ kind: 'foursquare', accessToken: accessToken });
-    user.save(function(err) {
+    user.save(function (err) {
       done(err, user);
     });
   });
@@ -237,13 +237,13 @@ exports.isAuthenticated = function (req, res, next) {
  */
 
 exports.isAuthorized = function (req, res, next) {
-  var provider = req.path.split('/').slice( -1 )[0];
+  var provider = req.path.split('/').slice(-1)[0];
   if (_.find(req.user.tokens, { kind: provider })) {
     // we found the provider so just continue
     next();
   } else {
     // we have to get authorized first
-    if ( provider === 'facebook' || provider === 'twitter' || provider === 'github' || provider === 'google' ) {
+    if (provider === 'facebook' || provider === 'twitter' || provider === 'github' || provider === 'google') {
       req.flash('info', { msg: 'You must connect ' + utils.capitalize(provider) + ' first!' });
       res.redirect('/account');
     } else {
@@ -259,7 +259,7 @@ exports.isAuthorized = function (req, res, next) {
 exports.isAdministrator = function (req, res, next) {
   // make sure we are logged in first
   if (req.isAuthenticated()) {
-    //user must be be an administrator
+    // user must be be an administrator
     if (req.user.type !== 'admin') {
       req.flash('error', { msg: 'You must be an Administrator reach that page.' });
       return res.redirect('/api');

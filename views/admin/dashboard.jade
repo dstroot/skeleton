@@ -34,7 +34,9 @@ block content
 
 block scripts
   script(src='/lib/moment/min/moment.min.js')
+  script(src='/js/socket.io-1.0.6.js')
   script.
+    var socket = io();
     var pages = {};
     var lastPageId = 0;
     // process dashboard update messages from socket.io

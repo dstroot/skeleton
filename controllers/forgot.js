@@ -61,7 +61,7 @@ module.exports.controller = function (app) {
 
   app.get('/forgot', function (req, res) {
     if (req.user) {
-      return res.redirect('/');  //user already logged in!
+      return res.redirect('/');  // user already logged in!
     }
     res.render('account/forgot', {
       url: req.url

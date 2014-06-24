@@ -105,7 +105,7 @@ module.exports.controller = function (app) {
               };
               twilio.sendMessage(message, function (err, responseData) {
                 if (err) {
-                  req.flash('error', { msg: err.message});
+                  req.flash('error', { msg: err.message });
                   return res.redirect('back');
                 }
                 req.flash('info', { msg: 'A login code was sent to your mobile phone.' });
@@ -353,7 +353,7 @@ module.exports.controller = function (app) {
         return res.redirect('back');
       } else {
         // Log user in
-        req.logIn(user, function(err) {
+        req.logIn(user, function (err) {
           if (err) {
             req.flash('error', { msg: 'That code is invalid.' });
             return res.redirect('back');
@@ -400,7 +400,7 @@ module.exports.controller = function (app) {
   app.get('/setup-sms', passportConf.isAuthenticated, function (req, res) {
     res.render('twofactor/setup-sms', {
       user: req.user,
-      url: '/account', // to set navbar active state
+      url: '/account' // to set navbar active state
     });
   });
 
@@ -445,10 +445,10 @@ module.exports.controller = function (app) {
         };
         twilio.sendMessage(message, function (err, responseData) {
           if (err) {
-            req.flash('error', { msg: err.message});
+            req.flash('error', { msg: err.message });
             return res.redirect('back');
           }
-          req.flash('success', { msg: 'A login code was sent to your mobile phone.'});
+          req.flash('success', { msg: 'A login code was sent to your mobile phone.' });
           res.redirect('/verify-sms-first');
         });
       });
@@ -464,7 +464,7 @@ module.exports.controller = function (app) {
   app.get('/verify-sms-first', passportConf.isAuthenticated, function (req, res, next) {
     res.render('twofactor/verify-sms-first', {
       user: req.user,
-      url: '/account', // to set navbar active state
+      url: '/account' // to set navbar active state
     });
   });
 

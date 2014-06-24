@@ -5,7 +5,7 @@
  */
 
 module.exports.controller = function (app) {
-  app.get('/', function ( req, res) {
+  app.get('/', function (req, res) {
     if (req.user) {
       return res.redirect('/api');
     }
