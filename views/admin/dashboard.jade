@@ -1,58 +1,114 @@
-extends ../layouts/layout
+doctype html
+html
+  head
+    //-
+     *
+      ____                         ____    __                         __
+     /\  _`\                      /\  _`\ /\ \__                     /\ \__
+     \ \ \/\ \     __      ___    \ \,\L\_\ \ ,_\  _ __   ___     ___\ \ ,_\
+      \ \ \ \ \  /'__`\  /' _ `\   \/_\__ \\ \ \/ /\`'__\/ __`\  / __`\ \ \/
+       \ \ \_\ \/\ \L\.\_/\ \/\ \    /\ \L\ \ \ \_\ \ \//\ \L\ \/\ \L\ \ \ \_
+        \ \____/\ \__/.\_\ \_\ \_\   \ `\____\ \__\\ \_\\ \____/\ \____/\ \__\
+         \/___/  \/__/\/_/\/_/\/_/    \/_____/\/__/ \/_/ \/___/  \/___/  \/__/
 
-block head
-  title #{application} &middot; Dashboard
+          @danstroot danstroot.com
 
-block content
-  .container
-    .row
-      br
-      br
-      .col-md-3
-        .well.dashboard#connections
-          h3 Right Now
-          p 0
-          h4 Active Visitors
-        .well.dashboard
-          h3 Right Now
-          p #{accounts}
-          h4 User Accounts
-      .col-md-9
-        legend.hidden-xs Real Time Activity
-        table#visits.table.table-striped.table-condensed.hidden-xs
-          thead
-            th URL
-            th IP
-            th Timestamp
-          tbody
-        legend.hidden-xs Page Views
-        table#pageViews.table.table-striped.table-condensed.hidden-xs
-          thead
-            th URL
-            th Page Views
-          tbody
+    //- Behavioral Meta Data
+    meta(charset='utf-8')
+    meta(name='x-csrf-token', content=_csrf)
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, minimal-ui')
 
-block scripts
-  script(src='/lib/moment/min/moment.min.js')
-  script(src='/js/socket.io-1.0.6.js')
-  script.
-    var socket = io();
-    var pages = {};
-    var lastPageId = 0;
-    // process dashboard update messages from socket.io
-    socket.on('dashUpdate', function (msg) {
-      $('#connections > p').html(msg.connections);
-      if (msg.url) {
-        if ($('#visits tr').length > 10) {
-          $('#visits tr:last').remove();
+    //- SEO Meta Data
+    title #{application} &middot; Dashboard
+    meta(name='author', content='#{author}')
+    meta(name='description', content='#{description}')
+    meta(name='keywords', content='#{keywords}')
+
+    //- Humans
+    link(rel='author', href='humans.txt')
+
+    //- Styles
+    link(rel='stylesheet', href='/css/#{application}.min.css')
+
+    //- Fonts
+    link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,500,700')
+
+    //- Google Analytics
+    script.
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', '#{ga}', 'jit.su');
+      ga('send', 'pageview');
+
+  body
+    include ../partials/navigation
+    .container
+      .row
+        br
+        br
+        .col-md-3
+          .well.dashboard#connections
+            h3 Right Now
+            p 0
+            h4 Active Visitors
+          .well.dashboard
+            h3 Right Now
+            p #{accounts}
+            h4 User Accounts
+        .col-md-9
+          legend.hidden-xs Real Time Activity
+          table#visits.table.table-striped.table-condensed.hidden-xs
+            thead
+              th URL
+              th IP
+              th Timestamp
+            tbody
+          legend.hidden-xs Page Views
+          table#pageViews.table.table-striped.table-condensed.hidden-xs
+            thead
+              th URL
+              th Page Views
+            tbody
+    footer.footer.bg-black
+      .container
+        p
+          | Copyright © #{moment().format('YYYY')}&nbsp;
+          img.hidden-xs(src='/favicon.png', width='50px')
+          | &nbsp;#{application}, all rights reserved. |&nbsp;
+          a(href='/terms') Terms of Use&nbsp;
+          | |&nbsp;
+          a(href='/privacy') Privacy Policy
+
+    //- Load Javascript
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+    script window.jQuery || document.write('<script src="/lib/jquery/dist/jquery.min.js"><\/script>')
+    script(src='/js/#{application}.min.js')
+    script(src='/lib/moment/min/moment.min.js')
+    script(src='//cdn.socket.io/socket.io-1.0.6.js')
+    script.
+      var socket = io();
+      var pages = {};
+      var lastPageId = 0;
+      socket.on('connect', function () {
+        socket.emit('pageview', window.location.href);
+      });
+      window.onhashchange = function () {
+        socket.emit('pageview', window.location.href);
+      };
+      socket.on('dashUpdate', function (msg) {
+        $('#connections > p').html(msg.connections);
+        if (msg.url) {
+          if ($('#visits tr').length > 10) {
+            $('#visits tr:last').remove();
+          }
+          $('#visits tbody').prepend('<tr><td>' + msg.url + '</td><td>' + msg.ip + '</td><td>' + moment(msg.timestamp).format('YYYY-MM-DD, h:mm:ss a') + '</td></tr>');
+          if (pages[msg.url]) {
+            pages[msg.url].views = pages[msg.url].views + 1;
+            $('#page' + pages[msg.url].pageId).html(pages[msg.url].views);
+          } else {
+            pages[msg.url] = {views: 1, pageId: ++lastPageId};
+            $('#pageViews tbody').append('<tr><td>' + msg.url + '</td><td id="page' + lastPageId + '">1</td></tr>');
+          }
         }
-        $('#visits tbody').prepend('<tr><td>' + msg.url + '</td><td>' + msg.ip + '</td><td>' + moment(msg.timestamp).format('YYYY-MM-DD, h:mm:ss a') + '</td></tr>');
-        if (pages[msg.url]) {
-          pages[msg.url].views = pages[msg.url].views + 1;
-          $('#page' + pages[msg.url].pageId).html(pages[msg.url].views);
-        } else {
-          pages[msg.url] = {views: 1, pageId: ++lastPageId};
-          $('#pageViews tbody').append('<tr><td>' + msg.url + '</td><td id="page' + lastPageId + '">1</td></tr>');
-        }
-      }
-    });
+      });
