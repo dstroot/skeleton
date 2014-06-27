@@ -190,12 +190,27 @@ app.use(session(config.session));
 // Security Settings
 app.disable('x-powered-by');          // Don't advertise our server type
 app.use(csrf());                      // Prevent Cross-Site Request Forgery
-app.use(helmet.contentTypeOptions()); // nosniff
+app.use(helmet.nosniff());            // Sets X-Content-Type-Options to nosniff
 app.use(helmet.ienoopen());           // X-Download-Options for IE8+
-app.use(helmet.iexss());              // sets the X-XSS-Protection header
-app.use(helmet.hsts());               // HTTP Strict Transport Security
+app.use(helmet.xssFilter());          // sets the X-XSS-Protection header
 app.use(helmet.xframe('deny'));       // Prevent iframe
 app.use(helmet.crossdomain());        // crossdomain.xml
+if (app.get('env') === 'development') {
+  // Turn off caching in development
+  // This sets the Cache-Control HTTP header to no-store, no-cache,
+  // which tells browsers not to cache anything.
+  app.use(helmet.nocache());
+}
+if (app.get('env') === 'production') {
+  // This tells browsers, "hey, only use HTTPS for the next period of time".
+  // This will set the Strict Transport Security header,
+  // telling browsers to visit by HTTPS for the next ninety days:
+  // TODO: should we actually have this *and* app.use(enforce.HTTPS(true)); above?
+  //       this seems more flexible rather than a hard redirect.
+  var ninetyDaysInMilliseconds = 7776000000;
+  app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }));
+}
+
 
 // Content Security Policy
 // app.use(helmet.csp({
