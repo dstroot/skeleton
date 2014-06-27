@@ -2,7 +2,7 @@
   "name": "Skeleton",
   "dependencies": {
     "font-awesome": "~4.1.0",
-    "bootstrap": "~3.1.1",
+    "bootstrap": "~3.2.0",
     "animate.css": "~3.1.1",
     "moment": "~2.7.0",
     "odometer": "~0.4.6",
