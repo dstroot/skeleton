@@ -225,12 +225,13 @@ app.use(helmet.csp({
     "'self'",
     "'unsafe-inline'",
     'http://fonts.googleapis.com',
+    'https://fonts.googleapis.com',
     'https://checkout.stripe.com'
   ],
   fontSrc: [
     "'self'",
     'http://fonts.googleapis.com',
-    'http://themes.googleusercontent.com'
+    'http://themes.googleusercontent.com',
     'https://fonts.googleapis.com',
     'https://themes.googleusercontent.com'
   ],
@@ -244,11 +245,13 @@ app.use(helmet.csp({
     'https://graph.facebook.com',
     'https://fbcdn-profile-a.akamaihd.net',
     'https://github.global.ssl.fastly.net',
-    'https://chart.googleapis.com'
+    'https://chart.googleapis.com',
+    'https://www.google-analytics.com'
   ],
   connectSrc: [  // limit the origins (via XHR, WebSockets, and EventSource)
     "'self'",
     'ws://localhost:3000',
+    'wss://skeleton-app.jit.su',
     'https://api.github.com'
   ],
   objectSrc: ["'none'"], // allows control over Flash and other plugins
