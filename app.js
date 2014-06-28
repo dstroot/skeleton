@@ -215,8 +215,10 @@ app.use(helmet.csp({
     'https://ajax.googleapis.com',
     'http://ajax.googleapis.com',
     'http://www.google-analytics.com',
+    'https://www.google-analytics.com',
     'https://oss.maxcdn.com',
     'http://cdn.socket.io',
+    'https://cdn.socket.io',
     'https://checkout.stripe.com'
   ],
   styleSrc: [
@@ -229,6 +231,8 @@ app.use(helmet.csp({
     "'self'",
     'http://fonts.googleapis.com',
     'http://themes.googleusercontent.com'
+    'https://fonts.googleapis.com',
+    'https://themes.googleusercontent.com'
   ],
   imgSrc: [
     "'self'",
