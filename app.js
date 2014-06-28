@@ -35,24 +35,14 @@ var expressValidator  = require('express-validator');       // https://npmjs.org
  * Create Express App
  */
 
-var app         = module.exports = express();  // export app for testing
+var app         = module.exports = express();  // export app for testing ;)
 
 /**
  * Create Express HTTP Server and socket.io listener
  */
 
-var server      = require('http').createServer(app);
-var io          = require('socket.io')(server, {
-  // 'browser client minification': true,  // Send minified client
-  // 'browser client etag': true,          // Apply etag caching logic based on version number
-  // 'browser client gzip': true,          // Gzip the file
-  // 'browser client expires': true,       // Adds Cache-Control: private, x-gzip-ok="", max-age=31536000 header
-  // // Should be set to true when you want the location handshake
-  // // to match the protocol of the origin. This fixes issues with
-  // // terminating the SSL in front of Node and forcing location
-  // // to think it's wss instead of ws.
-  // 'match origin protocol': true         // Used when running socket.io behind a proxy.
-});
+var server      = require('http').Server(app);
+var io          = require('socket.io')(server);
 
 /**
  * Configure Logging
@@ -85,8 +75,8 @@ config.session.store  = new MongoStore({
  */
 
 // Application local variables are provided to *all* templates
-// rendered within the application. personally I would have called
-// them "app.globals". They are useful for providing helper
+// rendered within the application. (personally I would have called
+// them "app.globals") They are useful for providing helper
 // functions to templates, as well as global app-level data.
 
 // NOTE: you must *not* reuse existing (native) named properties
@@ -103,7 +93,7 @@ app.locals.ga           = config.ga;
 // Use moment anywhere within a jade template like this:
 // p #{moment(Date.now()).format('MM/DD/YYYY')}
 // Good for an evergreen copyright ;)
-app.locals.moment       = require('moment');
+app.locals.moment = require('moment');
 
 if (app.get('env') === 'development') {
   // Jade options: Don't minify html, debug intrumentation
@@ -183,8 +173,7 @@ app.use(expressValidator());
 app.use(methodOverride());
 
 // Use sessions
-// NOTE: cookie-parser not needed with
-// express-session > v1.5 ;)
+// NOTE: cookie-parser not needed with express-session > v1.5 ;)
 app.use(session(config.session));
 
 // Security Settings
@@ -195,40 +184,82 @@ app.use(helmet.ienoopen());           // X-Download-Options for IE8+
 app.use(helmet.xssFilter());          // sets the X-XSS-Protection header
 app.use(helmet.xframe('deny'));       // Prevent iframe
 app.use(helmet.crossdomain());        // crossdomain.xml
+
 if (app.get('env') === 'development') {
   // Turn off caching in development
   // This sets the Cache-Control HTTP header to no-store, no-cache,
   // which tells browsers not to cache anything.
   app.use(helmet.nocache());
 }
+
 if (app.get('env') === 'production') {
   // This tells browsers, "hey, only use HTTPS for the next period of time".
-  // This will set the Strict Transport Security header,
-  // telling browsers to visit by HTTPS for the next ninety days:
+  // This will set the Strict Transport Security header, telling browsers to
+  // visit by HTTPS for the next ninety days:
   // TODO: should we actually have this *and* app.use(enforce.HTTPS(true)); above?
   //       this seems more flexible rather than a hard redirect.
   var ninetyDaysInMilliseconds = 7776000000;
   app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }));
 }
 
-
-// Content Security Policy
-// app.use(helmet.csp({
-//   'default-src': ["'self'", 'localhost:3000'],
-//   'script-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", 'http://www.google-analytics.com', 'https://oss.maxcdn.com'],
-//   'style-src': ["'self'", "'unsafe-inline'", 'http://fonts.googleapis.com'],
-//   'img-src': ["'self'", 'http://pbs.twimg.com'], // defines the origins from which images can be loaded
-//   'connect-src': ["'self'", 'ws://localhost:3000'], // limits the origins to which you can connect (via XHR, WebSockets, and EventSource)
-//   'font-src': ["'self'", 'http://fonts.googleapis.com', 'http://themes.googleusercontent.com'], // specifies the origins that can serve web fonts
-//   'object-src': ["'none'"],     // allows control over Flash and other plugins
-//   'media-src': ["'self'"],      // restricts the origins allowed to deliver video and audio
-//   'frame-src': ["'none'"],      // lists the origins that can be embedded as frames
-//   'sandbox': ['allow-same-origin', 'allow-forms', 'allow-scripts'],  // http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
-//   'report-uri': ['/report-violation'],
-//   reportOnly: true,             // set to true if you *only* want to report errors
-//   setAllHeaders: false,         // set to true if you want to set all headers
-//   safari5: false                // set to true if you want to force buggy CSP in Safari 5
-// }));
+// Content Security Policy: http://content-security-policy.com/
+// http://www.html5rocks.com/en/tutorials/security/content-security-policy/
+app.use(helmet.csp({
+  defaultSrc: [
+    "'self'"
+  ],
+  scriptSrc: [
+    "'self'",
+    "'unsafe-eval'",
+    "'unsafe-inline'",
+    'https://ajax.googleapis.com',
+    'http://ajax.googleapis.com',
+    'http://www.google-analytics.com',
+    'https://oss.maxcdn.com',
+    'http://cdn.socket.io',
+    'https://checkout.stripe.com'
+  ],
+  styleSrc: [
+    "'self'",
+    "'unsafe-inline'",
+    'http://fonts.googleapis.com',
+    'https://checkout.stripe.com'
+  ],
+  fontSrc: [
+    "'self'",
+    'http://fonts.googleapis.com',
+    'http://themes.googleusercontent.com'
+  ],
+  imgSrc: [
+    "'self'",
+    'https://gravatar.com',
+    'http://pbs.twimg.com',
+    'https://avatars.githubusercontent.com',
+    'http://38.media.tumblr.com',
+    'http://userserve-ak.last.fm',
+    'https://graph.facebook.com',
+    'https://fbcdn-profile-a.akamaihd.net',
+    'https://github.global.ssl.fastly.net',
+    'https://chart.googleapis.com'
+  ],
+  connectSrc: [  // limit the origins (via XHR, WebSockets, and EventSource)
+    "'self'",
+    'ws://localhost:3000',
+    'https://api.github.com'
+  ],
+  objectSrc: ["'none'"], // allows control over Flash and other plugins
+  mediaSrc: ["'self'"],
+  frameSrc: [            // origins that can be embedded as frames
+    'https://checkout.stripe.com'
+  ],
+  sandbox: [  // http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
+    'allow-same-origin',
+    'allow-forms',
+    'allow-scripts'
+  ],
+  reportOnly: false,     // set to true if you *only* want to report errors
+  setAllHeaders: false   // set to true if you want to set all headers
+}));
 
 // Passport OAUTH Middleware
 app.use(passport.initialize());

@@ -16,6 +16,17 @@
   "disallowTrailingWhitespace": true,
   "requireCapitalizedConstructors": true,
   "requireCommaBeforeLineBreak": true,
+  "requireCurlyBraces": [
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "try",
+    "catch",
+    "case",
+    "default"
+  ],
   "requireDotNotation": true,
   "requireLineFeedAtFileEnd": true,
   "requireSpaceAfterBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", "<", ">=", "<="],
@@ -30,5 +41,5 @@
   "requireSpacesInsideObjectBrackets": "allButNested",
   "validateIndentation": 2,
   "validateLineBreaks": "LF",
-  "validateQuoteMarks": "'"
+  "validateQuoteMarks": { "mark": "'", "escape": true }
 }
