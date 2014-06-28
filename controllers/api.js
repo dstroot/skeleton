@@ -133,7 +133,15 @@ module.exports.controller = function (app) {
       if (request.statusCode === 403) {
         return next(error('Missing or Invalid New York Times API Key'));
       }
-      var bestsellers = JSON.parse(body);
+      var bestsellers;
+      // NYT occasionally sends bad data :(
+      try {
+        bestsellers = JSON.parse(body);
+      }
+      catch (err) {
+        bestsellers.results = '';
+        req.flash('error', { msg: err.message });
+      }
       res.render('api/nyt', {
         url: '/apiopen',
         books: bestsellers.results

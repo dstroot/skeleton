@@ -4,7 +4,7 @@
  * Module Dependencies
  */
 
-// Needed for Express 4.x
+// Express 4.x Modules
 var csrf              = require('csurf');                   // https://github.com/expressjs/csurf
 var logger            = require('morgan');                  // https://github.com/expressjs/morgan
 var express           = require('express');                 // https://npmjs.org/package/express
@@ -103,6 +103,10 @@ if (app.get('env') === 'development') {
   app.locals.compileDebug = true;
   // Turn on console logging in development
   app.use(logger('dev'));
+  // Turn off caching in development
+  // This sets the Cache-Control HTTP header to no-store, no-cache,
+  // which tells browsers not to cache anything.
+  app.use(helmet.nocache());
 }
 
 if (app.get('env') === 'production') {
@@ -134,6 +138,13 @@ if (app.get('env') === 'production') {
   // NOTE: Use `enforce.HTTPS(true)` if you are behind a proxy or load
   // balancer that terminates SSL for you (e.g. Heroku, Nodejitsu).
   app.use(enforce.HTTPS(true));
+  // This tells browsers, "hey, only use HTTPS for the next period of time".
+  // This will set the Strict Transport Security header, telling browsers to
+  // visit by HTTPS for the next ninety days:
+  // TODO: should we actually have this *and* app.use(enforce.HTTPS(true)); above?
+  //       this seems more flexible rather than a hard redirect.
+  var ninetyDaysInMilliseconds = 7776000000;
+  app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }));
   // Turn on HTTPS/SSL cookies
   config.session.proxy = true;
   config.session.cookie.secure = true;
@@ -175,7 +186,7 @@ app.use(expressValidator());
 app.use(methodOverride());
 
 // Use sessions
-// NOTE: cookie-parser not needed with express-session > v1.5 ;)
+// NOTE: cookie-parser not needed with express-session > v1.5
 app.use(session(config.session));
 
 // Security Settings
@@ -187,90 +198,73 @@ app.use(helmet.xssFilter());          // sets the X-XSS-Protection header
 app.use(helmet.xframe('deny'));       // Prevent iframe
 app.use(helmet.crossdomain());        // crossdomain.xml
 
-if (app.get('env') === 'development') {
-  // Turn off caching in development
-  // This sets the Cache-Control HTTP header to no-store, no-cache,
-  // which tells browsers not to cache anything.
-  app.use(helmet.nocache());
-}
-
-if (app.get('env') === 'production') {
-  // This tells browsers, "hey, only use HTTPS for the next period of time".
-  // This will set the Strict Transport Security header, telling browsers to
-  // visit by HTTPS for the next ninety days:
-  // TODO: should we actually have this *and* app.use(enforce.HTTPS(true)); above?
-  //       this seems more flexible rather than a hard redirect.
-  var ninetyDaysInMilliseconds = 7776000000;
-  app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }));
-}
-
-// // Content Security Policy
-// // http://content-security-policy.com/
-// // http://www.html5rocks.com/en/tutorials/security/content-security-policy/
-// // http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
-// app.use(helmet.csp({
-//   defaultSrc: [
-//     "'self'"
-//   ],
-//   scriptSrc: [
-//     "'self'",
-//     "'unsafe-eval'",
-//     "'unsafe-inline'",
-//     'ajax.googleapis.com',
-//     'www.google-analytics.com',
-//     'oss.maxcdn.com',
-//     'cdn.socket.io',
-//     'checkout.stripe.com'
-//   ],
-//   styleSrc: [
-//     "'self'",
-//     "'unsafe-inline'",
-//     'fonts.googleapis.com',
-//     'checkout.stripe.com'
-//   ],
-//   fontSrc: [
-//     "'self'",
-//     'fonts.googleapis.com',
-//     'themes.googleusercontent.com'
-//   ],
-//   imgSrc: [
-//     "'self'",
-//     'data:',
-//     'gravatar.com',
-//     'pbs.twimg.com',
-//     'avatars.githubusercontent.com',
-//     '38.media.tumblr.com',
-//     'userserve-ak.last.fm',
-//     'graph.facebook.com',
-//     '*.fbcdn.net',
-//     'fbcdn-profile-a.akamaihd.net',
-//     'github.global.ssl.fastly.net',
-//     'chart.googleapis.com',
-//     'www.google-analytics.com'
-//   ],
-//   connectSrc: [ // limit the origins (via XHR, WebSockets, and EventSource)
-//     "'self'",
-//     'ws://localhost:3000',
-//     'wss://skeleton-app.jit.su',
-//     'api.github.com'
-//   ],
-//   objectSrc: [  // allows control over Flash and other plugins
-//     "'none'"
-//   ],
-//   mediaSrc: [
-//     "'self'"
-//   ],
-//   frameSrc: [   // origins that can be embedded as frames
-//     'checkout.stripe.com'
-//   ],
-//   sandbox: [
-//     'allow-same-origin',
-//     'allow-forms',
-//     'allow-scripts'
-//   ],
-//   reportOnly: false,     // set to true if you *only* want to report errors
-//   setAllHeaders: false   // set to true if you want to set all headers
-// }));
+// Content Security Policy
+//   http://content-security-policy.com/
+//   http://www.html5rocks.com/en/tutorials/security/content-security-policy/
+//   http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
+app.use(helmet.csp({
+  defaultSrc: [
+    "'self'"
+  ],
+  scriptSrc: [
+    "'self'",
+    "'unsafe-eval'",
+    "'unsafe-inline'",
+    'ajax.googleapis.com',
+    'www.google-analytics.com',
+    'oss.maxcdn.com',
+    'cdn.socket.io',
+    'checkout.stripe.com'
+  ],
+  styleSrc: [
+    "'self'",
+    "'unsafe-inline'",
+    'fonts.googleapis.com',
+    'checkout.stripe.com'
+  ],
+  fontSrc: [
+    "'self'",
+    'fonts.googleapis.com',
+    'themes.googleusercontent.com'
+  ],
+  imgSrc: [
+    "'self'",
+    'data:',
+    'gravatar.com',
+    'pbs.twimg.com',
+    'avatars.githubusercontent.com',
+    '38.media.tumblr.com',
+    'http://userserve-ak.last.fm',
+    'graph.facebook.com',
+    '*.fbcdn.net',
+    'fbcdn-profile-a.akamaihd.net',
+    'github.global.ssl.fastly.net',
+    'chart.googleapis.com',
+    'www.google-analytics.com'
+  ],
+  connectSrc: [ // limit the origins (via XHR, WebSockets, and EventSource)
+    "'self'",
+    'ws://localhost:3000',
+    'wss://skeleton-app.jit.su',
+    'api.github.com'
+  ],
+  objectSrc: [  // allows control over Flash and other plugins
+    "'none'"
+  ],
+  mediaSrc: [
+    "'self'"
+  ],
+  frameSrc: [   // origins that can be embedded as frames
+    'checkout.stripe.com'
+  ],
+  sandbox: [
+    'allow-same-origin',
+    'allow-forms',
+    'allow-scripts'
+  ],
+  reportOnly: false,     // set to true if you *only* want to report errors
+  setAllHeaders: false   // set to true if you want to set all headers
+}));
 
 // Passport OAUTH Middleware
 app.use(passport.initialize());
@@ -323,19 +317,19 @@ app.use(serveStatic(__dirname + '/public', { maxAge: week }));
 app.use(function (req, res, next) {
   winston.warn('404 Warning. URL: ' + req.url + '\n');
   res.status(404);
-  // respond with html page
+  // Respond with html page
   if (req.accepts('html')) {
     res.render('error/404', {
       url: req.url
     });
     return;
   }
-  // respond with json
+  // Respond with json
   if (req.accepts('json')) {
     res.send({ error: 'Not found' });
     return;
   }
-  // default to plain-text. send()
+  // Default to plain-text. send()
   res.type('txt').send('Error: Not found');
 });
 
