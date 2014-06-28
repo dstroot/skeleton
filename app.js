@@ -50,6 +50,7 @@ var io          = require('socket.io')(server);
 
 // TODO: Logging in production should be directed to a logging service
 // such as loggly.com or to a log server or database.
+
 if (config.logging) {
   winston.add(winston.transports.File, { filename: config.logfilename });
 }
@@ -90,7 +91,8 @@ app.locals.author       = config.author;
 app.locals.keywords     = config.keywords;
 app.locals.ga           = config.ga;
 
-// Use moment anywhere within a jade template like this:
+// Stuff moment.js into app.locals then use
+// moment anywhere within a jade template like this:
 // p #{moment(Date.now()).format('MM/DD/YYYY')}
 // Good for an evergreen copyright ;)
 app.locals.moment = require('moment');
@@ -202,71 +204,73 @@ if (app.get('env') === 'production') {
   app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }));
 }
 
-// Content Security Policy: http://content-security-policy.com/
-// http://www.html5rocks.com/en/tutorials/security/content-security-policy/
-app.use(helmet.csp({
-  defaultSrc: [
-    "'self'"
-  ],
-  scriptSrc: [
-    "'self'",
-    "'unsafe-eval'",
-    "'unsafe-inline'",
-    'https://ajax.googleapis.com',
-    'http://ajax.googleapis.com',
-    'http://www.google-analytics.com',
-    'https://www.google-analytics.com',
-    'https://oss.maxcdn.com',
-    'http://cdn.socket.io',
-    'https://cdn.socket.io',
-    'https://checkout.stripe.com'
-  ],
-  styleSrc: [
-    "'self'",
-    "'unsafe-inline'",
-    'http://fonts.googleapis.com',
-    'https://fonts.googleapis.com',
-    'https://checkout.stripe.com'
-  ],
-  fontSrc: [
-    "'self'",
-    'http://fonts.googleapis.com',
-    'http://themes.googleusercontent.com',
-    'https://fonts.googleapis.com',
-    'https://themes.googleusercontent.com'
-  ],
-  imgSrc: [
-    "'self'",
-    'https://gravatar.com',
-    'http://pbs.twimg.com',
-    'https://avatars.githubusercontent.com',
-    'http://38.media.tumblr.com',
-    'http://userserve-ak.last.fm',
-    'https://graph.facebook.com',
-    'https://fbcdn-profile-a.akamaihd.net',
-    'https://github.global.ssl.fastly.net',
-    'https://chart.googleapis.com',
-    'https://www.google-analytics.com'
-  ],
-  connectSrc: [  // limit the origins (via XHR, WebSockets, and EventSource)
-    "'self'",
-    'ws://localhost:3000',
-    'wss://skeleton-app.jit.su',
-    'https://api.github.com'
-  ],
-  objectSrc: ["'none'"], // allows control over Flash and other plugins
-  mediaSrc: ["'self'"],
-  frameSrc: [            // origins that can be embedded as frames
-    'https://checkout.stripe.com'
-  ],
-  sandbox: [  // http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
-    'allow-same-origin',
-    'allow-forms',
-    'allow-scripts'
-  ],
-  reportOnly: false,     // set to true if you *only* want to report errors
-  setAllHeaders: false   // set to true if you want to set all headers
-}));
+// // Content Security Policy
+// // http://content-security-policy.com/
+// // http://www.html5rocks.com/en/tutorials/security/content-security-policy/
+// // http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
+// app.use(helmet.csp({
+//   defaultSrc: [
+//     "'self'"
+//   ],
+//   scriptSrc: [
+//     "'self'",
+//     "'unsafe-eval'",
+//     "'unsafe-inline'",
+//     'ajax.googleapis.com',
+//     'www.google-analytics.com',
+//     'oss.maxcdn.com',
+//     'cdn.socket.io',
+//     'checkout.stripe.com'
+//   ],
+//   styleSrc: [
+//     "'self'",
+//     "'unsafe-inline'",
+//     'fonts.googleapis.com',
+//     'checkout.stripe.com'
+//   ],
+//   fontSrc: [
+//     "'self'",
+//     'fonts.googleapis.com',
+//     'themes.googleusercontent.com'
+//   ],
+//   imgSrc: [
+//     "'self'",
+//     'data:',
+//     'gravatar.com',
+//     'pbs.twimg.com',
+//     'avatars.githubusercontent.com',
+//     '38.media.tumblr.com',
+//     'userserve-ak.last.fm',
+//     'graph.facebook.com',
+//     '*.fbcdn.net',
+//     'fbcdn-profile-a.akamaihd.net',
+//     'github.global.ssl.fastly.net',
+//     'chart.googleapis.com',
+//     'www.google-analytics.com'
+//   ],
+//   connectSrc: [ // limit the origins (via XHR, WebSockets, and EventSource)
+//     "'self'",
+//     'ws://localhost:3000',
+//     'wss://skeleton-app.jit.su',
+//     'api.github.com'
+//   ],
+//   objectSrc: [  // allows control over Flash and other plugins
+//     "'none'"
+//   ],
+//   mediaSrc: [
+//     "'self'"
+//   ],
+//   frameSrc: [   // origins that can be embedded as frames
+//     'checkout.stripe.com'
+//   ],
+//   sandbox: [
+//     'allow-same-origin',
+//     'allow-forms',
+//     'allow-scripts'
+//   ],
+//   reportOnly: false,     // set to true if you *only* want to report errors
+//   setAllHeaders: false   // set to true if you want to set all headers
+// }));
 
 // Passport OAUTH Middleware
 app.use(passport.initialize());
