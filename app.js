@@ -231,9 +231,10 @@ app.use(helmet.csp({
     "'self'",
     'data:',
     'gravatar.com',
-    'pbs.twimg.com',
+    'http://pbs.twimg.com',
+    '*.4sqi.net',
     'avatars.githubusercontent.com',
-    '38.media.tumblr.com',
+    'http://38.media.tumblr.com',
     'http://userserve-ak.last.fm',
     'graph.facebook.com',
     '*.fbcdn.net',
@@ -241,6 +242,9 @@ app.use(helmet.csp({
     'github.global.ssl.fastly.net',
     'chart.googleapis.com',
     'www.google-analytics.com'
+  ],
+  mediaSrc: [
+    "'self'"
   ],
   connectSrc: [ // limit the origins (via XHR, WebSockets, and EventSource)
     "'self'",
@@ -251,9 +255,7 @@ app.use(helmet.csp({
   objectSrc: [  // allows control over Flash and other plugins
     "'none'"
   ],
-  mediaSrc: [
-    "'self'"
-  ],
+
   frameSrc: [   // origins that can be embedded as frames
     'checkout.stripe.com'
   ],
