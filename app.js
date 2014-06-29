@@ -234,7 +234,7 @@ app.use(helmet.csp({
     'http://pbs.twimg.com',
     '*.4sqi.net',
     'avatars.githubusercontent.com',
-    'http://38.media.tumblr.com',
+    'http://*.media.tumblr.com',
     'http://userserve-ak.last.fm',
     'graph.facebook.com',
     '*.fbcdn.net',
