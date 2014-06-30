@@ -515,7 +515,7 @@ Recommendations:
 1. Create an account with **MongoLab** 
 
   <img src="http://i.imgur.com/7KnCa5a.png" width="200">
-  - Open [mongolab.com](https://mongolab.com) website
+  - Go to the  [mongolab.com](https://mongolab.com) website
   - Click the yellow **Sign up** button
   - Fill in your user information then hit **Create account**
   - From the dashboard, click on **:zap:Create new** button
