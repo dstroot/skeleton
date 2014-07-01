@@ -181,7 +181,7 @@ Getting Started
 
 ### Prerequisites
 
-- [MongoDB](http://www.mongodb.org/downloads) - however I recommend [Mongolab](http://monglolab.com), more below about this.
+- [MongoDB](http://www.mongodb.org/downloads) - however I recommend [Mongolab](https://mongolab.com), more below about this.
 - [Node.js](http://nodejs.org)
 - Command Line Tools (some NPM modules must be compiled):
  - **Mac OS X**: [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) (or **OS X 10.9 Mavericks**: `xcode-select --install`)
