@@ -39,6 +39,7 @@ var paths = {
     '!public/js/main.js',            // ! not
     '!public/js/socket.io-1.0.6.js', // ! not
     'public/js/**/*.js',
+    'public/js/**/*.map',
     'public/js/**/*.min.js',
     'public/css/**/*.css',
     'public/css/**/*.min.css'
@@ -86,7 +87,7 @@ var paths = {
 
 gulp.task('clean', function () {
   return gulp.src(paths.clean, { read: false })
-    .pipe($.clean());
+    .pipe($.rimraf());
 });
 
 /**
