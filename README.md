@@ -181,7 +181,7 @@ Getting Started
 
 ### Prerequisites
 
-- [MongoDB](http://www.mongodb.org/downloads) - however I recommend [Mongolab](http://monglolab.com), more below about this.
+- [MongoDB](http://www.mongodb.org/downloads) - however I recommend [Mongolab](https://mongolab.com), more below about this.
 - [Node.js](http://nodejs.org)
 - Command Line Tools (some NPM modules must be compiled):
  - **Mac OS X**: [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) (or **OS X 10.9 Mavericks**: `xcode-select --install`)
@@ -515,7 +515,7 @@ Recommendations:
 1. Create an account with **MongoLab** 
 
   <img src="http://i.imgur.com/7KnCa5a.png" width="200">
-  - Open [mongolab.com](https://mongolab.com) website
+  - Go to the  [mongolab.com](https://mongolab.com) website
   - Click the yellow **Sign up** button
   - Fill in your user information then hit **Create account**
   - From the dashboard, click on **:zap:Create new** button
