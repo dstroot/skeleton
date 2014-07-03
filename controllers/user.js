@@ -667,17 +667,20 @@ module.exports.controller = function (app) {
       // Make sure we have a unique email address!
       User.findOne({ email: req.body.email.toLowerCase() }, function (err, user) {
         if (err) {
-          return (err);
+          req.flash('error', { msg: err.msg });
+          return res.redirect('/signupsocial');
         }
         if (user) {
           req.flash('error', { msg: 'Sorry that email address has already been used!' });
           req.flash('info', { msg: 'You can sign in with that account and link this provider, or you can create a new account by entering a different email address.' });
+          console.log('Here!');
           return res.redirect('/signupsocial');
+        } else {
+          // next step
+          workflow.emit('createUser');
         }
       });
 
-      // next step
-      workflow.emit('createUser');
     });
 
     /**
