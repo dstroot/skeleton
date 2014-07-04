@@ -1,4 +1,5 @@
 {
+  "excludeFiles": ["excluded.js"],
   "disallowEmptyBlocks": true,
   "disallowKeywords": ["with"],
   "disallowMixedSpacesAndTabs": true,

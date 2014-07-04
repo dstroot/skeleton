@@ -1,9 +1,7 @@
 'use strict';
 
-// Install: you must install gulp both globally *and* locally.
-
+// Install: you must install gulp both globally *and* locally. Make sure you:
 // $ npm install -g gulp
-// $ npm install gulp gulp-load-plugins gulp-csso gulp-clean gulp-less gulp-nodemon gulp-jshint gulp-concat gulp-uglify gulp-rename gulp-autoprefixer gulp-imagemin gulp-cache gulp-size gulp-notify gulp-livereload --save-dev
 
 /**
  * Dependencies
@@ -157,15 +155,29 @@ gulp.task('lint', function () {
   gulp.src(paths.lint)                      // Read .js files
     .pipe($.jshint())                       // Lint .js files
     .pipe($.jshint.reporter($.stylish))     // Specify a reporter for JSHint
-    .pipe($.jshint.reporter($.fail))
-    .pipe($.jscs());                        // Check code style also
+    .pipe($.jshint.reporter($.fail));
+});
+
+/**
+ * JSCS Files
+ */
+
+gulp.task('jscs', function () {
+  // Monkey business to handle jscs errors
+  var j = $.jscs();
+  j.on('error', function (e) {
+    // $.util.log(e);
+    j.end();
+  });
+  return gulp.src(paths.lint)
+    .pipe(j);
 });
 
 /**
  * Build Task
  */
 
-gulp.task('build', ['styles', 'scripts', 'images', 'lint']);
+gulp.task('build', ['styles', 'scripts', 'images', 'lint', 'jscs']);
 
 /**
  * Watch Files (Rerun/reload when a file changes)
@@ -177,7 +189,7 @@ gulp.task('watch', function () {
   // Watch client .js files, process/reload as needed
   gulp.watch(paths.js, ['scripts']);
   // Watch .js files, lint as needed
-  gulp.watch(paths.lint, ['lint']);
+  gulp.watch(paths.lint, ['lint', 'jscs']);
   // Watch .jade files, reload as needed
   gulp.watch('views/**/*.jade').on('change', function (file) {
     $.livereload().changed(file.path);
@@ -191,7 +203,7 @@ gulp.task('watch', function () {
 
 gulp.task('develop', ['watch'], function () {
   $.nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/', 'views/', 'less/', 'node_modules/'] })
-    // .on('change', ['lint'])
+    .on('change', ['lint', 'jscs'])
     .on('restart', function () {
       $.livereload();
     });
