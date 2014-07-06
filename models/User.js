@@ -107,23 +107,6 @@ userSchema.pre('save', function (next) {
     });
   }
 
-  // if (!user.isModified('enhancedSecurity.sms')) {
-  //   return next();
-  // } else {
-  //   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
-  //     if (err) {
-  //       return next(err);
-  //     }
-  //     bcrypt.hash(user.enhancedSecurity.sms, salt, null, function (err, hash) {
-  //       if (err) {
-  //         return next(err);
-  //       }
-  //       user.enhancedSecurity.sms = hash;
-  //       next();
-  //     });
-  //   });
-  // }
-
 });
 
 /**

@@ -163,8 +163,8 @@ gulp.task('lint', function () {
  */
 
 gulp.task('jscs', function () {
-  // Monkey business to handle jscs errors
-  var j = $.jscs();
+  // Monkey business to handle jscs errors without stopping gulp
+  var j = $.jscs('./.jscsrc');
   j.on('error', function (e) {
     // $.util.log(e);
     j.end();
@@ -203,7 +203,7 @@ gulp.task('watch', function () {
 
 gulp.task('develop', ['watch'], function () {
   $.nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/', 'views/', 'less/', 'node_modules/'] })
-    .on('change', ['lint', 'jscs'])
+    // .on('change', ['lint', 'jscs'])  // handled with watch task above
     .on('restart', function () {
       $.livereload();
     });

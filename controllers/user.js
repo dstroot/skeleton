@@ -673,7 +673,6 @@ module.exports.controller = function (app) {
         if (user) {
           req.flash('error', { msg: 'Sorry that email address has already been used!' });
           req.flash('info', { msg: 'You can sign in with that account and link this provider, or you can create a new account by entering a different email address.' });
-          console.log('Here!');
           return res.redirect('/signupsocial');
         } else {
           // next step
