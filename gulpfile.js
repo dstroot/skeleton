@@ -162,20 +162,15 @@ gulp.task('lint', function () {
  * JSCS Files
  */
 
-// gulp.task('jscs', function () {
-//   // Monkey business to handle jscs errors without stopping gulp
-//   var j = $.jscs();
-//   j.on('error', function (e) {
-//     // $.util.log(e);
-//     j.end();
-//   });
-//   return gulp.src(paths.lint)
-//     .pipe(j);
-// });
-
 gulp.task('jscs', function () {
+  // Monkey business to handle jscs errors without stopping gulp
+  var j = $.jscs();
+  j.on('error', function (e) {
+    // $.util.log(e);
+    j.end();
+  });
   return gulp.src(paths.lint)
-    .pipe($.jscs());
+    .pipe(j);
 });
 
 /**
