@@ -17,7 +17,11 @@ script window.jQuery || document.write('<script src="/lib/jquery/dist/jquery.min
 script.
   $(document).ready(function() {
     //- Load main project js
-    $.getScript('/js/#{application}.min.js');
+    $.getScript('/js/#{application}.min.js').done(function () {
+      window.addEventListener('load', function() {
+        FastClick.attach(document.body);
+      }, false);
+    });
     //- Load socket.io
     $.getScript('//cdn.socket.io/socket.io-1.0.6.js').done(function () {
       $(function(){

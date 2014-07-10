@@ -9,6 +9,7 @@
     "mailcheck": "~1.0.3",
     "jquery.complexify.js": "*",
     "bootstrap-social": "~4.4.0",
-    "card": "~0.0.2"
+    "card": "~0.0.2",
+    "fastclick": "~1.0.2"
   }
 }

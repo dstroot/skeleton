@@ -1,0 +1,34 @@
+extends ../layouts/layout
+
+block head
+  title #{application} &middot; Web Scraping
+
+block content
+  .container
+    .page-header
+      h2
+        i.fa.fa-database
+        | &nbsp;Open Data
+
+    .btn-group.btn-group-justified.hidden-xs
+      a.btn.btn-primary(href='http://dev.socrata.com/consumers/getting-started.html', rel='external')
+        i.fa.fa-info
+        | &nbsp;Socrata Docs
+      a.btn.btn-primary(href='https://data.lacity.org/A-Well-Run-City/Elected-Officials-Listing/2yhc-k26x', rel='external')
+        i.fa.fa-info
+        | &nbsp;Los Angeles Elected Officials Dataset
+
+    h3
+      i.fa.fa-users
+      | &nbsp;Los Angeles Elected Officials
+
+    table.table.table-condensed
+      thead
+        tr
+          th Office Name
+          th Official Name
+      tbody
+        each official, index in officials
+          tr
+            td!= official.office_name
+            td!= official.official_name

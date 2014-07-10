@@ -60,6 +60,7 @@ var paths = {
     // 'public/lib/bootstrap/js/tab.js',
     // 'public/lib/bootstrap/js/affix.js'
     // =========================================
+    'public/lib/fastclick/lib/fastclick.js',
     'public/js/main.js'
   ],
   lint: [

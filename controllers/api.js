@@ -270,6 +270,27 @@ module.exports.controller = function (app) {
   });
 
   /**
+   * GET /api/socrata
+   * Web scraping example using Cheerio library.
+   */
+
+  app.get('/api/socrata', function (req, res, next) {
+    // Get the socrata open data as JSON
+    request.get('http://data.lacity.org/resource/2yhc-k26x.json', function (err, request, body) {
+      if (err) {
+        return next(err);
+      }
+      // Parse the data
+      var officials = JSON.parse(body);
+      // Render the page
+      res.render('api/socrata', {
+        url: '/apiopen',
+        officials: officials
+      });
+    });
+  });
+
+  /**
    * GET /api/stripe
    * Stripe API example.
    */

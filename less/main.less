@@ -198,10 +198,14 @@
  */
 
 html {
+  // http://files.christophzillgens.com/webkit-font-smoothing.html
+  // -webkit-font-smoothing: antialiased;  // also try subpixel-antialiased, antialiased, none
+  text-rendering: optimizeLegibility;
   /* Sticky Footer Styles Below */
   position: relative;
   min-height: 100%;
 }
+
 body {
   /* Account for fixed navbar */
   padding-top: 50px;
