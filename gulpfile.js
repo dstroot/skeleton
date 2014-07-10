@@ -192,9 +192,7 @@ gulp.task('watch', function () {
   // Watch .js files, lint as needed
   gulp.watch(paths.lint, ['lint', 'jscs']);
   // Watch .jade files, reload as needed
-  gulp.watch('views/**/*.jade').on('change', function (file) {
-    $.livereload().changed(file.path);
-  });
+  gulp.watch('views/**/*.jade').on('change', $.livereload.changed);
 });
 
 /**
@@ -203,11 +201,24 @@ gulp.task('watch', function () {
  */
 
 gulp.task('develop', ['watch'], function () {
-  $.nodemon({ script: 'app.js', ext: 'js', ignore: ['gulpfile.js', 'public/', 'views/', 'less/', 'node_modules/'] })
-    // .on('change', ['lint', 'jscs'])  // handled with watch task above
-    .on('restart', function () {
+  $.nodemon({
+    script: 'app.js',
+    verbose: false,
+    env: { 'NODE_ENV': 'development' },
+    nodeArgs: ['--debug'],
+    ext: 'js',
+    ignore: [
+      'gulpfile.js',
+      'public/',
+      'views/',
+      'less/',
+      'node_modules/'
+    ]
+  }).on('restart', function () {
+    setTimeout(function () {
       $.livereload();
-    });
+    }, 1000);
+  });
 });
 
 /**
