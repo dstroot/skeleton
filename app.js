@@ -17,6 +17,7 @@ var errorHandler      = require('errorhandler');            // https://github.co
 var methodOverride    = require('method-override');         // https://github.com/expressjs/method-override
 
 // Additional Modules
+require('coffee-script/register');                          // http://coffeescript.org/
 var fs                = require('fs');                      // http://nodejs.org/docs/v0.10.25/api/fs.html
 var path              = require('path');                    // http://nodejs.org/docs/v0.10.25/api/path.html
 var debug             = require('debug')('skeleton');       // https://github.com/visionmedia/debug
@@ -291,7 +292,7 @@ app.use(flash());
 
 // Dynamically include routes (via controllers)
 fs.readdirSync('./controllers').forEach(function (file) {
-  if (file.substr(-3) === '.js') {
+  if (file.substr(-3) === '.js' || file.substr(-7) === '.coffee') {
     var route = require('./controllers/' + file);
     route.controller(app);
   }

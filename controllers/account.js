@@ -12,7 +12,6 @@ var passport      = require('passport');
 var nodemailer    = require('nodemailer');
 var passportConf  = require('../config/passport');
 
-
 /**
  * Account Controller
  */
