@@ -176,8 +176,7 @@ gulp.task('lint', function () {
 
   var coffee = gulp.src(paths.coffee)       // Read .coffee files
     .pipe($.coffeelint())                   // Lint .coffee files (see package.json for options)
-    .pipe($.coffeelint.reporter())          // Specify a default reporter for coffeelint (stylish)
-    .pipe($.coffeelint.reporter('default'));
+    .pipe($.coffeelint.reporter('default')); // Specify a default reporter for coffeelint (stylish)
   return merge(js, coffee);
 });
 
