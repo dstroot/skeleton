@@ -97,6 +97,10 @@ app.locals.ga           = config.ga;
 // Good for an evergreen copyright ;)
 app.locals.moment = require('moment');
 
+// Format numbers as money in jade templates:
+// #{accounting.formatMoney('123456')}
+app.locals.accounting = require('./public/lib/accounting/accounting.min.js');
+
 if (app.get('env') === 'development') {
   // Jade options: Don't minify html, debug intrumentation
   app.locals.pretty = true;

@@ -276,16 +276,17 @@ module.exports.controller = function (app) {
 
   app.get('/api/socrata', function (req, res, next) {
     // Get the socrata open data as JSON
-    request.get('http://data.lacity.org/resource/2yhc-k26x.json', function (err, request, body) {
+    // http://dev.socrata.com/docs/queries.html
+    request.get('http://controllerdata.lacity.org/resource/qjfm-3srk.json?$order=actual_earnings DESC&&$limit=20', function (err, request, body) {
       if (err) {
         return next(err);
       }
       // Parse the data
-      var officials = JSON.parse(body);
+      var payroll = JSON.parse(body);
       // Render the page
       res.render('api/socrata', {
         url: '/apiopen',
-        officials: officials
+        data: payroll
       });
     });
   });

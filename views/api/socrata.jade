@@ -15,27 +15,34 @@ block content
           | (See my blog post)
         | . Many of these agencies are using a platform called&nbsp;
         a(href='http://www.socrata.com/', rel='external') Socrata
-        | . This platform makes public datasets available via an API that we can consume making it easy to integrate public datasets into your site or application.  This is a simple example using data from the Los Angeles Open Data platform.
+        | . This platform makes public datasets available via an API that we can consume making it easy to integrate public datasets into your site or application.  This is a simple example showing the top 20 highest paid positions in the City of Los Angeles using data from the Los Angeles Open Data platform.
 
     .btn-group.btn-group-justified.hidden-xs
       a.btn.btn-primary(href='http://dev.socrata.com/consumers/getting-started.html', rel='external')
         i.fa.fa-info
         | &nbsp;Socrata Docs
-      a.btn.btn-primary(href='https://data.lacity.org/A-Well-Run-City/Elected-Officials-Listing/2yhc-k26x', rel='external')
+      a.btn.btn-primary(href='https://controllerdata.lacity.org/Payroll/Payroll/qjfm-3srk', rel='external')
         i.fa.fa-info
-        | &nbsp;Los Angeles Elected Officials Dataset
+        | &nbsp;Los Angeles Payroll Information Dataset
 
     h3
-      i.fa.fa-users
-      | &nbsp;Los Angeles Elected Officials
+      i.fa.fa-money
+      | &nbsp;Los Angeles Payroll Information
 
-    table.table.table-condensed
+    table.table.table-condensed.table-striped
       thead
         tr
-          th Office Name
-          th Official Name
+          th Year
+          th Department
+          th Job Class
+          th Employment
+          th.text-right Total Earnings
       tbody
-        each official, index in officials
+        each record, index in data
           tr
-            td!= official.office_name
-            td!= official.official_name
+            td!= record.year
+            td!= record.department_title
+            td!= record.job_class_title
+            td!= record.employment_type
+            td.text-right
+              | #{accounting.formatMoney(record.actual_earnings)}
