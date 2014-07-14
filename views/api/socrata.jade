@@ -45,4 +45,4 @@ block content
             td!= record.job_class_title
             td!= record.employment_type
             td.text-right
-              | #{accounting.formatMoney(record.actual_earnings)}
+              | #{numeral(record.actual_earnings).format('$0,0.00')}

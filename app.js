@@ -91,15 +91,18 @@ app.locals.author       = config.author;
 app.locals.keywords     = config.keywords;
 app.locals.ga           = config.ga;
 
-// Stuff moment.js into app.locals then use
-// moment anywhere within a jade template like this:
+// Format dates/times in jade templates
+// Use moment anywhere within a jade template like this:
 // p #{moment(Date.now()).format('MM/DD/YYYY')}
+// http://momentjs.com/
 // Good for an evergreen copyright ;)
 app.locals.moment = require('moment');
 
-// Format numbers as money in jade templates:
-// #{accounting.formatMoney('123456')}
-app.locals.accounting = require('./public/lib/accounting/accounting.min.js');
+// Format numbers in jade templates:
+// Use numeral anywhere within a jade template like this:
+// #{numeral('123456').format('$0,0.00')}
+// http://numeraljs.com/
+app.locals.numeral = require('numeral');
 
 if (app.get('env') === 'development') {
   // Jade options: Don't minify html, debug intrumentation

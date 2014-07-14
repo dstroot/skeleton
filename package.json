@@ -62,6 +62,7 @@
     "morgan": "~1.1.1",
     "node-foursquare": "~0.2.1",
     "nodemailer": "~0.7.1",
+    "numeral": "^1.5.3",
     "passport": "~0.2.0",
     "passport-facebook": "~1.0.3",
     "passport-github": "~0.1.5",
