@@ -32,17 +32,17 @@ block content
     table.table.table-condensed.table-striped
       thead
         tr
-          th Year
+          th.hidden-xs Year
           th Department
           th Job Class
-          th Employment
+          th.hidden-xs Employment
           th.text-right Total Earnings
       tbody
         each record, index in data
           tr
-            td!= record.year
+            td.hidden-xs!= record.year
             td!= record.department_title
             td!= record.job_class_title
-            td!= record.employment_type
+            td.hidden-xs!= record.employment_type
             td.text-right
               | #{numeral(record.actual_earnings).format('$0,0.00')}

@@ -277,7 +277,7 @@ module.exports.controller = function (app) {
   app.get('/api/socrata', function (req, res, next) {
     // Get the socrata open data as JSON
     // http://dev.socrata.com/docs/queries.html
-    request.get('http://controllerdata.lacity.org/resource/qjfm-3srk.json?$order=actual_earnings DESC&&$limit=20', function (err, request, body) {
+    request.get('http://controllerdata.lacity.org/resource/qjfm-3srk.json?$order=actual_earnings DESC&$where=year = 2013&$limit=20', function (err, request, body) {
       if (err) {
         return next(err);
       }
