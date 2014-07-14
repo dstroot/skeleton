@@ -198,10 +198,16 @@ app.use(helmet.xssFilter());          // sets the X-XSS-Protection header
 app.use(helmet.xframe('deny'));       // Prevent iframe
 app.use(helmet.crossdomain());        // crossdomain.xml
 
-// Content Security Policy
+// Content Security Policy:
 //   http://content-security-policy.com/
 //   http://www.html5rocks.com/en/tutorials/security/content-security-policy/
 //   http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
+//
+//   NOTE: TURN THIS OFF DURING DEVELOPMENT
+//   IT'S JUST PAINFUL OTHERWISE! OR DON'T
+//   EVEN USE IT AT ALL - I JUST WANTED TO
+//   LEARN HOW IT WORKS. :)
+
 app.use(helmet.csp({
   defaultSrc: [
     "'self'"
@@ -230,9 +236,7 @@ app.use(helmet.csp({
   imgSrc: [
     "'self'",
     'data:',
-    // 'gravatar.com',
     'https://gravatar.com',
-    // 'avatars.githubusercontent.com',
     'https://avatars.githubusercontent.com',
     'http://pbs.twimg.com',
     '*.4sqi.net',
@@ -250,14 +254,15 @@ app.use(helmet.csp({
   ],
   connectSrc: [ // limit the origins (via XHR, WebSockets, and EventSource)
     "'self'",
+    'ws://localhost:5000',
     'ws://localhost:3000',
+    'ws://127.0.0.1:35729/livereload',
     'wss://skeleton-app.jit.su',
     'api.github.com'
   ],
   objectSrc: [  // allows control over Flash and other plugins
     "'none'"
   ],
-
   frameSrc: [   // origins that can be embedded as frames
     'checkout.stripe.com'
   ],
@@ -396,9 +401,9 @@ if (app.get('env') === 'development') {
 
 // NOTE: To alter the environment we can set the
 // NODE_ENV environment variable, for example:
-
-// $ NODE_ENV=production node app.js
-
+//
+//   $ NODE_ENV=production node app.js
+//
 // This is *very* important, as many caching mechanisms
 // are *only* enabled when in production!
 

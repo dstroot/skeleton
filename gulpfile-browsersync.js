@@ -3,14 +3,75 @@
 // Install: you must install gulp both globally *and* locally.
 // Make sure you `$ npm install -g gulp`
 
+/* -------------------------------------------------------------
+Gulp BrowserSync Version
+----------------------------------------------------------------
+This is designed to reload the web page as you develop so you can
+instantly see your changes.  This is an alternative to livereload.
+
+Known Issues:
+ - Since browserSync also uses socketio there is a conflict -
+   the dashboard in the app does not work via the browserSync
+   proxy. (you can still use localhost:3000 and it works).
+ - The timings for nodemon require playing around to get them
+   working right.  Start with a long timing and work it down.
+   If it's not long enough the app will hang in the browser.
+ - Doesn't seem to work reliably unless you *already* have a
+   Browser open.
+--------------------------------------------------------------- */
+
+/* -------------------------------------------------------------
+Notes
+----------------------------------------------------------------
+By default, all gulp tasks run with maximum concurrency --
+e.g. gulp launches all the tasks at once and waits for nothing.
+
+If you want to create a series where tasks run in a particular
+order, you need to do two things:
+
+1. Give it a hint to tell it when the task is done. This can be
+   done by using a callback or `return`ing the stream.
+
+     // Takes in a callback so that gulp knows when it'll be done
+     gulp.task('one', function(cb) {
+       // do stuff -- async or otherwise
+       cb(err); // if err is not null and not undefined, the orchestration will stop, and 'two' will not run
+     });
+
+     // Return the stream so that gulp knows when it'll be done
+     gulp.task('one', function() {
+       return gulp.src(['src/styles/app.less'])
+    // ^^^^^^ - boom!
+         .pipe($.less({}))
+         .pipe(gulp.dest('output/css/app.css'));
+     });
+
+2. Tell it which tasks depend on completion of other tasks.
+   Dependent tasks are passed in as an array, task 'two'
+   depends on 'one':
+
+    gulp.task('two', ['one'], function() {
+      // task 'one' is done now
+    });
+
+Docs:
+https://github.com/gulpjs/gulp/blob/master/docs/API.md#async-task-support
+https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-tasks-in-series.md
+http://cameronspear.com/blog/handling-sync-tasks-with-gulp-js/
+--------------------------------------------------------------- */
+
 /**
  * Dependencies
  */
 
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({ lazy: false });
+// load gulp plugins
+var $ = require('gulp-load-plugins')();
+// User browserSync
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
+// Runs a sequence of gulp tasks in the specified order
 var runSequence = require('run-sequence');
-var pagespeed = require('psi');
 
 /**
  * Banner
@@ -73,6 +134,9 @@ var paths = {
   ],
   less: [
     'less/**/*.less'
+  ],
+  jade: [
+    'views/**/*.jade'
   ]
 };
 
@@ -93,9 +157,9 @@ gulp.task('clean', function () {
  */
 
 gulp.task('styles', function () {
-  return gulp.src('./less/main.less')       // Read in Less file
+  return gulp.src('./less/main.less')       // Return the stream
     .pipe($.less({}))                       // Compile Less files
-    .pipe($.autoprefixer([                  // Autoprefix for target browsers
+    .pipe($.autoprefixer([                  // Autoprefix target browsers
       'last 2 versions',
       '> 1%',
       'Firefox ESR',
@@ -108,7 +172,7 @@ gulp.task('styles', function () {
     .pipe($.header(banner, { pkg : pkg }))  // Add banner
     .pipe($.size({ title: 'CSS:' }))        // What size are we at?
     .pipe(gulp.dest('./public/css'))        // Save minified CSS
-    .pipe($.livereload());                  // Initiate a reload
+    .pipe(reload({ stream: true }));        // Initiate a reload
 });
 
 /**
@@ -124,7 +188,7 @@ gulp.task('scripts', function () {
     .pipe($.header(banner, { pkg : pkg }))  // Add banner
     .pipe($.size({ title: 'JS:' }))         // What size are we at?
     .pipe(gulp.dest('./public/js'))         // Save minified .js
-    .pipe($.livereload());                  // Initiate a reload
+    .pipe(reload({ stream: true }));        // Initiate a reload
 });
 
 /**
@@ -134,7 +198,7 @@ gulp.task('scripts', function () {
 gulp.task('images', function () {
   return gulp.src('public/img/**/*')        // Read images
     .pipe($.changed('./public/img'))        // Only process new/changed
-    .pipe($.imagemin({                      // Compress images
+    .pipe($.imagemin({
       optimizationLevel: 5,
       progressive: true,
       interlaced: true
@@ -149,7 +213,8 @@ gulp.task('images', function () {
 gulp.task('lint', function () {
   return gulp.src(paths.lint)               // Read .js files
     .pipe($.jshint())                       // Lint .js files
-    .pipe($.jshint.reporter($.stylish));    // Use stylish reporter
+    .pipe($.jshint.reporter($.stylish))     // Specify a reporter for JSHint
+    .pipe($.jshint.reporter($.fail));
 });
 
 /**
@@ -164,33 +229,20 @@ gulp.task('jscs', function () {
     j.end();
   });
   return gulp.src(paths.lint)
-    .pipe(j);                               // JSCS .js files
-});
-
-/**
- * Build Task
- *   - Build all the things...
- */
-
-gulp.task('build', function (cb) {
-  runSequence(
-    'clean',                                // first clean
-    ['lint', 'jscs'],                       // then lint and jscs in parallel
-    ['styles', 'scripts', 'images'],        // etc.
-    cb);
+    .pipe(j);
 });
 
 /**
  * Nodemon Task
+ *   - Restarts Nodejs when .js files change
  */
 
-gulp.task('nodemon', ['build'], function (cb) {
-  $.livereload.listen();
+gulp.task('nodemon', function (cb) {
   var called = false;
   $.nodemon({
     script: 'app.js',
     verbose: false,
-    // env: { 'NODE_ENV': 'development' },
+    env: { 'NODE_ENV': 'development' },
     // nodeArgs: ['--debug'],
     ext: 'js',
     ignore: [
@@ -205,53 +257,64 @@ gulp.task('nodemon', ['build'], function (cb) {
     setTimeout(function () {
       if (!called) {
         called = true;
+        console.log('start');
         cb();
       }
-    }, 3000);  // wait for start
+    }, 3500);  // adjust as needed
   })
   .on('restart', function () {
     setTimeout(function () {
-      $.livereload.changed('/');
-    }, 3000);  // wait for restart
+      console.log('restart');
+      reload();
+    }, 3500);  // adjust as needed
   });
 });
 
 /**
- * Open the browser
+ * BrowserSync
+ *   - automatic reloads without livereload!
  */
 
-gulp.task('open', ['nodemon'], function () {
-  var options = {
-    url: 'http://localhost:3000/'
-  };
-  // A file must be specified or gulp will skip the task
-  // Doesn't matter which file since we set URL above
-  // Weird, I know...
-  gulp.src('./public/humans.txt')
-  .pipe($.open('', options));
+gulp.task('browser-sync', ['nodemon'], function () {
+  browserSync({
+    // local node app address
+    proxy: 'localhost:3000',
+    // browserSync port, make sure it *does not* conflict with node app
+    port: 5000,
+    // Reload otifications in the browser.
+    notify: true,
+    // Wait for 0.2 seconds since the last file changed to actually reload the browser
+    // debounce: 200,
+    // Wait for 1 seconds before any browsers should try to inject/reload a file.
+    // reloadDelay: 1000
+    ghostMode: {
+      links: false
+    }
+  });
+});
+
+/**
+ * Build Task
+ *   - Build all the things...
+ */
+
+gulp.task('build', function (cb) {
+  runSequence(
+    'clean',           // first clean
+    ['lint', 'jscs'],  // then lint and jscs in parallel
+    ['styles', 'scripts', 'images'], // etc.
+    'browser-sync',
+    cb);
 });
 
 /**
  * Default Task
  */
 
-gulp.task('default', ['open'], function () {
+gulp.task('default', ['build'], function () {
+  gulp.watch(paths.jade, reload);
   gulp.watch(paths.less, ['styles']);
   gulp.watch(paths.js, ['scripts']);
   gulp.watch(paths.lint, ['lint', 'jscs']);
-  gulp.watch('views/**/*.jade').on('change', $.livereload.changed);
 });
 
-/**
- * Run PageSpeed Insights
- */
-
-// By default, we use the PageSpeed Insights
-// free (no API key) tier. You can use a Google
-// Developer API key if you have one. See
-// http://goo.gl/RkN0vE for info key: 'YOUR_API_KEY'
-
-gulp.task('pagespeed', pagespeed.bind(null, {
-  url: 'https://skeleton-app.jit.su',
-  strategy: 'desktop'
-}));
