@@ -94,14 +94,19 @@ gulp.task('clean', function () {
 
 gulp.task('styles', function () {
   return gulp.src('./less/main.less')       // Read in Less file
-    .pipe($.less({}))                       // Compile Less files
+    .pipe($.sourcemaps.init())              // Initialize gulp-sourcemaps
+    .pipe($.less({ strictMath: true }))     // Compile Less files
     .pipe($.autoprefixer([                  // Autoprefix for target browsers
       'last 2 versions',
       '> 1%',
       'Firefox ESR',
       'Opera 12.1'
     ], { cascade: true }))
+    .pipe($.csscomb())                      // Coding style formatter for CSS
+    // .pipe($.csslint('.csslintrc'))          // Lint CSS
+    // .pipe($.csslint.reporter())             // Report issues
     .pipe($.rename(pkg.name + '.css'))      // Rename to "packagename.css"
+    .pipe($.sourcemaps.write())             // Write sourcemap
     .pipe(gulp.dest('./public/css'))        // Save CSS here
     .pipe($.rename({ suffix: '.min' }))     // Add .min suffix
     .pipe($.csso())                         // Minify CSS

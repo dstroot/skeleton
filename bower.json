@@ -1,15 +1,15 @@
 {
   "name": "Skeleton",
   "dependencies": {
-    "font-awesome": "~4.1.0",
-    "bootstrap": "~3.2.0",
     "animate.css": "~3.1.1",
-    "moment": "~2.7.0",
-    "odometer": "~0.4.6",
-    "mailcheck": "~1.0.3",
+    "bootstrap": "~3.2.0",
+    "bootstrap-social": "~4.5.1",
+    "card": "~0.0.5",
+    "fastclick": "~1.0.2",
+    "font-awesome": "~4.1.0",
     "jquery.complexify.js": "*",
-    "bootstrap-social": "~4.4.0",
-    "card": "~0.0.2",
-    "fastclick": "~1.0.2"
+    "mailcheck": "~1.0.3",
+    "moment": "~2.7.0",
+    "odometer": "~0.4.6"
   }
 }
