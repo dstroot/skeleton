@@ -45,8 +45,8 @@ module.exports.controller = function (app) {
       return res.redirect('/contact');
     }
 
-    // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-    var smtpTransport = nodemailer.createTransport('SMTP',{
+    // Create reusable transporter object using SMTP transport
+    var transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
         user: config.gmail.user,
@@ -63,16 +63,16 @@ module.exports.controller = function (app) {
     };
 
     // Send email
-    smtpTransport.sendMail(mailOptions, function (err) {
+    transporter.sendMail(mailOptions, function (err, info) {
       if (err) {
-        req.flash('error', { msg: err.message });
+        req.flash('error', { msg: err });
         return res.redirect('/contact');
-      }
-      // Shut down the connection pool, no more messages
-      smtpTransport.close();
+      } // else {
+        // console.log('Message sent: ' + info.response);
+      // }
     });
 
-    req.flash('success', { msg: 'Email has been sent successfully!' });
+    req.flash('success', { msg: 'Your message has been sent successfully!' });
     res.redirect('/contact');
 
   });

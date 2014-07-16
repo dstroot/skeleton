@@ -254,8 +254,8 @@ module.exports.controller = function (app) {
 
     workflow.on('sendWelcomeEmail', function (user) {
 
-      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport('SMTP',{
+      // Create reusable transporter object using SMTP transport
+      var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
           user: config.gmail.user,
@@ -297,13 +297,13 @@ module.exports.controller = function (app) {
             html:     html
           };
 
-          // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function (err) {
+          // Send email
+          transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err.message });
-            }
-            // shut down the connection pool, no more messages
-            smtpTransport.close();
+              req.flash('error', { msg: err });
+            } // else {
+              // console.log('Message sent: ' + info.response);
+            // }
           });
 
         }
@@ -458,8 +458,8 @@ module.exports.controller = function (app) {
 
     workflow.on('sendValidateEmail', function (user, verifyToken) {
 
-      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport('SMTP',{
+      // Create reusable transporter object using SMTP transport
+      var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
           user: config.gmail.user,
@@ -495,13 +495,13 @@ module.exports.controller = function (app) {
             html:     html
           };
 
-          // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function (err) {
+          // Send email
+          transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err.message });
-            }
-            // shut down the connection pool, no more messages
-            smtpTransport.close();
+              req.flash('error', { msg: err });
+            } // else {
+              // console.log('Message sent: ' + info.response);
+            // }
           });
 
         }
@@ -520,8 +520,8 @@ module.exports.controller = function (app) {
 
     workflow.on('sendWelcomeEmail', function (user) {
 
-      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport('SMTP',{
+      // Create reusable transporter object using SMTP transport
+      var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
           user: config.gmail.user,
@@ -563,13 +563,13 @@ module.exports.controller = function (app) {
             html:     html
           };
 
-          // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function (err) {
+          // Send email
+          transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err.message });
-            }
-            // shut down the connection pool, no more messages
-            smtpTransport.close();
+              req.flash('error', { msg: err });
+            } // else {
+              // console.log('Message sent: ' + info.response);
+            // }
           });
 
         }
@@ -737,8 +737,8 @@ module.exports.controller = function (app) {
 
     workflow.on('sendWelcomeEmail', function (user) {
 
-      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport('SMTP',{
+      // Create reusable transporter object using SMTP transport
+      var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
           user: config.gmail.user,
@@ -780,13 +780,13 @@ module.exports.controller = function (app) {
             html:     html
           };
 
-          // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function (err) {
+          // Send email
+          transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err.message });
-            }
-            // shut down the connection pool, no more messages
-            smtpTransport.close();
+              req.flash('error', { msg: err });
+            } // else {
+              // console.log('Message sent: ' + info.response);
+            // }
           });
 
         }
