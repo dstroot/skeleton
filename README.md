@@ -223,7 +223,7 @@ Our build system compiles and minifies all assets and starts the app app using n
 
 To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the [livereload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei). 
 
-:exclamation: Click on the tiny center dot to turn on the livereload capability after you start up via `gulp`.
+:exclamation: Click on the tiny center dot to turn on the livereload capability after you start up via `gulp`. 
 
 Now every time you make a change to a client component things will be recompiled and your browser will reload. Cool!
 

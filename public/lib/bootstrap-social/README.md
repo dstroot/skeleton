@@ -27,21 +27,29 @@ Available classes
  - `btn-google-plus`
  - `btn-instagram`
  - `btn-linkedin`
+ - `btn-microsoft`
+ - `btn-openid`
+ - `btn-reddit`
+ - `btn-soundcloud`
  - `btn-tumblr`
  - `btn-twitter`
+ - `btn-vimeo`
  - `btn-vk`
+ - `btn-yahoo`
 
 Examples
 --------
 
-    <a class="btn btn-block btn-social btn-twitter">
-      <i class="fa fa-twitter"></i>
-      Sign in with Twitter
-    </a>
+```html
+<a class="btn btn-block btn-social btn-twitter">
+  <i class="fa fa-twitter"></i>
+  Sign in with Twitter
+</a>
 
-    <a class="btn btn-social-icon btn-twitter">
-      <i class="fa fa-twitter"></i>
-    </a>
+<a class="btn btn-social-icon btn-twitter">
+  <i class="fa fa-twitter"></i>
+</a>
+```
 
 Pull Requests
 -------------

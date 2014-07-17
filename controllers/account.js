@@ -108,8 +108,8 @@ module.exports.controller = function (app) {
 
     workflow.on('sendAccountEmail', function (user) {
 
-      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport('SMTP',{
+      // Create reusable transporter object using SMTP transport
+      var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
           user: config.gmail.user,
@@ -146,13 +146,13 @@ module.exports.controller = function (app) {
           };
 
           // Send email
-          smtpTransport.sendMail(mailOptions, function (err) {
+          transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err.message });
+              req.flash('error', { msg: err });
               return res.redirect('/account');
-            }
-            // shut down the connection pool, no more messages
-            smtpTransport.close();
+            } // else {
+              // console.log('Message sent: ' + info.response);
+            // }
           });
 
           // Send user on their merry way
@@ -238,8 +238,8 @@ module.exports.controller = function (app) {
 
     workflow.on('sendPasswordEmail', function (user) {
 
-      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport('SMTP',{
+      // Create reusable transporter object using SMTP transport
+      var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
           user: config.gmail.user,
@@ -276,13 +276,13 @@ module.exports.controller = function (app) {
           };
 
           // Send email
-          smtpTransport.sendMail(mailOptions, function (err) {
+          transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err.message });
+              req.flash('error', { msg: err });
               return res.redirect('/account');
-            }
-            // shut down the connection pool, no more messages
-            smtpTransport.close();
+            } // else {
+              // console.log('Message sent: ' + info.response);
+            // }
           });
 
           // Send user on their merry way

@@ -163,8 +163,8 @@ module.exports.controller = function (app) {
 
     workflow.on('sendEmail', function (token, user) {
 
-      // Create a reusable nodemailer transport method (opens a pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport('SMTP',{
+      // Create reusable transporter object using SMTP transport
+      var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
           user: config.gmail.user,
@@ -202,14 +202,14 @@ module.exports.controller = function (app) {
             html:     html
           };
 
-          // send email via nodemailer
-          smtpTransport.sendMail(mailOptions, function (err) {
+          // Send email
+          transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err.message });
+              req.flash('error', { msg: err });
               return res.redirect('/forgot');
-            }
-            // shut down the connection pool, no more messages
-            smtpTransport.close();
+            } // else {
+              // console.log('Message sent: ' + info.response);
+            // }
           });
 
           // Message to user

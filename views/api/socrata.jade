@@ -8,34 +8,41 @@ block content
     .page-header
       h2
         i.fa.fa-database
-        | &nbsp;Open Data
+        | &nbsp;Open Data API
       p.lead
         | Why this is cool - many cities and governmental agencies have adopted "Open Data" policies and are making their data publicly available&nbsp;
         a(href='http://danstroot.com/2014/07/01/from-open-government-to-open-corporation/', rel='external')
-          | (See blog post)
+          | (See my blog post)
         | . Many of these agencies are using a platform called&nbsp;
         a(href='http://www.socrata.com/', rel='external') Socrata
-        | . This platform makes public datasets available via an API that we can consume making it easy to integrate public datasets into your site or application.  This is a simple example.
+        | . This platform makes public datasets available via an API that we can consume making it easy to integrate public datasets into your site or application.  This is a simple example showing the top 20 highest paid positions in the City of Los Angeles using data from the Los Angeles Open Data platform.
 
     .btn-group.btn-group-justified.hidden-xs
       a.btn.btn-primary(href='http://dev.socrata.com/consumers/getting-started.html', rel='external')
         i.fa.fa-info
         | &nbsp;Socrata Docs
-      a.btn.btn-primary(href='https://data.lacity.org/A-Well-Run-City/Elected-Officials-Listing/2yhc-k26x', rel='external')
+      a.btn.btn-primary(href='https://controllerdata.lacity.org/Payroll/Payroll/qjfm-3srk', rel='external')
         i.fa.fa-info
-        | &nbsp;Los Angeles Elected Officials Dataset
+        | &nbsp;Los Angeles Payroll Information Dataset
 
     h3
-      i.fa.fa-users
-      | &nbsp;Los Angeles Elected Officials
+      i.fa.fa-money
+      | &nbsp;Los Angeles Payroll Information
 
-    table.table.table-condensed
+    table.table.table-condensed.table-striped
       thead
         tr
-          th Office Name
-          th Official Name
+          th.hidden-xs Year
+          th Department
+          th Job Class
+          th.hidden-xs Employment
+          th.text-right Total Earnings
       tbody
-        each official, index in officials
+        each record, index in data
           tr
-            td!= official.office_name
-            td!= official.official_name
+            td.hidden-xs!= record.year
+            td!= record.department_title
+            td!= record.job_class_title
+            td.hidden-xs!= record.employment_type
+            td.text-right
+              | #{numeral(record.actual_earnings).format('$0,0.00')}

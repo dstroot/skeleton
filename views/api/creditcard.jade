@@ -8,34 +8,95 @@ block content
 
   .container
     .page-header
-      h2 Credit Card Form Example
+      h2
+        i.fa.fa-credit-card
+        | &nbsp;Credit Card Form Example
+      p.lead NOTE: this form does not do anything, it will not charge you!  It is simply an example of a very cool credit card animation. Everything is created with pure CSS, HTML, and Javascript — no images required.
+    .btn-group.btn-group-justified.hidden-xs
+      a.btn.btn-primary(href='https://github.com/jessepollak/card', rel='external')
+        i.fa.fa-check-square-o
+        | &nbsp;Quickstart
 
     .row
-      .col-sm-5.col-sm-offset-3
+      .col-sm-6.col-sm-offset-3
         .well
           .card-wrapper
           br
-          form.ccform(action='', method='POST')
+          //- form.form-inline(action='', method='POST')
             input(type='hidden', name='_csrf', value=_csrf)
             .row
               .form-group
                 label.sr-only(for='number') Card Number:
-                input.form-control(type='text', name='number', id='ccnumber', placeholder='Card number', autofocus=true, required)
+                input.form-control.ccnumber(type='text', name='number', id='ccnumber', placeholder='Card number', autofocus=true, required)
             .row
               .form-group
                 label.sr-only(for='name') Name on Card:
-                input.form-control(type='text', name='name', id='ccname', placeholder='Name on Card', required)
+                input.form-control.ccname(type='text', name='name', id='ccname', placeholder='Name on Card', required)
             .row
               .form-group
                 label.sr-only(for='expiry') Expiration:
-                input.form-control(type='text', name='expiry', id='expiry', placeholder='MM/YY', required)
+                input.form-control.expiry(type='text', name='expiry', id='expiry', placeholder='MM/YY', required)
               .form-group
                 label.sr-only(for='cvc') CVC Code:
-                input.form-control(type='text', name='cvc', id='cvc', placeholder='CVC', required)
+                input.form-control.cvc(type='text', name='cvc', id='cvc', placeholder='CVC', required)
               .form-group
-                button.btn.btn-success(type='submit')
+                button.btn.btn-success.btn-card(type='submit')
                   i.fa.fa-check
                   | &nbsp;OK
+
+
+          form.form-horizontal(role='form')
+            fieldset
+              //- legend Payment
+              .form-group
+                label.hidden-xs.col-sm-3.control-label(for='card-number') Number
+                .col-sm-9
+                  input#card-number.form-control(type='text', name='number', placeholder='Credit Card Number', autofocus=true, required)
+              .form-group
+                label.hidden-xs.col-sm-3.control-label(for='card-holder-name') Name
+                .col-sm-9
+                  input#card-holder-name.form-control(type='text', name='name', placeholder='Card Holder\'s Name', required)
+              .form-group
+                label.hidden-xs.col-sm-3.control-label(for='expiry-month') Expiration
+
+                .col-xs-5
+                  input.form-control.expiry(type='text', name='expiry', id='expiry', placeholder='MM/YY', required)
+
+                //- .row
+                //-   .col-xs-4
+                //-     select#expiry-month.form-control.col-sm-2(name='expiry-month', required)
+                //-       //- option Month
+                //-       option(value='01') Jan (01)
+                //-       option(value='02') Feb (02)
+                //-       option(value='03') Mar (03)
+                //-       option(value='04') Apr (04)
+                //-       option(value='05') May (05)
+                //-       option(value='06') June (06)
+                //-       option(value='07') July (07)
+                //-       option(value='08') Aug (08)
+                //-       option(value='09') Sep (09)
+                //-       option(value='10') Oct (10)
+                //-       option(value='11') Nov (11)
+                //-       option(value='12') Dec (12)
+                //-   .col-xs-4
+                //-     select.form-control(name='expiry-year', required)
+                //-       option(value='14') 2014
+                //-       option(value='15') 2015
+                //-       option(value='16') 2016
+                //-       option(value='17') 2017
+                //-       option(value='18') 2018
+                //-       option(value='19') 2019
+                //-       option(value='20') 2020
+
+              .form-group
+                label.hidden-xs.col-sm-3.control-label(for='cvv') Card CVV
+                .col-xs-5
+                  input#cvv.form-control(type='text', name='cvc', placeholder='Security Code', required)
+              .form-group
+                .col-sm-offset-3.col-sm-9
+                  button.btn.btn-success(type='submit')
+                    i.fa.fa-check
+                    | &nbsp;Pay Now
 
     br
     .row
@@ -52,41 +113,17 @@ block content
               th Card type
             tbody
               tr
-                td 4242 4242 4242 4242
-                td Visa
-              tr
                 td 4012 8888 8888 1881
                 td Visa
-              tr
-                td 5555 5555 5555 4444
-                td MasterCard
               tr
                 td 5105 1051 0510 5100
                 td MasterCard
               tr
-                td 3782 822463 10005
-                td American Express
-              tr
                 td 3714 496353 98431
                 td American Express
               tr
-                td 6011 1111 1111 1117
-                td Discover
-              tr
-                td 6011 0009 9013 9424
-                td Discover
-              tr
-                td 3056 9309 0259 04
-                td Diners Club
-              tr
-                td 3852 0000 0232 37
-                td Diners Club
-              tr
-                td 3530 1113 3330 0000
-                td JCB
-              tr
-                td 3566 0020 2036 0505
-                td JCB
+                td 6554 5555 5555 5555
+                td Diner's Club
 
 block scripts
   script(src='/lib/card/lib/js/card.js')
@@ -95,11 +132,12 @@ block scripts
       // a selector or jQuery object for the container
       // where you want the card to appear
       container: '.card-wrapper', // *required*
-      numberInput: 'input#ccnumber', // optional — default input[name="number"]
-      expiryInput: 'input#expiry', // optional — default input[name="expiry"]
-      cvcInput: 'input#cvc', // optional — default input[name="cvc"]
-      nameInput: 'input#ccname', // options - defaults input[name="name"]
+      //- numberInput: 'input[name="number"]', // optional — default input[name="number"]
+      expiryInput: 'input[name="expiry"]'
+      //- expiryInput: 'input[name="expiry-month"]', 'input[name="expiry-year"]'// optional — default input[name="expiry"]
+      //- cvcInput: 'input[name="cvc"]', // optional — default input[name="cvc"]
+      //- nameInput: 'input[name="name"]' // options - defaults input[name="name"]
 
-      width: 200, // optional — default 350px
-      formatting: true // optional - default true
+      //- width: 200, // optional — default 350px
+      //- formatting: true // optional - default true
     });

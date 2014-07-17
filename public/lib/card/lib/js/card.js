@@ -519,9 +519,13 @@ $.fn.card = function(opts) {
 };
 
 Card = (function() {
-  var validToggler;
+  Card.prototype.cardTemplate = "<div class=\"card-container\">\n    <div class=\"card\">\n        <div class=\"front\">\n                <div class=\"card-logo visa\">visa</div>\n                <div class=\"card-logo mastercard\">MasterCard</div>\n                <div class=\"card-logo amex\"></div>\n                <div class=\"card-logo discover\">discover</div>\n            <div class=\"lower\">\n                <div class=\"shiny\"></div>\n                <div class=\"cvc display\">{{cvc}}</div>\n                <div class=\"number display\">{{number}}</div>\n                <div class=\"name display\">{{name}}</div>\n                <div class=\"expiry display\" data-before=\"{{monthYear}}\" data-after=\"{{validDate}}\">{{expiry}}</div>\n            </div>\n        </div>\n        <div class=\"back\">\n            <div class=\"bar\"></div>\n            <div class=\"cvc display\">{{cvc}}</div>\n            <div class=\"shiny\"></div>\n        </div>\n    </div>\n</div>";
 
-  Card.prototype.template = "<div class=\"card-container\">\n    <div class=\"card\">\n        <div class=\"front\">\n                <div class=\"logo visa\">visa</div>\n                <div class=\"logo mastercard\">MasterCard</div>\n                <div class=\"logo amex\"></div>\n                <div class=\"logo discover\">discover</div>\n            <div class=\"lower\">\n                <div class=\"shiny\"></div>\n                <div class=\"cvc display\">••••</div>\n                <div class=\"number display\">•••• •••• •••• ••••</div>\n                <div class=\"name display\">Full name</div>\n                <div class=\"expiry display\">••/••</div>\n            </div>\n        </div>\n        <div class=\"back\">\n            <div class=\"bar\"></div>\n            <div class=\"cvc display\">•••</div>\n            <div class=\"shiny\"></div>\n        </div>\n    </div>\n</div>";
+  Card.prototype.template = function(tpl, data) {
+    return tpl.replace(/\{\{(.*?)\}\}/g, function(match, key, str) {
+      return data[key];
+    });
+  };
 
   Card.prototype.cardTypes = ['maestro', 'dinersclub', 'laser', 'jcb', 'unionpay', 'discover', 'mastercard', 'amex', 'visa'];
 
@@ -540,11 +544,27 @@ Card = (function() {
       expiryDisplay: '.expiry',
       cvcDisplay: '.cvc',
       nameDisplay: '.name'
+    },
+    messages: {
+      validDate: 'valid\nthru',
+      monthYear: 'month/year'
+    },
+    values: {
+      number: '&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;',
+      cvc: '&bull;&bull;&bull;',
+      expiry: '&bull;&bull;/&bull;&bull;',
+      name: 'Full Name'
+    },
+    classes: {
+      valid: 'card-valid',
+      invalid: 'card-invalid'
     }
   };
 
   function Card(el, opts) {
-    this.options = $.extend({}, this.defaults, opts);
+    this.options = $.extend(true, {}, this.defaults, opts);
+    $.extend(this.options.messages, $.card.messages);
+    $.extend(this.options.values, $.card.values);
     this.$el = $(el);
     if (!this.options.container) {
       console.log("Please provide a container");
@@ -553,11 +573,12 @@ Card = (function() {
     this.$container = $(this.options.container);
     this.render();
     this.attachHandlers();
+    this.handleInitialValues();
   }
 
   Card.prototype.render = function() {
     var baseWidth, ua;
-    this.$container.append(this.template);
+    this.$container.append(this.template(this.cardTemplate, $.extend({}, this.options.messages, this.options.values)));
     $.each(this.options.cardSelectors, (function(_this) {
       return function(name, selector) {
         return _this["$" + name] = _this.$container.find(selector);
@@ -579,37 +600,74 @@ Card = (function() {
     })(this));
     if (this.options.formatting) {
       this.$numberInput.payment('formatCardNumber');
-      this.$expiryInput.payment('formatCardExpiry');
       this.$cvcInput.payment('formatCardCVC');
+      if (this.$expiryInput.length === 1) {
+        this.$expiryInput.payment('formatCardExpiry');
+      }
     }
     if (this.options.width) {
       baseWidth = parseInt(this.$cardContainer.css('width'));
       this.$cardContainer.css("transform", "scale(" + (this.options.width / baseWidth) + ")");
     }
-    if (navigator && navigator.userAgent) {
+    if (typeof navigator !== "undefined" && navigator !== null ? navigator.userAgent : void 0) {
       ua = navigator.userAgent.toLowerCase();
       if (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) {
-        return this.$card.addClass('no-radial-gradient');
+        this.$card.addClass('safari');
       }
+    }
+    if (new Function("/*@cc_on return @_jscript_version; @*/")()) {
+      return this.$card.addClass('ie-10');
     }
   };
 
   Card.prototype.attachHandlers = function() {
+    var expiryFilters;
     this.$numberInput.bindVal(this.$numberDisplay, {
       fill: false,
-      filters: validToggler('validateCardNumber')
+      filters: this.validToggler('cardNumber')
     }).on('payment.cardType', this.handle('setCardType'));
+    expiryFilters = [
+      function(val) {
+        return val.replace(/(\s+)/g, '');
+      }
+    ];
+    if (this.$expiryInput.length === 1) {
+      expiryFilters.push(this.validToggler('cardExpiry'));
+      this.$expiryInput.on('keydown', this.handle('captureTab'));
+    }
     this.$expiryInput.bindVal(this.$expiryDisplay, {
-      filters: [
-        function(val) {
-          return val.replace(/(\s+)/g, '');
-        }, validToggler('validateCardExpiry')
-      ]
-    }).on('keydown', this.handle('captureTab'));
-    this.$cvcInput.bindVal(this.$cvcDisplay, validToggler('validateCardCVC')).on('focus', this.handle('flipCard')).on('blur', this.handle('flipCard'));
-    return this.$nameInput.bindVal(this.$nameDisplay, {
-      fill: false
+      join: function(text) {
+        if (text[0].length === 2 || text[1]) {
+          return "/";
+        } else {
+          return "";
+        }
+      },
+      filters: expiryFilters
     });
+    this.$cvcInput.bindVal(this.$cvcDisplay, {
+      filters: this.validToggler('cardCVC')
+    }).on('focus', this.handle('flipCard')).on('blur', this.handle('flipCard'));
+    return this.$nameInput.bindVal(this.$nameDisplay, {
+      fill: false,
+      filters: this.validToggler('cardHolderName'),
+      join: ' '
+    }).on('keydown', this.handle('captureName'));
+  };
+
+  Card.prototype.handleInitialValues = function() {
+    return $.each(this.options.formSelectors, (function(_this) {
+      return function(name, selector) {
+        var el;
+        el = _this["$" + name];
+        if (el.val()) {
+          el.trigger('paste');
+          return setTimeout(function() {
+            return el.trigger('keyup');
+          });
+        }
+      };
+    })(this));
   };
 
   Card.prototype.handle = function(fn) {
@@ -624,13 +682,53 @@ Card = (function() {
     })(this);
   };
 
+  Card.prototype.validToggler = function(validatorName) {
+    var isValid;
+    if (validatorName === "cardExpiry") {
+      isValid = function(val) {
+        var objVal;
+        objVal = $.payment.cardExpiryVal(val);
+        return $.payment.validateCardExpiry(objVal.month, objVal.year);
+      };
+    } else if (validatorName === "cardCVC") {
+      isValid = (function(_this) {
+        return function(val) {
+          return $.payment.validateCardCVC(val, _this.cardType);
+        };
+      })(this);
+    } else if (validatorName === "cardNumber") {
+      isValid = function(val) {
+        return $.payment.validateCardNumber(val);
+      };
+    } else if (validatorName === "cardHolderName") {
+      isValid = function(val) {
+        return val !== "";
+      };
+    }
+    return (function(_this) {
+      return function(val, $in, $out) {
+        var result;
+        result = isValid(val);
+        _this.toggleValidClass($in, result);
+        _this.toggleValidClass($out, result);
+        return val;
+      };
+    })(this);
+  };
+
+  Card.prototype.toggleValidClass = function(el, test) {
+    el.toggleClass(this.options.classes.valid, test);
+    return el.toggleClass(this.options.classes.invalid, !test);
+  };
+
   Card.prototype.handlers = {
     setCardType: function($el, e, cardType) {
       if (!this.$card.hasClass(cardType)) {
         this.$card.removeClass('unknown');
         this.$card.removeClass(this.cardTypes.join(' '));
         this.$card.addClass(cardType);
-        return this.$card.toggleClass('identified', cardType !== 'unknown');
+        this.$card.toggleClass('identified', cardType !== 'unknown');
+        return this.cardType = cardType;
       }
     },
     flipCard: function($el, e) {
@@ -649,11 +747,18 @@ Card = (function() {
       if (!$.payment.validateCardExpiry(val.month, val.year)) {
         return e.preventDefault();
       }
+    },
+    captureName: function($el, e) {
+      var banKeyCodes;
+      banKeyCodes = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 106, 107, 109, 110, 111, 186, 187, 188, 189, 190, 191, 192, 219, 220, 221, 222];
+      if (banKeyCodes.indexOf(e.which || e.keyCode) !== -1) {
+        return e.preventDefault();
+      }
     }
   };
 
   $.fn.bindVal = function(out, opts) {
-    var $el, i, o, outDefaults;
+    var $el, i, joiner, o, outDefaults;
     if (opts == null) {
       opts = {};
     }
@@ -661,6 +766,13 @@ Card = (function() {
     opts.filters = opts.filters || [];
     if (!(opts.filters instanceof Array)) {
       opts.filters = [opts.filters];
+    }
+    opts.join = opts.join || "";
+    if (!(typeof opts.join === "function")) {
+      joiner = opts.join;
+      opts.join = function() {
+        return joiner;
+      };
     }
     $el = $(this);
     outDefaults = (function() {
@@ -678,9 +790,16 @@ Card = (function() {
     $el.on('blur', function() {
       return out.removeClass('focused');
     });
-    $el.on('keyup change', function(e) {
-      var filter, outVal, val, _i, _j, _len, _len1, _ref, _results;
-      val = $el.val();
+    $el.on('keyup change paste', function(e) {
+      var filter, join, outVal, val, _i, _j, _len, _len1, _ref, _results;
+      val = $el.map(function() {
+        return $(this).val();
+      }).get();
+      join = opts.join(val);
+      val = val.join(join);
+      if (val === join) {
+        val = "";
+      }
       _ref = opts.filters;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         filter = _ref[_i];
@@ -699,13 +818,6 @@ Card = (function() {
       return _results;
     });
     return $el;
-  };
-
-  validToggler = function(validatorName) {
-    return function(val, $in, $out) {
-      $out.toggleClass('valid', $.payment[validatorName](val));
-      return val;
-    };
   };
 
   return Card;

@@ -1267,12 +1267,11 @@ if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) 
 
 $(document).ready(function() {
 
-  // Set active (selected) navigation elements
-  // This is kind of a hack.  Instead we set in the jade
-  // template via passing in the URL.
+  // This code could be used to set active (selected) navigation elements but it is kind of a hack.
   // $('.nav [href="'+ window.location.pathname +'"]').closest('li').toggleClass('active');
+  // *Instead* we set the active menu item in the jade template via passing in the URL.
 
-  // To handle facebook URL junk
+  // To handle facebook URL junk:
   // http://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url
   if (window.location.hash && window.location.hash === '#_=_') {
     if (window.history && history.pushState) {
@@ -1289,5 +1288,4 @@ $(document).ready(function() {
       documentElement.scrollLeft = scroll.left;
     }
   }
-
 });
