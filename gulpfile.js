@@ -8,9 +8,13 @@
  */
 
 var gulp = require('gulp');
+// load gulp plugins
 var $ = require('gulp-load-plugins')({ lazy: false });
 var runSequence = require('run-sequence');
+// Use pagespeed
 var pagespeed = require('psi');
+// Use multiple sources for one task
+var merge = require('merge-stream');
 
 /**
  * Banner
@@ -73,6 +77,12 @@ var paths = {
   ],
   less: [
     'less/**/*.less'
+  ],
+  coffee: [
+    'models/**/*.coffee',
+    'public/js/**/*.coffee',
+    'controllers/**/*.coffee',
+    'test/**/*.coffee',
   ]
 };
 
@@ -121,7 +131,7 @@ gulp.task('styles', function () {
  */
 
 gulp.task('scripts', function () {
-  return gulp.src(paths.js)                 // Read .js files
+  var js = gulp.src(paths.js)               // Read .js files
     .pipe($.concat(pkg.name + '.js'))       // Concatenate .js files
     .pipe(gulp.dest('./public/js'))         // Save main.js here
     .pipe($.rename({ suffix: '.min' }))     // Add .min suffix
@@ -130,6 +140,14 @@ gulp.task('scripts', function () {
     .pipe($.size({ title: 'JS:' }))         // What size are we at?
     .pipe(gulp.dest('./public/js'))         // Save minified .js
     .pipe($.livereload());                  // Initiate a reload
+
+  var coffee = gulp.src(paths.coffee)       // Read .coffee files
+    .pipe($.coffee({ bare: true })          // Compile to .js
+      .on('error', $.util.log))             // Report compiling errors
+    .pipe(gulp.dest('./public/js'))         // Save compiled .js (not minified)
+    .pipe($.size({ title: 'coffee:' }))     // What size are we at?
+    .pipe($.livereload());
+  return merge(js, coffee);
 });
 
 /**
@@ -148,13 +166,18 @@ gulp.task('images', function () {
 });
 
 /**
- * JSHint Files
+ * JSHint / coffeelint Files
  */
 
 gulp.task('lint', function () {
-  return gulp.src(paths.lint)               // Read .js files
+  var js = gulp.src(paths.lint)             // Read .js files
     .pipe($.jshint())                       // Lint .js files
-    .pipe($.jshint.reporter($.stylish));    // Use stylish reporter
+    .pipe($.jshint.reporter($.stylish));     // Use stylish reporter
+
+  var coffee = gulp.src(paths.coffee)       // Read .coffee files
+    .pipe($.coffeelint())                   // Lint .coffee files (see package.json for options)
+    .pipe($.coffeelint.reporter('default')); // Specify a default reporter for coffeelint (stylish)
+  return merge(js, coffee);
 });
 
 /**
