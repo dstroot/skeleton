@@ -112,6 +112,7 @@
     "mocha": "~1.20.1",
     "psi": "^0.1.1",
     "run-sequence": "^0.3.6",
-    "supertest": "~0.13.0"
+    "supertest": "~0.13.0",
+    "terminus": "^1.0.10"
   }
 }

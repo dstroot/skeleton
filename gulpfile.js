@@ -8,8 +8,9 @@
  */
 
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({ lazy: false });
+var $ = require('gulp-load-plugins')({ lazy: true });
 var runSequence = require('run-sequence');
+var terminus = require('terminus');
 var pagespeed = require('psi');
 
 /**
@@ -153,25 +154,26 @@ gulp.task('images', function () {
 
 gulp.task('lint', function () {
   return gulp.src(paths.lint)               // Read .js files
-    .pipe($.jscs())                         // jscs .js files
     .pipe($.jshint())                       // lint .js files
     .pipe($.jshint.reporter($.stylish));    // Use stylish reporter
 });
 
-// /**
-//  * JSCS Files
-//  */
+/**
+ * JSCS Files
+ */
 
-// gulp.task('jscs', function () {
-//   // Monkey business to handle jscs errors without stopping gulp
-//   var j = $.jscs();
-//   j.on('error', function (e) {
-//     $.util.log(e);
-//     j.end();
-//   });
-//   return gulp.src(paths.lint)
-//     .pipe(j);
-// });
+gulp.task('jscs', function () {
+  // Monkey business to handle jscs errors without
+  // stopping gulp, allowing gulp.watch to work
+  var j = $.jscs();
+  j.on('error', function (e) {
+    $.util.log(e.message);
+    j.end();
+  });
+  return gulp.src(paths.lint)               // Read .js files
+    .pipe(j)                                // jscs .js files
+    .pipe(terminus.devnull({ objectMode: true }));
+});
 
 /**
  * Build Task
@@ -181,8 +183,7 @@ gulp.task('lint', function () {
 gulp.task('build', function (cb) {
   runSequence(
     'clean',                                // first clean
-    'lint',                       // then lint and jscs in parallel
-    // ['lint', 'jscs'],                       // then lint and jscs in parallel
+    ['lint', 'jscs'],                       // then lint and jscs in parallel
     ['styles', 'scripts', 'images'],        // etc.
     cb);
 });
@@ -245,7 +246,7 @@ gulp.task('open', ['nodemon'], function () {
 gulp.task('default', ['open'], function () {
   gulp.watch(paths.less, ['styles']);
   gulp.watch(paths.js, ['scripts']);
-  gulp.watch(paths.lint, ['lint']);
+  gulp.watch(paths.lint, ['lint', 'jscs']);
   gulp.watch('views/**/*.jade').on('change', $.livereload.changed);
 });
 
