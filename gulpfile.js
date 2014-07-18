@@ -153,24 +153,25 @@ gulp.task('images', function () {
 
 gulp.task('lint', function () {
   return gulp.src(paths.lint)               // Read .js files
-    .pipe($.jshint())                       // Lint .js files
+    .pipe($.jscs())                         // jscs .js files
+    .pipe($.jshint())                       // lint .js files
     .pipe($.jshint.reporter($.stylish));    // Use stylish reporter
 });
 
-/**
- * JSCS Files
- */
+// /**
+//  * JSCS Files
+//  */
 
-gulp.task('jscs', function () {
-  // Monkey business to handle jscs errors without stopping gulp
-  var j = $.jscs();
-  j.on('error', function (e) {
-    // $.util.log(e);
-    j.end();
-  });
-  return gulp.src(paths.lint)
-    .pipe(j);                               // JSCS .js files
-});
+// gulp.task('jscs', function () {
+//   // Monkey business to handle jscs errors without stopping gulp
+//   var j = $.jscs();
+//   j.on('error', function (e) {
+//     $.util.log(e);
+//     j.end();
+//   });
+//   return gulp.src(paths.lint)
+//     .pipe(j);
+// });
 
 /**
  * Build Task
@@ -180,7 +181,8 @@ gulp.task('jscs', function () {
 gulp.task('build', function (cb) {
   runSequence(
     'clean',                                // first clean
-    ['lint', 'jscs'],                       // then lint and jscs in parallel
+    'lint',                       // then lint and jscs in parallel
+    // ['lint', 'jscs'],                       // then lint and jscs in parallel
     ['styles', 'scripts', 'images'],        // etc.
     cb);
 });
@@ -243,7 +245,7 @@ gulp.task('open', ['nodemon'], function () {
 gulp.task('default', ['open'], function () {
   gulp.watch(paths.less, ['styles']);
   gulp.watch(paths.js, ['scripts']);
-  gulp.watch(paths.lint, ['lint', 'jscs']);
+  gulp.watch(paths.lint, ['lint']);
   gulp.watch('views/**/*.jade').on('change', $.livereload.changed);
 });
 
