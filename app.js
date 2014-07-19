@@ -215,72 +215,73 @@ app.use(helmet.crossdomain());        // crossdomain.xml
 //   EVEN USE IT AT ALL - I JUST WANTED TO
 //   LEARN HOW IT WORKS. :)
 
-// app.use(helmet.csp({
-//   defaultSrc: [
-//     "'self'"
-//   ],
-//   scriptSrc: [
-//     "'self'",
-//     "'unsafe-eval'",
-//     "'unsafe-inline'",
-//     'ajax.googleapis.com',
-//     'www.google-analytics.com',
-//     'oss.maxcdn.com',
-//     'cdn.socket.io',
-//     'checkout.stripe.com'
-//   ],
-//   styleSrc: [
-//     "'self'",
-//     "'unsafe-inline'",
-//     'fonts.googleapis.com',
-//     'checkout.stripe.com'
-//   ],
-//   fontSrc: [
-//     "'self'",
-//     'fonts.googleapis.com',
-//     'themes.googleusercontent.com'
-//   ],
-//   imgSrc: [
-//     "'self'",
-//     'data:',
-//     'https://gravatar.com',
-//     'https://avatars.githubusercontent.com',
-//     'http://pbs.twimg.com',
-//     '*.4sqi.net',
-//     'http://*.media.tumblr.com',
-//     'http://userserve-ak.last.fm',
-//     'graph.facebook.com',
-//     '*.fbcdn.net',
-//     'fbcdn-profile-a.akamaihd.net',
-//     'github.global.ssl.fastly.net',
-//     'chart.googleapis.com',
-//     'www.google-analytics.com'
-//   ],
-//   mediaSrc: [
-//     "'self'"
-//   ],
-//   connectSrc: [ // limit the origins (via XHR, WebSockets, and EventSource)
-//     "'self'",
-//     'ws://localhost:5000',
-//     'ws://localhost:3000',
-//     'ws://127.0.0.1:35729/livereload',
-//     'wss://skeleton-app.jit.su',
-//     'api.github.com'
-//   ],
-//   objectSrc: [  // allows control over Flash and other plugins
-//     "'none'"
-//   ],
-//   frameSrc: [   // origins that can be embedded as frames
-//     'checkout.stripe.com'
-//   ],
-//   sandbox: [
-//     'allow-same-origin',
-//     'allow-forms',
-//     'allow-scripts'
-//   ],
-//   reportOnly: false,     // set to true if you *only* want to report errors
-//   setAllHeaders: false   // set to true if you want to set all headers
-// }));
+app.use(helmet.csp({
+  defaultSrc: [
+    "'self'"
+  ],
+  scriptSrc: [
+    "'self'",
+    "'unsafe-eval'",
+    "'unsafe-inline'",
+    'ajax.googleapis.com',
+    'www.google-analytics.com',
+    'oss.maxcdn.com',
+    'cdn.socket.io',
+    'checkout.stripe.com',
+    'cdnjs.cloudflare.com'
+  ],
+  styleSrc: [
+    "'self'",
+    "'unsafe-inline'",
+    'fonts.googleapis.com',
+    'checkout.stripe.com'
+  ],
+  fontSrc: [
+    "'self'",
+    'fonts.googleapis.com',
+    'themes.googleusercontent.com'
+  ],
+  imgSrc: [
+    "'self'",
+    'data:',
+    'https://gravatar.com',
+    'https://avatars.githubusercontent.com',
+    'http://pbs.twimg.com',
+    '*.4sqi.net',
+    'http://*.media.tumblr.com',
+    'http://userserve-ak.last.fm',
+    'graph.facebook.com',
+    '*.fbcdn.net',
+    'fbcdn-profile-a.akamaihd.net',
+    'github.global.ssl.fastly.net',
+    'chart.googleapis.com',
+    'www.google-analytics.com'
+  ],
+  mediaSrc: [
+    "'self'"
+  ],
+  connectSrc: [ // limit the origins (via XHR, WebSockets, and EventSource)
+    "'self'",
+    'ws://localhost:5000',
+    'ws://localhost:3000',
+    'ws://127.0.0.1:35729/livereload',
+    'wss://skeleton-app.jit.su',
+    'api.github.com'
+  ],
+  objectSrc: [  // allows control over Flash and other plugins
+    "'none'"
+  ],
+  frameSrc: [   // origins that can be embedded as frames
+    'checkout.stripe.com'
+  ],
+  sandbox: [
+    'allow-same-origin',
+    'allow-forms',
+    'allow-scripts'
+  ],
+  reportOnly: false,     // set to true if you *only* want to report errors
+  setAllHeaders: false   // set to true if you want to set all headers
+}));
 
 // Passport OAUTH Middleware
 app.use(passport.initialize());
