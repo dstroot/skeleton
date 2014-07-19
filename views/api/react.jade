@@ -1,0 +1,68 @@
+extends ../layouts/layout
+
+block head
+  title #{application} &middot; React Example
+
+block content
+
+  .container
+    .page-header
+      h2
+        i.fa.fa-file-text
+        | &nbsp;Markdown Editor Example
+      p.lead
+        | This uses the marked library and react to parse markdown and render it on the page.
+      p
+        a(href='http://daringfireball.net/projects/markdown/syntax') Markdown syntax
+    .btn-group.btn-group-justified.hidden-xs
+      a.btn.btn-primary(href='http://facebook.github.io/react/docs/getting-started.html', rel='external')
+        i.fa.fa-check-square-o
+        | &nbsp;React
+      a.btn.btn-primary(href='https://github.com/chjj/marked', rel='external')
+        i.fa.fa-check-square-o
+        | &nbsp;Marked
+
+    #example
+
+block scripts
+  script(src='http://fb.me/react-0.11.0.js')
+  script(src='http://fb.me/JSXTransformer-0.11.0.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js')
+  script(type='text/jsx').
+    /** @jsx React.DOM */
+
+    var MarkdownEditor = React.createClass({
+      getInitialState: function() {
+        return {value: 'Type some **markdown** here!'};
+      },
+      handleChange: function() {
+        this.setState({value: this.refs.textarea.getDOMNode().value});
+      },
+      render: function() {
+        return (
+          <div className='MarkdownEditor'>
+            <div className='row'>
+              <div className='col-sm-6'>
+                <h3>Input <i className='fa fa-arrow-circle-up'/></h3>
+                <textarea
+                  className='input-markdown'
+                  onChange={this.handleChange}
+                  ref='textarea'
+                  defaultValue={this.state.value} />
+              </div>
+              <div className='col-sm-6'>
+                <h3>Output <i className='fa fa-arrow-circle-down'/></h3>
+                <div
+                  className='compiled-markdown'
+                  dangerouslySetInnerHTML={{
+                    __html: marked(this.state.value)
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      }
+    });
+
+    React.renderComponent(<MarkdownEditor />, document.getElementById('example'));

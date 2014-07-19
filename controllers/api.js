@@ -46,6 +46,16 @@ module.exports.controller = function (app) {
     });
   });
 
+  /**
+   * GET /api/react
+   * React examples
+   */
+
+  app.get('/api/react', function (req, res) {
+    res.render('api/react', {
+      url: req.url
+    });
+  });
 
   /**
    * GET /creditcard
