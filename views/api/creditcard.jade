@@ -11,7 +11,7 @@ block content
       h2
         i.fa.fa-credit-card
         | &nbsp;Credit Card Form Example
-      p.lead NOTE: this form does not do anything, it will not charge you!  It is simply an example of a very cool credit card animation. Everything is created with pure CSS, HTML, and Javascript — no images required.
+      p.lead NOTE: This is simply an example of a very cool credit card animation. Everything is created with pure CSS, HTML, and Javascript — no images required. It will <em>not</em> charge you!
     .btn-group.btn-group-justified.hidden-xs
       a.btn.btn-primary(href='https://github.com/jessepollak/card', rel='external')
         i.fa.fa-check-square-o
@@ -22,49 +22,24 @@ block content
         .well
           .card-wrapper
           br
-          //- form.form-inline(action='', method='POST')
-            input(type='hidden', name='_csrf', value=_csrf)
-            .row
-              .form-group
-                label.sr-only(for='number') Card Number:
-                input.form-control.ccnumber(type='text', name='number', id='ccnumber', placeholder='Card number', autofocus=true, required)
-            .row
-              .form-group
-                label.sr-only(for='name') Name on Card:
-                input.form-control.ccname(type='text', name='name', id='ccname', placeholder='Name on Card', required)
-            .row
-              .form-group
-                label.sr-only(for='expiry') Expiration:
-                input.form-control.expiry(type='text', name='expiry', id='expiry', placeholder='MM/YY', required)
-              .form-group
-                label.sr-only(for='cvc') CVC Code:
-                input.form-control.cvc(type='text', name='cvc', id='cvc', placeholder='CVC', required)
-              .form-group
-                button.btn.btn-success.btn-card(type='submit')
-                  i.fa.fa-check
-                  | &nbsp;OK
-
-
           form.form-horizontal(role='form')
             fieldset
-              //- legend Payment
               .form-group
-                label.hidden-xs.col-sm-3.control-label(for='card-number') Number
-                .col-sm-9
+                label.hidden-xs.col-xs-3.control-label(for='card-number') Number
+                .col-xs-9
                   input#card-number.form-control(type='text', name='number', placeholder='Credit Card Number', autofocus=true, required)
               .form-group
-                label.hidden-xs.col-sm-3.control-label(for='card-holder-name') Name
-                .col-sm-9
+                label.hidden-xs.col-xs-3.control-label(for='card-holder-name') Name
+                .col-xs-9
                   input#card-holder-name.form-control(type='text', name='name', placeholder='Card Holder\'s Name', required)
               .form-group
-                label.hidden-xs.col-sm-3.control-label(for='expiry-month') Expiration
-
+                label.hidden-xs.col-xs-3.control-label(for='expiry-month') Expiration
                 .col-xs-5
                   input.form-control.expiry(type='text', name='expiry', id='expiry', placeholder='MM/YY', required)
 
                 //- .row
                 //-   .col-xs-4
-                //-     select#expiry-month.form-control.col-sm-2(name='expiry-month', required)
+                //-     select#expiry-month.form-control.col-xs-2(name='expiry-month', required)
                 //-       //- option Month
                 //-       option(value='01') Jan (01)
                 //-       option(value='02') Feb (02)
@@ -89,11 +64,13 @@ block content
                 //-       option(value='20') 2020
 
               .form-group
-                label.hidden-xs.col-sm-3.control-label(for='cvv') Card CVV
+                label.hidden-xs.col-xs-3.control-label(for='cvv') Card CVV
                 .col-xs-5
                   input#cvv.form-control(type='text', name='cvc', placeholder='Security Code', required)
               .form-group
-                .col-sm-offset-3.col-sm-9
+                .hidden-xs.col-xs-3
+                //- .col-xs-offset-3.col-xs-9
+                .col-xs-9
                   button.btn.btn-success(type='submit')
                     i.fa.fa-check
                     | &nbsp;Pay Now

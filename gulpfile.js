@@ -233,7 +233,7 @@ gulp.task('open', ['nodemon'], function () {
     url: 'http://localhost:3000/'
   };
   // A file must be specified or gulp will skip the task
-  // Doesn't matter which file since we set URL above
+  // Doesn't matter which file since we set the URL above
   // Weird, I know...
   gulp.src('./public/humans.txt')
   .pipe($.open('', options));

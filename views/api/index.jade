@@ -2,6 +2,8 @@ extends ../layouts/layout
 
 block head
   title #{application} &middot; Home
+  //- Styles
+  link(rel='stylesheet', href='/lib/devicons/css/devicons.css')
 
 block content
 
@@ -37,31 +39,49 @@ block content
           a(href='https://github.com/dstroot/skeleton')
             i.fa.fa-fw.fa-github
             | &nbsp;GitHub
-        h3 Built with:
+        h3
+          | Built with:&nbsp;
+        .built-with
+          .row
+            .col-xs-2
+              span.devicons.devicons-chrome
+            .col-xs-2
+              span.devicons.devicons-github_badge
+            .col-xs-2
+              span.devicons.devicons-nodejs
+            .col-xs-2
+              span.devicons.devicons-html5
+            .col-xs-2
+              span.devicons.devicons-less
+            .col-xs-2
+              span.devicons.devicons-gulp
+          .row
+            .col-xs-2
+              span.devicons.devicons-npm
+            .col-xs-2
+              span.devicons.devicons-bower
+            .col-xs-2
+              span.devicons.devicons-apple
+            .col-xs-2
+              span.devicons.devicons-jquery
+            .col-xs-2
+              span.devicons.devicons-javascript
+            .col-xs-2
+              span.devicons.devicons-bootstrap
 
-    .row
+    .row.hidden-xs
       .col-sm-2.col-sm-offset-1
-        img.center-block.img-responsive(src='img/nodejs-logo.png' width='150')
-      .col-sm-2
-        img.center-block.img-responsive.img-rounded(src='img/express-logo.jpg' width='200')
-      .col-sm-1
-        img.center-block.img-responsive.img-rounded(src='img/bootstrap-logo.jpg' width='75')
+        img.center-block.img-responsive(src='img/express-logo.jpg' width='240')
       .col-sm-3
-        img.center-block.img-responsive(src='img/fontawesome-logo.jpg' width='300')
-      .col-sm-2
         img.center-block.img-responsive(src='img/nodejitsu-logo.png' width='150')
     br
 
-    .row
+    //- .row
       .col-sm-2.col-sm-offset-1
-        img.center-block.img-responsive(src='img/npm-logo.png' width='150')
-      .col-sm-2
-        img.center-block.img-responsive.img-rounded(src='img/bower-logo.jpg' width='150')
-      .col-sm-2
         img.center-block.img-responsive.img-rounded(src='img/mongodb-logo.jpg' width='200')
       .col-sm-3
-        img.center-block.img-responsive.img-rounded(src='img/mongolab-logo.jpg' width='250')
-      .col-sm-1
-        img.center-block.img-responsive(src='img/gulp-logo.png' width='55')
+        img.center-block.img-responsive.img-rounded(src='img/mongolab-logo.jpg' width='200')
+      .col-sm-3
+        img.center-block.img-responsive.img-rounded(src='img/fontawesome-logo.jpg' width='250')
     br
     br
