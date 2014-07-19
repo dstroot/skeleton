@@ -4,6 +4,16 @@
 [![Dependency Status](http://img.shields.io/david/dstroot/skeleton.svg?style=flat)](https://david-dm.org/dstroot/skeleton)
 [![devDependency Status](http://img.shields.io/david/dev/dstroot/skeleton.svg?style=flat)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
 [![MIT Licensed](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](#license)
+[![Issue tracking][issues-image]][issues-url]
+[![Tag release][tag-release]][tags-url]
+
+
+[issues-url]: https://github.com/dstroot/skeleton/issues
+[issues-image]: http://img.shields.io/github/issues/dstroot/skeleton.svg?style=flat
+
+[tag-release]: http://img.shields.io/github/tag/dstroot/skeleton.svg?style=flat
+[tags-url]: https://github.com/dstroot/skeleton/releases
+
 
 #### Skeleton: A **complete framework** for building **Node.js** web applications.
 
