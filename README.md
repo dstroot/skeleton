@@ -1,19 +1,29 @@
 # Skeleton 
 
-[![Build Status](http://img.shields.io/travis/dstroot/skeleton.svg?style=flat)](https://travis-ci.org/dstroot/skeleton)
-[![Dependency Status](http://img.shields.io/david/dstroot/skeleton.svg?style=flat)](https://david-dm.org/dstroot/skeleton)
-[![devDependency Status](http://img.shields.io/david/dev/dstroot/skeleton.svg?style=flat)](https://david-dm.org/dstroot/skeleton#info=devDependencies)
-[![MIT Licensed](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](#license)
-[![Issue tracking][issues-image]][issues-url]
-[![Tag release][tag-release]][tags-url]
+[![Build status][build-badge]][build-url]
+[![Dependency status][dependency-badge]][dependency-url]
+[![DevDependency status][dev-dep-badge]][dev-dep-url]
+[![Licensing][license-badge]][license-url]
+[![Issue tracking][issues-badge]][issues-url]
+[![Tag release][tag-badge]][tag-url]
 
+[build-badge]: http://img.shields.io/travis/dstroot/skeleton.svg?style=flat
+[build-url]: https://travis-ci.org/dstroot/skeleton
 
+[dependency-badge]: http://img.shields.io/david/dstroot/skeleton.svg?style=flat
+[dependency-url]: https://david-dm.org/dstroot/skeleton
+
+[dev-dep-badge]: http://img.shields.io/david/dev/dstroot/skeleton.svg?style=flat
+[dev-dep-url]: https://david-dm.org/dstroot/skeleton#info=devDependencies
+
+[license-badge]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
+[license-url]: #license
+
+[issues-badge]: http://img.shields.io/github/issues/dstroot/skeleton.svg?style=flat
 [issues-url]: https://github.com/dstroot/skeleton/issues
-[issues-image]: http://img.shields.io/github/issues/dstroot/skeleton.svg?style=flat
 
-[tag-release]: http://img.shields.io/github/tag/dstroot/skeleton.svg?style=flat
-[tags-url]: https://github.com/dstroot/skeleton/releases
-
+[tag-badge]: http://img.shields.io/github/tag/dstroot/skeleton.svg?style=flat
+[tag-url]: https://github.com/dstroot/skeleton/releases
 
 #### Skeleton: A **complete framework** for building **Node.js** web applications.
 
