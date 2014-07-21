@@ -22,8 +22,8 @@
 [issues-badge]: http://img.shields.io/github/issues/dstroot/skeleton.svg?style=flat
 [issues-url]: https://github.com/dstroot/skeleton/issues
 
-[tag-badge]: http://img.shields.io/github/tag/dstroot/skeleton.svg?style=flat
-[tag-url]: https://github.com/dstroot/skeleton/releases
+[release-badge]: http://img.shields.io/github/release/dstroot/skeleton.svg?style=flat
+[release-url]: https://github.com/dstroot/skeleton/releases
 
 #### Skeleton: A **complete framework** for building **Node.js** web applications.
 
