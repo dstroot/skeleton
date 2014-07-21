@@ -5,7 +5,7 @@
 [![DevDependency status][dev-dep-badge]][dev-dep-url]
 [![Licensing][license-badge]][license-url]
 [![Issue tracking][issues-badge]][issues-url]
-[![Tag release][tag-badge]][tag-url]
+[![Release][release-badge]][release-url]
 
 [build-badge]: http://img.shields.io/travis/dstroot/skeleton.svg?style=flat
 [build-url]: https://travis-ci.org/dstroot/skeleton
