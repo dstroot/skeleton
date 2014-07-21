@@ -1,6 +1,6 @@
 /**
  * Skeleton - A friendly node and express framework
- * @version v0.0.2-122
+ * @version v1.0.0
  * @link http://skeleton-app.jit.su
  * @license 
  */
