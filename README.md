@@ -4,8 +4,8 @@
 [![Dependency status][dependency-badge]][dependency-url]
 [![DevDependency status][dev-dep-badge]][dev-dep-url]
 [![Licensing][license-badge]][license-url]
-[![Issue tracking][issues-badge]][issues-url]
 [![Release][release-badge]][release-url]
+[![Issue tracking][issues-badge]][issues-url]
 
 [build-badge]: http://img.shields.io/travis/dstroot/skeleton.svg?style=flat
 [build-url]: https://travis-ci.org/dstroot/skeleton
@@ -19,11 +19,11 @@
 [license-badge]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: #license
 
-[issues-badge]: http://img.shields.io/github/issues/dstroot/skeleton.svg?style=flat
-[issues-url]: https://github.com/dstroot/skeleton/issues
-
 [release-badge]: http://img.shields.io/github/release/dstroot/skeleton.svg?style=flat
 [release-url]: https://github.com/dstroot/skeleton/releases
+
+[issues-badge]: http://img.shields.io/github/issues/dstroot/skeleton.svg?style=flat
+[issues-url]: https://github.com/dstroot/skeleton/issues
 
 #### Skeleton: A **complete framework** for building **Node.js** web applications.
 
