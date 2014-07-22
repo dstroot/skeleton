@@ -150,8 +150,12 @@ block scripts
     $(document).ready(function() {
 
       //- Get Mailcheck Script
-      $.getScript('/lib/mailcheck/src/mailcheck.min.js')
-      .done(function(script, textStatus) {
+      $.ajax({
+        type: 'GET',
+        url: '/lib/mailcheck/src/mailcheck.min.js',
+        dataType: 'script',
+        cache: true
+      }).done(function(script, textStatus) {
         // initiate mailcheck
         $('#email').on('blur', function() {
           $(this).mailcheck({
@@ -194,12 +198,19 @@ block scripts
       // Hide progress bar until we need it
       $('.progress').hide();
 
-      $.getScript( '/lib/jquery.complexify.js/jquery.complexify.banlist.js' )
-        .done(function( script, textStatus ) {
+      $.ajax({
+        type: 'GET',
+        url: '/lib/jquery.complexify.js/jquery.complexify.banlist.js',
+        dataType: 'script',
+        cache: true
+      }).done(function(script, textStatus) {
 
-          //- Get complexity Script
-          $.getScript('/lib/jquery.complexify.js/jquery.complexify.js')
-            .done(function(script, textStatus) {
+          $.ajax({
+            type: 'GET',
+            url: '/lib/jquery.complexify.js/jquery.complexify.js',
+            dataType: 'script',
+            cache: true
+          }).done(function(script, textStatus) {
 
               $('#password').complexify({
                 minimumChars        : 6,

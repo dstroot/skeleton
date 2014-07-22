@@ -36,8 +36,12 @@ block scripts
   script.
     $(document).ready(function() {
       //- Get Mailcheck Script
-      $.getScript('/lib/mailcheck/src/mailcheck.min.js')
-      .done(function(script, textStatus) {
+      $.ajax({
+        type: 'GET',
+        url: '/lib/mailcheck/src/mailcheck.min.js',
+        dataType: 'script',
+        cache: true
+      }).done(function(script, textStatus) {
         // initiate mailcheck
         $('#email').on('blur', function() {
           $(this).mailcheck({

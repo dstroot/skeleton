@@ -88,12 +88,21 @@ block scripts
     // DOM Ready =============================================================
     $(document).ready(function() {
 
-      // Load Bootstrap Modal
-      $.getScript('lib/bootstrap/js/modal.js');
+      //- Async Load Bootstrap Modal
+      $.ajax({
+        type: 'GET',
+        url: 'lib/bootstrap/js/modal.js',
+        dataType: 'script',
+        cache: true
+      });
 
-      // Load moment.js
-      $.getScript('lib/moment/min/moment.min.js')
-      .done(function(script, textStatus) {
+      //- Async Load moment.js
+      $.ajax({
+        type: 'GET',
+        url: 'lib/moment/min/moment.min.js',
+        dataType: 'script',
+        cache: true
+      }).done(function(script, textStatus) {
         // Now populate the user table
         populateTable();
       });

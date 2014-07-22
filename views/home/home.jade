@@ -101,15 +101,21 @@ block scripts
   script.
     $(document).ready(function() {
       $('body').addClass('bg-brand1');
-      $.getScript('lib/odometer/odometer.min.js')
-        .done(function() {
+
+      //- Get Mailcheck Script
+      $.ajax({
+        type: 'GET',
+        url: 'lib/odometer/odometer.min.js',
+        dataType: 'script',
+        cache: true
+      }).done(function() {
           $(function(){
             var starsOdometer = new Odometer({ el: $('.odometer')[0], theme: 'minimal', value: '0' });
             starsOdometer.render()
 
             var update = function() {
               $.ajax('https://api.github.com/repos/dstroot/skeleton?access_token=1003ff07ff454596250e0bfa6940027a77a94866', {
-                cache: false,
+                cache: true,
                 success: function(data) {
                   if (data.stargazers_count) {
                     starsOdometer.update(data.stargazers_count);

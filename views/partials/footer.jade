@@ -16,24 +16,30 @@ script window.jQuery || document.write('<script src="/lib/jquery/dist/jquery.min
 //- Then use jQuery to async load everything else
 script.
   $(document).ready(function() {
-    //- Load main project js
-    $.getScript('/js/#{application}.min.js').done(function () {
+    //- Async load main project js
+    $.ajax({
+      type: 'GET',
+      url: '/js/#{application}.min.js',
+      dataType: 'script',
+      cache: true
+    }).done(function () {
       window.addEventListener('load', function() {
         FastClick.attach(document.body);
       }, false);
     });
-    //- Load socket.io
-    $.getScript('//cdn.socket.io/socket.io-1.0.6.js').done(function () {
+    //- Async load socket.io
+    $.ajax({
+      type: 'GET',
+      url: '//cdn.socket.io/socket.io-1.0.6.js',
+      dataType: 'script',
+      cache: true
+    }).done(function () {
       $(function(){
-        //- socket.io processing
         var socket = io(window.location.hostname);
-        //- var socket = io();
         socket.on('connect', function () {
-          //- Tell the server your URL
           socket.emit('pageview', window.location.href);
         });
         window.onhashchange = function () {
-          //- Tell the server your new URL
           socket.emit('pageview', window.location.href);
         };
       });
