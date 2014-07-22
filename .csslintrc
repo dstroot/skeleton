@@ -16,5 +16,7 @@
   "text-indent": false,
   "unique-headings": false,
   "universal-selector": false,
-  "unqualified-attributes": false
+  "unqualified-attributes": false,
+  "duplicate-properties": false,
+  "vendor-prefix": false
 }

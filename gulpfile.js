@@ -104,8 +104,8 @@ gulp.task('styles', function () {
       'Opera 12.1'
     ], { cascade: true }))
     .pipe($.csscomb())                      // Coding style formatter for CSS
-    // .pipe($.csslint('.csslintrc'))          // Lint CSS
-    // .pipe($.csslint.reporter())             // Report issues
+    .pipe($.csslint('.csslintrc'))          // Lint CSS
+    .pipe($.csslint.reporter())             // Report issues
     .pipe($.rename(pkg.name + '.css'))      // Rename to "packagename.css"
     .pipe($.sourcemaps.write())             // Write sourcemap
     .pipe(gulp.dest('./public/css'))        // Save CSS here

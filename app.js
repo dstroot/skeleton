@@ -32,17 +32,12 @@ var MongoStore        = require('connect-mongo')(session);  // https://npmjs.org
 var expressValidator  = require('express-validator');       // https://npmjs.org/package/express-validator
 
 /**
- * Create Express App
+ * Create Express app, HTTP server and socket.io listener
  */
 
-var app         = module.exports = express();  // export app for testing ;)
-
-/**
- * Create Express HTTP Server and socket.io listener
- */
-
-var server      = require('http').Server(app);
-var io          = require('socket.io')(server);
+var app    = module.exports = express();  // export app for testing ;)
+var server = require('http').Server(app);
+var io     = require('socket.io')(server);
 
 /**
  * Configure Logging
