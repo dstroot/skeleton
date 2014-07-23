@@ -249,34 +249,39 @@ module.exports.controller = function (app) {
    */
 
   app.get('/api/scraping', function (req, res, next) {
-    request.get('https://news.ycombinator.com/', function (err, request, body) {
-      if (err) {
-        return next(err);
-      }
-      var $ = cheerio.load(body);
 
-      // Get Articles
-      var links = [];
-      $('.title a[href^="http"], .title a[href^="https"], .title a[href^="item"]').each(function () {
-        if ($(this).text() !== 'scribd') {
-          if ($(this).text() !== 'Bugs') {
-            links.push($(this));
+    request.get({ url: 'https://news.ycombinator.com/', timeout: 3000 }, function (err, response, body) {
+      if (!err && response.statusCode === 200) {
+        var $ = cheerio.load(body);
+
+        // Get Articles
+        var links = [];
+        $('.title a[href^="http"], .title a[href^="https"], .title a[href^="item"]').each(function () {
+          if ($(this).text() !== 'scribd') {
+            if ($(this).text() !== 'Bugs') {
+              links.push($(this));
+            }
           }
-        }
-      });
+        });
 
-      // Get Comments
-      var comments = [];
-      $('.subtext a[href^="item"]').each(function () {
-        comments.push('<a href="https://news.ycombinator.com/' + $(this).attr('href') + '">' + $(this).text() + '</a>');
-      });
+        // Get Comments
+        var comments = [];
+        $('.subtext a[href^="item"]').each(function () {
+          comments.push('<a href="https://news.ycombinator.com/' + $(this).attr('href') + '">' + $(this).text() + '</a>');
+        });
 
-      res.render('api/scraping', {
-        url: '/apiopen',
-        links: links,
-        comments: comments
-      });
+        // Render Page
+        res.render('api/scraping', {
+          url: '/apiopen',
+          links: links,
+          comments: comments
+        });
+      } else {
+        req.flash('error', { msg: 'Sorry, something went wrong!' });
+        return res.redirect('back');
+      }
     });
+
   });
 
   /**
@@ -287,17 +292,19 @@ module.exports.controller = function (app) {
   app.get('/api/socrata', function (req, res, next) {
     // Get the socrata open data as JSON
     // http://dev.socrata.com/docs/queries.html
-    request.get('http://controllerdata.lacity.org/resource/qjfm-3srk.json?$order=actual_earnings DESC&$where=year = 2013&$limit=20', function (err, request, body) {
-      if (err) {
-        return next(err);
+    request.get({ url: 'http://controllerdata.lacity.org/resource/qjfm-3srk.json?$order=actual_earnings DESC&$where=year = 2013&$limit=25', timeout: 3000 }, function (err, response, body) {
+      if (!err && response.statusCode === 200) {
+        // Parse the data
+        var payroll = JSON.parse(body);
+        // Render the page
+        res.render('api/socrata', {
+          url: '/apiopen',
+          data: payroll
+        });
+      } else {
+        req.flash('error', { msg: 'Sorry, something went wrong!' });
+        return res.redirect('back');
       }
-      // Parse the data
-      var payroll = JSON.parse(body);
-      // Render the page
-      res.render('api/socrata', {
-        url: '/apiopen',
-        data: payroll
-      });
     });
   });
 
