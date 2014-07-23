@@ -116,7 +116,7 @@ if (app.get('env') === 'production') {
   app.locals.pretty = false;
   app.locals.compileDebug = false;
   // Stream Express Logging to Winston
-  app.use(logger({
+  app.use(logger('combined', {
     stream: {
       write: function (message, encoding) {
         winston.info(message);
