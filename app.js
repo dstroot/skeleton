@@ -223,13 +223,10 @@ app.use(methodOverride());
 app.use(session(config.session));
 
 // Log requests to Loggly in production
-// // Needs to be below session and bodyParser in the stack
+// Needs to be below session and bodyParser in the stack
 if (app.get('env') === 'production' && config.logging) {
   app.use(logger.requestLogger());
 }
-
-// TODO Remove
-app.use(logger.requestLogger());
 
 // Security Settings
 app.disable('x-powered-by');          // Don't advertise our server type
