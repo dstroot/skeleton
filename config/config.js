@@ -36,8 +36,13 @@ config.ga             = process.env.GA   || 'UA-44765020-2';
  * Logging Configuration
  */
 
-config.logging        = process.env.LOGGING || false;
-config.logfilename    = process.env.LOGFILE ||'skeleton.log';
+config.logging        = process.env.LOGGING || true;
+// Loggly configuration
+config.loggly         = {};
+config.loggly.token   = process.env.LOGGLY_TOKEN || 'Your Token';
+config.loggly.subdomain = 'skeleton';
+config.loggly.tags    = ['Nodejitsu'];
+config.loggly.json    = true;
 
 /**
  * Database Configuration

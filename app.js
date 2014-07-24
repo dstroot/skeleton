@@ -6,7 +6,7 @@
 
 // Express 4.x Modules
 var csrf              = require('csurf');                   // https://github.com/expressjs/csurf
-var logger            = require('morgan');                  // https://github.com/expressjs/morgan
+var morgan            = require('morgan');                  // https://github.com/expressjs/morgan
 var express           = require('express');                 // https://npmjs.org/package/express
 var favicon           = require('serve-favicon');           // https://github.com/expressjs/favicon
 var session           = require('express-session');         // https://github.com/expressjs/session
@@ -22,10 +22,10 @@ var path              = require('path');                    // http://nodejs.org
 var debug             = require('debug')('skeleton');       // https://github.com/visionmedia/debug
 var flash             = require('express-flash');           // https://npmjs.org/package/express-flash
 var config            = require('./config/config');         // Get configuration file
+var logger            = require('express-loggly')(config.loggly);
 var helmet            = require('helmet');                  // https://github.com/evilpacket/helmet
 var semver            = require('semver');                  // https://npmjs.org/package/semver
 var enforce           = require('express-sslify');          // https://github.com/florianheinemann/express-sslify
-var winston           = require('winston');                 // https://npmjs.org/package/winston
 var mongoose          = require('mongoose');                // https://npmjs.org/package/mongoose
 var passport          = require('passport');                // https://npmjs.org/package/passport
 var MongoStore        = require('connect-mongo')(session);  // https://npmjs.org/package/connect-mongo
@@ -43,15 +43,53 @@ var io     = require('socket.io')(server);
  * Configure Logging
  */
 
-// TODO: Logging in production should be directed to a logging service
-// such as loggly.com or to a log server or database.
+/*
+Thoughts on logging:
 
-if (config.logging) {
-  winston.add(winston.transports.File, { filename: config.logfilename });
-}
+** DEVELOPMENT **
 
-// Turn off Winston console logging, we will use Express instead
-winston.remove(winston.transports.Console);
+In development we can use the standard logger (morgan) and
+debug (https://github.com/visionmedia/debug) for console output
+
+Debug has an advantage over `console.log` because it only
+outputs when you specifically start node with it enabled.
+
+** PRODUCTION **
+
+Personally I prefer to stream Express logging to a service
+like Loggly or Papertrail.  That way I don't worry about
+the file system, log shipping/rotating, etc.  Plus these
+have useful features for analyzing the data.
+
+Use these methods to log to Loggly:
+----------------------------------------------------------
+logger.debug('Some message'); // <-- logs with level=DEBUG
+logger.info('Some message');  // <-- logs with level=INFO
+logger.log('Some message');   // <-- logs with level=LOG
+logger.warn('Some message');  // <-- logs with level=WARN
+logger.error('Some message'); // <-- logs with level=ERROR
+
+If you want to log to a file in production you can do
+as follows.  Be careful however because this can fill up
+your file system unless you handle it properly.  Probably
+best to use a tool like Winston.  But the easy way is
+to send the express logs to ./myLogFile.log:
+
+// use {flags: 'w'} to open in write mode, 'a' = append
+var logFile = fs.createWriteStream('./myLogFile.log', { flags: 'a' });
+app.use(morgan('combined', { stream: logFile }));
+
+** OTHER THOUGHTS **
+
+If you want you can redefine console log like so:
+
+var consoleLog = console.log;
+console.log = function (message) {
+  consoleLog(message);
+  logger.log(message);
+};
+
+*/
 
 /**
  * Configure Mongo Database
@@ -104,7 +142,7 @@ if (app.get('env') === 'development') {
   app.locals.pretty = true;
   app.locals.compileDebug = true;
   // Turn on console logging in development
-  app.use(logger('dev'));
+  app.use(morgan('dev'));
   // Turn off caching in development
   // This sets the Cache-Control HTTP header to no-store, no-cache,
   // which tells browsers not to cache anything.
@@ -115,28 +153,21 @@ if (app.get('env') === 'production') {
   // Jade options: minify html, no debug intrumentation
   app.locals.pretty = false;
   app.locals.compileDebug = false;
-  // Stream Express Logging to Winston
-  app.use(logger('combined', {
-    stream: {
-      write: function (message, encoding) {
-        winston.info(message);
-      }
-    }
-  }));
   // Enable If behind nginx, proxy, or a load balancer (e.g. Heroku, Nodejitsu)
   app.enable('trust proxy', 1);  // trust first proxy
+
   // Since our application has signup, login, etc. forms these should be protected
   // with SSL encryption. Heroku, Nodejitsu and other hosters often use reverse
   // proxies or load balancers which offer SSL endpoints (but then forward unencrypted
   // HTTP traffic to the server).  This makes it simpler for us since we don't have to
   // setup HTTPS in express. When in production we can redirect all traffic to SSL
   // by using a little middleware.
-  //
+
   // In case of a non-encrypted HTTP request, enforce.HTTPS() automatically
   // redirects to an HTTPS address using a 301 permanent redirect. BE VERY
   // CAREFUL with this! 301 redirects are cached by browsers and should be
   // considered permanent.
-  //
+
   // NOTE: Use `enforce.HTTPS(true)` if you are behind a proxy or load
   // balancer that terminates SSL for you (e.g. Heroku, Nodejitsu).
   app.use(enforce.HTTPS(true));
@@ -190,6 +221,15 @@ app.use(methodOverride());
 // Use sessions
 // NOTE: cookie-parser not needed with express-session > v1.5
 app.use(session(config.session));
+
+// Log requests to Loggly in production
+// // Needs to be below session and bodyParser in the stack
+if (app.get('env') === 'production' && config.logging) {
+  app.use(logger.requestLogger());
+}
+
+// TODO Remove
+app.use(logger.requestLogger());
 
 // Security Settings
 app.disable('x-powered-by');          // Don't advertise our server type
@@ -319,7 +359,9 @@ app.use(serveStatic(__dirname + '/public', { maxAge: week }));
  * Error Handling
  */
 
-// If nothing responded above we will assume a 404 (no routes responded or static assets found)
+// If nothing responded above we will assume a 404
+// (since no routes responded or static assets found)
+
 // Tests:
 //   $ curl http://localhost:3000/notfound
 //   $ curl http://localhost:3000/notfound -H "Accept: application/json"
@@ -327,7 +369,8 @@ app.use(serveStatic(__dirname + '/public', { maxAge: week }));
 
 // Handle 404 Errors
 app.use(function (req, res, next) {
-  winston.warn('404 Warning. URL: ' + req.url + '\n');
+  // winston.warn('404 Warning. URL: ' + req.url + '\n');
+  // logger.warn('404 Warning. URL: ' + req.url);
   res.status(404);
   // Respond with html page
   if (req.accepts('html')) {
@@ -348,10 +391,15 @@ app.use(function (req, res, next) {
 // True error-handling middleware requires an arity of 4,
 // aka the signature (err, req, res, next).
 
+// Log errors to Loggly in production
+if (app.get('env') === 'production' && config.logging) {
+  app.use(logger.errorLogger());
+}
+
 // Handle 403 Errors
 app.use(function (err, req, res, next) {
   if (err.status === 403) {
-    winston.error('403 Not Allowed. ' + err + '\n');
+    // logger.error('403 Not Allowed. URL: ' + req.url + ' Err: ' + err);
     // Respond with HTML
     if (req.accepts('html')) {
       res.status(err.status);
@@ -377,7 +425,7 @@ app.use(function (err, req, res, next) {
 // Production 500 error handler (no stacktraces leaked to public!)
 if (app.get('env') === 'production') {
   app.use(function (err, req, res, next) {
-    winston.error(err.status || 500 + ' ' + err + '\n');
+    app.use(logger.errorLogger());
     res.status(err.status || 500);
     res.render('error/500', {
       error: {}
@@ -388,7 +436,7 @@ if (app.get('env') === 'production') {
 // Development 500 error handler
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
-    winston.error(err.status || 500 + ' ' + err + '\n');
+    // winston.error(err.status || 500 + ' ' + err + '\n');
     res.status(err.status || 500);
     res.render('error/500', {
       error: err
@@ -398,64 +446,46 @@ if (app.get('env') === 'development') {
   app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 }
 
-/**
+/*
  * Start Express server.
+ *
+ *   NOTE: To alter the environment we can set the
+ *   NODE_ENV environment variable, for example:
+ *
+ *     $ NODE_ENV=production node app.js
+ *
+ *   This is important - many caching mechanisms
+ *   are *only* enabled when in production!
  */
 
-// NOTE: To alter the environment we can set the
-// NODE_ENV environment variable, for example:
-//
-//   $ NODE_ENV=production node app.js
-//
-// This is *very* important, as many caching mechanisms
-// are *only* enabled when in production!
-
 db.on('error', function () {
-  winston.error('Mongodb connection error!');
-  console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.'.red.bold);
-  // testing debug functionality
-  debug('✗ MongoDB Connection Error. Please make sure MongoDB is running.'.red.bold);
+  debug('MongoDB Connection Error. Please make sure MongoDB is running.'.red.bold);
   process.exit(0);
 });
 
 db.on('open', function () {
-  winston.info('Mongodb connected!');
-  console.log('✔ Mongodb ' + 'connected!'.green.bold);
+  debug('Mongodb ' + 'connected!'.green.bold);
 
   // "server.listen" for socket.io
   server.listen(app.get('port'), function () {
 
     // Test for correct node version as spec'ed in package.info
     if (!semver.satisfies(process.versions.node, config.nodeVersion)) {
-      winston.error(config.name + ' needs Node version ' + config.nodeVersion);
-      console.error(
-        '\nERROR: Unsupported version of Node!'.red.bold,
-        '\n✗ '.red.bold + config.name.red.bold + ' needs Node version'.red.bold,
-        config.nodeVersion.yellow.bold,
-        'you are using version'.red.bold,
-        process.versions.node.yellow.bold,
-        '\n✔ Please go to http://nodejs.org to get a supported version.'.red.bold
-      );
+      debug('Error: unsupported version of Node!'.red.bold);
+      debug(config.name.red.bold + ' needs Node version '.red.bold + config.nodeVersion.red.bold);
       process.exit(0);
     }
 
     // Log how we are running
-    winston.info(config.name + ' listening on port ' + app.get('port'),
-      'in ' + app.settings.env + ' mode.'
-    );
-    console.log(
-      '✔ ' + config.name + ' listening on port ' + app.get('port').toString().green.bold,
-      'in ' + app.settings.env.green.bold + ' mode.',
-      '\n✔ Hint: ' + 'Ctrl+C'.green.bold + ' to shut down.'
-    );
+    debug('listening on port ' + app.get('port').toString().green.bold);
+    debug('listening in ' + app.settings.env.green.bold + ' mode.');
+    debug('Ctrl+C'.green.bold + ' to shut down. ;)');
 
     // Exit cleanly on Ctrl+C
     process.on('SIGINT', function () {
-      winston.info(config.name + ' has shudown.');
-      console.log(
-        '\n✔ ' + config.name + ' has ' + 'shutdown'.green.bold,
-        '\n✔ ' + config.name + ' was running for ' + Math.round(process.uptime()).toString().green.bold + ' seconds.'
-      );
+      console.log('\n');
+      debug('has ' + 'shutdown'.green.bold);
+      debug('was running for ' + Math.round(process.uptime()).toString().green.bold + ' seconds.');
       process.exit(0);
     });
   });
@@ -464,8 +494,8 @@ db.on('open', function () {
 /**
  * Emit Pageviews on Socket.io for Dashboard
  *
- * Web Page (Client) --->> ( `pageview` messages ) --->> Server
- * Web Page (Client) <<--- (`dashUpdate` messages) <<--- Server
+ *   Web Page (Client) --->> ( `pageview` messages ) --->> Server
+ *   Web Page (Client) <<--- (`dashUpdate` messages) <<--- Server
  */
 
 var connectedCount = 0;
