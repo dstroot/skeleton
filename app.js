@@ -366,23 +366,24 @@ app.use(serveStatic(__dirname + '/public', { maxAge: week }));
 
 // Handle 404 Errors
 app.use(function (req, res, next) {
-  // winston.warn('404 Warning. URL: ' + req.url + '\n');
-  // logger.warn('404 Warning. URL: ' + req.url);
   res.status(404);
+  debug('404 Warning. URL: ' + req.url);
+
   // Respond with html page
   if (req.accepts('html')) {
-    res.render('error/404', {
-      url: req.url
-    });
+    res.render('error/404', { url: req.url });
     return;
   }
+
   // Respond with json
   if (req.accepts('json')) {
-    res.send({ error: 'Not found' });
+    res.send({ error: 'Not found!' });
     return;
   }
+
   // Default to plain-text. send()
-  res.type('txt').send('Error: Not found');
+  res.type('txt').send('Error: Not found!');
+
 });
 
 // True error-handling middleware requires an arity of 4,
@@ -396,23 +397,27 @@ if (app.get('env') === 'production' && config.logging) {
 // Handle 403 Errors
 app.use(function (err, req, res, next) {
   if (err.status === 403) {
-    // logger.error('403 Not Allowed. URL: ' + req.url + ' Err: ' + err);
+    res.status(err.status);
+    debug('403 Not Allowed. URL: ' + req.url + ' Err: ' + err);
+
     // Respond with HTML
     if (req.accepts('html')) {
-      res.status(err.status);
       res.render('error/403', {
         error: err,
         url: req.url
       });
       return;
     }
+
     // Respond with json
     if (req.accepts('json')) {
       res.send({ error: 'Not Allowed!' });
       return;
     }
+
     // Default to plain-text. send()
     res.type('txt').send('Error: Not Allowed!');
+
   } else {
     // Since the error is not a 403 pass it along
     return next(err);
@@ -422,10 +427,10 @@ app.use(function (err, req, res, next) {
 // Production 500 error handler (no stacktraces leaked to public!)
 if (app.get('env') === 'production') {
   app.use(function (err, req, res, next) {
-    app.use(logger.errorLogger());
     res.status(err.status || 500);
+    debug('Error: ' + (err.status || 500).toString().red.bold + ' ' + err);
     res.render('error/500', {
-      error: {}
+      error: {}  // don't leak information
     });
   });
 }
@@ -433,12 +438,13 @@ if (app.get('env') === 'production') {
 // Development 500 error handler
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
-    // winston.error(err.status || 500 + ' ' + err + '\n');
     res.status(err.status || 500);
+    debug('Error: ' + (err.status || 500).toString().red.bold + ' ' + err);
     res.render('error/500', {
       error: err
     });
   });
+
   // Final error catch-all just in case...
   app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 }
