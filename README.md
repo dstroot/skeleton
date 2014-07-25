@@ -7,22 +7,22 @@
 [![Release][release-badge]][release-url]
 [![Issue tracking][issues-badge]][issues-url]
 
-[build-badge]: http://img.shields.io/travis/dstroot/skeleton.svg?style=flat
+[build-badge]: https://img.shields.io/travis/dstroot/skeleton.svg?style=flat
 [build-url]: https://travis-ci.org/dstroot/skeleton
 
-[dependency-badge]: http://img.shields.io/david/dstroot/skeleton.svg?style=flat
+[dependency-badge]: https://img.shields.io/david/dstroot/skeleton.svg?style=flat
 [dependency-url]: https://david-dm.org/dstroot/skeleton
 
-[dev-dep-badge]: http://img.shields.io/david/dev/dstroot/skeleton.svg?style=flat
+[dev-dep-badge]: https://img.shields.io/david/dev/dstroot/skeleton.svg?style=flat
 [dev-dep-url]: https://david-dm.org/dstroot/skeleton#info=devDependencies
 
-[license-badge]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: #license
 
-[release-badge]: http://img.shields.io/github/release/dstroot/skeleton.svg?style=flat
+[release-badge]: https://img.shields.io/github/release/dstroot/skeleton.svg?style=flat
 [release-url]: https://github.com/dstroot/skeleton/releases
 
-[issues-badge]: http://img.shields.io/github/issues/dstroot/skeleton.svg?style=flat
+[issues-badge]: https://img.shields.io/github/issues/dstroot/skeleton.svg?style=flat
 [issues-url]: https://github.com/dstroot/skeleton/issues
 
 #### Skeleton: A **complete framework** for building **Node.js** web applications.
