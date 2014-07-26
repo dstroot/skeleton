@@ -22,7 +22,7 @@ var path              = require('path');                    // http://nodejs.org
 var debug             = require('debug')('skeleton');       // https://github.com/visionmedia/debug
 var flash             = require('express-flash');           // https://npmjs.org/package/express-flash
 var config            = require('./config/config');         // Get configuration file
-var logger            = require('express-loggly')(config.loggly);
+var logger            = require('express-loggly');          // https://github.com/dstroot/express-loggly
 var helmet            = require('helmet');                  // https://github.com/evilpacket/helmet
 var semver            = require('semver');                  // https://npmjs.org/package/semver
 var enforce           = require('express-sslify');          // https://github.com/florianheinemann/express-sslify
@@ -38,58 +38,6 @@ var expressValidator  = require('express-validator');       // https://npmjs.org
 var app    = module.exports = express();  // export app for testing ;)
 var server = require('http').Server(app);
 var io     = require('socket.io')(server);
-
-/**
- * Configure Logging
- */
-
-/*
-Thoughts on logging:
-
-** DEVELOPMENT **
-
-In development we can use the standard logger (morgan) and
-debug (https://github.com/visionmedia/debug) for console output
-
-Debug has an advantage over `console.log` because it only
-outputs when you specifically start node with it enabled.
-
-** PRODUCTION **
-
-Personally I prefer to stream Express logging to a service
-like Loggly or Papertrail.  That way I don't worry about
-the file system, log shipping/rotating, etc.  Plus these
-have useful features for analyzing the data.
-
-Use these methods to log to Loggly:
-----------------------------------------------------------
-logger.debug('Some message'); // <-- logs with level=DEBUG
-logger.info('Some message');  // <-- logs with level=INFO
-logger.log('Some message');   // <-- logs with level=LOG
-logger.warn('Some message');  // <-- logs with level=WARN
-logger.error('Some message'); // <-- logs with level=ERROR
-
-If you want to log to a file in production you can do
-as follows.  Be careful however because this can fill up
-your file system unless you handle it properly.  Probably
-best to use a tool like Winston.  But the easy way is
-to send the express logs to ./myLogFile.log:
-
-// use {flags: 'w'} to open in write mode, 'a' = append
-var logFile = fs.createWriteStream('./myLogFile.log', { flags: 'a' });
-app.use(morgan('combined', { stream: logFile }));
-
-** OTHER THOUGHTS **
-
-If you want you can redefine console log like so:
-
-var consoleLog = console.log;
-console.log = function (message) {
-  consoleLog(message);
-  logger.log(message);
-};
-
-*/
 
 /**
  * Configure Mongo Database
@@ -155,19 +103,18 @@ if (app.get('env') === 'production') {
   app.locals.compileDebug = false;
   // Enable If behind nginx, proxy, or a load balancer (e.g. Heroku, Nodejitsu)
   app.enable('trust proxy', 1);  // trust first proxy
-
   // Since our application has signup, login, etc. forms these should be protected
   // with SSL encryption. Heroku, Nodejitsu and other hosters often use reverse
   // proxies or load balancers which offer SSL endpoints (but then forward unencrypted
   // HTTP traffic to the server).  This makes it simpler for us since we don't have to
   // setup HTTPS in express. When in production we can redirect all traffic to SSL
   // by using a little middleware.
-
+  //
   // In case of a non-encrypted HTTP request, enforce.HTTPS() automatically
   // redirects to an HTTPS address using a 301 permanent redirect. BE VERY
   // CAREFUL with this! 301 redirects are cached by browsers and should be
   // considered permanent.
-
+  //
   // NOTE: Use `enforce.HTTPS(true)` if you are behind a proxy or load
   // balancer that terminates SSL for you (e.g. Heroku, Nodejitsu).
   app.use(enforce.HTTPS(true));
@@ -222,10 +169,42 @@ app.use(methodOverride());
 // NOTE: cookie-parser not needed with express-session > v1.5
 app.use(session(config.session));
 
+/*
+Thoughts on logging:
+
+** DEVELOPMENT **
+
+In development we can use the standard logger (morgan) and
+debug (https://github.com/visionmedia/debug) for console output
+
+Debug has an advantage over `console.log` because it only
+outputs when you specifically start node with it enabled.
+
+** PRODUCTION **
+
+Personally I prefer to stream Express logging to a service
+like Loggly or Papertrail.  That way I don't worry about
+the file system, log shipping/rotating, etc.  Plus these
+have useful features for analyzing the data.
+
+If you want to log to a file in production you can do
+as follows. (Be careful however because this can fill up
+your file system unless you handle it properly.) Probably
+best to use a tool like Winston.  But the easy way is
+to send the morgan log stream to ./myLogFile.log:
+
+// use {flags: 'w'} to open in write mode, 'a' = append
+var logFile = fs.createWriteStream('./myLogFile.log', { flags: 'a' });
+app.use(morgan('combined', { stream: logFile }));
+*/
+
 // Log requests to Loggly in production
 // Needs to be below session and bodyParser in the stack
 if (app.get('env') === 'production' && config.logging) {
-  app.use(logger.requestLogger());
+  app.use(logger({
+    immediate: false,
+    loggly: config.loggly
+  }));
 }
 
 // Security Settings
@@ -388,11 +367,6 @@ app.use(function (req, res, next) {
 
 // True error-handling middleware requires an arity of 4,
 // aka the signature (err, req, res, next).
-
-// Log errors to Loggly in production
-if (app.get('env') === 'production' && config.logging) {
-  app.use(logger.errorLogger());
-}
 
 // Handle 403 Errors
 app.use(function (err, req, res, next) {
