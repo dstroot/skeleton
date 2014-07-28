@@ -12,7 +12,6 @@ var favicon           = require('serve-favicon');           // https://github.co
 var session           = require('express-session');         // https://github.com/expressjs/session
 var compress          = require('compression');             // https://github.com/expressjs/compression
 var bodyParser        = require('body-parser');             // https://github.com/expressjs/body-parser
-var serveStatic       = require('serve-static');            // https://github.com/expressjs/serve-static
 var errorHandler      = require('errorhandler');            // https://github.com/expressjs/errorhandler
 var methodOverride    = require('method-override');         // https://github.com/expressjs/method-override
 
@@ -329,7 +328,7 @@ var hour = (minute * 60); //   3600000
 var day  = (hour * 24);   //  86400000
 var week = (day * 7);     // 604800000
 
-app.use(serveStatic(__dirname + '/public', { maxAge: week }));
+app.use(express.static(__dirname + '/public', { maxAge: week }));
 
 /**
  * Error Handling
