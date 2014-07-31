@@ -58,7 +58,7 @@
     "lastfm": "~0.9.2",
     "lodash": "^2.4.1",
     "method-override": "~2.1.2",
-    "moment": "~2.7.0",
+    "moment": "~2.8.0",
     "mongoose": "~3.8.14",
     "morgan": "~1.2.2",
     "node-foursquare": "~0.2.1",
