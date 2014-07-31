@@ -47,7 +47,7 @@
     "errorhandler": "^1.1.1",
     "express": "~4.7.2",
     "express-flash": "~0.0.2",
-    "express-loggly": "~0.0.3",
+    "express-loggly": "~0.0.4",
     "express-session": "^1.7.2",
     "express-sslify": "^0.1.0",
     "express-validator": "~2.3.0",

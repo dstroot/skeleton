@@ -201,7 +201,6 @@ app.use(morgan('combined', { stream: logFile }));
 // Needs to be below session and bodyParser in the stack
 if (app.get('env') === 'production' && config.logging) {
   app.use(logger({
-    immediate: false,
     loggly: config.loggly
   }));
 }
