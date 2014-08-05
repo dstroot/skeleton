@@ -252,6 +252,7 @@ app.use(helmet.csp({
   fontSrc: [
     "'self'",
     'fonts.googleapis.com',
+    'fonts.gstatic.com',
     'themes.googleusercontent.com'
   ],
   imgSrc: [
