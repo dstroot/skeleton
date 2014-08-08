@@ -205,10 +205,6 @@ if (app.get('env') === 'production' && config.logging) {
   }));
 }
 
-app.use(logger({
-  loggly: config.loggly
-}));
-
 // Security Settings
 app.disable('x-powered-by');          // Don't advertise our server type
 app.use(csrf());                      // Prevent Cross-Site Request Forgery
