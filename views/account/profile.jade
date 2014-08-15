@@ -6,16 +6,16 @@ block head
 block content
   .container
     .row
-      .col-sm-6.col-sm-offset-1
+      .col-sm-5
         .page-header
           h2 Profile Information
         .row
-          .col-sm-4
+          .col-sm-3
             p.hidden-xs
               strong Picture:
             p.hidden-xs
               img(src="#{user.profile.picture}", class='profile', width='100', height='100')
-          .col-sm-4
+          .col-sm-3
             p.hidden-xs
               strong Gravatar:
             p.hidden-xs
@@ -31,7 +31,6 @@ block content
             #hint
           .form-group
             label.sr-only(for='email') Mobile Phone
-            //- input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}')
             input.form-control(type='tel', name='phoneMobile', id='phoneMobile', value='#{user.profile.phone.mobile}', placeholder='+1 (999) 999-9999', pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/', title='Phone Number: +1 (999) 999-9999')
           .form-group
             label.sr-only(for='location') Location
@@ -53,6 +52,7 @@ block content
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-check
               | &nbsp;Update Profile
+      .col-sm-3
       .col-sm-4
         .page-header
           h2 Social Accounts
@@ -108,7 +108,7 @@ block content
               i.fa.fa-lock
               | &nbsp;Enable Enhanced Security
     .row
-      .col-sm-6.col-sm-offset-1
+      .col-sm-5
         .page-header
           h2 Change Your Password
         form(action='/account/password', method='POST')
@@ -125,6 +125,7 @@ block content
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-check
               | &nbsp;Change Password
+      .col-sm-3
       .col-sm-4
         .page-header
           h2 Delete Account

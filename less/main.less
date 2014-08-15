@@ -1,23 +1,82 @@
+/*------------------------------------*\
+    #IMPORTS
+\*------------------------------------*/
+
+/**
+ * First, import base frameworks and fonts:
+ *
+ *  - Bootstrap        http://getbootstrap.com/
+ *  - Font Awesome     http://fontawesome.io/
+ *  - Animate.css      http://daneden.github.io/animate.css
+ */
+
 @import "bootstrap.less";
 @import "../public/lib/bootstrap-social/bootstrap-social.less";
 @import "../public/lib/font-awesome/less/font-awesome.less";
 @fa-font-path: "../lib/font-awesome/fonts";
 @import (less) "../public/lib/animate.css/animate.css";
 
+
+
+
+
+/*------------------------------------*\
+    #TYPOGRAPHY
+\*------------------------------------*/
+
+@font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
 /**
- * First, import base frameworks:
- *
- *  - Project Font(s)  http://www.google.com/fonts/specimen/Open+Sans
- *  - Bootstrap        http://getbootstrap.com/
- *  - Font Awesome     http://fontawesome.io/
- *  - Animate.css      http://daneden.github.io/animate.css
- *
- *  Now add your own Bootstrap overrides and new styles below.
+ *   In <head>:
+ *   link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,500,700')
  */
 
 /**
- * Colors
+ * http://css-tricks.com/watch-your-font-weight/
+ * http://alistapart.com/article/say-no-to-faux-bold
  *
+ * Bootstrap uses five different font weights:
+ *
+ * 200 - Jumbotron paragraph
+ * 300 - Paragraph .lead class
+ * 400 - Normal Font Weight
+ * 500 - Headings
+ * 700 - Bold Text
+ *
+ * In order to completely change to a different font we need to:
+ *
+ * 1) Include the font - the easiest is with an example from Google fonts.
+ *    (Google sets up your @font-face rules correctly with the same
+ *    name for each @font-face rule - see links above)
+ *    You need to include all weights needed. However Open Sans does
+ *    NOT have a 200 weight, so we will substitute a 300 weight and skip the italic
+ *    version. In the Head section include the font stylesheet:
+ *
+ *    <link href='http: *fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,500,700', rel='stylesheet'>
+ *
+ * 2) Override the  the "@font-family-sans-serif" variable from variables.less:
+ *    @font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+ *
+ * 3) Override Jumbotron paragraph if you don't have a 200 weight:
+ *
+ *    .jumbotron {
+ *       p {
+ *         font-weight: 300;
+ *       }
+ *     }
+ *
+ * Boom! Done.
+ */
+
+
+
+
+
+/*------------------------------------*\
+    #COLORS
+\*------------------------------------*/
+
+/**
  * This needs some explaining.  I'd rather keep colors separate
  * from widgets. That way I can just use HTML markup to colorize
  * widgets in a semantic way:
@@ -34,9 +93,8 @@
  * make a widget that is designed with a particular color
  * I use the color in the name. Example: .btn-white or .navbar-yellow
  *
- * I usually designate brand colors only but this
+ * I usually designate brand colors only but since this
  * is an example so I included a more complete set.
- *
  */
 
 // Boostrap colors in case you need to override them
@@ -68,8 +126,9 @@
 .bg-brand5 {    background-color: @brand5; }
 
 // Bootstrap provides an incomplete grayscale
-// but the ones commented below are coming
-// from Bootstrap:
+// because it doesn't define white and black.
+// Note the items commented below are coming
+// from Bootstrap but we add white and black:
 
 // Gray Scale
 @white:             #FFFFFF;
@@ -150,49 +209,9 @@
 .bg-purple {    background-color: @purple; }
 .bg-maroon {    background-color: @maroon; }
 
-/**
- * Typography
- */
 
-// http://coding.smashingmagazine.com/2013/02/14/setting-weights-and-styles-at-font-face-declaration/
-// http://css-tricks.com/watch-your-font-weight/
-// http://alistapart.com/article/say-no-to-faux-bold
 
-// Bootstrap uses four different font weights:
 
-// 200 - Paragraph .lead class, Jumbotron paragraph
-// 400 - Normal Font Weight
-// 500 - Headings
-// 700 - Bold Text
-
-// In order to completely change to a different font we need to:
-
-// 1) Include the font - the easiest is with an example from Google fonts.
-//    (Google sets up your @font-face rules correctly with the same
-//    name for each @font-face rule - see links above)
-//    You need to include all weights needed. BUT for example Open Sans does
-//    NOT have a 200 weight, so we will substitute a 300 weight and skip the italic
-//    version. In the Head section include the font stylesheet:
-//
-//    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,500,700', rel='stylesheet'>
-
-// 2) Override the  the "@font-family-sans-serif" variable from variables.less:
-//    @font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-// 3) Override Jumbotron paragraph and page .lead if you don't have a 200 weight:
-//     .lead {
-//        font-weight: 300;
-//     }
-
-//    .jumbotron {
-//       p {
-//         font-weight: 300;
-//       }
-//     }
-
-// Boom! Done.
-// @font-family-sans-serif:  "RobotoDraft", "Helvetica Neue", Helvetica, Arial, sans-serif;
-@font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 /**
  * Scaffolding
@@ -348,34 +367,71 @@ h1, h2 {
 }
 
 /*
- * Minitron
- * Jumbotron-esque page headers
+ * Page headers
+ * Jumbotron-esque headers at the top of every page that's not the homepage.
  */
 
 .mini-tron {
-  margin-top: 0px;
-  margin-bottom: 15px;
+  position: relative;
   padding: 30px 15px;
+  color: #c4d6e8;
   text-align: center;
-  h1 {
-    margin-top: 0;
-  }
-  p {
-    font-weight: 300;
-  }
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+  background-color: @brand1;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#2C6491), to(@brand1));
+  background-image: -webkit-linear-gradient(top, #2C6491 0%, @brand1 100%);
+  background-image:      -o-linear-gradient(top, #2C6491 0%, @brand1 100%);
+  background-image:         linear-gradient(to bottom, #2C6491 0%, @brand1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2C6491', endColorstr='@brand1', GradientType=0);
+  background-repeat: repeat-x;
+  margin-bottom: 40px;
+  font-size: 20px;
 }
+.mini-tron h1 {
+  margin-top: 0;
+  color: #fff;
+}
+.mini-tron p {
+  margin-bottom: 0;
+  font-weight: 300;
+  line-height: 1.4;
+}
+.mini-tron .container {
+  position: relative;
+}
+
 @media (min-width: 768px) {
   .mini-tron {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    margin-bottom: 30px;
-    h1 {
-      font-size: 45px;
-    }
-    p {
-      font-size: 18px;
-    }
+    padding-top: 60px;
+    padding-bottom: 60px;
+    font-size: 24px;
+    text-align: left;
   }
+  .mini-tron h1 {
+    font-size: 60px;
+    line-height: 1;
+  }
+}
+
+@media (min-width: 992px) {
+  .mini-tron h1,
+  .mini-tron p {
+    margin-right: 380px;
+  }
+}
+
+/**
+ * Faded out hr
+ */
+
+.soften {
+  height: 2px;
+  margin: 10px 0;
+  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  border: 0;
 }
 
 /**
@@ -438,13 +494,28 @@ h1, h2 {
  * Privacy Page
  */
 
-.table.privacy {
+.privacy {
   text-align: left;
-  margin-top: 30px;
+  margin-top: 25px;
+  color: #c4d6e8;
+  font-weight: 300;
+  font-size: 20px;
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
   tbody>tr>td {
     border-top: 0px;
-    font-weight: 300;
-    font-size: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .privacy {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 992px) {
+  .privacy {
+    width: 65%;
+    max-width: 65%;
   }
 }
 
@@ -503,6 +574,8 @@ a.noDecoration:hover {
 }
 @media (max-width: 992px) {
 }
+
+
 @media (min-width: 768px) {
 }
 @media (min-width: 992px) {

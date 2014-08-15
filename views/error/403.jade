@@ -6,10 +6,14 @@ block head
 
 block content
 
-  .mini-tron.bg-brand5.brand3
-    h1 403 Forbidden!&nbsp;&nbsp;:(
-    p You tried to reach #{url}.
-    p Error: #{error.message}
+  .mini-tron
+    .container
+      h1 403 Forbidden!
+      p
+        | You tried to reach #{url}.
+      p
+        | Error: #{error.message}
+
   .container
     .row
       .col-md-8.col-md-offset-2

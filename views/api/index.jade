@@ -7,13 +7,16 @@ block head
 
 block content
 
-  .mini-tron.bg-brand1.white
-    h1 Welcome to #{application}!
-    h2 This is the "logged in" home page.
+  .mini-tron
+    .container
+      h1 Welcome to #{application}!
+      p
+        | This is the "logged in" home page.
 
   .container
     .row
-      .col-sm-10.col-sm-offset-1
+      //- .col-sm-10.col-sm-offset-1
+      .col-sm-12
 
         h3 Why did I have to login to see this?
         p
@@ -70,10 +73,10 @@ block content
               span.devicons.devicons-bootstrap
 
     .row.hidden-xs
-      .col-sm-2.col-sm-offset-1
-        img.center-block.img-responsive(src='img/express-logo.jpg' width='240')
-      .col-sm-3
+      .col-sm-2
         img.center-block.img-responsive(src='img/nodejitsu-logo.png' width='150')
+      .col-sm-3
+        img.center-block.img-responsive(src='img/express-logo.jpg' width='230')
     br
 
     //- .row
