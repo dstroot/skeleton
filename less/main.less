@@ -243,8 +243,8 @@ h1, h2 {
  * Navbar
  */
 
-@navbar-default-brand-color:       @gray-darker;
-@navbar-default-link-hover-bg:     darken(@navbar-default-bg, 6.5%);
+@navbar-default-brand-color: @gray-darker;
+@navbar-default-link-hover-bg: darken(@navbar-default-bg, 6.5%);
 
 .navbar-nav .profile-image {
   width: 30px;
@@ -371,25 +371,27 @@ h1, h2 {
  * Jumbotron-esque headers at the top of every page that's not the homepage.
  */
 
+@brand1-darker: darken(@brand1, 6.5%);
+
 .mini-tron {
   position: relative;
   padding: 30px 15px;
-  color: #c4d6e8;
+  color: lighten(@brand1, 35%);
   text-align: center;
   text-shadow: 0 1px 0 rgba(0,0,0,.2);
   background-color: @brand1;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#2C6491), to(@brand1));
-  background-image: -webkit-linear-gradient(top, #2C6491 0%, @brand1 100%);
-  background-image:      -o-linear-gradient(top, #2C6491 0%, @brand1 100%);
-  background-image:         linear-gradient(to bottom, #2C6491 0%, @brand1 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2C6491', endColorstr='@brand1', GradientType=0);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(@brand1-darker), to(@brand1));
+  background-image: -webkit-linear-gradient(top, @brand1-darker 0%, @brand1 100%);
+  background-image:      -o-linear-gradient(top, @brand1-darker 0%, @brand1 100%);
+  background-image:         linear-gradient(to bottom, @brand1-darker 0%, @brand1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@brand1-darker', endColorstr='@brand1', GradientType=0);
   background-repeat: repeat-x;
   margin-bottom: 40px;
   font-size: 20px;
 }
 .mini-tron h1 {
   margin-top: 0;
-  color: #fff;
+  color: @white;
 }
 .mini-tron p {
   margin-bottom: 0;
@@ -497,7 +499,7 @@ h1, h2 {
 .privacy {
   text-align: left;
   margin-top: 25px;
-  color: #c4d6e8;
+  color: lighten(@brand1, 35%);
   font-weight: 300;
   font-size: 20px;
   text-shadow: 0 1px 0 rgba(0,0,0,.2);
