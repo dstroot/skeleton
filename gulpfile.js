@@ -7,11 +7,12 @@
  * Dependencies
  */
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({ lazy: true });
-var runSequence = require('run-sequence');
-var terminus = require('terminus');
-var pagespeed = require('psi');
+var $             = require('gulp-load-plugins')({ lazy: true });
+var gulp          = require('gulp');
+var pngcrush      = require('imagemin-pngcrush');
+var terminus      = require('terminus');
+var pagespeed     = require('psi');
+var runSequence   = require('run-sequence');
 
 /**
  * Banner
@@ -138,14 +139,16 @@ gulp.task('scripts', function () {
  */
 
 gulp.task('images', function () {
-  return gulp.src('public/img/**/*')        // Read images
+  return gulp.src('images/**/*')            // Read images
     .pipe($.changed('./public/img'))        // Only process new/changed
     .pipe($.imagemin({                      // Compress images
-      optimizationLevel: 5,
       progressive: true,
-      interlaced: true
+      optimizationLevel: 3,
+      interlaced: true,
+      svgoPlugins: [{ removeViewBox: false }],
+      use: [pngcrush()]
     }))
-    .pipe(gulp.dest('./public/img'));      // Write processed images
+    .pipe(gulp.dest('./public/img'));       // Write processed images
 });
 
 /**
