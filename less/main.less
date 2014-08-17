@@ -1,5 +1,36 @@
+/*--------------------------------------
+ * #CONTENTS
+ * -------------------------------------
+ *
+ * BASE SETUP
+ * Imports..............Import all the things.
+ * Typography...........Setup our typography.
+ * Colors...............Setup our colors.
+ * Scaffolding..........Basic setup.
+ *
+ * COMPONENTS
+ * Navbar...............Main navigation.
+ * Flash alerts.........Flash messages at the top of the page.
+ * Jumbotron............Landing page.
+ * Mini-tron............Page headers.
+ * Soften...............Faded out HR.
+ * Footer...............Footer styles.
+ *
+ * PAGES
+ * Dashboard page.......Dashboard Styles.
+ * Colors page..........Colors Page Styles.
+ * Privacy page.........Privacy Page Styles.
+ * API landing page.....API Landing Page Styles.
+ * React page...........React Page Styles.
+ *
+ */
+
+
+
+
+
 /*------------------------------------*\
-    #IMPORTS
+  #IMPORTS
 \*------------------------------------*/
 
 /**
@@ -73,7 +104,7 @@
 
 
 /*------------------------------------*\
-    #COLORS
+  #COLORS
 \*------------------------------------*/
 
 /**
@@ -97,19 +128,20 @@
  * is an example so I included a more complete set.
  */
 
-// Boostrap colors in case you need to override them
-@brand-primary: #428bca;
-@brand-success: #5cb85c;
-@brand-info:    #5bc0de;
-@brand-warning: #f0ad4e;
-@brand-danger:  #d9534f;
-
 // Brand Color Scheme (checkout: https://kuler.adobe.com/explore)
 @brand1:        #377DB5;  // Blue
 @brand2:        #70CCF2;  // Aqua
 @brand3:        #FFDBC2;  // Salmon
 @brand4:        #FF7B64;  // Orange
 @brand5:        #E61D46;  // Red
+
+
+// Boostrap colors in case you need to override them
+@brand-primary: #428bca;
+@brand-success: #5cb85c;
+@brand-info:    #5bc0de;
+@brand-warning: #f0ad4e;
+@brand-danger:  #d9534f;
 
 // Brand Colors
 .brand1 {       color: @brand1; }
@@ -178,29 +210,31 @@
 @maroon:        #85144B;
 
 // Colors
-.pink {         color: @pink; }
-.navy {         color: @navy; }
-.blue {         color: @blue; }
 .aqua {         color: @aqua; }
+.blue {         color: @blue; }
+.navy {         color: @navy; }
 .teal {         color: @teal; }
-.olive {        color: @olive; }
 .green {        color: @green; }
+.olive {        color: @olive; }
 .lime {         color: @lime; }
+
 .yellow {       color: @yellow; }
 .orange {       color: @orange; }
 .red {          color: @red; }
+.pink {         color: @pink; }
 .fuchsia {      color: @fuchsia; }
 .purple {       color: @purple; }
 .maroon {       color: @maroon; }
 
 // Backgrounds
-.bg-navy {      background-color: @navy; }
-.bg-blue {      background-color: @blue; }
 .bg-aqua {      background-color: @aqua; }
+.bg-blue {      background-color: @blue; }
+.bg-navy {      background-color: @navy; }
 .bg-teal {      background-color: @teal; }
-.bg-olive {     background-color: @olive; }
 .bg-green {     background-color: @green; }
+.bg-olive {     background-color: @olive; }
 .bg-lime {      background-color: @lime; }
+
 .bg-yellow {    background-color: @yellow; }
 .bg-orange {    background-color: @orange; }
 .bg-red {       background-color: @red; }
@@ -213,9 +247,9 @@
 
 
 
-/**
- * Scaffolding
- */
+/*------------------------------------*\
+  #SCAFFOLDING
+\*------------------------------------*/
 
 html {
   // http://files.christophzillgens.com/webkit-font-smoothing.html
@@ -238,6 +272,13 @@ body {
 h1, h2 {
   font-weight: 300;
 }
+
+
+
+
+/*------------------------------------*\
+  #COMPONENTS
+\*------------------------------------*/
 
 /**
  * Navbar
@@ -371,7 +412,7 @@ h1, h2 {
  * Jumbotron-esque headers at the top of every page that's not the homepage.
  */
 
-@brand1-darker: darken(@brand1, 6.5%);
+@brand1-darker: darken(@brand1, 10%);
 
 .mini-tron {
   position: relative;
@@ -437,6 +478,20 @@ h1, h2 {
 }
 
 /**
+ * Panel Headers Like Buttons
+ */
+
+.panel-button:hover {
+  background: darken(#f5f5f5, 15%);
+}
+a.noDecoration {
+  text-decoration: none;
+}
+a.noDecoration:hover {
+  text-decoration: none;
+}
+
+/**
  * Footer
  */
 
@@ -462,6 +517,13 @@ h1, h2 {
     }
   }
 }
+
+
+
+
+/*------------------------------------*\
+  #PAGES
+\*------------------------------------*/
 
 /**
  * Dashboard Page
@@ -519,20 +581,6 @@ h1, h2 {
     width: 65%;
     max-width: 65%;
   }
-}
-
-/**
- * Panel Headers Like Buttons
- */
-
-.panel-button:hover {
-  background: darken(#f5f5f5, 15%);
-}
-a.noDecoration {
-  text-decoration: none;
-}
-a.noDecoration:hover {
-  text-decoration: none;
 }
 
 /**

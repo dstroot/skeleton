@@ -108,7 +108,7 @@ gulp.task('styles', function () {
     .pipe($.csslint('.csslintrc'))          // Lint CSS
     .pipe($.csslint.reporter())             // Report issues
     .pipe($.rename(pkg.name + '.css'))      // Rename to "packagename.css"
-    .pipe($.sourcemaps.write())             // Write sourcemap
+    // .pipe($.sourcemaps.write())             // Write sourcemap
     .pipe(gulp.dest('./public/css'))        // Save CSS here
     .pipe($.rename({ suffix: '.min' }))     // Add .min suffix
     .pipe($.csso())                         // Minify CSS

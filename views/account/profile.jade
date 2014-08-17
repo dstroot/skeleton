@@ -6,16 +6,16 @@ block head
 block content
   .container
     .row
-      .col-sm-5
+      .col-sm-6
         .page-header
           h2 Profile Information
         .row
-          .col-sm-3
+          .col-sm-4
             p.hidden-xs
               strong Picture:
             p.hidden-xs
               img(src="#{user.profile.picture}", class='profile', width='100', height='100')
-          .col-sm-3
+          .col-sm-4
             p.hidden-xs
               strong Gravatar:
             p.hidden-xs
@@ -52,7 +52,7 @@ block content
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-check
               | &nbsp;Update Profile
-      .col-sm-3
+      .col-sm-2
       .col-sm-4
         .page-header
           h2 Social Accounts
@@ -108,7 +108,7 @@ block content
               i.fa.fa-lock
               | &nbsp;Enable Enhanced Security
     .row
-      .col-sm-5
+      .col-sm-6
         .page-header
           h2 Change Your Password
         form(action='/account/password', method='POST')
@@ -125,7 +125,7 @@ block content
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-check
               | &nbsp;Change Password
-      .col-sm-3
+      .col-sm-2
       .col-sm-4
         .page-header
           h2 Delete Account
