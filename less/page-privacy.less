@@ -1,0 +1,30 @@
+@import (reference) "main.less";
+
+/**
+ * Privacy Page
+ */
+
+.privacy {
+  text-align: left;
+  margin-top: 25px;
+  color: lighten(@brand1, 35%);
+  font-weight: 300;
+  font-size: 20px;
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+  tbody>tr>td {
+    border-top: 0px;
+  }
+}
+
+@media (min-width: 768px) {
+  .privacy {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 992px) {
+  .privacy {
+    width: 65%;
+    max-width: 65%;
+  }
+}

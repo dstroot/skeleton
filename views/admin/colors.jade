@@ -3,6 +3,9 @@ extends ../layouts/layout
 block head
   title #{application} &middot; Colors
 
+block styles
+  link(rel='stylesheet', href='/css/page-colors.min.css')
+
 block content
   //- brand colors
   .jumbotron.bg-brand1

@@ -8,19 +8,20 @@
     "LICENCE"
   ],
   "dependencies": {
-    "bootstrap": "~3",
+    "bootstrap": "~3"
+  },
+  "devDependencies": {
     "font-awesome": "~4"
   },
   "homepage": "https://github.com/lipis/bootstrap-social",
-  "version": "4.5.1",
-  "_release": "4.5.1",
+  "version": "4.6.0",
+  "_release": "4.6.0",
   "_resolution": {
     "type": "version",
-    "tag": "4.5.1",
-    "commit": "85ad30bd5435600b21065dd6b7457f11cc5bc4f5"
+    "tag": "4.6.0",
+    "commit": "c2a2ae91dd514058c79f78a7952d3bd87f31859e"
   },
   "_source": "git://github.com/lipis/bootstrap-social.git",
-  "_target": "~4.5.1",
-  "_originalSource": "bootstrap-social",
-  "_direct": true
+  "_target": "~4.6.0",
+  "_originalSource": "bootstrap-social"
 }

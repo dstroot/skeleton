@@ -61,7 +61,7 @@ var paths = {
     // 'public/lib/bootstrap/js/tab.js',
     // 'public/lib/bootstrap/js/affix.js'
     // =========================================
-    'public/lib/fastclick/lib/fastclick.js',
+    // 'public/lib/fastclick/lib/fastclick.js',
     'public/js/main.js'
   ],
   lint: [
@@ -74,7 +74,12 @@ var paths = {
     'gulpfile.js'
   ],
   less: [
-    'less/**/*.less'
+    'less/main.less',
+    'less/page-api.less',
+    'less/page-colors.less',
+    'less/page-dashboard.less',
+    'less/page-privacy.less',
+    'less/page-react.less'
   ]
 };
 
@@ -95,7 +100,7 @@ gulp.task('clean', function () {
  */
 
 gulp.task('styles', function () {
-  return gulp.src('./less/main.less')       // Read in Less file
+  return gulp.src(paths.less)               // Read in Less files
     .pipe($.sourcemaps.init())              // Initialize gulp-sourcemaps
     .pipe($.less({ strictMath: true }))     // Compile Less files
     .pipe($.autoprefixer([                  // Autoprefix for target browsers
@@ -107,9 +112,8 @@ gulp.task('styles', function () {
     .pipe($.csscomb())                      // Coding style formatter for CSS
     .pipe($.csslint('.csslintrc'))          // Lint CSS
     .pipe($.csslint.reporter())             // Report issues
-    .pipe($.rename(pkg.name + '.css'))      // Rename to "packagename.css"
     // .pipe($.sourcemaps.write())             // Write sourcemap
-    .pipe(gulp.dest('./public/css'))        // Save CSS here
+    // .pipe(gulp.dest('./public/css'))        // Save CSS here
     .pipe($.rename({ suffix: '.min' }))     // Add .min suffix
     .pipe($.csso())                         // Minify CSS
     .pipe($.header(banner, { pkg : pkg }))  // Add banner

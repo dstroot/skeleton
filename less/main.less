@@ -3,26 +3,20 @@
  * -------------------------------------
  *
  * BASE SETUP
+ *
  * Imports..............Import all the things.
  * Typography...........Setup our typography.
  * Colors...............Setup our colors.
  * Scaffolding..........Basic setup.
  *
  * COMPONENTS
+ *
  * Navbar...............Main navigation.
  * Flash alerts.........Flash messages at the top of the page.
  * Jumbotron............Landing page.
  * Mini-tron............Page headers.
  * Soften...............Faded out HR.
  * Footer...............Footer styles.
- *
- * PAGES
- * Dashboard page.......Dashboard Styles.
- * Colors page..........Colors Page Styles.
- * Privacy page.........Privacy Page Styles.
- * API landing page.....API Landing Page Styles.
- * React page...........React Page Styles.
- *
  */
 
 
@@ -37,15 +31,14 @@
  * First, import base frameworks and fonts:
  *
  *  - Bootstrap        http://getbootstrap.com/
+ *  - Boostrap Social  http://lipis.github.io/bootstrap-social/
  *  - Font Awesome     http://fontawesome.io/
- *  - Animate.css      http://daneden.github.io/animate.css
  */
 
 @import "bootstrap.less";
 @import "../public/lib/bootstrap-social/bootstrap-social.less";
 @import "../public/lib/font-awesome/less/font-awesome.less";
 @fa-font-path: "../lib/font-awesome/fonts";
-@import (less) "../public/lib/animate.css/animate.css";
 
 
 
@@ -315,7 +308,7 @@ h1, h2 {
 }
 
 /*
- * Home Page
+ * Jumbotron
  */
 
 @jumbotron-bg:            @brand1;
@@ -408,11 +401,11 @@ h1, h2 {
 }
 
 /*
- * Page headers
+ * Page headers (mini-tron)
  * Jumbotron-esque headers at the top of every page that's not the homepage.
  */
 
-@brand1-darker: darken(@brand1, 10%);
+@brand1-darker: darken(@brand1, 8%);
 
 .mini-tron {
   position: relative;
@@ -516,104 +509,6 @@ a.noDecoration:hover {
       }
     }
   }
-}
-
-
-
-
-/*------------------------------------*\
-  #PAGES
-\*------------------------------------*/
-
-/**
- * Dashboard Page
- */
-
-.dashboard {
-  text-align: center;
-  p {
-    font-size: 50px;
-    line-height: 1;
-    color: @red;
-    text-shadow: 1px 1px 1px @black;
-  }
-}
-@media (min-width: 768px) {
-  .dashboard {
-    p {
-      font-size: 96px;
-    }
-  }
-}
-
-/**
- * Colors Page
- */
-
-.pnl {
-  padding: 15px;
-}
-
-/**
- * Privacy Page
- */
-
-.privacy {
-  text-align: left;
-  margin-top: 25px;
-  color: lighten(@brand1, 35%);
-  font-weight: 300;
-  font-size: 20px;
-  text-shadow: 0 1px 0 rgba(0,0,0,.2);
-  tbody>tr>td {
-    border-top: 0px;
-  }
-}
-
-@media (min-width: 768px) {
-  .privacy {
-    font-size: 24px;
-  }
-}
-
-@media (min-width: 992px) {
-  .privacy {
-    width: 65%;
-    max-width: 65%;
-  }
-}
-
-/**
- * API landing page
- */
-
-.built-with {
-  font-size: 4em;
-}
-
-@media (min-width: 768px) {
-  .built-with {
-    font-size: 7em;
-  }
-}
-
-/**
- * REACT page
- */
-
-.input-markdown {
-  width: 100%;
-  height: 300px;
-  border: 1px solid @gray-light;
-  padding: 10px;
-}
-
-.compiled-markdown {
-  width: 100%;
-  height: 300px;
-  padding: 10px;
-  border: 1px solid @gray-light;
-  background-color: @gray-lighter;
 }
 
 /**

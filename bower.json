@@ -3,7 +3,7 @@
   "dependencies": {
     "animate.css": "~3.1.1",
     "bootstrap": "~3.2.0",
-    "bootstrap-social": "~4.5.1",
+    "bootstrap-social": "~4.6.0",
     "card": "~0.0.7",
     "fastclick": "~1.0.2",
     "font-awesome": "~4.1.0",
