@@ -5,9 +5,10 @@
  */
 
 var User          = require('../models/User');
+var debug         = require('debug')('skeleton');  // https://github.com/visionmedia/debug
 var config        = require('../config/config');
 var bcrypt        = require('bcrypt-nodejs');
-var crypto        = require('crypto');           // http://nodejs.org/api/crypto.html#crypto_crypto
+var crypto        = require('crypto');             // http://nodejs.org/api/crypto.html#crypto_crypto
 var nodemailer    = require('nodemailer');
 
 
@@ -205,16 +206,15 @@ module.exports.controller = function (app) {
           // Send email
           transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err });
-              return res.redirect('/forgot');
-            } // else {
-              // console.log('Message sent: ' + info.response);
-            // }
+              req.flash('error', { msg: JSON.stringify(err) });
+              debug(JSON.stringify(err));
+              res.redirect('back');
+            } else {
+              req.flash('success', { msg: 'We sent you an email with further instructions. Check your email!' });
+              debug('Message response: ' + info.response);
+              res.redirect('/forgot');
+            }
           });
-
-          // Message to user
-          req.flash('success', { msg: 'We sent you an email with further instructions. Check your email!' });
-          res.redirect('/forgot');
 
         }
       });

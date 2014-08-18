@@ -5,6 +5,7 @@
  */
 
 var User          = require('../models/User');
+var debug         = require('debug')('skeleton');  // https://github.com/visionmedia/debug
 var async         = require('async');
 var crypto        = require('crypto');
 var config        = require('../config/config');
@@ -300,10 +301,11 @@ module.exports.controller = function (app) {
           // Send email
           transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err });
-            } // else {
-              // console.log('Message sent: ' + info.response);
-            // }
+              req.flash('error', { msg: JSON.stringify(err) });
+              debug(JSON.stringify(err));
+            } else {
+              debug('Message response: ' + info.response);
+            }
           });
 
         }
@@ -498,17 +500,18 @@ module.exports.controller = function (app) {
           // Send email
           transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err });
-            } // else {
-              // console.log('Message sent: ' + info.response);
-            // }
+              req.flash('error', { msg: JSON.stringify(err) });
+              debug(JSON.stringify(err));
+              res.redirect('back');
+            } else {
+              debug('Message response: ' + info.response);
+              req.flash('info', { msg: 'Please check your email to verify your account. Thanks for signing up!' });
+              res.redirect('/signup');
+            }
           });
 
         }
       });
-
-      req.flash('info', { msg: 'Please check your email to verify your account. Thanks for signing up!' });
-      res.redirect('/signup');
 
       // WORKFLOW COMPLETED
 
@@ -566,10 +569,11 @@ module.exports.controller = function (app) {
           // Send email
           transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err });
-            } // else {
-              // console.log('Message sent: ' + info.response);
-            // }
+              req.flash('error', { msg: JSON.stringify(err) });
+              debug(JSON.stringify(err));
+            } else {
+              debug('Message response: ' + info.response);
+            }
           });
 
         }
@@ -783,10 +787,11 @@ module.exports.controller = function (app) {
           // Send email
           transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err });
-            } // else {
-              // console.log('Message sent: ' + info.response);
-            // }
+              req.flash('error', { msg: JSON.stringify(err) });
+              debug(JSON.stringify(err));
+            } else {
+              debug('Message response: ' + info.response);
+            }
           });
 
         }

@@ -4,8 +4,9 @@
  * Module Dependencies
  */
 
-var nodemailer    = require('nodemailer');
+var debug         = require('debug')('skeleton');       // https://github.com/visionmedia/debug
 var config        = require('../config/config');
+var nodemailer    = require('nodemailer');
 
 /**
  * Contact Form Controller
@@ -65,15 +66,15 @@ module.exports.controller = function (app) {
     // Send email
     transporter.sendMail(mailOptions, function (err, info) {
       if (err) {
-        req.flash('error', { msg: err });
-        return res.redirect('/contact');
-      } // else {
-        // console.log('Message sent: ' + info.response);
-      // }
+        req.flash('error', { msg: JSON.stringify(err) });
+        debug(JSON.stringify(err));
+        res.redirect('back');
+      } else {
+        req.flash('success', { msg: 'Your message has been sent successfully!' });
+        debug('Message response: ' + info.response);
+        res.redirect('/contact');
+      }
     });
-
-    req.flash('success', { msg: 'Your message has been sent successfully!' });
-    res.redirect('/contact');
 
   });
 

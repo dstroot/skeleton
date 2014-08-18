@@ -5,6 +5,7 @@
  */
 
 var User          = require('../models/User');
+var debug         = require('debug')('skeleton');  // https://github.com/visionmedia/debug
 var config        = require('../config/config');
 var bcrypt        = require('bcrypt-nodejs');
 var nodemailer    = require('nodemailer');
@@ -205,15 +206,15 @@ module.exports.controller = function (app) {
           // Send email
           transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err });
-            } // else {
-              // console.log('Message sent: ' + info.response);
-            // }
+              req.flash('error', { msg: JSON.stringify(err) });
+              debug(JSON.stringify(err));
+              res.redirect('back');
+            } else {
+              req.flash('success', { msg: 'Your password has been changed!' });
+              debug('Message response: ' + info.response);
+              res.redirect('/api');
+            }
           });
-
-          // Send user on their merry way
-          req.flash('success', { msg: 'Your password has been changed!' });
-          res.redirect('/api');
 
         }
       });

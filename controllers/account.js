@@ -6,6 +6,7 @@
 
 var _             = require('lodash');
 var User          = require('../models/User');
+var debug         = require('debug')('skeleton');       // https://github.com/visionmedia/debug
 var utils         = require('../config/utils');
 var config        = require('../config/config');
 var passport      = require('passport');
@@ -149,16 +150,15 @@ module.exports.controller = function (app) {
           // Send email
           transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-              req.flash('error', { msg: err });
-              return res.redirect('/account');
-            } // else {
-              // console.log('Message sent: ' + info.response);
-            // }
+              req.flash('error', { msg: JSON.stringify(err) });
+              debug(JSON.stringify(err));
+              res.redirect('back');
+            } else {
+              req.flash('success', { msg: 'Your profile was updated.' });
+              debug('Message response: ' + info.response);
+              res.redirect('/account');
+            }
           });
-
-          // Send user on their merry way
-          req.flash('success', { msg: 'Your profile was updated.' });
-          res.redirect('/account');
 
         }
       });
