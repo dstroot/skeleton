@@ -8,10 +8,10 @@
  */
 
 var $             = require('gulp-load-plugins')({ lazy: true });
+var psi           = require('psi');
 var gulp          = require('gulp');
 var pngcrush      = require('imagemin-pngcrush');
 var terminus      = require('terminus');
-var pagespeed     = require('psi');
 var runSequence   = require('run-sequence');
 
 /**
@@ -258,12 +258,30 @@ gulp.task('default', ['open'], function () {
  * Run PageSpeed Insights
  */
 
-// By default, we use the PageSpeed Insights
-// free (no API key) tier. You can use a Google
-// Developer API key if you have one. See
-// http://goo.gl/RkN0vE for info key: 'YOUR_API_KEY'
+var site = 'https://skeleton-app.jit.su';
+var key = '';
 
-gulp.task('pagespeed', pagespeed.bind(null, {
-  url: 'https://skeleton-app.jit.su',
-  strategy: 'desktop'
-}));
+// Please feel free to use the `nokey` option to try out PageSpeed
+// Insights as part of your build process. For more frequent use
+// please register your own API key. For more info:
+// https://developers.google.com/speed/docs/insights/v1/getting_started
+
+gulp.task('mobile', function (cb) {
+  psi({
+    // key: key
+    nokey: 'true',
+    url: site,
+    strategy: 'mobile',
+  }, cb);
+});
+
+gulp.task('desktop', ['mobile'], function (cb) {
+  psi({
+    // key: key,
+    nokey: 'true',
+    url: site,
+    strategy: 'desktop',
+  }, cb);
+});
+
+gulp.task('pagespeed', ['desktop']);
