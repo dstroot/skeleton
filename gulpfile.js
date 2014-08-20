@@ -259,7 +259,7 @@ gulp.task('default', ['open'], function () {
  */
 
 var site = 'https://skeleton-app.jit.su';
-var key = '';
+// var key = '';
 
 // Please feel free to use the `nokey` option to try out PageSpeed
 // Insights as part of your build process. For more frequent use

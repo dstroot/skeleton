@@ -311,11 +311,20 @@ h1, h2 {
  * Jumbotron
  */
 
-@jumbotron-bg:            @brand1;
+@jumbotron-bg: @brand1;
 @jumbotron-heading-color: @white;
+@brand1-darker: darken(@brand1, 8%);
 
 .jumbotron {
   margin-bottom: 0px;
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+  background-color: @brand1;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(@brand1-darker), to(@brand1));
+  background-image: -webkit-linear-gradient(top, @brand1-darker 0%, @brand1 100%);
+  background-image:      -o-linear-gradient(top, @brand1-darker 0%, @brand1 100%);
+  background-image:         linear-gradient(to bottom, @brand1-darker 0%, @brand1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@brand1-darker', endColorstr='@brand1', GradientType=0);
+  background-repeat: repeat-x;
   h1 {
     text-align: center;
     margin-top: 0px;
@@ -405,8 +414,6 @@ h1, h2 {
  * Jumbotron-esque headers at the top of every page that's not the homepage.
  */
 
-@brand1-darker: darken(@brand1, 8%);
-
 .mini-tron {
   position: relative;
   padding: 30px 15px;
@@ -452,7 +459,7 @@ h1, h2 {
 @media (min-width: 992px) {
   .mini-tron h1,
   .mini-tron p {
-    margin-right: 380px;
+    margin-right: 180px;
   }
 }
 
