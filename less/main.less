@@ -245,10 +245,6 @@
 \*------------------------------------*/
 
 html {
-  // http://files.christophzillgens.com/webkit-font-smoothing.html
-  // -webkit-font-smoothing: antialiased;  // also try subpixel-antialiased, antialiased, none
-  // text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: subpixel-antialiased;
   /* Sticky Footer Styles Below */
   position: relative;
   min-height: 100%;
@@ -261,7 +257,7 @@ body {
   margin-bottom: 80px;
 }
 
-/* thin style for large headers */
+/* Use a thin style for large headers */
 h1, h2 {
   font-weight: 300;
 }
@@ -315,8 +311,8 @@ h1, h2 {
 @jumbotron-heading-color: @white;
 @brand1-darker: darken(@brand1, 8%);
 
-.jumbotron {
-  margin-bottom: 0px;
+.jumbotron,
+.mini-tron {
   text-shadow: 0 1px 0 rgba(0,0,0,.2);
   background-color: @brand1;
   background-image: -webkit-gradient(linear, left top, left bottom, from(@brand1-darker), to(@brand1));
@@ -325,6 +321,10 @@ h1, h2 {
   background-image:         linear-gradient(to bottom, @brand1-darker 0%, @brand1 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@brand1-darker', endColorstr='@brand1', GradientType=0);
   background-repeat: repeat-x;
+}
+
+.jumbotron {
+  margin-bottom: 0px;
   h1 {
     text-align: center;
     margin-top: 0px;
@@ -332,6 +332,7 @@ h1, h2 {
     font-size: 26px;
   }
 }
+
 @media (min-width: 768px) {
   .jumbotron {
     margin-bottom: 0px;
@@ -363,6 +364,7 @@ h1, h2 {
     }
   }
 }
+
 @media (min-width: 1170px) {
   .jumbotron {
     h1 {
@@ -383,15 +385,12 @@ h1, h2 {
     }
   }
 }
-.jumbotron .btn {
-  width: 100%;
-  padding: 10px 20px;
-  font-size: 22px;
-}
+
 .btn-white {
   color: #333;
   background-color: @white;
 }
+
 .btn-white:hover,
 .btn-white:focus,
 .btn-white:active {
@@ -399,6 +398,12 @@ h1, h2 {
   background-color: transparent;
   text-shadow: 1px 1px 1px rgba(0,0,0,.6);
   border-color: @white;
+}
+
+.jumbotron .btn {
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 22px;
 }
 
 @media (min-width: 768px) {
@@ -411,7 +416,7 @@ h1, h2 {
 
 /*
  * Page headers (mini-tron)
- * Jumbotron-esque headers at the top of every page that's not the homepage.
+ * Jumbotron-esque page headers
  */
 
 .mini-tron {
@@ -419,26 +424,19 @@ h1, h2 {
   padding: 30px 15px;
   color: lighten(@brand1, 35%);
   text-align: center;
-  text-shadow: 0 1px 0 rgba(0,0,0,.2);
-  background-color: @brand1;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(@brand1-darker), to(@brand1));
-  background-image: -webkit-linear-gradient(top, @brand1-darker 0%, @brand1 100%);
-  background-image:      -o-linear-gradient(top, @brand1-darker 0%, @brand1 100%);
-  background-image:         linear-gradient(to bottom, @brand1-darker 0%, @brand1 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@brand1-darker', endColorstr='@brand1', GradientType=0);
-  background-repeat: repeat-x;
   margin-bottom: 40px;
   font-size: 20px;
+  h1 {
+    margin-top: 0;
+    color: @white;
+  }
+  p {
+    margin-bottom: 0;
+    font-weight: 300;
+    line-height: 1.4;
+  }
 }
-.mini-tron h1 {
-  margin-top: 0;
-  color: @white;
-}
-.mini-tron p {
-  margin-bottom: 0;
-  font-weight: 300;
-  line-height: 1.4;
-}
+
 .mini-tron .container {
   position: relative;
 }
@@ -449,17 +447,19 @@ h1, h2 {
     padding-bottom: 60px;
     font-size: 24px;
     text-align: left;
-  }
-  .mini-tron h1 {
-    font-size: 60px;
-    line-height: 1;
+    h1 {
+      font-size: 60px;
+      line-height: 1;
+    }
   }
 }
 
 @media (min-width: 992px) {
-  .mini-tron h1,
-  .mini-tron p {
-    margin-right: 180px;
+  .mini-tron {
+    h1,
+    p {
+      margin-right: 180px;
+    }
   }
 }
 
