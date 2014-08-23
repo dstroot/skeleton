@@ -10,9 +10,11 @@ block content
     .container
       h1 403 Forbidden!
       p
-        | You tried to reach #{url}.
+        | You tried to reach:&nbsp;
+        span.lime #{url}
       p
-        | Error: #{error.message}
+        | Error:&nbsp;
+        span.lime #{error.message}
 
   .container
     .row
