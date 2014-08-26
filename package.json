@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.0.0-29",
+  "version": "1.0.0-30",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -75,7 +75,7 @@
     "paypal-rest-sdk": "~0.10.0",
     "request": "~2.40.0",
     "semver": "~3.0.1",
-    "serve-favicon": "~2.0.1",
+    "serve-favicon": "~2.1.1",
     "socket.io": "~1.0.6",
     "stripe": "^2.8.0",
     "tumblr.js": "~0.0.4",
