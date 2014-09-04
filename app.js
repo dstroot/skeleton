@@ -459,6 +459,7 @@ db.on('open', function () {
 
     // Exit cleanly on Ctrl+C
     process.on('SIGINT', function () {
+      io.close();  // Close Socket.io
       console.log('\n');
       debug('has ' + 'shutdown'.green.bold);
       debug('was running for ' + Math.round(process.uptime()).toString().green.bold + ' seconds.');
@@ -480,7 +481,7 @@ io.on('connection', function (socket) {
   connectedCount += 1;
   // Listen for pageview messages from clients
   socket.on('pageview', function (message) {
-    var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;
+    var ip = socket.handshake.headers['x-forwarded-for'] || socket.client.conn.remoteAddress || socket.handshake.address;
     var url = message;
     // Broadcast dashboard update (to all clients in default namespace)
     io.emit('dashUpdate', {
