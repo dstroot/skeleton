@@ -459,7 +459,7 @@ db.on('open', function () {
 
     // Exit cleanly on Ctrl+C
     process.on('SIGINT', function () {
-      io.close();  // Close Socket.io
+      io.close();  // close socket.io
       console.log('\n');
       debug('has ' + 'shutdown'.green.bold);
       debug('was running for ' + Math.round(process.uptime()).toString().green.bold + ' seconds.');
