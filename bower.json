@@ -3,15 +3,18 @@
   "dependencies": {
     "animate.css": "~3.1.1",
     "bootstrap": "~3.2.0",
-    "bootstrap-social": "~4.6.0",
-    "card": "~0.0.7",
-    "fastclick": "~1.0.2",
-    "font-awesome": "~4.1.0",
+    "bootstrap-social": "~4.7.0",
+    "card": "~0.0.9",
+    "fastclick": "~1.0.3",
+    "font-awesome": "~4.2.0",
     "jquery.complexify.js": "*",
     "mailcheck": "~1.0.3",
-    "moment": "~2.8.0",
+    "moment": "~2.8.3",
     "odometer": "~0.4.6",
-    "devicons": "~1.3.1",
+    "devicons": "~1.6.0",
     "react": "~0.11.1"
+  },
+  "resolutions": {
+    "devicons": "~1.6.0"
   }
 }

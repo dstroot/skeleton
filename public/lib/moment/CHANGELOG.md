@@ -1,6 +1,38 @@
 Changelog
 =========
 
+### 2.8.3
+
+Bugfixes:
+
+* [#1801](https://github.com/moment/moment/issues/1801) proper pluralization for Arabic
+* [#1833](https://github.com/moment/moment/issues/1833) improve spm integration
+* [#1871](https://github.com/moment/moment/issues/1871) fix zone bug caused by Firefox 24
+* [#1882](https://github.com/moment/moment/issues/1882) Use hh:mm in Czech
+* [#1883](https://github.com/moment/moment/issues/1883) Fix 2.8.0 regression in duration as conversions
+* [#1890](https://github.com/moment/moment/issues/1890) Faster travis builds
+* [#1892](https://github.com/moment/moment/issues/1892) Faster isBefore/After/Same
+* [#1848](https://github.com/moment/moment/issues/1848) Fix flaky month diffs
+* [#1895](https://github.com/moment/moment/issues/1895) Fix 2.8.0 regression in moment.utc with format array
+* [#1896](https://github.com/moment/moment/issues/1896) Support setting invalid instance locale (noop)
+* [#1897](https://github.com/moment/moment/issues/1897) Support moment([str]) in addition to moment([int])
+
+### 2.8.2
+
+Minor bugfixes:
+
+* [#1874](https://github.com/moment/moment/issues/1874) use `Object.prototype.hasOwnProperty`
+  instead of `obj.hasOwnProperty` (ie8 bug)
+* [#1873](https://github.com/moment/moment/issues/1873) add `duration#toString()`
+* [#1859](https://github.com/moment/moment/issues/1859) better month/weekday names in norwegian
+* [#1812](https://github.com/moment/moment/issues/1812) meridiem parsing for greek
+* [#1804](https://github.com/moment/moment/issues/1804) spanish del -> de
+* [#1800](https://github.com/moment/moment/issues/1800) korean LT improvement
+
+### 2.8.1
+
+* bugfix [#1813](https://github.com/moment/moment/issues/1813): fix moment().lang([key]) incompatibility
+
 ### 2.8.0 [See changelog](https://gist.github.com/ichernev/ac3899324a5fa6c8c9b4)
 
 * incompatible changes
