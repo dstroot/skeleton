@@ -85,7 +85,7 @@
   "devDependencies": {
     "chai": "~1.9.1",
     "gulp": "^3.8.7",
-    "gulp-autoprefixer": "0.0.10",
+    "gulp-autoprefixer": "1.0.0",
     "gulp-changed": "~1.0.0",
     "gulp-concat": "~2.4.0",
     "gulp-csscomb": "~3.0.2",

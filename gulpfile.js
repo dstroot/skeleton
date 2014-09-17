@@ -101,19 +101,14 @@ gulp.task('clean', function () {
 
 gulp.task('styles', function () {
   return gulp.src(paths.less)               // Read in Less files
-    .pipe($.sourcemaps.init())              // Initialize gulp-sourcemaps
     .pipe($.less({ strictMath: true }))     // Compile Less files
-    .pipe($.autoprefixer([                  // Autoprefix for target browsers
-      'last 2 versions',
-      '> 1%',
-      'Firefox ESR',
-      'Opera 12.1'
-    ], { cascade: true }))
+    .pipe($.autoprefixer({                  // Autoprefix for target browsers
+      browsers: ['last 2 versions'],
+      cascade: true
+    }))
     .pipe($.csscomb())                      // Coding style formatter for CSS
     .pipe($.csslint('.csslintrc'))          // Lint CSS
     .pipe($.csslint.reporter())             // Report issues
-    // .pipe($.sourcemaps.write())             // Write sourcemap
-    // .pipe(gulp.dest('./public/css'))        // Save CSS here
     .pipe($.rename({ suffix: '.min' }))     // Add .min suffix
     .pipe($.csso())                         // Minify CSS
     .pipe($.header(banner, { pkg : pkg }))  // Add banner
