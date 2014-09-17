@@ -158,6 +158,7 @@ app.set('etag', true);  // other values 'weak', 'strong'
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Easy form validation!
+// This line must be immediately after bodyParser!
 app.use(expressValidator());
 
 // If you want to simulate DELETE and PUT
