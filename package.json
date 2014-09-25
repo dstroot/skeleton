@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.0.0-39",
+  "version": "1.0.0-40",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -38,7 +38,7 @@
   "dependencies": {
     "async": "~0.9.0",
     "bcrypt-nodejs": "~0.0.3",
-    "body-parser": "~1.8.3",
+    "body-parser": "~1.9.0",
     "cheerio": "~0.17.0",
     "compression": "~1.1.0",
     "connect-mongo": "~0.4.1",
@@ -50,7 +50,7 @@
     "express-loggly": "~0.0.4",
     "express-session": "~1.8.2",
     "express-sslify": "^0.1.0",
-    "express-validator": "~2.5.0",
+    "express-validator": "~2.6.0",
     "fbgraph": "~0.2.11",
     "github-api": "~0.7.0",
     "helmet": "~0.4.1",
