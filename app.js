@@ -209,11 +209,12 @@ if (app.get('env') === 'production' && config.logging) {
 // Security Settings
 app.disable('x-powered-by');          // Don't advertise our server type
 app.use(csrf());                      // Prevent Cross-Site Request Forgery
-app.use(helmet.nosniff());            // Sets X-Content-Type-Options to nosniff
+app.use(helmet.crossdomain());        // Serve crossdomain.xml policy
 app.use(helmet.ienoopen());           // X-Download-Options for IE8+
+app.use(helmet.nosniff());            // Sets X-Content-Type-Options to nosniff
 app.use(helmet.xssFilter());          // sets the X-XSS-Protection header
-app.use(helmet.xframe('deny'));       // Prevent iframe
-app.use(helmet.crossdomain());        // crossdomain.xml
+app.use(helmet.frameguard('deny'));   // Prevent iframe clickjacking
+
 
 // Content Security Policy:
 //   http://content-security-policy.com/
@@ -225,7 +226,7 @@ app.use(helmet.crossdomain());        // crossdomain.xml
 //   EVEN USE IT AT ALL - I JUST WANTED TO
 //   LEARN HOW IT WORKS. :)
 
-app.use(helmet.csp({
+app.use(helmet.contentSecurityPolicy({
   defaultSrc: [
     "'self'"
   ],

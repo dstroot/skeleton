@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.0.0-45",
+  "version": "1.0.0-46",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -53,7 +53,7 @@
     "express-validator": "~2.6.0",
     "fbgraph": "~0.3.0",
     "github-api": "~0.7.0",
-    "helmet": "~0.4.2",
+    "helmet": "~0.5.0",
     "jade": "~1.7.0",
     "lastfm": "~0.9.2",
     "lodash": "~2.4.1",
