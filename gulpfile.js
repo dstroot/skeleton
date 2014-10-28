@@ -9,6 +9,7 @@
 
 var $             = require('gulp-load-plugins')({ lazy: true });
 var psi           = require('psi');
+var del           = require('del');
 var gulp          = require('gulp');
 var pngcrush      = require('imagemin-pngcrush');
 var terminus      = require('terminus');
@@ -35,13 +36,13 @@ var banner = [
 
 var paths = {
   clean: [
-    '!public/js/main.js',            // ! not
-    '!public/js/socket.io-1.0.6.js', // ! not
     'public/js/**/*.js',
     'public/js/**/*.map',
     'public/js/**/*.min.js',
     'public/css/**/*.css',
-    'public/css/**/*.min.css'
+    'public/css/**/*.min.css',
+    '!public/js/main.js',            // ! not
+    '!public/js/socket.io-1.0.6.js'  // ! not
   ],
   js: [
     // ============= Bootstrap  ================
@@ -90,9 +91,13 @@ var paths = {
 // Return the stream so that gulp knows the task is asynchronous
 // and waits for it to terminate before starting dependent tasks.
 
-gulp.task('clean', function () {
-  return gulp.src(paths.clean, { read: false })
-    .pipe($.rimraf());
+// gulp.task('clean', function () {
+//   return gulp.src(paths.clean, { read: false })
+//     .pipe($.rimraf());
+// });
+
+gulp.task('clean', function (cb) {
+  del(paths.clean, cb);
 });
 
 /**
