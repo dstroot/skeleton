@@ -12,7 +12,7 @@
     "moment": "~2.8.3",
     "odometer": "~0.4.6",
     "devicons": "~1.6.0",
-    "react": "~0.11.1"
+    "react": "~0.12.0"
   },
   "resolutions": {
     "devicons": "~1.6.0"
