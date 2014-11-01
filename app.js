@@ -234,24 +234,35 @@ app.use(helmet.contentSecurityPolicy({
     "'self'",
     "'unsafe-eval'",
     "'unsafe-inline'",
-    'ajax.googleapis.com',
-    'www.google-analytics.com',
-    'oss.maxcdn.com',
-    'cdn.socket.io',
-    'checkout.stripe.com',
-    'cdnjs.cloudflare.com'
+    'http://ajax.googleapis.com',
+    'https://ajax.googleapis.com',
+    'http://www.google-analytics.com',
+    'https://www.google-analytics.com',
+    'http://oss.maxcdn.com',
+    'https://oss.maxcdn.com',
+    'http://cdn.socket.io',
+    'https://cdn.socket.io',
+    'http://checkout.stripe.com',
+    'https://checkout.stripe.com',
+    'http://cdnjs.cloudflare.com',
+    'https://cdnjs.cloudflare.com'
   ],
   styleSrc: [
     "'self'",
     "'unsafe-inline'",
-    'fonts.googleapis.com',
-    'checkout.stripe.com'
+    'http://fonts.googleapis.com',
+    'https://fonts.googleapis.com',
+    'http://checkout.stripe.com',
+    'https://checkout.stripe.com'
   ],
   fontSrc: [
     "'self'",
-    'fonts.googleapis.com',
-    'fonts.gstatic.com',
-    'themes.googleusercontent.com'
+    'http://fonts.googleapis.com',
+    'https://fonts.googleapis.com',
+    'http://fonts.gstatic.com',
+    'https://fonts.gstatic.com',
+    'htp://themes.googleusercontent.com',
+    'https://themes.googleusercontent.com'
   ],
   imgSrc: [
     "'self'",
@@ -259,15 +270,23 @@ app.use(helmet.contentSecurityPolicy({
     'https://gravatar.com',
     'https://avatars.githubusercontent.com',
     'http://pbs.twimg.com',
-    '*.4sqi.net',
+    'https://pbs.twimg.com',
+    'http://*.4sqi.net',
+    'https://*.4sqi.net',
     'http://*.media.tumblr.com',
     'http://userserve-ak.last.fm',
-    'graph.facebook.com',
-    '*.fbcdn.net',
-    'fbcdn-profile-a.akamaihd.net',
-    'github.global.ssl.fastly.net',
-    'chart.googleapis.com',
-    'www.google-analytics.com'
+    'http://graph.facebook.com',
+    'https://graph.facebook.com',
+    'http://*.fbcdn.net',
+    'https://*.fbcdn.net',
+    'http://fbcdn-profile-a.akamaihd.net',
+    'https://fbcdn-profile-a.akamaihd.net',
+    'http://github.global.ssl.fastly.net',
+    'https://github.global.ssl.fastly.net',
+    'http://chart.googleapis.com',
+    'https://chart.googleapis.com',
+    'http://www.google-analytics.com',
+    'https://www.google-analytics.com'
   ],
   mediaSrc: [
     "'self'"
@@ -278,13 +297,14 @@ app.use(helmet.contentSecurityPolicy({
     'ws://localhost:3000',
     'ws://127.0.0.1:35729/livereload',
     'wss://skeleton-app.jit.su',
-    'api.github.com'
+    'https://api.github.com'
   ],
   objectSrc: [  // allows control over Flash and other plugins
     "'none'"
   ],
   frameSrc: [   // origins that can be embedded as frames
-    'checkout.stripe.com'
+    'http://checkout.stripe.com',
+    'https://checkout.stripe.com',
   ],
   sandbox: [
     'allow-same-origin',

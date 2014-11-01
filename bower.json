@@ -2,7 +2,7 @@
   "name": "Skeleton",
   "dependencies": {
     "animate.css": "~3.1.1",
-    "bootstrap": "~3.2.0",
+    "bootstrap": "~3.3.0",
     "bootstrap-social": "~4.7.0",
     "card": "~0.0.9",
     "fastclick": "~1.0.3",
