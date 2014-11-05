@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.0.0-47",
+  "version": "1.0.0-49",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -85,7 +85,7 @@
   "devDependencies": {
     "chai": "~1.9.2",
     "del": "^0.1.3",
-    "gulp": "^3.8.9",
+    "gulp": "^3.8.10",
     "gulp-autoprefixer": "~1.0.1",
     "gulp-changed": "~1.0.0",
     "gulp-concat": "~2.4.1",
@@ -94,8 +94,8 @@
     "gulp-csso": "~0.2.9",
     "gulp-header": "~1.2.2",
     "gulp-imagemin": "~1.2.1",
-    "gulp-jscs": "~1.2.1",
-    "gulp-jshint": "~1.8.6",
+    "gulp-jscs": "~1.3.0",
+    "gulp-jshint": "~1.9.0",
     "gulp-less": "~1.3.6",
     "gulp-livereload": "~2.1.1",
     "gulp-load-plugins": "~0.7.1",
@@ -109,9 +109,9 @@
     "imagemin-pngcrush": "~4.0.0",
     "jshint-stylish": "~1.0.0",
     "mocha": "~2.0.1",
-    "psi": "~0.1.4",
+    "psi": "~0.1.5",
     "run-sequence": "~1.0.1",
     "supertest": "~0.14.0",
-    "terminus": "~1.0.10"
+    "terminus": "~1.0.11"
   }
 }
