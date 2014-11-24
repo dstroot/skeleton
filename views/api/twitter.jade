@@ -22,7 +22,21 @@ block content
         | &nbsp;API Endpoints
 
     br
-    .lead Latest 50 Tweets containing "Hackathon" in NYC within 5 miles
+
+    .well
+      h4 Compose new Tweet
+      form(role='form', method='POST')
+        input(type='hidden', name='_csrf', value=_csrf)
+        .form-group
+          input.form-control(type='text', name='tweet', autofocus)
+          p.help-block This Tweet will be posted on <strong>your</strong> Twitter profile!
+        button.btn.btn-primary(type='submit')
+          i.fa.fa-twitter
+          |  Tweet
+
+    br
+
+    .lead Latest <strong>10</strong> popular Tweets containing <strong>iPhone 6</strong>:
 
     ul.list-unstyled
       for tweet in tweets

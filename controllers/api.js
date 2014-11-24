@@ -487,25 +487,55 @@ module.exports.controller = function (app) {
 
   /**
    * GET /api/twitter
-   * Twiter API example.
+   * Twitter API example.
+   * https://dev.twitter.com/rest/reference/get/search/tweets
    */
 
   app.get('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res, next) {
     var token = _.find(req.user.tokens, { kind: 'twitter' });
+    var params = { q: 'iPhone 6', since_id: 24012619984051000, count: 10, result_type: 'popular' };
     var T = new Twit({
-      consumer_key: config.twitter.consumerKey,
-      consumer_secret: config.twitter.consumerSecret,
-      access_token: token.token,
-      access_token_secret: token.tokenSecret
+      consumer_key:         config.twitter.consumerKey,
+      consumer_secret:      config.twitter.consumerSecret,
+      access_token:         token.token,
+      access_token_secret:  token.tokenSecret
     });
-    T.get('search/tweets', { q: 'hackathon since:2013-01-01', geocode: '40.71448,-74.00598,5mi', count: 50 }, function (err, reply) {
+    T.get('search/tweets', params, function (err, data, response) {
       if (err) {
         return next(err);
       }
       res.render('api/twitter', {
         url: '/apilocked',
-        tweets: reply.statuses
+        tweets: data.statuses
       });
+    });
+  });
+
+  /**
+   * POST /api/twitter
+   * Post a tweet.
+   */
+
+  app.post('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, function (req, res, next) {
+    req.assert('tweet', 'Tweet cannot be empty.').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('/api/twitter');
+    }
+    var token = _.find(req.user.tokens, { kind: 'twitter' });
+    var T = new Twit({
+      consumer_key:         config.twitter.consumerKey,
+      consumer_secret:      config.twitter.consumerSecret,
+      access_token:         token.token,
+      access_token_secret:  token.tokenSecret
+    });
+    T.post('statuses/update', { status: req.body.tweet }, function (err, data, response) {
+      if (err) {
+        return next(err);
+      }
+      req.flash('success', { msg: 'Tweet has been posted.' });
+      res.redirect('/api/twitter');
     });
   });
 

@@ -441,7 +441,7 @@ if (app.get('env') === 'development') {
   });
 
   // Final error catch-all just in case...
-  app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+  app.use(errorHandler());
 }
 
 /*

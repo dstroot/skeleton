@@ -11,7 +11,7 @@ var $             = require('gulp-load-plugins')({ lazy: true });
 var psi           = require('psi');
 var del           = require('del');
 var gulp          = require('gulp');
-var pngcrush      = require('imagemin-pngcrush');
+var pngquant      = require('imagemin-pngquant');
 var terminus      = require('terminus');
 var runSequence   = require('run-sequence');
 
@@ -150,7 +150,7 @@ gulp.task('images', function () {
       optimizationLevel: 3,
       interlaced: true,
       svgoPlugins: [{ removeViewBox: false }],
-      use: [pngcrush()]
+      use: [pngquant()]
     }))
     .pipe(gulp.dest('./public/img'));       // Write processed images
 });
