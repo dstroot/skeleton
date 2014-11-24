@@ -1,0 +1,34 @@
+@import "card";
+@import "../logos/amex";
+
+$fill-color: #108168;
+
+.card.amex {
+
+    &.flipped{
+        @include transform(none);
+    }
+
+    &.identified {
+        .front, .back {
+            &:before {
+                background-color: $fill-color;
+            }
+        }
+
+        .front {
+
+            .card-logo.amex {
+                opacity: 1;
+            }
+
+            .cvc {
+                visibility: visible;
+            }
+
+            &:after {
+                opacity: 1;
+            }
+        }
+    }
+}

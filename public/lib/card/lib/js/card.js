@@ -618,7 +618,8 @@ Card = (function() {
     classes: {
       valid: 'card-valid',
       invalid: 'card-invalid'
-    }
+    },
+    debug: false
   };
 
   function Card(el, opts) {
@@ -652,7 +653,7 @@ Card = (function() {
         } else {
           obj = _this.$el.find(selector);
         }
-        if (!obj.length) {
+        if (!obj.length && _this.options.debug) {
           console.error("Card can't find a " + name + " in your form.");
         }
         return _this["$" + name] = obj;
@@ -676,7 +677,10 @@ Card = (function() {
       }
     }
     if (new Function("/*@cc_on return @_jscript_version; @*/")()) {
-      return this.$card.addClass('ie-10');
+      this.$card.addClass('ie-10');
+    }
+    if (/rv:11.0/i.test(navigator.userAgent)) {
+      return this.$card.addClass('ie-11');
     }
   };
 
@@ -693,7 +697,6 @@ Card = (function() {
     ];
     if (this.$expiryInput.length === 1) {
       expiryFilters.push(this.validToggler('cardExpiry'));
-      this.$expiryInput.on('keydown', this.handle('captureTab'));
     }
     this.$expiryInput.bindVal(this.$expiryDisplay, {
       join: function(text) {
@@ -707,7 +710,7 @@ Card = (function() {
     });
     this.$cvcInput.bindVal(this.$cvcDisplay, {
       filters: this.validToggler('cardCVC')
-    }).on('focus', this.handle('flipCard')).on('blur', this.handle('flipCard'));
+    }).on('focus', this.handle('flipCard')).on('blur', this.handle('unflipCard'));
     return this.$nameInput.bindVal(this.$nameDisplay, {
       fill: false,
       filters: this.validToggler('cardHolderName'),
@@ -791,22 +794,11 @@ Card = (function() {
         return this.cardType = cardType;
       }
     },
-    flipCard: function($el, e) {
-      return this.$card.toggleClass('flipped');
+    flipCard: function() {
+      return this.$card.addClass('flipped');
     },
-    captureTab: function($el, e) {
-      var keyCode, val;
-      keyCode = e.keyCode || e.which;
-      if (keyCode !== 9 || e.shiftKey) {
-        return;
-      }
-      val = $el.payment('cardExpiryVal');
-      if (!(val.month || val.year)) {
-        return;
-      }
-      if (!$.payment.validateCardExpiry(val.month, val.year)) {
-        return e.preventDefault();
-      }
+    unflipCard: function() {
+      return this.$card.removeClass('flipped');
     },
     captureName: function($el, e) {
       var allowedSymbols, banKeyCodes, keyCode;

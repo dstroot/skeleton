@@ -2,17 +2,17 @@
   "name": "Skeleton",
   "dependencies": {
     "animate.css": "~3.1.1",
-    "bootstrap": "~3.3.0",
+    "bootstrap": "~3.3.1",
     "bootstrap-social": "~4.7.0",
-    "card": "~0.0.9",
+    "card": "~0.1.3",
     "fastclick": "~1.0.3",
     "font-awesome": "~4.2.0",
     "jquery.complexify.js": "*",
     "mailcheck": "~1.0.3",
-    "moment": "~2.8.3",
+    "moment": "~2.8.4",
     "odometer": "~0.4.6",
     "devicons": "~1.6.0",
-    "react": "~0.12.0"
+    "react": "~0.12.1"
   },
   "resolutions": {
     "devicons": "~1.6.0"

@@ -1,6 +1,6 @@
 {
   "name": "card",
-  "version": "0.0.9",
+  "version": "0.1.3",
   "homepage": "https://github.com/jessepollak/card",
   "authors": [
     "Jesse Pollak <jpollak92@gmail.com>"
@@ -24,18 +24,16 @@
     "**/.*",
     "node_modules",
     "example",
-    "src",
     "test",
     "tests"
   ],
-  "_release": "0.0.9",
+  "_release": "0.1.3",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.9",
-    "commit": "220e82582b585effb52f54ef738317a0fadec4e6"
+    "tag": "v0.1.3",
+    "commit": "04eaacadccb01ba59f18d6b322c48ba28f9d02fe"
   },
   "_source": "git://github.com/jessepollak/card.git",
-  "_target": "~0.0.9",
-  "_originalSource": "card",
-  "_direct": true
+  "_target": "~0.1.3",
+  "_originalSource": "card"
 }

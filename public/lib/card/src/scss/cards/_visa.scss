@@ -1,0 +1,17 @@
+@import "card";
+@import "../logos/visa";
+
+$fill-color: #191278;
+
+.card.visa {
+    &.identified {
+        .front, .back {
+            &:before {
+                background-color: $fill-color;
+            }
+        }
+        .card-logo.visa {
+            opacity: 1;
+        }
+    }
+}
