@@ -1,6 +1,6 @@
 @font-face {
   font-family: "proxima_nova";
-  src: url("https://www.dropbox.com/static/fonts/proximanova/proxima-nova-regular.otf") format("opentype");
+  src: url("/font/proxima-nova/proxima-nova-regular.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
