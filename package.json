@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.0.0-55",
+  "version": "1.0.0-56",
   "name": "Skeleton",
   "company": "Skeleton, Inc.",
   "subdomain": "skeleton-app",
@@ -73,7 +73,7 @@
     "passport-totp": "0.0.1",
     "passport-twitter": "~1.0.2",
     "paypal-rest-sdk": "~1.2.2",
-    "request": "~2.49.0",
+    "request": "~2.51.0",
     "semver": "~4.1.0",
     "serve-favicon": "~2.1.7",
     "socket.io": "~1.2.1",
