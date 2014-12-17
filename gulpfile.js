@@ -203,7 +203,7 @@ gulp.task('nodemon', ['build'], function (cb) {
     script: 'app.js',
     verbose: false,
     env: { 'NODE_ENV': 'development', 'DEBUG': 'skeleton' },
-    // nodeArgs: ['--debug'],
+    // nodeArgs: ['--debug']
     ext: 'js',
     ignore: [
       'gulpfile.js',
