@@ -26,6 +26,7 @@ block content
         | &nbsp;Marked
 
     #example
+    #gist
 
 block scripts
   script(src='/lib/react/react.min.js')
@@ -69,3 +70,51 @@ block scripts
     });
 
     React.renderComponent(<MarkdownEditor />, document.getElementById('example'));
+  
+    // Load Initial Data via AJAX Example
+    // This example fetches the desired Github user's latest gist:
+
+    var UserGist = React.createClass({
+      getInitialState: function() {
+        return {
+          username: '',
+          lastGistUrl: ''
+        };
+      },
+      
+      // Fetch data in componentDidMount. When the response arrives, 
+      // store the data in state, triggering a render to update your UI.
+    
+      componentDidMount: function() {
+        $.get(this.props.source, function(result) {
+          var lastGist = result[0];
+          
+          // be sure to check that the component is still mounted 
+          // before updating its state by using this.isMounted().
+        
+          if (this.isMounted()) {
+            this.setState({
+              username: lastGist.owner.login,
+              lastGistUrl: lastGist.html_url
+            });
+          }
+        }.bind(this));
+      },
+        
+      render: function() {
+        return (
+          <div>
+            {this.state.username}'s last gist is&nbsp;
+            <a href={this.state.lastGistUrl}>here</a>.
+          </div>
+        );
+      }
+    });
+        
+    React.render(
+      <UserGist source="https://api.github.com/users/dstroot/gists" />,
+      document.getElementById('gist')
+    );
+    
+    
+    

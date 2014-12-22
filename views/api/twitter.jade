@@ -24,12 +24,12 @@ block content
     br
 
     .well
-      h4 Compose new Tweet
+      h4 Compose a new tweet:
       form(role='form', method='POST')
         input(type='hidden', name='_csrf', value=_csrf)
         .form-group
           input.form-control(type='text', name='tweet', autofocus)
-          p.help-block This Tweet will be posted on <strong>your</strong> Twitter profile!
+          p.help-block This tweet will be posted on <strong>your</strong> Twitter profile!
         button.btn.btn-primary(type='submit')
           i.fa.fa-twitter
           |  Tweet
