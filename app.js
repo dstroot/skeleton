@@ -47,8 +47,8 @@ var db = mongoose.connection;
 
 // Use Mongo for session store
 config.session.store  = new MongoStore({
-  mongoose_connection: db,
-  auto_reconnect: true
+  mongooseConnection: db,
+  autoReconnect: true
 });
 
 /**
