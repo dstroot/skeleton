@@ -5,6 +5,7 @@
  */
 
 var pkg               = require('../package.json');
+var dotenv            = require('dotenv');  // https://www.npmjs.com/package/dotenv
 
 /**
  * Configuration File
@@ -18,6 +19,12 @@ var pkg               = require('../package.json');
  *
  */
 
+// *For Development Purposes*
+// Read in environment vars from .env file
+// In production I recommend setting the
+// environment vars directly
+dotenv.load();
+
 var config            = {};
 
 // From package.json
@@ -30,13 +37,14 @@ config.keywords       = pkg.keywords;
 config.nodeVersion    = pkg.engines.node;
 
 config.port           = process.env.PORT || 3000;
-config.ga             = process.env.GA   || 'UA-44765020-2';
+config.ga             = process.env.GA   || 'google analytics key';
 
 /**
  * Logging Configuration
  */
 
-config.logging        = process.env.LOGGING || true;
+config.logging        = process.env.LOGGING || false;
+
 // Loggly configuration
 config.loggly         = {};
 config.loggly.token   = process.env.LOGGLY_TOKEN || 'Your Token';
@@ -61,7 +69,7 @@ var week              = (day * 7);
 
 // Session
 config.session                 = {};
-config.session.secret          = process.env.SESSION_SECRET || 'nLz8gSz7DHv3fDU3LIp60G';
+config.session.secret          = process.env.SESSION_SECRET || 'my big secret';
 config.session.name            = 'sid';  // Generic - don't leak information
 config.session.proxy           = false;  // Trust the reverse proxy for HTTPS/SSL
 config.session.resave          = false;  // Forces session to be saved even when unmodified
@@ -86,8 +94,8 @@ config.loginAttempts.expires   = '20m';
 
 // Who are we sending email as?
 config.smtp                    = {};
-config.smtp.name               = process.env.SMTP_FROM_NAME    || 'Skeleton';
-config.smtp.address            = process.env.SMTP_FROM_ADDRESS || 'skeleton@skeleton.com';
+config.smtp.name               = process.env.SMTP_FROM_NAME    || 'support';
+config.smtp.address            = process.env.SMTP_FROM_ADDRESS || 'support@skeleton.com';
 
 // How are we sending it?
 config.gmail                   = {};

@@ -50,6 +50,7 @@ builtAssets/
 # Configuration
 ##################
 env.json
+.env
 
 # Logging
 ##################
