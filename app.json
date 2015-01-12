@@ -1,0 +1,29 @@
+{
+  "name": "Skeleton",
+  "description": "A friendly node and express framework",
+  "repository": "https://github.com/dstroot/skeleton",
+  "logo": "https://raw.githubusercontent.com/dstroot/skeleton/master/images/Octocat.png",
+  "keywords": [
+    "skeleton",
+    "node",
+    "express",
+    "passport",
+    "bootstrap",
+    "fontawesome",
+    "framework"
+  ],
+  "env": {
+    "BUILDPACK_URL": "https://github.com/stomita/heroku-buildpack-phantomjs",
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "5"
+    }
+  },
+  "addons": [
+    "mongolab:shared-single-small"
+  ]
+}
