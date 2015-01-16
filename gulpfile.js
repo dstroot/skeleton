@@ -258,29 +258,27 @@ gulp.task('default', ['open'], function () {
  * Run PageSpeed Insights
  */
 
-var site = 'https://skeleton-app.jit.su';
-// var key = '';
+ // When using this module for a production-level build process,
+ // registering for an API key from the Google Developer Console
+ // is recommended.
 
-// Please feel free to use the `nokey` option to try out PageSpeed
-// Insights as part of your build process. For more frequent use
-// please register your own API key. For more info:
-// https://developers.google.com/speed/docs/insights/v1/getting_started
+var site = 'skeleton-app.jit.su';
 
 gulp.task('mobile', function (cb) {
-  psi({
-    // key: key
-    nokey: 'true',
-    url: site,
+  // output a formatted report to the terminal
+  psi.output(site, {
     strategy: 'mobile',
+    locale: 'en_US',
+    threshold: 70
   }, cb);
 });
 
 gulp.task('desktop', ['mobile'], function (cb) {
-  psi({
-    // key: key,
-    nokey: 'true',
-    url: site,
+  // output a formatted report to the terminal
+  psi.output(site, {
     strategy: 'desktop',
+    locale: 'en_US',
+    threshold: 80
   }, cb);
 });
 

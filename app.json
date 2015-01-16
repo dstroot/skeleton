@@ -13,14 +13,13 @@
     "framework"
   ],
   "env": {
-    "BUILDPACK_URL": "https://github.com/stomita/heroku-buildpack-phantomjs",
-    "SECRET_TOKEN": {
+    "SESSION_SECRET": {
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
     },
     "WEB_CONCURRENCY": {
       "description": "The number of processes to run.",
-      "value": "5"
+      "value": "2"
     }
   },
   "addons": [
