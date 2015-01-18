@@ -30,8 +30,7 @@
   ],
   "scripts": {
     "start": "node app.js",
-    "test": "mocha",
-    "postinstall": "bower install"
+    "test": "mocha"
   },
   "engines": {
     "node": "~0.10.0"
