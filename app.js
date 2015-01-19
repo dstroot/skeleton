@@ -228,7 +228,8 @@ app.use(helmet.frameguard('deny'));   // Prevent iframe clickjacking
 
 app.use(helmet.contentSecurityPolicy({
   defaultSrc: [
-    "'self'"
+    "'self'",
+    'skeleton-app.jit.su'
   ],
   scriptSrc: [
     "'self'",
@@ -311,6 +312,7 @@ app.use(helmet.contentSecurityPolicy({
     'allow-forms',
     'allow-scripts'
   ],
+  reportUri: '/report-violation',
   reportOnly: false,     // set to true if you *only* want to report errors
   setAllHeaders: false   // set to true if you want to set all headers
 }));

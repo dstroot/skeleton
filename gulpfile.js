@@ -42,7 +42,6 @@ var paths = {
     'public/css/**/*.css',
     'public/css/**/*.min.css',
     '!public/js/main.js',            // ! not
-    '!public/js/socket.io-1.0.6.js'  // ! not
   ],
   js: [
     // ============= Bootstrap  ================

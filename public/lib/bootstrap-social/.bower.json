@@ -12,15 +12,14 @@
     "font-awesome": "~4.2"
   },
   "homepage": "https://github.com/lipis/bootstrap-social",
-  "version": "4.7.0",
-  "_release": "4.7.0",
+  "version": "4.8.0",
+  "_release": "4.8.0",
   "_resolution": {
     "type": "version",
-    "tag": "4.7.0",
-    "commit": "f1960233097e41b9e54d334f0a345bad9e8df960"
+    "tag": "4.8.0",
+    "commit": "918fc55c3c938377a7618ec0f115846e50d4b883"
   },
   "_source": "git://github.com/lipis/bootstrap-social.git",
-  "_target": "~4.7.0",
-  "_originalSource": "bootstrap-social",
-  "_direct": true
+  "_target": "~4.8.0",
+  "_originalSource": "bootstrap-social"
 }
