@@ -314,7 +314,9 @@ app.use(helmet.contentSecurityPolicy({
   ],
   reportUri: '/report-violation',
   reportOnly: false,     // set to true if you *only* want to report errors
-  setAllHeaders: false   // set to true if you want to set all headers
+  setAllHeaders: false,  // set to true if you want to set all headers
+  disableAndroid: false, // set to true if you want to disable Android (browsers can vary and be buggy)
+  safari5: false         // set to true if you want to force buggy CSP in Safari 5
 }));
 
 // Passport OAUTH Middleware
