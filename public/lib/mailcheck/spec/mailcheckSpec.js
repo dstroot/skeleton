@@ -6,7 +6,9 @@ describe("mailcheck", function() {
     var mailcheck;
 
     beforeEach(function(){
-       mailcheck = Kicksend.mailcheck;
+      // We may be running in a CommonJS environment.
+      // If so, mailcheck won't be in a global Kicksend object.
+      mailcheck = typeof Kicksend !== 'undefined' ? Kicksend.mailcheck : require('../');
     });
 
     describe("run", function () {
@@ -44,6 +46,18 @@ describe("mailcheck", function() {
 
         expect(emptySpy).toHaveBeenCalled();
       });
+
+      it("returns the result when 'suggested' callback is not defined", function () {
+        var result = mailcheck.run({
+          email: 'test@hotmail.co',
+        });
+
+        expect(result).toEqual({
+          address:'test',
+          domain:'hotmail.com',
+          full:'test@hotmail.com'
+        })
+      })
 
       it("takes in an array of specified domains", function () {
         mailcheck.run({
@@ -215,6 +229,12 @@ describe("mailcheck", function() {
       });
     });
   });
+
+  // Browser-only code below:
+
+  if (typeof window === 'undefined') {
+      return;
+  }
 
   describe("jquery.mailcheck", function () {
     var suggestedSpy, emptySpy;

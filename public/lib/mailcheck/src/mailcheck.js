@@ -17,26 +17,22 @@ var Kicksend = {
 
     defaultDomains: ["yahoo.com", "google.com", "hotmail.com", "gmail.com", "me.com", "aol.com", "mac.com",
       "live.com", "comcast.net", "googlemail.com", "msn.com", "hotmail.co.uk", "yahoo.co.uk",
-      "facebook.com", "verizon.net", "sbcglobal.net", "att.net", "gmx.com", "mail.com"],
+      "facebook.com", "verizon.net", "sbcglobal.net", "att.net", "gmx.com", "mail.com", "outlook.com", "icloud.com"],
 
-    defaultTopLevelDomains: ["co.uk", "com", "net", "org", "info", "edu", "gov", "mil"],
+    defaultTopLevelDomains: ["co.jp", "co.uk", "com", "net", "org", "info", "edu", "gov", "mil", "ca"],
 
     run: function(opts) {
       opts.domains = opts.domains || Kicksend.mailcheck.defaultDomains;
       opts.topLevelDomains = opts.topLevelDomains || Kicksend.mailcheck.defaultTopLevelDomains;
       opts.distanceFunction = opts.distanceFunction || Kicksend.sift3Distance;
 
+      var defaultCallback = function(result){ return result }
+      var suggestedCallback = opts.suggested || defaultCallback
+      var emptyCallback = opts.empty || defaultCallback
+
       var result = Kicksend.mailcheck.suggest(encodeURI(opts.email), opts.domains, opts.topLevelDomains, opts.distanceFunction);
 
-      if (result) {
-        if (opts.suggested) {
-          opts.suggested(result);
-        }
-      } else {
-        if (opts.empty) {
-          opts.empty();
-        }
-      }
+      return result ? suggestedCallback(result) : emptyCallback()
     },
 
     suggest: function(email, domains, topLevelDomains, distanceFunction) {
@@ -182,7 +178,13 @@ var Kicksend = {
   }
 };
 
-if (window.jQuery) {
+// Export the mailcheck object if we're in a CommonJS env (e.g. Node).
+// Modeled off of Underscore.js.
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Kicksend.mailcheck;
+}
+
+if (typeof window !== 'undefined' && window.jQuery) {
   (function($){
     $.fn.mailcheck = function(opts) {
       var self = this;

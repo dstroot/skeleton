@@ -1,7 +1,7 @@
 {
   "name": "mailcheck",
   "title": "mailcheck",
-  "description": "A jQuery plugin that suggests a right domain when your users misspell it in an email address.",
+  "description": "A standalone module that suggests a right domain when your users misspell it in an email address.",
   "keywords": [
     "form",
     "email",
@@ -29,7 +29,21 @@
   "bugs": "https://github.com/Kicksend/mailcheck/issues",
   "homepage": "https://github.com/Kicksend/mailcheck",
   "docs": "https://github.com/Kicksend/mailcheck/blob/master/README.md",
-  "dependencies": {
-    "jquery": ">=1.7"
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine-node": "1.x",
+    "grunt": "0.4.x",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-jasmine-node": "~0.1.0",
+    "grunt-cli": "~0.1.9"
+  },
+  "main": "src/mailcheck.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Kicksend/mailcheck.git"
+  },
+  "scripts": {
+    "test": "grunt test",
+    "prepublish": "grunt test"
   }
 }

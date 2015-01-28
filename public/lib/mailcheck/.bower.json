@@ -1,6 +1,6 @@
 {
   "name": "mailcheck",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "src/mailcheck.js",
   "scripts": [
     "src/mailcheck.js",
@@ -11,14 +11,14 @@
     "node_modules",
     "components"
   ],
-  "homepage": "https://github.com/niftylettuce/mailcheck",
-  "_release": "1.0.3",
+  "homepage": "https://github.com/mailcheck/mailcheck",
+  "_release": "1.0.4",
   "_resolution": {
     "type": "version",
-    "tag": "v1.0.3",
-    "commit": "ed1f0dd60faaa6816178ba349b79b6553209ba9b"
+    "tag": "v1.0.4",
+    "commit": "314d14c2fdd3fb5e0da1726674a4b536f313178a"
   },
-  "_source": "git://github.com/niftylettuce/mailcheck.git",
+  "_source": "git://github.com/mailcheck/mailcheck.git",
   "_target": "~1.0.3",
   "_originalSource": "mailcheck"
 }

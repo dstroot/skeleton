@@ -5,14 +5,14 @@
     "bootstrap": "~3.3.2",
     "bootstrap-social": "~4.8.0",
     "card": "~0.1.4",
-    "fastclick": "~1.0.3",
+    "fastclick": "~1.0.6",
     "font-awesome": "~4.2.0",
     "jquery.complexify.js": "*",
-    "mailcheck": "~1.0.3",
+    "mailcheck": "~1.0.4",
     "moment": "~2.8.4",
-    "odometer": "~0.4.6",
+    "odometer": "~0.4.7",
     "devicons": "~1.6.0",
-    "react": "~0.12.1"
+    "react": "~0.12.2"
   },
   "resolutions": {
     "devicons": "~1.6.0"
