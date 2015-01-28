@@ -92,7 +92,7 @@
     "gulp-concat": "~2.4.3",
     "gulp-csscomb": "~3.0.3",
     "gulp-csslint": "~0.1.5",
-    "gulp-csso": "~0.2.9",
+    "gulp-csso": "^1.0.0",
     "gulp-header": "~1.2.2",
     "gulp-imagemin": "^2.1.0",
     "gulp-jscs": "^1.4.0",
