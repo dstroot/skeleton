@@ -7,6 +7,12 @@
 var pkg               = require('../package.json');
 var dotenv            = require('dotenv');  // https://www.npmjs.com/package/dotenv
 
+// *For Development Purposes*
+// Read in environment vars from .env file
+// In production I recommend setting the
+// environment vars directly
+dotenv.load();
+
 /**
  * Configuration File
  *
@@ -19,11 +25,7 @@ var dotenv            = require('dotenv');  // https://www.npmjs.com/package/dot
  *
  */
 
-// *For Development Purposes*
-// Read in environment vars from .env file
-// In production I recommend setting the
-// environment vars directly
-dotenv.load();
+
 
 var config            = {};
 
