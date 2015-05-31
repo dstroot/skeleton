@@ -36,7 +36,7 @@ config.description    = pkg.description;
 config.company        = pkg.company;
 config.author         = pkg.author;
 config.keywords       = pkg.keywords;
-config.nodeVersion    = pkg.engines.node;
+config.engine         = pkg.engines.node || pkg.engines.iojs;
 
 config.port           = process.env.PORT || 3000;
 config.ga             = process.env.GA   || 'google analytics key';

@@ -472,9 +472,9 @@ db.on('open', function () {
   server.listen(app.get('port'), function () {
 
     // Test for correct node version as spec'ed in package.info
-    if (!semver.satisfies(process.versions.node, config.nodeVersion)) {
-      debug('Error: unsupported version of Node!'.red.bold);
-      debug(config.name.red.bold + ' needs Node version '.red.bold + config.nodeVersion.red.bold);
+    if (!semver.satisfies(process.versions.node, config.engine)) {
+      debug('Error: unsupported version of Node or io.js!'.red.bold);
+      debug(config.name.red.bold + ' needs Node or io.js version '.red.bold + config.engine.red.bold);
       process.exit(0);
     }
 
