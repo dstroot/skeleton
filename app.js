@@ -137,6 +137,20 @@ app.set('port', config.port);
 // if we already know the request is for favicon.ico
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
+// Report CSP violations (*ABOVE* CSURF in the middleware stack)
+// Browsers will post violations to this route
+// https://mathiasbynens.be/notes/csp-reports
+app.post('/csp', bodyParser.json(), function (req, res) {
+  // TODO - requires production level logging
+  if (req.body) {
+    // Just send to debug to see if this is working
+    debug('CSP Violation: ' + JSON.stringify(req.body));
+  } else {
+    debug('CSP Violation: No data received!');
+  }
+  res.status(204).end();
+});
+
 // Setup the view engine (jade)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -209,12 +223,10 @@ if (app.get('env') === 'production' && config.logging) {
 // Security Settings
 app.disable('x-powered-by');          // Don't advertise our server type
 app.use(csrf());                      // Prevent Cross-Site Request Forgery
-app.use(helmet.crossdomain());        // Serve crossdomain.xml policy
 app.use(helmet.ienoopen());           // X-Download-Options for IE8+
 app.use(helmet.nosniff());            // Sets X-Content-Type-Options to nosniff
 app.use(helmet.xssFilter());          // sets the X-XSS-Protection header
 app.use(helmet.frameguard('deny'));   // Prevent iframe clickjacking
-
 
 // Content Security Policy:
 //   http://content-security-policy.com/
