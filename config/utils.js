@@ -98,16 +98,16 @@ exports.encode = function (plain) {
 
   while (i < plain.length) {
 
-  /* Javascript bitwise operators:
+    /* Javascript bitwise operators:
 
-      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators
 
-      <<   Bitwise Left Shift:  This operator shifts the first operand the specified number of bits to the left.
-      >>   Bitwise Right Shift: This operator shifts the first operand the specified number of bits to the right.
-      &    Bitwise AND:         Returns a one in each bit position for which the corresponding bits of *both* operands are ones.
-      |    Bitwise OR:          Returns a one in each bit position for which the corresponding bits of *either or both* operands are ones.
+    <<   Bitwise Left Shift:  This operator shifts the first operand the specified number of bits to the left.
+    >>   Bitwise Right Shift: This operator shifts the first operand the specified number of bits to the right.
+    &    Bitwise AND:         Returns a one in each bit position for which the corresponding bits of *both* operands are ones.
+    |    Bitwise OR:          Returns a one in each bit position for which the corresponding bits of *either or both* operands are ones.
 
-  */
+    */
 
     var current = plain.charCodeAt(i);
 

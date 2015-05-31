@@ -20,7 +20,7 @@ var passportConf  = require('../config/passport');
 
 module.exports.controller = function (app) {
 
- /**
+  /**
    * GET /account*
    * *ALL* acount routes must be authenticated first
    */
@@ -38,7 +38,7 @@ module.exports.controller = function (app) {
     });
   });
 
- /**
+  /**
    * POST /account
    * Update User Profile Information
    */
@@ -165,9 +165,9 @@ module.exports.controller = function (app) {
 
     });
 
-  /**
-   * Initiate the workflow
-   */
+    /**
+     * Initiate the workflow
+     */
 
     workflow.emit('validate');
 
@@ -180,7 +180,7 @@ module.exports.controller = function (app) {
 
   app.post('/account/password', function (req, res, next) {
 
-   // Create a workflow (here you could also use the async waterfall pattern)
+    // Create a workflow (here you could also use the async waterfall pattern)
     var workflow = new (require('events').EventEmitter)();
 
     /**
@@ -281,9 +281,9 @@ module.exports.controller = function (app) {
             if (err) {
               req.flash('error', { msg: err });
               return res.redirect('/account');
-            } // else {
-              // console.log('Message sent: ' + info.response);
-            // }
+            } else {
+              debug('Message sent: ' + info.response);
+            }
           });
 
           // Send user on their merry way
@@ -295,9 +295,9 @@ module.exports.controller = function (app) {
 
     });
 
-  /**
-   * Initiate the workflow
-   */
+    /**
+     * Initiate the workflow
+     */
 
     workflow.emit('validate');
 
@@ -318,7 +318,7 @@ module.exports.controller = function (app) {
     });
   });
 
- /**
+  /**
    * GET /account/unlink/:provider
    * Unlink a social account
    */

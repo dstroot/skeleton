@@ -221,9 +221,9 @@ module.exports.controller = function (app) {
 
     });
 
-  /**
-   * Initiate the workflow
-   */
+    /**
+     * Initiate the workflow
+     */
 
     workflow.emit('validate');
 

@@ -67,7 +67,7 @@ module.exports.controller = function (app) {
     });
   });
 
-    /**
+  /**
    * GET /dashboard
    * Render Dashboard Page
    */

@@ -257,9 +257,9 @@ gulp.task('default', ['open'], function () {
  * Run PageSpeed Insights
  */
 
- // When using this module for a production-level build process,
- // registering for an API key from the Google Developer Console
- // is recommended.
+// When using this module for a production-level build process,
+// registering for an API key from the Google Developer Console
+// is recommended.
 
 var site = 'skeleton-app.jit.su';
 

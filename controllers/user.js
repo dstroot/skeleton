@@ -19,10 +19,10 @@ var LoginAttempt  = require('../models/LoginAttempt');
 
 module.exports.controller = function (app) {
 
-/**
- * GET /login
- * Render login page
- */
+  /**
+   * GET /login
+   * Render login page
+   */
 
   app.get('/login', function (req, res) {
     // Check if user is already logged in
@@ -40,10 +40,10 @@ module.exports.controller = function (app) {
     });
   });
 
-/**
- * POST /login
- * Log the user in
- */
+  /**
+   * POST /login
+   * Log the user in
+   */
 
   app.post('/login', function (req, res, next) {
 
@@ -189,10 +189,10 @@ module.exports.controller = function (app) {
 
   });
 
-/**
- * GET /logout
- * Log the user out
- */
+  /**
+   * GET /logout
+   * Log the user out
+   */
 
   app.get('/logout', function (req, res) {
     // Augment Logout to handle enhanced security

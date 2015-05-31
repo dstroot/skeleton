@@ -123,7 +123,7 @@ module.exports.controller = function (app) {
     }
   });
 
-/**
+  /**
    * GET /verify-code
    *
    *     Get OTP Code from user for validation.
@@ -325,7 +325,7 @@ module.exports.controller = function (app) {
 
   });
 
-/**
+  /**
    * GET /verify-totp-first (requires authentication)
    *
    *   Test key validation.  Ensure that TOTP works

@@ -9,6 +9,9 @@
 var request = require('supertest');
 var app = require('../app.js');
 
+// Set enviroment
+process.env.NODE_ENV = 'test';
+
 /**
  * Test Basic Pages
  */
