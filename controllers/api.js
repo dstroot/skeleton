@@ -8,6 +8,7 @@ var config        = require('../config/config');
 var _             = require('lodash');
 var Twit          = require('twit');
 var async         = require('async');
+var debug         = require('debug')('skeleton');       // https://github.com/visionmedia/debug
 var graph         = require('fbgraph');
 var tumblr        = require('tumblr.js');
 var Github        = require('github-api');
@@ -452,7 +453,8 @@ module.exports.controller = function (app) {
       },
       getMyFriends: function (done) {
         graph.get(req.user.facebook + '/friends', function (err, friends) {
-          done(err, friends.data);
+          debug('Friends: ' + JSON.stringify(friends));
+          done(err, friends);
         });
       }
     },

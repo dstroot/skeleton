@@ -52,7 +52,7 @@
     "express-session": "~1.11.2",
     "express-sslify": "~0.1.1",
     "express-validator": "~2.10.0",
-    "fbgraph": "~0.3.0",
+    "fbgraph": "~1.0.0",
     "github-api": "~0.10.4",
     "helmet": "~0.9.0",
     "jade": "~1.10.0",

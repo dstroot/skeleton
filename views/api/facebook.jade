@@ -22,15 +22,15 @@ block content
         | &nbsp;API Reference
 
     h2 My Info
+    img.thumbnail(src='https://graph.facebook.com/#{me.id}/picture?type=large', width='90', height='90')
     h4= me.name
-    h6 Username: #{me.username}
-    h6 Email: #{me.email}
-
-    h2 List of my friends
-    ul.list-unstyled
-      for friend in friends
-        li
-          a.thumbnail(href='http://facebook.com/#{friend.id}', style="width: 150px;text-decoration: none;position:relative;")
-            div(style="position:relative;height:150px;width: 150px;")
-              img(src='https://graph.facebook.com/#{friend.id}/picture?type=normal', width=150, height=150)
-              div.input-block-level(style="background-color: black; opacity: .5; color: #ffffff; padding: 3px; position:absolute; bottom:0px;") #{friend.name}
+    h5 First Name: #{me.first_name}
+    h5 Last Name: #{me.last_name}
+    h5 Gender: #{me.gender}
+    h5 Link: #{me.link}
+    h5 Email: #{me.email}
+    h5 Locale: #{me.locale}
+    h5 Timezone: #{me.timezone}
+        
+    h2 Friends
+    h5 Count: #{friends.summary.total_count}
