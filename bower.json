@@ -1,20 +1,25 @@
 {
   "name": "Skeleton",
   "dependencies": {
-    "animate.css": "~3.1.1",
-    "bootstrap": "~3.3.2",
-    "bootstrap-social": "~4.8.0",
-    "card": "~0.1.4",
+    "animate.css": "~3.3.0",
+    "bootstrap": "~3.3.5",
+    "bootstrap-social": "~4.9.1",
+    "card": "~1.0.2",
     "fastclick": "~1.0.6",
-    "font-awesome": "~4.2.0",
+    "font-awesome": "~4.3.0",
     "jquery.complexify.js": "*",
     "mailcheck": "~1.0.4",
-    "moment": "~2.8.4",
+    "moment": "~2.10.3",
     "odometer": "~0.4.7",
-    "devicons": "~1.6.0",
+    "devicons": "~1.8.0",
     "react": "~0.12.2"
   },
   "resolutions": {
-    "devicons": "~1.6.0"
+    "devicons": "~1.8.0",
+    "animate.css": "~3.3.0",
+    "bootstrap-social": "~4.9.1",
+    "card": "~1.0.2",
+    "font-awesome": "~4.3.0",
+    "moment": "~2.10.3"
   }
 }

@@ -33,6 +33,6 @@
     "commit": "100634e3d0d6281d9e38381fd874e853bd42e4be"
   },
   "_source": "git://github.com/HubSpot/odometer.git",
-  "_target": "~0.4.6",
+  "_target": "~0.4.7",
   "_originalSource": "odometer"
 }

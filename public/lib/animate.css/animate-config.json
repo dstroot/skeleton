@@ -1,100 +1,119 @@
 {
 
   "attention_seekers": {
-    "bounce": false,
-    "flash": false,
-    "pulse": false,
-    "rubberBand": false,
-    "shake": false,
-    "swing": false,
-    "tada": false,
-    "wobble": false
+    "bounce": true,
+    "flash": true,
+    "pulse": true,
+    "rubberBand": true,
+    "shake": true,
+    "swing": true,
+    "tada": true,
+    "wobble": true,
+    "jello": true
   },
 
   "bouncing_entrances": {
-    "bounceIn": false,
-    "bounceInDown": false,
+    "bounceIn": true,
+    "bounceInDown": true,
     "bounceInLeft": true,
-    "bounceInRight": false,
-    "bounceInUp": false
+    "bounceInRight": true,
+    "bounceInUp": true
   },
 
   "bouncing_exits": {
-    "bounceOut": false,
-    "bounceOutDown": false,
-    "bounceOutLeft": false,
-    "bounceOutRight": false,
-    "bounceOutUp": false
+    "bounceOut": true,
+    "bounceOutDown": true,
+    "bounceOutLeft": true,
+    "bounceOutRight": true,
+    "bounceOutUp": true
   },
 
   "fading_entrances": {
-    "fadeIn": false,
-    "fadeInDown": false,
-    "fadeInDownBig": false,
-    "fadeInLeft": false,
-    "fadeInLeftBig": false,
-    "fadeInRight": false,
-    "fadeInRightBig": false,
-    "fadeInUp": false,
-    "fadeInUpBig": false
+    "fadeIn": true,
+    "fadeInDown": true,
+    "fadeInDownBig": true,
+    "fadeInLeft": true,
+    "fadeInLeftBig": true,
+    "fadeInRight": true,
+    "fadeInRightBig": true,
+    "fadeInUp": true,
+    "fadeInUpBig": true
   },
 
   "fading_exits": {
-    "fadeOut": false,
-    "fadeOutDown": false,
-    "fadeOutDownBig": false,
-    "fadeOutLeft": false,
-    "fadeOutLeftBig": false,
-    "fadeOutRight": false,
-    "fadeOutRightBig": false,
-    "fadeOutUp": false,
-    "fadeOutUpBig": false
+    "fadeOut": true,
+    "fadeOutDown": true,
+    "fadeOutDownBig": true,
+    "fadeOutLeft": true,
+    "fadeOutLeftBig": true,
+    "fadeOutRight": true,
+    "fadeOutRightBig": true,
+    "fadeOutUp": true,
+    "fadeOutUpBig": true
   },
 
   "flippers": {
-    "flip": false,
-    "flipInX": false,
-    "flipInY": false,
-    "flipOutX": false,
-    "flipOutY": false
+    "flip": true,
+    "flipInX": true,
+    "flipInY": true,
+    "flipOutX": true,
+    "flipOutY": true
   },
 
   "lightspeed": {
-    "lightspeedIn": false,
-    "lightspeedOut": false
+    "lightSpeedIn": true,
+    "lightSpeedOut": true
   },
 
   "rotating_entrances": {
-    "rotateIn": false,
-    "rotateInDownLeft": false,
-    "rotateInDownRight": false,
-    "rotateInUpLeft": false,
-    "rotateInUpRight": false
+    "rotateIn": true,
+    "rotateInDownLeft": true,
+    "rotateInDownRight": true,
+    "rotateInUpLeft": true,
+    "rotateInUpRight": true
   },
 
   "rotating_exits": {
-    "rotateOut": false,
-    "rotateOutDownLeft": false,
-    "rotateOutDownRight": false,
-    "rotateOutUpLeft": false,
-    "rotateOutUpRight": false
-  },
-
-  "sliders": {
-    "slideInDown": false,
-    "slideInLeft": false,
-    "slideInRight": false,
-    "slideOutLeft": false,
-    "slideOutRight": false,
-    "slideOutUp": false,
-    "slideInUp": false,
-    "slideOutDown": false
+    "rotateOut": true,
+    "rotateOutDownLeft": true,
+    "rotateOutDownRight": true,
+    "rotateOutUpLeft": true,
+    "rotateOutUpRight": true
   },
 
   "specials": {
-    "hinge": false,
-    "rollIn": false,
-    "rollOut": false
-  }
+    "hinge": true,
+    "rollIn": true,
+    "rollOut": true
+  },
 
+  "zooming_entrances": {
+    "zoomIn": true,
+    "zoomInDown": true,
+    "zoomInLeft": true,
+    "zoomInRight": true,
+    "zoomInUp": true
+  },
+
+  "zooming_exits": {
+    "zoomOut": true,
+    "zoomOutDown": true,
+    "zoomOutLeft": true,
+    "zoomOutRight": true,
+    "zoomOutUp": true
+  },
+
+  "sliding_entrances": {
+    "slideInDown": true,
+    "slideInLeft": true,
+    "slideInRight": true,
+    "slideInUp": true
+  },
+
+  "sliding_exits": {
+    "slideOutDown": true,
+    "slideOutLeft": true,
+    "slideOutRight": true,
+    "slideOutUp": true
+  }
 }
