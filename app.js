@@ -166,6 +166,16 @@ app.use(compress());
 // https://developers.google.com/speed/docs/best-practices/caching
 app.set('etag', true);  // other values 'weak', 'strong'
 
+// Now setup serving static assets from /public
+
+// time in milliseconds...
+var minute = 1000 * 60;   //     60000
+var hour = (minute * 60); //   3600000
+var day  = (hour * 24);   //  86400000
+var week = (day * 7);     // 604800000
+
+app.use(express.static(__dirname + '/public', { maxAge: week }));
+
 // Body parsing middleware supporting
 // JSON, urlencoded, and multipart requests.
 // parse application/x-www-form-urlencoded
@@ -357,16 +367,6 @@ fs.readdirSync('./controllers').forEach(function (file) {
     route.controller(app);
   }
 });
-
-// Now setup serving static assets from /public
-
-// time in milliseconds...
-var minute = 1000 * 60;   //     60000
-var hour = (minute * 60); //   3600000
-var day  = (hour * 24);   //  86400000
-var week = (day * 7);     // 604800000
-
-app.use(express.static(__dirname + '/public', { maxAge: week }));
 
 /**
  * Error Handling
