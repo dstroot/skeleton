@@ -87,16 +87,8 @@ var paths = {
  * Clean
  */
 
-// Return the stream so that gulp knows the task is asynchronous
-// and waits for it to terminate before starting dependent tasks.
-
-// gulp.task('clean', function () {
-//   return gulp.src(paths.clean, { read: false })
-//     .pipe($.rimraf());
-// });
-
-gulp.task('clean', function (cb) {
-  del(paths.clean, cb);
+gulp.task('clean', function () {
+  return del(paths.clean);
 });
 
 /**
@@ -232,14 +224,8 @@ gulp.task('nodemon', ['build'], function (cb) {
  */
 
 gulp.task('open', ['nodemon'], function () {
-  var options = {
-    url: 'http://localhost:3000/'
-  };
-  // A file must be specified or gulp will skip the task
-  // Doesn't matter which file since we set the URL above
-  // Weird, I know...
-  gulp.src('./public/humans.txt')
-  .pipe($.open('', options));
+  gulp.src('')
+  .pipe($.open({ app: 'google chrome', uri: 'http://localhost:3000' }));
 });
 
 /**

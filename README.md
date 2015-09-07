@@ -1,4 +1,4 @@
-# Skeleton 
+# Skeleton
 
 [![Build status][build-badge]][build-url]
 [![Dependency status][dependency-badge]][dependency-url]
@@ -27,13 +27,13 @@
 
 #### Skeleton: A **complete framework** for building **Node.js** web applications.
 
-#### **Live Demo**: [Skeleton](http://skeleton-app.jit.su) 
+#### **Live Demo**: [Skeleton](http://skeleton-app.jit.su)
 
 ![Alt](https://raw.github.com/dstroot/skeleton/master/public/img/home.jpg)
 
-There are many excellent Node/Express/Mongo frameworks out there. I have played with many, and contributed to a few of them. Since there is really no one "right" way to do things you kind of have to explore.  Once I did that I found that none of them were "just right" as Goldilocks would say. So I built this one! 
+There are many excellent Node/Express/Mongo frameworks out there. I have played with many, and contributed to a few of them. Since there is really no one "right" way to do things you kind of have to explore.  Once I did that I found that none of them were "just right" as Goldilocks would say. So I built this one!
 
-I borrowed heavily from [Hackathon-starter](https://github.com/sahat/hackathon-starter) and [Drywall](https://github.com/jedireza/drywall). The reason is third party OAUTH authentication is painful. [Passportjs](http://passportjs.org/) helps tremendously but there are not many good examples of how to use it. Both of these frameworks really show how it's done. Both are actively maintained and are really great starting points. I recommend either of them **highly**. 
+I borrowed heavily from [Hackathon-starter](https://github.com/sahat/hackathon-starter) and [Drywall](https://github.com/jedireza/drywall). The reason is third party OAUTH authentication is painful. [Passportjs](http://passportjs.org/) helps tremendously but there are not many good examples of how to use it. Both of these frameworks really show how it's done. Both are actively maintained and are really great starting points. I recommend either of them **highly**.
 
 Of the two, Drywall is more sophisticated. It has an extensive User/Account/Roles system to handle different types of accounts and account permissions.  It also has a very cool Administration area. In addition, the client side uses Backbone.  This framework allows for unique scripts and css on a per page basis - nice! Overall this framework has some GREAT stuff in it.  It's just maybe a little too big/rich if you just want to start building a simple site.
 
@@ -82,7 +82,7 @@ Features
   + Express.js
   + Gulp.js build system
   + Jade templates (all nicely laid out: head, navigation, footer, etc.)
-  + LESS stylesheets 
+  + LESS stylesheets
   + Bootstrap 3.x UI
   + FontAwesome
   + etc.
@@ -216,7 +216,7 @@ Getting Started
 # Install global dependencies
 npm install -g nodemon gulp mocha
 
-# Clone the repoo (and fetch only the latest commits)
+# Clone the repo (and fetch only the latest commits)
 git clone --depth=1 git@github.com:dstroot/skeleton.git
 cd skeleton
 
@@ -224,7 +224,7 @@ cd skeleton
 npm install
 bower install
 
-# Start everything up with Gulp 
+# Start everything up with Gulp
 # (builds the assets and starts the app with nodemon)
 gulp
 ```
@@ -241,9 +241,9 @@ Many people use Express.js middleware to build assets, however I generally like 
 
 Our build system compiles and minifies all assets and starts the app app using nodemon.  Nodemon will restart node every time a server .js file changes.  We also start a livereload server that will trigger a reload of your page in the browser when any client .js, .css, .jade or images change.
 
-To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the [livereload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei). 
+To take advantage of the livereload functionality install Google Chrome and then using the chrome web store install the [livereload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei).
 
-:exclamation: Click on the tiny center dot to turn on the livereload capability after you start up via `gulp`. 
+:exclamation: Click on the tiny center dot to turn on the livereload capability after you start up via `gulp`.
 
 Now every time you make a change to a client component things will be recompiled and your browser will reload. Cool!
 
@@ -256,13 +256,13 @@ My general approach:
 - Find and use good tools.
 - Use tools in their native/default behavior.
 
-My coding style: 
+My coding style:
 
-- I like braces and use them always, even for single-line if statements and the like. 
-- I like variable names that mean something, rather than trying to be short. 
-- I favor single quotes above double quotes. 
-- I use a LOT of comments, because JS can always be minified so there's really no reason to worry about comments contributing to filesize. My assumption is I will have to go change something 12 months from now and want to quickly see what is going on. 
-- I use a decent amount of whitespace for the same reason. 
+- I like braces and use them always, even for single-line if statements and the like.
+- I like variable names that mean something, rather than trying to be short.
+- I favor single quotes above double quotes.
+- I use a LOT of comments, because JS can always be minified so there's really no reason to worry about comments contributing to filesize. My assumption is I will have to go change something 12 months from now and want to quickly see what is going on.
+- I use a decent amount of whitespace for the same reason.
 - I like my opening braces on the same line, not a new line.
 - My eyes like alignment so I can scan down lists of things quickly (like dependencies).
 
@@ -419,7 +419,7 @@ You can get MongoDB from [mongodb.org/downloads](mongodb.org/downloads), or inst
 
 ### I get an error when I deploy my app, why?
 
-Chances are you haven't changed the *Dabatase URI* in `config.js`. If `db` is set to `localhost`, it will only work on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB running on `localhost`. 
+Chances are you haven't changed the *Dabatase URI* in `config.js`. If `db` is set to `localhost`, it will only work on your machine as long as MongoDB is running. When you deploy to Heroku, OpenShift or some other provider, you will not have MongoDB running on `localhost`.
 
 You need to create an account with [MongoLab](http://mongolab.com) or [MongoHQ](http://mongohq.com), then create a free tier database. See **Deployment** section for more information on how to setup an account and a new database step-by-step with MongoLab.
 
@@ -429,7 +429,7 @@ Subjectively speaking, Jade looks much cleaner and shorter than Handlebars, or a
 
 ### Can I use Ember, Angular or Backbone with Skeleton?
 
-Absolutely!  But things get messy quickly.  In Drywall, several of the pages are Backbone apps.  You can check that out. 
+Absolutely!  But things get messy quickly.  In Drywall, several of the pages are Backbone apps.  You can check that out.
 
 In this project we have a rudimentary AJAX page (the accounts page for administrators) - that could be a good starting point.
 
@@ -530,9 +530,9 @@ Interesting Client-Side libraries
 Deployment
 ----------
 
-Recommendations: 
+Recommendations:
 
-1. Create an account with **MongoLab** 
+1. Create an account with **MongoLab**
 
   <img src="http://i.imgur.com/7KnCa5a.png" width="200">
   - Go to the  [mongolab.com](https://mongolab.com) website

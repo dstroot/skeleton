@@ -293,7 +293,7 @@ module.exports.controller = function (app) {
   app.get('/api/socrata', function (req, res, next) {
     // Get the socrata open data as JSON
     // http://dev.socrata.com/docs/queries.html
-    request.get({ url: 'http://controllerdata.lacity.org/resource/qjfm-3srk.json?$order=actual_earnings DESC&$where=year = 2013&$limit=20', timeout: 5000 }, function (err, response, body) {
+    request.get({ url: 'http://controllerdata.lacity.org/resource/qjfm-3srk.json?$order=q4_earnings DESC&$where=year = 2014&$limit=20', timeout: 5000 }, function (err, response, body) {
       if (!err && response.statusCode === 200) {
         // Parse the data
         var payroll = JSON.parse(body);

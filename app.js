@@ -290,6 +290,7 @@ app.use(helmet.contentSecurityPolicy({
   imgSrc: [
     "'self'",
     'data:',
+    'http://img2-ak.lst.fm',
     'https://gravatar.com',
     'https://avatars.githubusercontent.com',
     'http://pbs.twimg.com',
