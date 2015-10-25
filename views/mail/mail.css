@@ -1,6 +1,6 @@
 @font-face {
   font-family: "proxima_nova";
-  src: url("/font/proxima-nova/proxima-nova-regular.otf") format("opentype");
+  src: url("//skeleton-fonts.s3-website-us-west-2.amazonaws.com/proxima-nova-regular.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
