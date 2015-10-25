@@ -12,7 +12,8 @@
     "moment": "~2.10.3",
     "odometer": "~0.4.7",
     "devicons": "~1.8.0",
-    "react": "~0.12.2"
+    "react": "~0.12.2",
+    "zxcvbn": "~4.0.1"
   },
   "resolutions": {
     "devicons": "~1.8.0",

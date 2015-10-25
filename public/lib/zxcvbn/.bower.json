@@ -1,0 +1,45 @@
+{
+  "name": "zxcvbn",
+  "description": "realistic password strength estimation",
+  "main": "dist/zxcvbn.js",
+  "keywords": [
+    "password",
+    "passphrase",
+    "strength",
+    "quality",
+    "estimation",
+    "estimate",
+    "meter",
+    "pattern",
+    "matcher",
+    "security",
+    "authentication",
+    "cracking",
+    "scoring",
+    "entropy",
+    "bruteforce"
+  ],
+  "ignore": [
+    "/.*",
+    "*.json",
+    "node_modules",
+    "data",
+    "data-scripts",
+    "demo",
+    "lib",
+    "src",
+    "test"
+  ],
+  "homepage": "https://github.com/dropbox/zxcvbn",
+  "version": "4.0.1",
+  "_release": "4.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "4.0.1",
+    "commit": "6c75b584f016bb2a2965cce22d1af1ce20cc12a6"
+  },
+  "_source": "git://github.com/dropbox/zxcvbn.git",
+  "_target": "~4.0.1",
+  "_originalSource": "zxcvbn",
+  "_direct": true
+}

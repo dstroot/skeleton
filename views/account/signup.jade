@@ -2,6 +2,21 @@ extends ../layouts/layout
 
 block head
   title #{application} &middot; Sign Up
+  style.
+    .meter {
+      width: 300px;
+      height: 50px;
+      //- border: 1px solid #666;
+      position: relative;
+    }
+    .meter > .bar {
+      position: absolute;
+      top: 75%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-image: linear-gradient(to left, #A3FF5C 0%, #EF1F3B 5%);
+    }
 
 block content
   .container
@@ -21,14 +36,15 @@ block content
             #hint
           .form-group
             label.sr-only(for='password') Password:
-
+          
             //- Set the autocomplete attribute of any password fields in any form to "off".
             //- You can keep other aspects of the form autocompletable, but force the user
             //- to retype his/her own password, helping ensure they are who they say they are.
-
+          
             input.form-control(type='password', name='password', id='password', placeholder='Password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
             .progress
               .progress-bar(role='progressbar')
+            .difficulty
           .form-group
             label.sr-only(for='confirmPassword') Confirm Password:
             input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', autocomplete='off', required, pattern='^[^\S]{4,}', title='At least 4 characters!')
@@ -54,6 +70,7 @@ block content
   //- 3) When using the pattern attribute, the ^ and $ for the start and end of the regular expression
   //-    are implied and don't need to be included.
   //- 4) You can help the user by including a title attribute that tells them the format you require.
+
 
 block scripts
   script.
@@ -108,73 +125,77 @@ block scripts
 
       // Hide progress bar until we need it
       $('.progress').hide();
-
+      
       $.ajax({
         type: 'GET',
-        url: '/lib/jquery.complexify.js/jquery.complexify.banlist.js',
+        url: '/lib/zxcvbn/dist/zxcvbn.js',
         dataType: 'script',
         cache: true
       }).done(function(script, textStatus) {
+      
+        //- https://blogs.dropbox.com/tech/2012/04/zxcvbn-realistic-password-strength-estimation/
+        //- https://github.com/dropbox/zxcvbn
+      
+        $('#password').bind('keyup focus', evaluateSecurity);
+        
+        function evaluateSecurity() {
+        
+          var password = $('#password').val();
+          var name = $('#name').val();
+          var email = $('#email').val();
+          
+          if (password) {
+            // magic happens
+            result = zxcvbn(password, user_inputs=[name, email]);
+          
+            // Show the bar
+            $('.progress').fadeIn(200);
+            // and difficulty
+            $('.difficulty').fadeIn(200).html('Time to Crack: ' + result.crack_times_display. offline_slow_hashing_1e4_per_second);
 
-          $.ajax({
-            type: 'GET',
-            url: '/lib/jquery.complexify.js/jquery.complexify.js',
-            dataType: 'script',
-            cache: true
-          }).done(function(script, textStatus) {
+            // Change progress bar colors
+            if ( result.score <= 2 ) {
+              $('.progress-bar').css({'width': (result.score * 25) + '%'}).removeClass('progress-bar-success').addClass('progress-bar-danger');
+            } else {
+              $('.progress-bar').css({'width': (result.score * 25) + '%'}).removeClass('progress-bar-danger').addClass('progress-bar-success');
+            }
+            
+            // Label progress bar
+            switch (result.score)
+            {
+              case 4:
+                $('.progress-bar').html('Excellent Complexity!');
+                break;
+              case 3:
+                $('.progress-bar').html('Strong Complexity!');
+                break;
+              case 2:
+                $('.progress-bar').html('Good Complexity');
+                break;
+              case 1:
+                $('.progress-bar').html('Weak Complexity');
+                break;
+              case 0:
+                $('.progress-bar').html('');
+                break;
+              default:
+                $('.progress-bar').html('');
+                break;
+            }
 
-              $('#password').complexify({
-                minimumChars        : 6,
-                strengthScaleFactor : 0.5,
-                banmode             : 'loose',
-                evaluateOnInit      : false
-                }, function (valid, complexity) {
-
-                  // Show the bar
-                  $('.progress').fadeIn(200);
-
-                  // Change colors
-                  if (!valid) {
-                    $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-success').addClass('progress-bar-danger');
-                  } else {
-                    $('.progress-bar').css({'width': complexity + '%'}).removeClass('progress-bar-danger').addClass('progress-bar-success');
-                  }
-
-                  // Label progress bar
-                  switch (true)
-                  {
-                    case (complexity > 81):
-                      $('.progress-bar').html('Excellent Complexity!');
-                      break;
-                    case (complexity > 61):
-                      $('.progress-bar').html('Strong Complexity!');
-                      break;
-                    case (complexity > 41):
-                      $('.progress-bar').html('Good Complexity');
-                      break;
-                    case (complexity > 31):
-                      $('.progress-bar').html('Average Complexity');
-                      break;
-                    case (complexity > 21):
-                      $('.progress-bar').html('Weak');
-                      break;
-                    default:
-                      $('.progress-bar').html(':(');
-                      break;
-                  }
-                }
-              );
-            // Hide, our work is done ;)
-            $('#password').on('blur', function() {
-              $('.progress').fadeOut(150);
-            });
-          })
-          .fail(function(jqxhr, settings, exception) {
-            console.log('Complexify load failed.');
-          });
-        })
-        .fail(function( jqxhr, settings, exception ) {
-          console.log('Complexify banlist load failed.');
+          } else {
+            $('.progress').fadeOut(150);
+            $('.difficulty').fadeOut(150);
+          }
+          
+        }
+        // Hide, our work is done ;)
+        $('#password').on('blur', function() {
+          $('.progress').fadeOut(150);
+          $('.difficulty').fadeOut(150);
+        });
+      })
+      .fail(function(jqxhr, settings, exception) {
+        console.log('zxcvbn load failed.');
       });
-
     });

@@ -33,7 +33,7 @@
     "test": "mocha"
   },
   "engines": {
-    "iojs": "3.x.x"
+    "node": "4.x.x"
   },
   "dependencies": {
     "async": "^1.4.2",
