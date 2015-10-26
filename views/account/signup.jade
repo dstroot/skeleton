@@ -151,7 +151,7 @@ block scripts
             // Show the bar
             $('.progress').fadeIn(200);
             // and difficulty
-            $('.difficulty').fadeIn(200).html('Time to Crack: ' + result.crack_times_display. offline_slow_hashing_1e4_per_second);
+            $('.difficulty').fadeIn(200).html('Time for a desktop PC to crack your password: <strong>' + result.crack_times_display. offline_slow_hashing_1e4_per_second + '</strong>');
 
             // Change progress bar colors
             if ( result.score <= 2 ) {
