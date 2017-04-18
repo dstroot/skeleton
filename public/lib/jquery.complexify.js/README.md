@@ -10,11 +10,11 @@ Complexify aims to provide a good measure of password complexity for websites to
 
 _Note:_ I use the term 'casually' because this is only client-side validation and anyone could turn it off. I recommend implementing a minimum length check server-side as well. In the future I may code up this algorithm for use server-side.
 
-###Complexity Rating
+### Complexity Rating
 
 Complexify's default settings will enforce a minimum level of complexity that would mean brute-forcing should take ~600 years on a commodity desktop machine. The 'perfect' password used to scale the complexity percentage would take 3x10^33 years. These are equivalent to a 12 character password with uppercase, lowercase and numbers included, and a 25 character password with uppercase, lowercase, numbers and a wide range of punctuation.
 
-###Unicode
+### Unicode
 
 Complexify supports Unicode and will add appropriate complexity for the size of character set included in a password. 
 
@@ -22,7 +22,7 @@ For example, as there are 96 Hiragana characters defined in the Unicode specific
 
 The rationale behind this is that in an attacker were wanting to include Japanese passwords in his attack, he/she may choose to include the Hiragana set in his/her attack, but not the Katakana set. Complexify divides Unicode into 94 appropriately grouped sets.
 
-###Using a Password Ban List
+### Using a Password Ban List
 
 If you wish to provide a list of passwords that will always return 0% complexity, this is now possibly by passing a `bannedPasswords` array into the options of Complexify, or by setting the global `COMPLEXIFY_BANLIST` variable to an array of passwords. Including `jquery.complexify.banlist.js` in your page is a quick and easy way to do the latter option.
 
@@ -33,7 +33,7 @@ The ban list has 2 modes: 'loose' and 'strict', with 'strict' being the default.
 
 By default, the banned passwords list is empty and therefore this has no effect.
 
-###Version History
+### Version History
 
 **0.3** - Banned password list support, better event binding.
 
@@ -43,7 +43,7 @@ By default, the banned passwords list is empty and therefore this has no effect.
 **0.1** - Basic implementation
 
 
-###Alternative Implementations
+### Alternative Implementations
 
 Several people have kindly open-sourced their implementations of this algorithm in other languages:
 
