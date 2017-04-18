@@ -273,7 +273,7 @@ Recommened reading: [Airbnb JavaScript Style Guide](https://github.com/airbnb/ja
 Obtaining API Keys
 ------------------
 
-#<img src="http://images.google.com/intl/en_ALL/images/srpr/logo6w.png" width="100">
+# <img src="http://images.google.com/intl/en_ALL/images/srpr/logo6w.png" width="100">
 - Visit [Google Cloud Console](https://cloud.google.com/console/project)
 - Click **CREATE PROJECT** button
 - Enter *Project Name*, then click **CREATE**
@@ -286,7 +286,7 @@ Obtaining API Keys
 
 :exclamation: **Note**: When you ready to deploy to production don't forget to add your new url to **Authorized Javascript origins** and **Authorized redirect URI**, e.g. `http://my-awesome-app.herokuapp.com` and `http://my-awesome-app.herokuapp.com/auth/google/callback` respectively. The same goes for other providers.
 
-#<img src="http://www.doit.ba/img/facebook.jpg" width="100">
+# <img src="http://www.doit.ba/img/facebook.jpg" width="100">
 - Visit [Facebook Developers](https://developers.facebook.com/)
 - Click **Apps > Create a New App** in the navigation bar
 - Enter *Display Name*, then choose a category, then click **Create app**
@@ -296,7 +296,7 @@ Obtaining API Keys
 - Select **Website**
 - Enter `http://localhost:3000` for *Site URL*
 
-#<img src="https://github.global.ssl.fastly.net/images/modules/logos_page/GitHub-Logo.png" width="100">
+# <img src="https://github.global.ssl.fastly.net/images/modules/logos_page/GitHub-Logo.png" width="100">
 - Go to [Account Settings](https://github.com/settings/profile)
 - Select **Applications** from the sidebar
 - Then inside **Developer applications** click on **Register new application**
@@ -305,7 +305,7 @@ Obtaining API Keys
 - Click **Register application**
 - Now copy and paste *Client ID* and *Client Secret* keys into `config/config.js`
 
-#<img src="https://g.twimg.com/Twitter_logo_blue.png" width="50">
+# <img src="https://g.twimg.com/Twitter_logo_blue.png" width="50">
 - Sign in at [https://dev.twitter.com](https://dev.twitter.com/)
 - From the profile picture dropdown menu select **My Applications**
 - Click **Create a new application**
@@ -317,7 +317,7 @@ Obtaining API Keys
 - Click **Update this Twitter's applications settings**
 - Copy and paste *Consumer Key* and *Consumer Secret* keys into `config/config.js`
 
-#<img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="200">
+# <img src="https://www.paypalobjects.com/webstatic/developer/logo_paypal-developer_beta.png" width="200">
 - Visit [PayPal Developer](https://developer.paypal.com/)
 - Log in using your existing PayPal account
 - Click **Applications > Create App** in the navigation bar
@@ -327,7 +327,7 @@ Obtaining API Keys
 - Make a note of your Sandbox accounts (test user accounts) for testing purposes.  
 - Change **host** to api.paypal.com if you want to test against production and use the live credentials
 
-#<img src="https://www.dropboxatwork.com/wp-content/uploads/2013/02/foursquare-logo.png" width="100">
+# <img src="https://www.dropboxatwork.com/wp-content/uploads/2013/02/foursquare-logo.png" width="100">
 - Go to [foursquare for Developers](https://developer.foursquare.com/)
 - Click on **My Apps** in the top menu
 - Click the **Create A New App** button
@@ -336,7 +336,7 @@ Obtaining API Keys
 - Click **Save Changes**
 - Copy and paste *Client ID* and *Client Secret* keys into `config/config.js`
 
-#<img src="http://www.athgo.org/ablog/wp-content/uploads/2013/02/tumblr_logo.png" width="100">
+# <img src="http://www.athgo.org/ablog/wp-content/uploads/2013/02/tumblr_logo.png" width="100">
 - Go to http://www.tumblr.com/oauth/apps
 - Once signed in, click **+Register application**
 - Fill in all the details
@@ -347,7 +347,7 @@ Obtaining API Keys
 FAQ
 ---
 
-###How do I create a new page?
+### How do I create a new page?
 
 You need to create just two files and edit one:
 
